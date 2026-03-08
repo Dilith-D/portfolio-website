@@ -1,0 +1,73 @@
+---
+layout: ../../layouts/Prose.astro
+title: "Iris"
+description: "I needed a messaging app that worked across devices without forcing me into one ecosystem. So I built one."
+summary: "I needed a messaging app that worked across devices without forcing me into one ecosystem. So I built one."
+tags: ["React 18", "TypeScript", "Supabase"]
+date: "2026"
+slug: "iris"
+---
+
+## The Problem
+
+I work across four devices simultaneously — an Android phone, an iPad, a personal laptop, and an office laptop. Every day, without fail, I need to move something between them. A screenshot on my phone that I need open on my laptop. A file on my office machine I want at home. A link I want on a different screen.
+
+Sounds trivial. In practice it's a daily tax on focus — small enough that no one talks about it, significant enough that it compounds badly across a week.
+
+I tried all the obvious options. WhatsApp means sending things to yourself — which requires adding your own number as a contact, watching your file transfers sit inside the same thread as your family conversations, and using a social app as infrastructure. Email is worse: composing a message to yourself, with a subject line, to move a file from one device to another feels like using a truck to buy groceries. AirDrop is perfect when it works, which is only when your devices are all Apple, close together, and both awake. Cloud storage solves it partially, but you're managing folders and filenames and sync delays. You're not sending — you're storing and later retrieving. That's a different mental model and more friction than the problem deserves.
+
+What I wanted was something that felt like texting yourself. Instant. No friction. No setup. No folders. Just: here's a thing, send it there, done.
+
+And while I was solving it for myself — if I was building frictionless transfers between my own devices, why not make it work between me and the handful of people I actually exchange things with? Not a social network. Not a team tool. Just a small, private space where I can reach the people I choose, without everything living inside a platform that owns my data.
+
+That was the original idea. A private bridge. Between my devices, and between me and the people I actually trust.
+
+---
+
+## D-Chat: The Version I Built for Myself
+
+The first version took about four hours and I called it D-Chat. Yes, after myself. Yes, that's embarrassing. Yes, it worked exactly as intended.
+
+The stack was React 18, TypeScript, Supabase for the backend, and Lovable to accelerate the build. The core mechanic was an 8-character private code instead of a phone number or email — you share the code, the other device enters it, you're connected. Sessions auto-expire after 7 days. Files stored as signed URLs. No persistent storage beyond what you explicitly sent.
+
+The key design decisions weren't technical — they were decisional. I didn't want user accounts with email verification. I didn't want app installs as a prerequisite. I didn't want setup friction. So I built device registration instead of user registration: name your device, generate a code, pair by entering the code or scanning a QR. That's it. You're in.
+
+Groups came the day after v1, when I realized I wanted to broadcast to all my devices at once — drop a file in one place, have it appear everywhere. Groups were scoped for that purpose only. Not for team collaboration. Not for general use. For "all my devices."
+
+What D-Chat taught me was the hardest part of building something — even something small — isn't technical. It's knowing what to exclude. AI helped me move faster. It didn't decide whether groups should exist, how much message history to preserve, whether QR codes should persist between sessions. Those decisions came from living the problem. That's the only way to make them without second-guessing yourself.
+
+---
+
+## The Decision to Rebuild
+
+At some point I started thinking about publishing it properly — as a real app, on the Play Store, something other people could use. That realization forced me to look at what I'd actually built with honest eyes.
+
+D-Chat had significant UI debt. The original design used Neumorphic styling — soft embossed and debossed surfaces, shadows on everything, a visual language that was distinctive but had real structural problems. In dark mode, the shadow range was so limited that elements blended together. Contrast ratios failed accessibility standards. The technique that made D-Chat look interesting on a laptop in light mode made it nearly unusable on a phone at night.
+
+The brand was also wrong for something public-facing. "D-Chat" was personal shorthand. It didn't communicate the product's purpose to someone encountering it for the first time.
+
+So I rebuilt it. New name — Iris. New design system — a dark-first, layered glass aesthetic with proper surface hierarchy, a primary purple accent, and WCAG AA contrast throughout. New design brief that documented every decision: color tokens, typography scale, spacing grid, component behavior, accessibility requirements. The brief was written before a single line of the redesign was touched.
+
+The rebuild taught me something the first build hadn't: designing for someone else requires you to document your own taste. Building D-Chat for myself, I could hold all the visual decisions in my head. The moment I imagined a stranger downloading Iris and forming their first impression, I had to make every implicit decision explicit. The design brief was that process.
+
+---
+
+## Key Product Decisions
+
+**Code-based identity over accounts.** The choice to use 8-character codes instead of phone numbers or emails wasn't about privacy as a feature — it was about reducing the cost of connection. You share a code. They enter it. The trust is implied by the sharing, not extracted as a prerequisite.
+
+**Device registration, not user registration.** You're not registering as a person. You're registering a device. That distinction changes the mental model: Iris is infrastructure between your devices and the people you choose, not a social profile you maintain.
+
+**Sessions that expire.** 7-day auto-expiry felt like artificial friction and I almost reversed it twice. But the alternative — permanent connections — meant Iris became something you had to manage. The expiry means the connection only exists when it's active. That keeps the app small. Small was the point.
+
+**What I cut.** Read receipts and typing indicators exist for 1:1 chats but not groups. Message reactions, replies, search — all out of scope. The bar was: screenshot to another device in under 5 seconds. Anything that didn't help that wasn't included.
+
+---
+
+## What I'd Do Differently
+
+The Neumorphic design system in D-Chat was a mistake I made by not thinking far enough ahead. I chose it because it looked interesting on my laptop. I didn't test it in dark mode on a phone. The rebuild fixed it, but rebuilding a design system from scratch is expensive — more expensive than doing it right once.
+
+On scope: groups were the right call, but I built them the day after launch because I needed them immediately, not because I'd thought them through. The architecture held up. I got lucky. I'd spend one more hour upfront mapping where the product could go before I needed groups, and decide intentionally rather than urgently.
+
+The name D-Chat was fine for a personal tool. Spending a few more minutes on it before the first commit would have saved the rename cost later.

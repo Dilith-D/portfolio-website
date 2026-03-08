@@ -1,0 +1,36 @@
+---
+interface Props {
+  title: string;
+  tags: string[];
+  description: string;
+  slug: string;
+}
+
+const { title, tags, description, slug } = Astro.props;
+---
+
+<a
+  href={`/work/${slug}`}
+  class="group block bg-surface border border-border rounded-lg p-8 cursor-pointer
+         transition-all duration-200 ease-in-out
+         hover:border-primary hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
+>
+  <p class="font-body text-xs tracking-widest uppercase text-secondary">
+    {tags.join('  ·  ')}
+  </p>
+
+  <h3 class="font-display text-2xl font-medium text-primary mt-3">
+    {title}
+  </h3>
+
+  <p class="font-body text-base text-secondary leading-relaxed mt-3">
+    {description}
+  </p>
+
+  <p class="font-body text-sm font-medium text-primary mt-6 inline-flex items-center gap-1">
+    Read the case study
+    <span class="inline-block transition-transform duration-150 ease-in-out group-hover:translate-x-1">
+      &rarr;
+    </span>
+  </p>
+</a>

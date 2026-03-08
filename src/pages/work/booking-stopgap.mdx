@@ -1,0 +1,127 @@
+---
+layout: ../../layouts/CaseStudy.astro
+title: "The Stopgap That Knew Its Place"
+description: "Roofing customers needed booking before the product roadmap was ready. I built the interim solution — and designed it to be replaced."
+summary: "Roofing customers needed booking before the product roadmap was ready. I built the interim solution — and designed it to be replaced."
+tags: ["Zuper", "Field Service", "Product Judgment"]
+date: "2024"
+readTime: "6 min"
+role: "Customer Product Manager"
+slug: "booking-stopgap"
+---
+
+import PullQuote from '../../components/PullQuote.astro';
+
+## 01 Situation
+
+Every roofing contractor has a website. And on every roofing contractor's website, there's some version of the same CTA — "Get a free inspection," "Contact us today," "Book now." When a homeowner with a leaking roof finds that page, they expect to do something. Fill out a form. Pick a time. Start the process.
+
+Zuper had a way to handle this. Sort of. The platform supported custom booking pages — a form that lived at a hosted URL, captured customer information, and created the right record in Zuper on submission. It worked. But every single one was built by hand. Custom code, custom hosting, one engineer and one DevOps person, roughly a full day of work per contractor.
+
+When we were onboarding a handful of roofing customers a quarter, that was manageable. As the vertical grew, it became a tax that compounded with every new account. And it broke the golden account model entirely — the whole point of cloning was that a contractor logged in on day zero and found a system that already worked. A booking widget that had to be hand-built and manually hosted after the fact wasn't part of that. It was a gap in the foundation.
+
+---
+
+## 02 The Real Problem
+
+The surface problem was that booking widgets took too long to build. That was true, but it wasn't the real problem.
+
+The real problem had three layers, and I only discovered all of them over time.
+
+The first layer was scalability. The custom-build approach didn't scale — one day, two people, per contractor, with no reuse between them.
+
+The second layer was compliance. Zuper had a telephony service that allowed contractors to text their customers. US regulations require that any form collecting customer contact information must include a visible hyperlink to the company's terms and conditions and privacy policy — a requirement tied to 10DLC approval. Without 10DLC, contractors couldn't legally send text messages through the platform. The booking widget was the data entry point. Which meant the booking widget was also the compliance gate. Our original generic widget didn't have configurable links for each contractor's legal pages. As more customers came on with both the widget and telephony, this became a real blocker — not a nice-to-have fix.
+
+The third layer was fragmentation. Contractors didn't all want the same thing. Some wanted customers to book and schedule an inspection directly. Some wanted to capture the lead but handle scheduling internally. Some wanted to store everything a customer said in a lead qualification job without creating an inspection at all. Some only wanted a contact record, because they ran their lead qualification in a separate CRM that synced with Zuper. One generic widget couldn't serve all of these. And nobody had mapped the variation yet.
+
+The real problem wasn't that widgets were slow to build. It was that the entire approach — custom, manual, non-cloneable — was structurally incompatible with what we were trying to build.
+
+---
+
+## 03 Constraints
+
+**No native feature.** Zuper didn't have a configurable booking widget on the product roadmap at the time. Any solution had to be built outside the platform.
+
+**No dedicated engineering resources.** This sat outside the core product build, which meant I was working with what I could build or configure myself.
+
+**Compliance was non-negotiable.** The 10DLC requirement wasn't optional. Any solution that couldn't support per-contractor legal links wasn't a real solution.
+
+**The golden account dependency.** Whatever we built had to eventually become something that could be cloned on day zero. A manual build process — no matter how fast — was only a stopgap.
+
+**Growing demand.** Roughly three out of every five new roofing customers were asking for a booking widget. And among those who had one, almost all wanted a customized version once the 10DLC issue surfaced. The volume was accelerating faster than the custom approach could absorb.
+
+---
+
+## 04 Process
+
+The pattern became visible before I understood what it meant.
+
+I was reviewing implementation tasks across roofing accounts and kept seeing booking widget work listed as a manual step — build, configure, deploy, hand off. I started tracking how often it appeared, how long it took, and who it involved. Then I went to the source: customer calls, conversations with Business Analysts and Solution Architects who were closest to the implementations.
+
+What I heard confirmed the pattern but added something I hadn't expected. Contractors weren't all asking for the same thing. When I listened carefully to how they described their business process — how they handled incoming leads, when they wanted to involve their own team, what they trusted software to do versus what they wanted to control themselves — four distinct configurations emerged. Not endless variation. Four types. Every contractor I spoke to fit into one of them.
+
+The 10DLC connection came from a customer call. A contractor mentioned they were having trouble getting their telephony approved and asked if the booking form was the issue. I didn't know immediately, but it triggered something — I had enough cross-team context to know that telephony compliance and the booking widget were closer together than anyone had mapped. I checked with the PM handling telephony. The link was real.
+
+With that full picture — the four modes, the compliance requirement, the scalability problem — I built a case. I documented the data: how many customers were affected, how many variations existed, how long the manual process took, what the 10DLC blocker meant downstream. I stress-tested the framing with the SVP before taking it to product.
+
+The feature got deprioritized. So I built the prototype.
+
+---
+
+## 05 The Decision
+
+The decision wasn't whether to build a stopgap. The decision was what the stopgap was *for*.
+
+I could have built something fast and functional, deployed it, and called it done. The custom-build process was already taking a day and two people per contractor. Even a partial improvement would have been an improvement.
+
+But I knew from the golden account work that anything requiring manual effort per contractor was architecturally incompatible with where we were going. The ultimate solution wasn't a faster stopgap. It was a native feature that cloned with the account on day zero — no setup required. The stopgap's job was to hold the line and make the case, not to become the permanent answer.
+
+So I built the prototype with that frame explicitly in mind. Not "how do I solve this for current customers" but "how do I build something real enough to show exactly what the native feature needs to do."
+
+I used AI tools to think through architecture and edge cases, and built a working multi-tenant system in a few hours using React, TypeScript, Supabase, and n8n. One universal widget. Four configurable booking modes. Territory matching. Per-account 10DLC compliance links. An admin panel where a new contractor account could be configured in under two minutes. A subdomain-based hosting model that meant no deployment required per customer — just a configuration change.
+
+The multi-tenant architecture was the part I was most proud of. Each contractor was a fully isolated tenant — their own Zuper API key encrypted in the backend, their own service configuration, their own booking behavior. The frontend never touched an API key. Every Zuper call went through a backend proxy that validated the tenant on every request.
+
+Building it was harder than I expected. Which was the point.
+
+<PullQuote quote="The product thinking moment was recognizing this wasn't meant to scale forever." />
+
+---
+
+## 06 What Shipped
+
+The prototype itself didn't go to production. The Chief Architect's assessment was that the engineering effort to make it production-ready was significant enough that it made more sense to build the native feature properly than to ship an intermediate version. That was the right call.
+
+What actually shipped was the decision — made in hours instead of weeks.
+
+Traditionally, getting a feature from "this is a problem" to "this is prioritized and spec'd" takes months of PRD reviews, alignment meetings, and roadmap negotiations. The prototype compressed that loop. When I walked the Principal PM through the working system, he could see exactly what the feature needed to do, exactly where the complexity lived, and exactly what a simpler version would miss. The four booking modes. The 10DLC compliance requirement — which he hadn't known about because telephony sat with a different PM. The territory matching logic. The multi-tenant isolation requirements.
+
+His original plan was a straightforward booking form — one mode, basic fields, get it out the door. After seeing the prototype and the data behind it, the feature scope expanded to match what customers actually needed. It's now being built properly.
+
+The custom pages approach continues for current customers while the native feature is in development. Not ideal — but understood and bounded. It has a clear end date.
+
+---
+
+## 07 Outcome
+
+The feature is on the roadmap and being built with requirements shaped by the prototype and the PRD I wrote.
+
+But the more meaningful outcome was a shift in how I thought about what I was building. Halfway through the PRD, the complexity started surfacing — edge cases in territory matching, the isolation requirements for multi-tenancy, the compliance logic that had to be handled at the backend level. What had felt like a medium-complexity feature started revealing itself as a genuinely hard engineering problem.
+
+That experience changed how I estimate. When I pushed for this feature, I thought the ask was reasonable and the lift was moderate. Building the prototype taught me that the lift was substantial — and that a PM who hasn't tried to build the thing they're asking for has a systematically optimistic view of what "reasonable" means.
+
+The feedback loop compression was the real output. What used to take weeks of uncertainty — is this worth building, how complex is it, what does it actually need to do — took hours. We didn't ship the feature this quarter. But the decision to deprioritize it was made with full information, not incomplete assumptions.
+
+---
+
+## 08 What I'd Do Differently
+
+I waited too long to push for this.
+
+For the first month, the volume felt manageable. Custom builds were slow but the team was handling it. I kept telling myself the load wasn't high enough to justify the escalation. Then the 10DLC issue surfaced and changed everything — suddenly this wasn't just an efficiency problem, it was a compliance blocker for a service customers were actively paying for.
+
+If I had been more rigorous about tracking demand from the start — not just noticing the pattern but quantifying it immediately — I would have had the data to make the case earlier. The compliance angle was always there. I just didn't know to look for it until a customer pointed me toward it.
+
+The other thing I'd change: I started the PRD assuming simplicity and discovered complexity midway through. That's a recoverable mistake, but it meant the scope conversation with the PM happened after I had already framed it as a lighter lift. A more thorough upfront architecture review — even an informal one — would have set more accurate expectations from the start.
+
+The broader lesson: the time you spend quantifying a problem before escalating it is never wasted. Data is what moves a deprioritized request onto a roadmap. Instinct alone doesn't.

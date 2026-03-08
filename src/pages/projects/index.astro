@@ -1,0 +1,51 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+---
+
+<Base
+  title="Projects — Dilith Dinesh"
+  description="Apps and tools built to solve real problems. Build logs documenting the decisions and lessons."
+>
+  <div class="max-w-[1100px] mx-auto px-6 pt-24 pb-[80px]">
+
+    <div class="max-w-[740px] mb-[80px]">
+      <h1 class="font-display text-[48px] font-medium leading-tight text-primary">Projects</h1>
+
+      <p class="font-prose text-lg leading-reading text-primary mt-6">
+        A PM who can't prototype is a PM who
+        can't think in three dimensions.
+      </p>
+
+      <p class="font-prose text-lg leading-reading text-primary mt-4">
+        These are things I built to solve problems
+        I had — and to stay honest about what
+        building actually costs.
+      </p>
+
+      <p class="font-body text-base text-secondary mt-6">
+        Shipping your own problems first is the
+        fastest way to develop product judgment
+        you can't fake.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <ProjectCard
+        title="Iris"
+        problem="I needed a messaging app that worked across devices without forcing me into one ecosystem. So I built one."
+        stack={["React 18", "TypeScript", "Supabase"]}
+        year="2026"
+        slug="iris"
+      />
+      <ProjectCard
+        title="Pulseboard"
+        problem="I wanted to understand what it actually takes to build a B2B SaaS from zero. User interviews, RICE prioritization, shipped MVP. No engineering team."
+        stack={["B2B SaaS", "Lovable"]}
+        year="2025"
+        slug="pulseboard"
+      />
+    </div>
+
+  </div>
+</Base>

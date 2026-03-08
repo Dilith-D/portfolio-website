@@ -1,0 +1,133 @@
+---
+const navLinks = [
+  { href: '/work',     label: 'Work' },
+  { href: '/writing',  label: 'Writing' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/now',      label: 'Now' },
+  { href: '/about',    label: 'About' },
+  { href: '/contact',  label: 'Contact' },
+];
+
+const currentPath = Astro.url.pathname;
+
+function isActive(href: string) {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+---
+
+<header
+  id="nav"
+  class="fixed top-0 left-0 right-0 z-50 h-16 transition-all duration-200 ease-in-out"
+>
+  <div class="max-w-[1100px] mx-auto px-6 h-full flex items-center justify-between">
+    <!-- Logo -->
+    <a
+      href="/"
+      class="font-display text-lg font-medium text-primary hover:text-accent transition-colors duration-150"
+    >
+      Dilith Dinesh
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex items-center gap-8" aria-label="Primary">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class={[
+            'font-body text-sm tracking-wide transition-colors duration-150',
+            isActive(href)
+              ? 'text-primary underline underline-offset-4 decoration-2'
+              : 'text-secondary hover:text-primary',
+          ].join(' ')}
+        >
+          {label}
+        </a>
+      ))}
+    </nav>
+
+    <!-- Mobile hamburger -->
+    <button
+      id="hamburger"
+      class="md:hidden flex flex-col gap-1.5 p-2 text-primary"
+      aria-label="Open menu"
+      aria-expanded="false"
+    >
+      <span class="block w-6 h-px bg-current transition-all duration-200" id="bar1"></span>
+      <span class="block w-6 h-px bg-current transition-all duration-200" id="bar2"></span>
+      <span class="block w-6 h-px bg-current transition-all duration-200" id="bar3"></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile overlay -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-40 bg-background flex flex-col items-center justify-center
+         opacity-0 pointer-events-none transition-opacity duration-200"
+  aria-hidden="true"
+>
+  <button
+    id="close-menu"
+    class="absolute top-5 right-6 p-2 text-primary font-body text-sm"
+    aria-label="Close menu"
+  >
+    Close
+  </button>
+  <nav class="flex flex-col items-center gap-8" aria-label="Mobile primary">
+    {navLinks.map(({ href, label }) => (
+      <a
+        href={href}
+        class="font-display text-4xl text-primary hover:text-accent transition-colors duration-150"
+      >
+        {label}
+      </a>
+    ))}
+  </nav>
+</div>
+
+<script>
+  const nav       = document.getElementById('nav')!;
+  const hamburger = document.getElementById('hamburger')!;
+  const mobileMenu = document.getElementById('mobile-menu')!;
+  const closeBtn  = document.getElementById('close-menu')!;
+  const bar1 = document.getElementById('bar1')!;
+  const bar2 = document.getElementById('bar2')!;
+  const bar3 = document.getElementById('bar3')!;
+
+  // Scroll → nav background
+  function updateNav() {
+    if (window.scrollY > 10) {
+      nav.style.backgroundColor = '#F9F7F4';
+      nav.style.borderBottom = '1px solid #E5E1DB';
+    } else {
+      nav.style.backgroundColor = 'transparent';
+      nav.style.borderBottom = 'none';
+    }
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  // Mobile menu open/close
+  function openMenu() {
+    mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    hamburger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', openMenu);
+  closeBtn.addEventListener('click', closeMenu);
+
+  // Close on nav link click
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+</script>

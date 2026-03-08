@@ -1,0 +1,143 @@
+---
+layout: ../../layouts/Prose.astro
+title: "What B2B SaaS Can Learn From India's Fastest-Growing Mobility App"
+description: "Rapido nailed the habit loop. But they're still optimizing for the ideal user — not the actual one."
+summary: "Rapido nailed the habit loop. But they're still optimizing for the ideal user — not the actual one."
+tags: ["Teardown", "B2B SaaS", "Consumer"]
+date: "Jan 2026"
+readTime: "12 min"
+slug: "rapido-teardown"
+featured: true
+---
+
+I use Rapido every week. It's solved my biggest mobility problem in India — getting anywhere, anytime, cheaply.
+
+But last Sunday, I hit a UX wall I didn't expect.
+
+I booked a bike while exiting the metro. By the time I walked to the gate, my ride was 2 minutes away. Perfect timing — except I couldn't view my metro ticket to scan at the exit.
+
+The app assumed sequential behavior: finish metro → book ride.
+
+But I work in parallel: book ride while exiting metro → both ready when I reach the street.
+
+That 10-second friction made me realize something bigger: Rapido has nailed the core habit loop. But they're still optimizing for the ideal user — not the actual one.
+
+This small gap sent me down a rabbit hole. I started analyzing why Rapido works so well despite these rough edges. What I found wasn't just about mobility — it was a masterclass in building products that become habits.
+
+Here's what I learned tearing down Rapido as a PM, and what B2B SaaS products can steal from it.
+
+---
+
+## Why Rapido Works When Others Struggle
+
+To understand Rapido's success, you have to understand India's urban mobility problem first.
+
+India has a structural mismatch in transportation. Short trips dominate — most rides are under 5km. Two-wheelers are the primary vehicle, not cars. And price sensitivity is extreme. A ₹10 difference matters.
+
+Uber and Ola were built for car-first Western markets. They brought that playbook to India and tried to make it work. Rapido did something different: they built for bike-first reality.
+
+The numbers tell the story. Rapido has 31.8 million monthly active users, just shy of Uber's 33.6 million. But here's what matters more: Rapido added 33 million new downloads in 2024 alone — nearly double Uber's 17.7 million. They're doing 4.3 million daily rides compared to Uber's 3 million. And in the bike taxi segment they created, they own 56% market share.
+
+This isn't luck. It's strategy built on understanding what makes Rapido hard to beat.
+
+First, their supply-side economics are fundamentally different. Captains don't pay a 20–30% commission per ride. Instead, they pay ₹9–29 per day as a subscription and keep 100% of their fares. This means more captains stay online, which means higher availability for riders. It's a simple change with compounding effects.
+
+Second, the demand-side experience removes friction. Rapido charges ₹20 base plus ₹3 per kilometer. No surge pricing. No dynamic algorithms. Just transparent pricing you can predict. The average wait time is 2–3 minutes, not 5–10. When you open the app, you know what you'll pay and how long you'll wait.
+
+Third, they've built network effects in local markets. More captains online creates better rider reliability. Higher rider volume creates more stable income for captains. The flywheel accelerates city by city, market by market.
+
+The moat isn't technology. It's captain availability at the right price point. And that's hard to replicate once it's established.
+
+---
+
+## The Apple Ecosystem Pattern: How Rapido Built a Habit Loop
+
+Here's what surprised me most about Rapido: it's not a super-app. It's a habit loop.
+
+Most companies chase the super-app dream by adding every service they can think of. Rapido did something smarter. They built a habit first, then expanded within that habit.
+
+Stage 1 was pure core value. Between 2015 and 2019, Rapido was just bike taxis. That's it. But they solved one problem perfectly: "I need to get there NOW." Cheaper than autos, faster than cabs, always available. Over time, I stopped asking "should I use Rapido?" and started just opening Rapido. The decision became automatic.
+
+Stage 2 was strategic surface area expansion. From 2020 to 2023, they added metro ticket booking, parcel delivery, and auto/cab rides. Each new service leveraged the existing captain network and user habit. Metro tickets meant I could skip queues and get better rates without leaving the app. Parcels used the same captains I already trusted. Autos and cabs gave me options when I needed more space — but I was already in Rapido's world.
+
+Stage 3 is where it gets interesting. Now in 2024 and beyond, I'm in ecosystem lock-in. Every new service Rapido launches, I try it first. Not because I'm evaluating each service independently, but because the habit is already built. I'm not choosing Rapido for each service — I'm choosing to stay in Rapido's world.
+
+This is the Apple playbook. Hook with one undeniable product. Expand once trust is built. Each new product benefits from existing habit instead of fighting to create new ones.
+
+---
+
+## What B2B SaaS Can Learn From Rapido's Playbook
+
+This isn't just a mobility story. It's a product expansion playbook that translates directly to B2B SaaS.
+
+**Lesson 1: Start with undeniable core value — not feature parity**
+
+Rapido didn't try to be "Uber but Indian." They could have launched with the full stack — autos, cabs, bikes, everything. Instead, they built bike taxis because that's what users actually needed, what the market could support, and what competitors ignored.
+
+In B2B, this means you don't build "Salesforce for X industry." You build the one workflow that's broken and expensive. You nail that before expanding.
+
+At Zuper, we didn't start with a full field service management suite. We started with scheduling — the highest-pain workflow. Then dispatch. Then inventory. Then invoicing. Each expansion leveraged existing adoption and trust.
+
+**Lesson 2: Expand surface area only after habit is built**
+
+Rapido waited five years before adding autos. Five years.
+
+Because bike taxis built captain trust. When they added metro tickets and parcels, they weren't asking users to trust them with new categories. They were asking users to use their existing trust in new ways.
+
+This is where most B2B products fail. They launch ten features at once, hoping something sticks. Features don't create habits — repeated use of one valuable thing creates habits. Then other features can piggyback on that habit.
+
+**Lesson 3: Optimize for high-frequency, low-friction use cases**
+
+Rapido made a specific bet. Most rides are short. Most users book multiple times per week. Speed matters more than luxury. So they optimized for speed: 2–3 minute wait times, transparent pricing, one-tap booking for frequent routes.
+
+In B2B: don't optimize for the annual review meeting. Optimize for the daily 5-minute task. Slack didn't win because of video calls. They won because sending a message was instant. Linear didn't win because of roadmaps. They won because creating an issue took 3 keystrokes.
+
+**Lesson 4: Build for actual behavior, not ideal behavior**
+
+Rapido assumed users finish their metro journey, exit the station, and then book a ride. Sequential. Logical.
+
+But actual behavior is different. I book my ride while exiting the metro. I need both things simultaneously.
+
+This happens in every B2B product. You assume linear workflows. Users work in parallel, context-switch constantly, and develop workarounds you never imagined. Your product has 5–10 of these gaps right now. They're invisible until you watch actual users.
+
+---
+
+## The One Missed Opportunity: Fixing the Metro Ticket Gap
+
+When I book a ride during metro exit, I can't access my metro ticket without canceling the ride. This creates friction at exactly the wrong moment — when I'm in a hurry.
+
+The fix is straightforward: add a "View Metro Ticket" button in the ride booking flow, show the ticket as an overlay that doesn't interrupt the booking, or auto-detect metro bookings and surface the ticket in the notification bar during active ride requests.
+
+The impact isn't just about fixing one workflow. It's about signaling: "We understand how you actually use this." That signal strengthens ecosystem stickiness.
+
+Your power users — the ones who use your product most frequently — are using it in ways you didn't design for. Those workflows are your next features. Not clever additions. Friction removal.
+
+---
+
+## The Competitive Strategy: Where Rapido Wins
+
+Rapido wins on availability, price, and speed. The subscription model attracts more captains. Transparent pricing removes decision fatigue. 2–3 minute wait times beat the standard. And the product was built specifically for India's two-wheeler reality, not adapted from Western car-first markets.
+
+Rapido loses on safety perception, comfort, and long-distance rides. Bikes feel riskier. Weather and helmet hair matter. Bikes tire both riders and captains on longer trips.
+
+Here's the thing: Rapido wins on frequency and price. Uber and Ola win on occasion and comfort. Rapido owns the daily commute. Uber and Ola own airport runs and date nights.
+
+Rapido doesn't need to beat Uber everywhere. They just need to own the high-frequency use case. Because high-frequency use cases create habits. And habits create long-term value.
+
+---
+
+## The Bigger Lesson: Build Habits, Not Super-Apps
+
+Great products don't just solve problems. They become habits.
+
+Rapido did that by starting small — bike taxis only. They nailed one thing: speed plus price. Then they expanded once trust was built.
+
+That's the lesson for B2B SaaS. Don't build a super-app. Build a habit. Then expand.
+
+Start with undeniable core value. Optimize for high-frequency, low-friction use cases. Expand only after the habit is built. And always — always — build for actual behavior, not ideal behavior.
+
+The products that win long-term aren't the ones with the most features. They're the ones that become automatic.
+
+---
+
+*Written in Jan 2026. Part of my ongoing product teardown series.*

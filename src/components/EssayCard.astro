@@ -1,0 +1,38 @@
+---
+interface Props {
+  title: string;
+  hook: string;
+  date: string;
+  tags: string[];
+  slug: string;
+}
+
+const { title, hook, date, tags, slug } = Astro.props;
+
+const tagLabel = tags.map(t => t.toUpperCase()).join('  ·  ');
+const dateLabel = date.toUpperCase();
+---
+
+<a
+  href={`/writing/${slug}`}
+  class="group block border-t border-border py-6"
+>
+  <p class="font-body text-xs tracking-widest uppercase text-secondary">
+    {dateLabel}&nbsp;&nbsp;·&nbsp;&nbsp;{tagLabel}
+  </p>
+
+  <h3 class="font-display text-xl font-medium text-primary mt-2 transition-colors duration-150 group-hover:text-blue">
+    {title}
+  </h3>
+
+  <p class="font-body text-base text-secondary leading-relaxed mt-2">
+    {hook}
+  </p>
+
+  <p class="font-body text-sm font-medium text-primary mt-4 inline-flex items-center gap-1">
+    Read
+    <span class="inline-block transition-transform duration-150 ease-in-out group-hover:translate-x-1">
+      &rarr;
+    </span>
+  </p>
+</a>

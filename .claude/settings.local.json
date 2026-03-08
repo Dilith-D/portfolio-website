@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(ls Dinesh\\\\portfolio\\\\src\\\\pages\\\\projects\\\\\":*)",
+      "Bash(taskkill:*)",
+      "Bash(npx kill-port 4321 4322 4323 4324)",
+      "Bash(tasklist)",
+      "Bash(xargs -r cmd /c \"taskkill /PID {} /F\")"
+    ]
+  }
+}

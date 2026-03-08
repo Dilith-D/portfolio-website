@@ -1,17 +1,222 @@
 ---
-
+import Base from '../layouts/Base.astro';
+import CaseStudyCard from '../components/CaseStudyCard.astro';
+import EssayCard from '../components/EssayCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base
+  title="Dilith Dinesh — Product Operator"
+  description="Customer Product Manager at Zuper. Translating field operations into product capabilities. Case studies, writing, and build logs."
+>
+
+  <div class="max-w-[1100px] mx-auto px-6">
+
+    <!-- Hero -->
+    <section class="pt-32 pb-[120px] border-b border-border">
+      <div class="max-w-[740px]">
+        <h1 class="font-display text-[64px] font-semibold leading-none text-primary">
+          Dilith Dinesh
+        </h1>
+
+        <p class="font-display text-[32px] font-medium leading-snug text-primary mt-6">
+          Product operator at the boundary between<br />
+          customer reality and product systems.
+        </p>
+
+        <p class="font-body text-base leading-relaxed text-secondary mt-6">
+          I translate what breaks in the field into<br />
+          capabilities that scale.
+        </p>
+
+        <p class="font-body text-sm text-secondary mt-4">
+          Currently: Customer Product Manager at Zuper —<br />
+          building the roofing vertical from the ground up.
+        </p>
+
+        <div class="flex flex-wrap gap-4 mt-10">
+          <a
+            href="/work"
+            class="font-body text-[15px] font-medium text-white bg-blue px-6 py-3 rounded-md transition-opacity duration-150 hover:opacity-90"
+          >
+            See my work →
+          </a>
+          <a
+            href="/writing"
+            class="font-body text-[15px] font-medium text-primary bg-transparent border border-primary px-6 py-3 rounded-md transition-colors duration-150 hover:bg-surface"
+          >
+            Read my thinking →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Proof Strip -->
+    <section class="py-8 border-b border-border">
+      <p class="font-body text-sm text-secondary tracking-widest uppercase">
+        Zuper&nbsp;&nbsp;·&nbsp;&nbsp;Field Service Management&nbsp;&nbsp;·&nbsp;&nbsp;B2B SaaS&nbsp;&nbsp;·&nbsp;&nbsp;Chennai&nbsp;&nbsp;·&nbsp;&nbsp;2 years in the field before the title
+      </p>
+    </section>
+
+    <!-- Work Preview -->
+    <section class="py-[80px]">
+      <div class="mb-12">
+        <h2 class="font-display text-[48px] font-medium leading-tight text-primary">Work</h2>
+        <p class="font-body text-base text-secondary mt-3">Not success stories. Decision logs.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <CaseStudyCard
+          title="The Roofing Vertical"
+          tags={["ZUPER", "FIELD SERVICE", "SYSTEMS DESIGN"]}
+          description="There was no repeatable way to onboard a roofing contractor onto Zuper. Every implementation was custom, slow, and impossible to clone. So I built one that could be."
+          slug="golden-account-model"
+        />
+        <CaseStudyCard
+          title="The Stopgap That Knew Its Place"
+          tags={["ZUPER", "FIELD SERVICE", "PRODUCT JUDGMENT"]}
+          description="Roofing customers needed booking before the product roadmap was ready. I built the interim solution — and designed it to be replaced."
+          slug="booking-stopgap"
+        />
+      </div>
+
+      <div class="mt-10">
+        <a
+          href="/work"
+          class="group font-body text-[15px] font-medium text-primary inline-flex items-center gap-1"
+        >
+          View all work
+          <span class="inline-block transition-transform duration-150 ease-in-out group-hover:translate-x-1">→</span>
+        </a>
+      </div>
+    </section>
+
+    <hr class="border-t border-border my-0" />
+
+    <!-- Writing Preview -->
+    <section class="py-[80px]">
+      <div class="mb-12">
+        <h2 class="font-display text-[48px] font-medium leading-tight text-primary">Writing</h2>
+        <p class="font-body text-base text-secondary mt-3">
+          Product teardowns, field notes, and frameworks<br />
+          from the boundary between operations and product.
+        </p>
+      </div>
+
+      <div>
+        <EssayCard
+          title="What B2B SaaS Can Learn From India's Fastest-Growing Mobility App"
+          hook="Rapido nailed the habit loop. But they're still optimizing for the ideal user — not the actual one."
+          date="Jan 2026"
+          tags={["Teardown"]}
+          slug="rapido-teardown"
+        />
+        <EssayCard
+          title="How Spotify Turned Usage Data Into an Annual Identity Ritual"
+          hook="Most imitators copy the format. They miss the emotional architecture underneath."
+          date="Dec 2025"
+          tags={["Teardown"]}
+          slug="spotify-wrapped"
+        />
+      </div>
+
+      <div class="mt-10">
+        <a
+          href="/writing"
+          class="group font-body text-[15px] font-medium text-primary inline-flex items-center gap-1"
+        >
+          Read all writing
+          <span class="inline-block transition-transform duration-150 ease-in-out group-hover:translate-x-1">→</span>
+        </a>
+      </div>
+    </section>
+
+    <hr class="border-t border-border my-0" />
+
+    <!-- Projects Preview -->
+    <section class="py-[80px]">
+      <div class="mb-12">
+        <h2 class="font-display text-[48px] font-medium leading-tight text-primary">Projects</h2>
+        <p class="font-body text-base text-secondary mt-3">
+          Things I built because the problem<br />
+          was real enough to solve.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <ProjectCard
+          title="Iris"
+          problem="I needed a messaging app that worked across devices without forcing me into one ecosystem. So I built one."
+          stack={["React 18", "TypeScript", "Supabase"]}
+          year="2026"
+          slug="iris"
+        />
+        <ProjectCard
+          title="Pulseboard"
+          problem="I wanted to understand what it actually takes to build a B2B SaaS from zero. User interviews, RICE prioritization, shipped MVP. No engineering team."
+          stack={["B2B SaaS", "Lovable"]}
+          year="2025"
+          slug="pulseboard"
+        />
+      </div>
+
+      <div class="mt-10">
+        <a
+          href="/projects"
+          class="group font-body text-[15px] font-medium text-primary inline-flex items-center gap-1"
+        >
+          See all projects
+          <span class="inline-block transition-transform duration-150 ease-in-out group-hover:translate-x-1">→</span>
+        </a>
+      </div>
+    </section>
+
+    <hr class="border-t border-border my-0" />
+
+    <!-- Signal Section -->
+    <section class="py-[80px]">
+      <div class="max-w-[740px]">
+        <p class="font-prose text-lg leading-reading text-primary">
+          Most product teams learn about customer problems through
+          tickets, NPS scores, and quarterly reviews.
+        </p>
+        <p class="font-prose text-lg leading-reading text-primary mt-6">
+          I've spent two years inside the operational layer —
+          sitting with contractors, mapping how they actually
+          collect money, watching where workflows break before
+          anyone files a bug report.
+        </p>
+        <p class="font-prose text-lg leading-reading text-primary mt-6">
+          That proximity changes how I think about product
+          decisions. Not every problem needs a feature.
+          Not every feature request is the actual problem.
+          The real work is finding the gap between what
+          people say they want and what would actually help them.
+        </p>
+        <p class="font-prose text-lg leading-reading text-primary mt-6">
+          That's the kind of product thinking I'm building toward.
+        </p>
+      </div>
+    </section>
+
+    <hr class="border-t border-border my-0" />
+
+    <!-- Footer CTA -->
+    <section class="py-[80px]">
+      <div class="max-w-[740px]">
+        <p class="font-body text-base text-secondary leading-relaxed">
+          If you're building something that needs this<br />
+          kind of thinking — let's talk.
+        </p>
+        <a
+          href="mailto:dilithdinesh007@gmail.com"
+          class="font-body text-base font-medium text-primary underline underline-offset-[3px] mt-4 inline-block transition-colors duration-150 hover:text-blue"
+        >
+          dilithdinesh007@gmail.com
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+</Base>

@@ -1,0 +1,44 @@
+---
+import Base from '../../layouts/Base.astro';
+import CaseStudyCard from '../../components/CaseStudyCard.astro';
+---
+
+<Base
+  title="Work — Dilith Dinesh"
+  description="Product case studies from two years inside field service operations. Real decisions, real constraints, honest reflections."
+>
+  <div class="max-w-[1100px] mx-auto px-6 pt-24 pb-[80px]">
+
+    <div class="max-w-[740px] mb-[80px]">
+      <h1 class="font-display text-[48px] font-medium leading-tight text-primary">Work</h1>
+
+      <p class="font-prose text-lg leading-reading text-primary mt-6">
+        These aren't polished success stories.
+        They're records of real decisions made under
+        real constraints — what the problem actually was,
+        what made it hard, what I chose, and what I'd
+        do differently.
+      </p>
+
+      <p class="font-body text-base text-secondary mt-4">
+        Two case studies from two years inside field service operations.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <CaseStudyCard
+        title="The Roofing Vertical"
+        tags={["ZUPER", "FIELD SERVICE", "SYSTEMS DESIGN"]}
+        description="There was no repeatable way to onboard a roofing contractor onto Zuper. Every implementation was custom, slow, and impossible to clone. So I built one that could be."
+        slug="golden-account-model"
+      />
+      <CaseStudyCard
+        title="The Stopgap That Knew Its Place"
+        tags={["ZUPER", "FIELD SERVICE", "PRODUCT JUDGMENT"]}
+        description="Roofing customers needed booking before the product roadmap was ready. I built the interim solution — and designed it to be replaced."
+        slug="booking-stopgap"
+      />
+    </div>
+
+  </div>
+</Base>

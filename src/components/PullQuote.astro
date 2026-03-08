@@ -1,0 +1,13 @@
+---
+interface Props {
+  quote: string;
+}
+
+const { quote } = Astro.props;
+---
+
+<blockquote class="border-l-2 border-primary pl-6 my-12">
+  <p class="font-prose text-2xl italic text-primary leading-relaxed">
+    {quote}
+  </p>
+</blockquote>

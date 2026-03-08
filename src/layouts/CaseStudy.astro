@@ -1,0 +1,41 @@
+---
+import Prose from './Prose.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  date?: string;
+  readTime?: string;
+  role?: string;
+  summary?: string;
+  tags?: string[];
+  ogImage?: string;
+}
+
+const { ...props } = Astro.props;
+---
+
+<Prose {...props}>
+  <div slot="backnav" class="max-w-[740px] mx-auto px-6 pt-6"><a href="/work" class="font-body text-sm text-secondary hover:text-primary transition-colors duration-150">← Back to work</a></div>
+
+  <slot />
+
+  <!-- End navigation -->
+  <hr class="border-t border-border my-20" />
+
+  <nav class="flex items-center justify-between font-body text-sm font-medium text-primary" aria-label="Case study navigation">
+    <a
+      href="/work"
+      class="hover:text-blue transition-colors duration-150 inline-flex items-center gap-1 group"
+    >
+      <span class="inline-block transition-transform duration-150 ease-in-out group-hover:-translate-x-1">&larr;</span>
+      Back to all work
+    </a>
+    <a
+      href="/work"
+      class="hover:text-blue transition-colors duration-150"
+    >
+      More work &rarr;
+    </a>
+  </nav>
+</Prose>

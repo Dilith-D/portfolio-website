@@ -1,0 +1,61 @@
+---
+layout: ../../layouts/Prose.astro
+title: "Pulseboard"
+description: "I wanted to understand what it actually takes to build a B2B SaaS from zero."
+summary: "I wanted to understand what it actually takes to build a B2B SaaS from zero."
+tags: ["B2B SaaS", "Lovable", "RICE Framework"]
+date: "2025"
+slug: "pulseboard"
+---
+
+## Why I Built This
+
+A few weeks into my role as Customer Product Manager at Zuper, a colleague asked me a simple question: "So what have you been working on lately?"
+
+I blanked.
+
+Not because I hadn't done enough. The opposite — I work across product, CX, sales, marketing, and RevOps simultaneously. On any given week I might be sitting in a customer call, writing a spec, debugging an implementation, and reviewing a roadmap request. The work is scattered by design. The problem is that scattered work doesn't accumulate naturally into a narrative. It just disappears.
+
+My colleague laughed and suggested I start tracking. I opened a new tab instead.
+
+The obvious solution was a spreadsheet. The problem with a spreadsheet is that it records what happened but doesn't help you understand it. I wanted something that could tell me not just what I logged, but what it added up to — which teams I'd been pulling toward, where my effort was actually going versus where I thought it was going, what I could point to at a performance review without having to reconstruct three months from memory.
+
+That's Pulseboard. Not a tracker — a lightweight reflection system. The distinction matters: a tracker is passive, a reflection system is active. One stores data. The other surfaces patterns.
+
+---
+
+## The Build
+
+I scoped the idea with GPT, wrote the technical spec with Claude, built the UI on Lovable, and used Supabase for the backend. The whole thing from idea to working app was a weekend.
+
+That speed is the point. I wasn't trying to build a product company. I was trying to solve a problem I had, fast enough to learn from using it rather than from planning it.
+
+The build process itself was a deliberate experiment in what a PM without a dedicated engineering team can actually ship. The answer, it turns out, is more than most people assume — if you're willing to write a tight spec, pick tools that reduce surface area, and be honest about what v1 doesn't need to do.
+
+What shipped: daily activity logging with auto-categorization by work type and team, weekly and monthly summaries that visualize effort distribution, AI-generated performance summaries that pull from the log and produce something close to review-ready language, and secure login so the data stays private.
+
+What didn't ship in v1: anything social, anything collaborative, anything that required managing other people's data. Pulseboard is a personal tool. That constraint kept the scope honest.
+
+---
+
+## What the Build Revealed
+
+The most useful thing Pulseboard taught me wasn't about the product. It was about how I'd been spending my time.
+
+Within two weeks of logging consistently, the pattern was clear: I was spending significantly more time on implementation support and cross-team coordination than I had estimated. The work that felt most visible to me — writing specs, sitting with customers — was a smaller fraction of my actual week than I'd assumed. The invisible work — answering BA questions, unblocking engineers, reviewing edge cases — was eating more than I realized.
+
+That's the gap between what you think you're doing and what you're actually doing. Pulseboard made it legible.
+
+The second thing it revealed: AI-generated summaries are good at volume but bad at weight. The system could produce a paragraph describing a busy week accurately, but it couldn't distinguish between a week where I made one important decision and a week where I handled twenty routine tasks. That's a product gap I'd fix in v2 — some way to flag signal items separately from noise items, so the summary reflects significance, not just activity.
+
+---
+
+## What I'd Do Differently
+
+The spec I wrote before building was too focused on features and not focused enough on the data model. I defined what the app would do — log, categorize, summarize — before I defined what the data would need to look like to make those things useful. That order created rework. When I got to building the categorization logic, I had to revisit decisions I thought I'd already made.
+
+The lesson: for any app that generates insights from logged data, start with the output, not the input. Define what the weekly summary should look like, then design the data model that makes it possible, then build the logging interface that captures it. I did it in the wrong order and paid for it in one unnecessary rebuild of the category schema.
+
+I also built the AI summary feature too early. It was the most satisfying feature to demo — watching it generate a paragraph from a week of logs felt like proof the thing worked. But I used that satisfaction as a reason to stop building rather than a reason to keep asking questions. The summary feature was impressive before it was useful. I'd swap that order.
+
+Small thing: the name. Pulseboard captures the "reflection system" idea reasonably well. I'd think harder about it next time. Names are cheaper to change before launch than after.

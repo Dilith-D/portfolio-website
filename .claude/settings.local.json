@@ -6,7 +6,12 @@
       "Bash(taskkill:*)",
       "Bash(npx kill-port 4321 4322 4323 4324)",
       "Bash(tasklist)",
-      "Bash(xargs -r cmd /c \"taskkill /PID {} /F\")"
+      "Bash(xargs -r cmd /c \"taskkill /PID {} /F\")",
+      "Bash(node:*)",
+      "Bash(rm:*)",
+      "Bash(npm install:*)",
+      "Bash(curl:*)",
+      "Bash(npm:*)"
     ]
   }
 }

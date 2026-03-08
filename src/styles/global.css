@@ -43,6 +43,17 @@
   font-display: swap;
 }
 
+/* ─── Color variables (light mode defaults) ────────────────────── */
+:root {
+  --color-background: #F9F7F4;
+  --color-surface:    #F0EDE8;
+  --color-border:     #E5E1DB;
+  --color-primary:    #1A1A1A;
+  --color-secondary:  #6B6B6B;
+  --color-accent:     #1A1A2E;
+  --color-blue:       #2D5BE3;
+}
+
 /* ─── Base reset ───────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -112,6 +123,53 @@ body {
   border-left-width: 3px;
   font-style: italic;
   color: #1A1A1A;
+}
+
+/* ─── Dark mode ────────────────────────────────────────────────── */
+html.dark {
+  --color-background: #0F0F0F;
+  --color-surface:    #1A1A1A;
+  --color-border:     #2A2A2A;
+  --color-primary:    #F9F7F4;
+  --color-secondary:  #9A9A9A;
+}
+
+html.dark,
+html.dark body {
+  background-color: #0F0F0F;
+  color: #F9F7F4;
+}
+
+html.dark .bg-background  { background-color: #0F0F0F; }
+html.dark .bg-surface     { background-color: #1A1A1A; }
+html.dark .text-primary   { color: #F9F7F4; }
+html.dark .text-secondary { color: #9A9A9A; }
+html.dark .border-border  { border-color: #2A2A2A; }
+html.dark .border-t       { border-color: #2A2A2A; }
+
+html.dark .prose {
+  --tw-prose-body:          #F9F7F4;
+  --tw-prose-headings:      #F9F7F4;
+  --tw-prose-links:         #F9F7F4;
+  --tw-prose-bold:          #F9F7F4;
+  --tw-prose-quotes:        #F9F7F4;
+  --tw-prose-quote-borders: #F9F7F4;
+  color: #F9F7F4;
+}
+
+html.dark .prose h2,
+html.dark .prose h3,
+html.dark .prose h4 {
+  color: #F9F7F4;
+}
+
+html.dark .prose strong {
+  color: #F9F7F4;
+}
+
+html.dark .prose blockquote {
+  border-left-color: #F9F7F4;
+  color: #F9F7F4;
 }
 
 /* ─── Page fade-in ─────────────────────────────────────────────── */

@@ -1,13 +1,10 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import tailwindcss from '@tailwindcss/vite';
+import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://dilithdinesh.com',
-  vite: {
-    plugins: [tailwindcss()],
-  },
-  integrations: [mdx(), sitemap()],
+  integrations: [tailwind(), mdx(), sitemap()],
 });

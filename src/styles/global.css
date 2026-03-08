@@ -1,35 +1,11 @@
-@import "tailwindcss";
-@plugin "@tailwindcss/typography";
-@source "../**/*.{astro,ts,js}";
-
-/* ─── Design tokens ────────────────────────────────────────────── */
-@theme {
-  /* Colors */
-  --color-background: #F9F7F4;
-  --color-surface:    #F0EDE8;
-  --color-border:     #E5E1DB;
-  --color-primary:    #1A1A1A;
-  --color-secondary:  #6B6B6B;
-  --color-accent:     #1A1A2E;
-  --color-blue:       #2D5BE3;
-
-  /* Font families */
-  --font-display: 'Cabinet Grotesk', sans-serif;
-  --font-body:    'Inter', sans-serif;
-  --font-prose:   'Lora', serif;
-
-  /* Max widths */
-  --max-width-reading: 740px;
-  --max-width-layout:  1100px;
-
-  /* Line heights */
-  --leading-reading: 1.8;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* ─── Font declarations ────────────────────────────────────────── */
 @font-face {
   font-family: 'Cabinet Grotesk';
-  src: url('/fonts/CabinetGrotesk_Complete/Fonts/WEB/fonts/CabinetGrotesk-Variable.woff2') format('woff2');
+  src: url('/fonts/CabinetGrotesk-Variable.woff2') format('woff2');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -95,11 +71,11 @@ body {
 
 /* ─── Prose overrides (typography plugin) ──────────────────────── */
 .prose {
-  --tw-prose-body:        #1A1A1A;
-  --tw-prose-headings:    #1A1A1A;
-  --tw-prose-links:       #1A1A1A;
-  --tw-prose-bold:        #1A1A1A;
-  --tw-prose-quotes:      #1A1A1A;
+  --tw-prose-body:          #1A1A1A;
+  --tw-prose-headings:      #1A1A1A;
+  --tw-prose-links:         #1A1A1A;
+  --tw-prose-bold:          #1A1A1A;
+  --tw-prose-quotes:        #1A1A1A;
   --tw-prose-quote-borders: #1A1A1A;
   font-family: 'Lora', serif;
   font-size: 1.125rem;
@@ -136,4 +112,14 @@ body {
   border-left-width: 3px;
   font-style: italic;
   color: #1A1A1A;
+}
+
+/* ─── Page fade-in ─────────────────────────────────────────────── */
+main {
+  animation: fadeIn 200ms ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }

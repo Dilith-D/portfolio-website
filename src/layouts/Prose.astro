@@ -22,10 +22,10 @@ const meta = [date, readTime, role].filter(Boolean).join(' · ');
   <ReadingProgress />
 
   <slot name="backnav">
-    <div class="max-w-[740px] mx-auto px-6 pt-6"><a href="/writing" class="font-body text-sm text-secondary hover:text-primary transition-colors duration-150">← Back to writing</a></div>
+    <div class="max-w-[740px] mx-auto px-6 pt-[100px]"><a href="/writing" class="font-body text-sm text-secondary hover:text-primary transition-colors duration-150">← Back to writing</a></div>
   </slot>
 
-  <article class="pt-24 pb-20 px-6">
+  <article class="pt-8 pb-20 px-6">
     <div class="max-w-[740px] mx-auto">
 
       {tags.length > 0 && (

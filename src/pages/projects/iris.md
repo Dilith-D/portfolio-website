@@ -26,7 +26,7 @@ That was the original idea. A private bridge. Between my devices, and between me
 
 ## D-Chat: The Version I Built for Myself
 
-The first version took about four hours and I called it D-Chat. Yes, after myself. Yes, that's embarrassing. Yes, it worked exactly as intended.
+The first version took about four hours and I called it [D-Chat](https://d-chat.lovable.app). Yes, after myself. Yes, that's embarrassing. Yes, it worked exactly as intended.
 
 The stack was React 18, TypeScript, Supabase for the backend, and Lovable to accelerate the build. The core mechanic was an 8-character private code instead of a phone number or email — you share the code, the other device enters it, you're connected. Sessions auto-expire after 7 days. Files stored as signed URLs. No persistent storage beyond what you explicitly sent.
 

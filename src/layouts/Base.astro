@@ -243,6 +243,8 @@ const ogImageURL = new URL(ogImage, Astro.site);
   <script>
     let typed = '';
     document.addEventListener('keydown', (e) => {
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
       typed += e.key.toLowerCase();
       if (typed.length > 7) typed = typed.slice(-7);
       if (typed.includes('product')) {
@@ -279,15 +281,12 @@ const ogImageURL = new URL(ogImage, Astro.site);
     })();
   </script>
 
-  <!-- Clipboard appends site URL -->
+  <!-- Clipboard easter egg (tracks copy, does not modify clipboard) -->
   <script>
     document.addEventListener('copy', () => {
       const selection = window.getSelection()?.toString();
       if (!selection || selection.length < 10) return;
       window.markEggFound?.('clipboard');
-      setTimeout(() => {
-        navigator.clipboard.writeText(selection + ' — dilithdinesh.com').catch(() => {});
-      }, 100);
     });
   </script>
 
@@ -304,38 +303,10 @@ const ogImageURL = new URL(ogImage, Astro.site);
     });
   </script>
 
-  <!-- Right-click context menu -->
+  <!-- Right-click easter egg (native menu still works) -->
   <script>
-    document.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      const existing = document.getElementById('custom-context');
-      if (existing) existing.remove();
-      const menu = document.createElement('div');
-      menu.id = 'custom-context';
-      menu.style.cssText = `
-        position: fixed;
-        top: ${e.clientY}px;
-        left: ${e.clientX}px;
-        background: #1A1A1A;
-        color: #F9F7F4;
-        font-family: 'Inter', sans-serif;
-        font-size: 13px;
-        padding: 10px 16px;
-        border-radius: 6px;
-        z-index: 9999;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-        cursor: pointer;
-        transition: opacity 150ms ease;
-      `;
-      menu.innerText = 'Looking for the source? github.com/Dilith-D/portfolio-website';
-      document.body.appendChild(menu);
-      window.markEggFound?.('right-click');
-      menu.addEventListener('click', () => {
-        window.open('https://github.com/Dilith-D/portfolio-website', '_blank');
-        menu.remove();
-      });
-      setTimeout(() => menu.remove(), 3000);
-      document.addEventListener('click', () => menu.remove(), { once: true });
+    document.addEventListener('contextmenu', () => {
+      window.markEggFound?.('right-click', 'Looking for the source? github.com/Dilith-D/portfolio-website');
     });
   </script>
 
@@ -344,7 +315,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
     const originalTitle = document.title;
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') {
-        document.title = 'Come back when you\'re ready 👋';
+        document.title = 'Come back when you\'re ready —';
         window.markEggFound?.('tab-blur');
       } else {
         document.title = originalTitle;

@@ -465,8 +465,8 @@ const ogImageURL = new URL(ogImage, Astro.site);
   <!-- Text selection toast -->
   <script>
     (function() {
-      if (sessionStorage.getItem('dd-selection')) return;
       document.addEventListener('mouseup', () => {
+        if (sessionStorage.getItem('dd-selection')) return;
         const selection = window.getSelection()?.toString().trim();
         if (selection && selection.length >= 80) {
           sessionStorage.setItem('dd-selection', 'true');

@@ -43,12 +43,16 @@ import Base from '../layouts/Base.astro';
     <!-- Links -->
     <section class="mb-[80px]">
       <div class="flex flex-col gap-4">
-        <a
-          href="mailto:dilithdinesh007@gmail.com"
-          class="font-body text-base font-medium text-primary underline underline-offset-[3px] transition-colors duration-150 hover:text-blue"
-        >
-          dilithdinesh007@gmail.com
-        </a>
+        <span class="email-egg" style="position:relative;">
+          <a
+            href="mailto:dilithdinesh007@gmail.com"
+            class="font-body text-base font-medium text-primary underline underline-offset-[3px] transition-colors duration-150 hover:text-blue"
+            style="cursor:help;"
+          >
+            dilithdinesh007@gmail.com
+          </a>
+          <span class="email-tip" style="display:none; position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:#1A1A1A; color:#F9F7F4; font-size:13px; font-family:'Inter',sans-serif; white-space:normal; max-width:320px; padding:6px 12px; border-radius:4px; pointer-events:none; z-index:100; text-align:center;">I read everything. I reply to most things. Response time: usually within a day, never within a minute — that would be suspicious.</span>
+        </span>
         <a
           href="https://linkedin.com/in/dilithdinesh"
           target="_blank"
@@ -68,4 +72,12 @@ import Base from '../layouts/Base.astro';
     </p>
 
   </div>
+
+  <!-- Easter Egg: email tooltip -->
+  <script>
+    const emailEgg = document.querySelector('.email-egg');
+    const emailTip = document.querySelector('.email-tip');
+    emailEgg.addEventListener('mouseenter', () => emailTip.style.display = 'block');
+    emailEgg.addEventListener('mouseleave', () => emailTip.style.display = 'none');
+  </script>
 </Base>

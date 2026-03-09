@@ -64,14 +64,23 @@ const ogImageURL = new URL(ogImage, Astro.site);
     </main>
     <Footer />
 
-  <!-- Easter Egg 1: Console message -->
+  <!-- Easter Egg: Console message (dark mode-aware) -->
   <script>
-    console.log("%cHey.", "font-size: 24px; font-weight: bold; color: #2D5BE3;");
-    console.log("%cYou opened the console. That's exactly the kind of thing I'd do too.", "font-size: 14px; color: #6B6B6B;");
-    console.log("%cdilithdinesh007@gmail.com", "font-size: 14px; color: #1A1A1A; font-weight: bold;");
+    const isDark = document.documentElement.classList.contains('dark') ||
+      localStorage.getItem('theme') === 'dark';
+
+    if (isDark) {
+      console.log("%cDark mode AND the console open.", "font-size: 20px; font-weight: bold; color: #2D5BE3;");
+      console.log("%cYou're exactly the kind of person I want to work with.", "font-size: 14px; color: #9A9A9A;");
+      console.log("%cdilithdinesh007@gmail.com", "font-size: 14px; color: #F9F7F4; font-weight: bold;");
+    } else {
+      console.log("%cHey.", "font-size: 24px; font-weight: bold; color: #2D5BE3;");
+      console.log("%cYou opened the console. That's exactly the kind of thing I'd do too.", "font-size: 14px; color: #6B6B6B;");
+      console.log("%cdilithdinesh007@gmail.com", "font-size: 14px; color: #1A1A1A; font-weight: bold;");
+    }
   </script>
 
-  <!-- Easter Egg 5: Type "product" to pulse hero tagline -->
+  <!-- Easter Egg: Type "product" to pulse hero tagline -->
   <script>
     let typed = '';
     document.addEventListener('keydown', (e) => {
@@ -85,6 +94,158 @@ const ogImageURL = new URL(ogImage, Astro.site);
           setTimeout(() => { hero.style.color = ''; }, 2000);
         }
         typed = '';
+      }
+    });
+  </script>
+
+  <!-- Easter Egg: Idle timer (5 minutes) -->
+  <script>
+    (function() {
+      if (sessionStorage.getItem('idle-shown')) return;
+
+      let timer;
+      const IDLE_TIME = 5 * 60 * 1000;
+
+      function showToast() {
+        if (sessionStorage.getItem('idle-shown')) return;
+        sessionStorage.setItem('idle-shown', 'true');
+
+        const toast = document.createElement('div');
+        toast.innerText = 'Still reading? Good. Most people don\'t get this far.';
+        toast.style.cssText = `
+          position: fixed;
+          bottom: 32px;
+          left: 50%;
+          transform: translateX(-50%) translateY(80px);
+          background: #1A1A1A;
+          color: #F9F7F4;
+          font-family: 'Inter', sans-serif;
+          font-size: 14px;
+          padding: 12px 24px;
+          border-radius: 6px;
+          z-index: 9999;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+          transition: transform 300ms ease, opacity 300ms ease;
+          opacity: 0;
+          pointer-events: none;
+        `;
+        document.body.appendChild(toast);
+        requestAnimationFrame(() => {
+          toast.style.transform = 'translateX(-50%) translateY(0)';
+          toast.style.opacity = '1';
+        });
+        setTimeout(() => {
+          toast.style.transform = 'translateX(-50%) translateY(80px)';
+          toast.style.opacity = '0';
+          setTimeout(() => toast.remove(), 300);
+        }, 4000);
+      }
+
+      function resetTimer() {
+        clearTimeout(timer);
+        timer = setTimeout(showToast, IDLE_TIME);
+      }
+
+      ['scroll','click','keypress','mousemove','touchstart'].forEach(e =>
+        document.addEventListener(e, resetTimer, { passive: true })
+      );
+      resetTimer();
+    })();
+  </script>
+
+  <!-- Easter Egg: Clipboard appends site URL -->
+  <script>
+    document.addEventListener('copy', () => {
+      const selection = window.getSelection()?.toString();
+      if (!selection || selection.length < 10) return;
+      setTimeout(() => {
+        navigator.clipboard.writeText(selection + ' — dilithdinesh.com').catch(() => {});
+      }, 100);
+    });
+  </script>
+
+  <!-- Easter Egg: Viewport 420px -->
+  <script>
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (window.innerWidth === 420) {
+          const toast = document.createElement('div');
+          toast.innerText = 'Nice. You resize browser windows too.';
+          toast.style.cssText = `
+            position: fixed;
+            top: 80px;
+            right: 16px;
+            background: #1A1A1A;
+            color: #F9F7F4;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            padding: 10px 16px;
+            border-radius: 6px;
+            z-index: 9999;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            transition: opacity 300ms ease;
+            opacity: 0;
+          `;
+          document.body.appendChild(toast);
+          requestAnimationFrame(() => toast.style.opacity = '1');
+          setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+          }, 2000);
+        }
+      }, 200);
+    });
+  </script>
+
+  <!-- Easter Egg: Right-click context menu -->
+  <script>
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+
+      const existing = document.getElementById('custom-context');
+      if (existing) existing.remove();
+
+      const menu = document.createElement('div');
+      menu.id = 'custom-context';
+      menu.style.cssText = `
+        position: fixed;
+        top: ${e.clientY}px;
+        left: ${e.clientX}px;
+        background: #1A1A1A;
+        color: #F9F7F4;
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        padding: 10px 16px;
+        border-radius: 6px;
+        z-index: 9999;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        cursor: pointer;
+        transition: opacity 150ms ease;
+      `;
+      menu.innerText = 'Looking for the source? github.com/Dilith-D/portfolio-website';
+      document.body.appendChild(menu);
+
+      menu.addEventListener('click', () => {
+        window.open('https://github.com/Dilith-D/portfolio-website', '_blank');
+        menu.remove();
+      });
+
+      setTimeout(() => menu.remove(), 3000);
+
+      document.addEventListener('click', () => menu.remove(), { once: true });
+    });
+  </script>
+
+  <!-- Easter Egg: Tab title change on blur -->
+  <script>
+    const originalTitle = document.title;
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        document.title = 'Come back when you\'re ready 👋';
+      } else {
+        document.title = originalTitle;
       }
     });
   </script>

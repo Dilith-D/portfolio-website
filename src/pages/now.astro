@@ -17,8 +17,15 @@ import Base from '../layouts/Base.astro';
     </p>
 
     <p class="font-body text-sm text-secondary mt-2">
-      Last updated: March 2026
+      <span id="last-updated-trigger" style="cursor:pointer;">Last updated: March 2026</span><span id="last-updated-detail" style="display:none; font-style:italic;"> Specifically: a Sunday evening. Some things don't change.</span>
     </p>
+
+    <script>
+      document.getElementById('last-updated-trigger').addEventListener('click', () => {
+        const detail = document.getElementById('last-updated-detail');
+        detail.style.display = detail.style.display === 'none' ? 'inline' : 'none';
+      });
+    </script>
 
     <hr class="border-t border-border my-[80px]" />
 

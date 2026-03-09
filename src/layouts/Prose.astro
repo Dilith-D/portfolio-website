@@ -58,4 +58,59 @@ const meta = [date, readTime, role].filter(Boolean).join(' · ');
 
     </div>
   </article>
+
+  <!-- Easter Egg: Fast reader toast -->
+  {readTime && (
+    <script>
+      (function() {
+        const slug = window.location.pathname;
+        const key = 'fast-read-' + slug;
+        if (sessionStorage.getItem(key)) return;
+
+        const arrival = Date.now();
+        const MIN_TIME = 60 * 1000;
+
+        function maybeShow() {
+          const elapsed = Date.now() - arrival;
+          if (elapsed < MIN_TIME) {
+            sessionStorage.setItem(key, 'true');
+            const toast = document.createElement('div');
+            toast.innerText = 'That was fast. Some of this deserved more time.';
+            toast.style.cssText = `
+              position: fixed;
+              bottom: 32px;
+              left: 50%;
+              transform: translateX(-50%) translateY(80px);
+              background: #1A1A1A;
+              color: #F9F7F4;
+              font-family: 'Inter', sans-serif;
+              font-size: 14px;
+              padding: 12px 24px;
+              border-radius: 6px;
+              z-index: 9999;
+              box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+              transition: transform 300ms ease, opacity 300ms ease;
+              opacity: 0;
+              pointer-events: none;
+            `;
+            document.body.appendChild(toast);
+            requestAnimationFrame(() => {
+              toast.style.transform = 'translateX(-50%) translateY(0)';
+              toast.style.opacity = '1';
+            });
+            setTimeout(() => {
+              toast.style.transform = 'translateX(-50%) translateY(80px)';
+              toast.style.opacity = '0';
+              setTimeout(() => toast.remove(), 300);
+            }, 4000);
+          }
+        }
+
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'hidden') maybeShow();
+        });
+        window.addEventListener('beforeunload', maybeShow);
+      })();
+    </script>
+  )}
 </Base>

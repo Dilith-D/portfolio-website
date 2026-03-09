@@ -133,7 +133,10 @@ import Base from '../layouts/Base.astro';
         const pop = document.getElementById('fn-pop');
         ref.addEventListener('click', () => {
           pop.style.display = pop.style.display === 'none' ? 'block' : 'none';
-          if (pop.style.display === 'block') setTimeout(() => pop.style.display = 'none', 4000);
+          if (pop.style.display === 'block') {
+            setTimeout(() => pop.style.display = 'none', 4000);
+            window.markEggFound?.('football-footnote');
+          }
         });
       </script>
 
@@ -150,7 +153,7 @@ import Base from '../layouts/Base.astro';
 
       <p class="font-prose text-lg leading-reading text-primary mt-6">
         One other thing worth mentioning — I have
-        a habit of hiding easter eggs in internal
+        a habit of hiding <a href="/secret" class="underline underline-offset-[3px] text-primary transition-colors duration-150 hover:text-blue">easter eggs</a> in internal
         tools I build. Admin panels that only reveal
         themselves after a specific sequence of
         clicks. Riddles instead of login screens.
@@ -233,6 +236,7 @@ import Base from '../layouts/Base.astro';
         if (!sessionStorage.getItem('dd-about-long')) {
           sessionStorage.setItem('dd-about-long', 'true');
           window.showToast("You stayed longer than the read time. I'm curious what you were thinking about.");
+          window.markEggFound?.('about-overread');
         }
       }, 630 * 1000);
     })();

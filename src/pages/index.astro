@@ -230,7 +230,7 @@ import ProjectCard from '../components/ProjectCard.astro';
   <script>
     const yearsEgg = document.querySelector('.years-egg');
     const yearsTip = document.querySelector('.years-tip');
-    yearsEgg.addEventListener('mouseenter', () => yearsTip.style.display = 'block');
+    yearsEgg.addEventListener('mouseenter', () => { yearsTip.style.display = 'block'; window.markEggFound?.('years-tooltip'); });
     yearsEgg.addEventListener('mouseleave', () => yearsTip.style.display = 'none');
   </script>
 
@@ -238,7 +238,7 @@ import ProjectCard from '../components/ProjectCard.astro';
   <script>
     const egg = document.querySelector('.boundary-egg');
     const tip = document.querySelector('.boundary-tip');
-    egg.addEventListener('mouseenter', () => tip.style.display = 'block');
+    egg.addEventListener('mouseenter', () => { tip.style.display = 'block'; window.markEggFound?.('boundary-hover'); });
     egg.addEventListener('mouseleave', () => tip.style.display = 'none');
   </script>
 
@@ -251,6 +251,7 @@ import ProjectCard from '../components/ProjectCard.astro';
         const msg = document.getElementById('triple-click-msg');
         msg.style.opacity = '1';
         setTimeout(() => { msg.style.opacity = '0'; }, 3000);
+        window.markEggFound?.('triple-click');
         clicks = 0;
       }
     });

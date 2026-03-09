@@ -48,6 +48,7 @@ const { ...props } = Astro.props;
         if (!sessionStorage.getItem(key)) {
           sessionStorage.setItem(key, 'true');
           window.showToast("Eight minutes. You read every word. That's the kind of attention I try to give every problem too.");
+          window.markEggFound?.('case-study-8min');
         }
       }, 8 * 60 * 1000);
     })();
@@ -63,6 +64,7 @@ const { ...props } = Astro.props;
         if (atBottom && !sessionStorage.getItem(key)) {
           sessionStorage.setItem(key, 'true');
           window.showToast("You read the whole thing. That's rare. Thank you.");
+          window.markEggFound?.('case-study-bottom');
         }
       }, { passive: true });
     })();
@@ -93,6 +95,7 @@ const { ...props } = Astro.props;
             if (seen.length >= 2 && !localStorage.getItem('dd-hard-parts-shown')) {
               localStorage.setItem('dd-hard-parts-shown', 'true');
               window.showToast("You read the hard part twice. That's a good sign in a PM.");
+              window.markEggFound?.('hard-parts-twice');
             }
             observer.disconnect();
           }
@@ -129,7 +132,7 @@ const { ...props } = Astro.props;
             z-index: 100;
           `;
           h.appendChild(tip);
-          h.addEventListener('mouseenter', () => tip.style.display = 'block');
+          h.addEventListener('mouseenter', () => { tip.style.display = 'block'; window.markEggFound?.('difficulty-tooltip'); });
           h.addEventListener('mouseleave', () => tip.style.display = 'none');
         }
       });

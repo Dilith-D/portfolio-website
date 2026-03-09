@@ -84,6 +84,7 @@ import Base from '../layouts/Base.astro';
         if (!emailClicked && !sessionStorage.getItem('dd-contact-left')) {
           sessionStorage.setItem('dd-contact-left', 'true');
           window.showToast("Changed your mind? The email stays open. dilithdinesh007@gmail.com");
+          window.markEggFound?.('contact-leave');
         }
       }
       document.addEventListener('visibilitychange', () => {
@@ -97,7 +98,7 @@ import Base from '../layouts/Base.astro';
   <script>
     const emailEgg = document.querySelector('.email-egg');
     const emailTip = document.querySelector('.email-tip');
-    emailEgg.addEventListener('mouseenter', () => emailTip.style.display = 'block');
+    emailEgg.addEventListener('mouseenter', () => { emailTip.style.display = 'block'; window.markEggFound?.('email-tooltip'); });
     emailEgg.addEventListener('mouseleave', () => emailTip.style.display = 'none');
   </script>
 </Base>

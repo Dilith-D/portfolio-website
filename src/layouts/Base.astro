@@ -102,12 +102,59 @@ const ogImageURL = new URL(ogImage, Astro.site);
     };
   </script>
 
+  <!-- ── markEggFound — tracks discovered eggs, fires milestone toasts ── -->
+  <script>
+    window.markEggFound = function(id) {
+      const found = JSON.parse(localStorage.getItem('dd-found-eggs') || '[]');
+      if (!found.includes(id)) {
+        found.push(id);
+        localStorage.setItem('dd-found-eggs', JSON.stringify(found));
+
+        fetch('/easter-eggs.json')
+          .then(r => r.json())
+          .then(eggs => {
+            const total = eggs.length;
+
+            if (found.length === 3) {
+              setTimeout(() => {
+                window.showToast(
+                  "Damn. You've found 3 already. There are " + total + " hidden across this site. Keep going — or if you've tried everything, there's a line on the About page that knows the way."
+                );
+              }, 500);
+            }
+
+            if (found.length === 10) {
+              setTimeout(() => {
+                window.showToast("10 found. You're not browsing anymore. You're hunting.");
+              }, 500);
+            }
+
+            if (found.length === Math.floor(total / 2)) {
+              setTimeout(() => {
+                window.showToast("Halfway there. The second half is harder.");
+              }, 500);
+            }
+
+            if (found.length === total) {
+              setTimeout(() => {
+                window.showToast("You found all " + total + ". I genuinely did not expect anyone to do that.");
+              }, 500);
+            }
+          })
+          .catch(() => {});
+      }
+    };
+  </script>
+
   <!-- Fast reader toast (flag set by Prose on exit, shown here on next page load) -->
   <script>
     if (sessionStorage.getItem('fast-read-pending')) {
       sessionStorage.removeItem('fast-read-pending');
       window.addEventListener('DOMContentLoaded', () => {
-        setTimeout(() => window.showToast('That was fast. Some of this deserved more time.'), 800);
+        setTimeout(() => {
+          window.showToast('That was fast. Some of this deserved more time.');
+          window.markEggFound?.('fast-reader');
+        }, 800);
       });
     }
   </script>
@@ -146,6 +193,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
           hero.style.color = '#2D5BE3';
           setTimeout(() => { hero.style.color = ''; }, 2000);
         }
+        window.markEggFound?.('product-type');
         typed = '';
       }
     });
@@ -160,6 +208,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
         if (sessionStorage.getItem('idle-shown')) return;
         sessionStorage.setItem('idle-shown', 'true');
         window.showToast("Still reading? Good. Most people don't get this far.");
+        window.markEggFound?.('idle-5min');
       }
       function resetTimer() {
         clearTimeout(timer);
@@ -177,6 +226,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
     document.addEventListener('copy', () => {
       const selection = window.getSelection()?.toString();
       if (!selection || selection.length < 10) return;
+      window.markEggFound?.('clipboard');
       setTimeout(() => {
         navigator.clipboard.writeText(selection + ' — dilithdinesh.com').catch(() => {});
       }, 100);
@@ -189,7 +239,10 @@ const ogImageURL = new URL(ogImage, Astro.site);
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        if (window.innerWidth === 420) window.showToast('Nice. You resize browser windows too.');
+        if (window.innerWidth === 420) {
+          window.showToast('Nice. You resize browser windows too.');
+          window.markEggFound?.('viewport-420');
+        }
       }, 200);
     });
   </script>
@@ -219,6 +272,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
       `;
       menu.innerText = 'Looking for the source? github.com/Dilith-D/portfolio-website';
       document.body.appendChild(menu);
+      window.markEggFound?.('right-click');
       menu.addEventListener('click', () => {
         window.open('https://github.com/Dilith-D/portfolio-website', '_blank');
         menu.remove();
@@ -232,9 +286,12 @@ const ogImageURL = new URL(ogImage, Astro.site);
   <script>
     const originalTitle = document.title;
     document.addEventListener('visibilitychange', () => {
-      document.title = document.visibilityState === 'hidden'
-        ? 'Come back when you\'re ready 👋'
-        : originalTitle;
+      if (document.visibilityState === 'hidden') {
+        document.title = 'Come back when you\'re ready 👋';
+        window.markEggFound?.('tab-blur');
+      } else {
+        document.title = originalTitle;
+      }
     });
   </script>
 
@@ -251,6 +308,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
         if (Date.now() - arrival >= 4 * 60 * 1000) {
           shown = true;
           window.showToast("Four minutes on a first visit. You're a deep reader. I write for people like you.");
+          window.markEggFound?.('deep-reader');
         }
       }
       setInterval(check, 10000);
@@ -263,7 +321,10 @@ const ogImageURL = new URL(ogImage, Astro.site);
       const isHome = window.location.pathname === '/';
       const visited = localStorage.getItem('dd-visited');
       if (isHome && visited) {
-        setTimeout(() => window.showToast("You came back. Something must have stuck."), 3000);
+        setTimeout(() => {
+          window.showToast("You came back. Something must have stuck.");
+          window.markEggFound?.('return-visitor');
+        }, 3000);
       }
       if (isHome) localStorage.setItem('dd-visited', 'true');
     })();
@@ -278,17 +339,17 @@ const ogImageURL = new URL(ogImage, Astro.site);
 
       if (hour >= 0 && hour < 5 && !sessionStorage.getItem('dd-night')) {
         sessionStorage.setItem('dd-night', 'true');
-        setTimeout(() => window.showToast("It's late. Whatever you're working on — good luck."), 2000);
+        setTimeout(() => { window.showToast("It's late. Whatever you're working on — good luck."); window.markEggFound?.('night-owl'); }, 2000);
         return;
       }
       if (day === 1 && hour >= 8 && hour < 10 && isHome && !sessionStorage.getItem('dd-monday')) {
         sessionStorage.setItem('dd-monday', 'true');
-        setTimeout(() => window.showToast("Monday morning. Evaluating options? So am I."), 2000);
+        setTimeout(() => { window.showToast("Monday morning. Evaluating options? So am I."); window.markEggFound?.('monday-morning'); }, 2000);
         return;
       }
       if (day === 5 && hour >= 17 && hour < 21 && isHome && !sessionStorage.getItem('dd-friday')) {
         sessionStorage.setItem('dd-friday', 'true');
-        setTimeout(() => window.showToast("Hiring decisions on a Friday? Respect the dedication."), 2000);
+        setTimeout(() => { window.showToast("Hiring decisions on a Friday? Respect the dedication."); window.markEggFound?.('friday-evening'); }, 2000);
         return;
       }
     })();
@@ -308,7 +369,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
       }
       if (pages.every(p => seen.includes(p))) {
         sessionStorage.setItem('dd-all-pages', 'true');
-        setTimeout(() => window.showToast("You've seen everything. Most people don't. I hope something was worth it."), 1500);
+        setTimeout(() => { window.showToast("You've seen everything. Most people don't. I hope something was worth it."); window.markEggFound?.('all-pages'); }, 1500);
       }
     })();
   </script>
@@ -324,6 +385,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
         if (logoClicks === 3) {
           logoClicks = 0;
           window.showToast("Three times home. Looking for something specific? dilithdinesh007@gmail.com");
+          window.markEggFound?.('logo-clicks');
         }
       });
     })();
@@ -340,6 +402,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
           if (tabCount === 3) {
             sessionStorage.setItem('dd-keyboard', 'true');
             window.showToast("Keyboard navigation. Accessibility-first thinking. Respect.");
+            window.markEggFound?.('keyboard-nav');
           }
         }
       });
@@ -355,6 +418,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
         if (selection && selection.length >= 80) {
           sessionStorage.setItem('dd-selection', 'true');
           window.showToast("Found something worth keeping? I'd love to know what. dilithdinesh007@gmail.com");
+          window.markEggFound?.('text-selection');
         }
       });
     })();
@@ -381,7 +445,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
         wrapHonest(document.body);
         document.querySelectorAll('.honest-egg').forEach(egg => {
           const tip = egg.querySelector('.honest-tip');
-          egg.addEventListener('mouseenter', () => tip.style.display = 'block');
+          egg.addEventListener('mouseenter', () => { tip.style.display = 'block'; window.markEggFound?.('honest-hover'); });
           egg.addEventListener('mouseleave', () => tip.style.display = 'none');
         });
       });

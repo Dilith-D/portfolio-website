@@ -24,6 +24,7 @@ import Base from '../layouts/Base.astro';
       document.getElementById('last-updated-trigger').addEventListener('click', () => {
         const detail = document.getElementById('last-updated-detail');
         detail.style.display = detail.style.display === 'none' ? 'inline' : 'none';
+        window.markEggFound?.('now-date-reveal');
       });
     </script>
 
@@ -128,6 +129,7 @@ import Base from '../layouts/Base.astro';
         sessionStorage.setItem('dd-now', 'true');
         setTimeout(() => {
           window.showToast("You knew to look for a Now page. That tells me something about you.");
+          window.markEggFound?.('now-direct');
         }, 2000);
       }
     })();

@@ -5,16 +5,16 @@ interface Props {
   stack: string[];
   year: string;
   slug: string;
+  liveUrl?: string;
 }
 
-const { title, problem, stack, year, slug } = Astro.props;
+const { title, problem, stack, year, slug, liveUrl } = Astro.props;
 
 const stackLabel = stack.map(s => s.toUpperCase()).join('  ·  ');
 ---
 
-<a
-  href={`/projects/${slug}`}
-  class="group block bg-surface border border-border rounded-lg p-8 cursor-pointer
+<div
+  class="group bg-surface border border-border rounded-lg p-8
          transition-all duration-200 ease-in-out
          hover:border-primary hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
 >
@@ -30,10 +30,29 @@ const stackLabel = stack.map(s => s.toUpperCase()).join('  ·  ');
     {problem}
   </p>
 
-  <p class="font-body text-sm font-medium text-primary mt-6 inline-flex items-center gap-1">
-    See how I built it
-    <span class="inline-block transition-transform duration-150 ease-in-out group-hover:translate-x-1">
-      &rarr;
-    </span>
-  </p>
-</a>
+  <div class="mt-6 flex flex-col gap-3">
+    <a
+      href={`/projects/${slug}`}
+      class="group/link font-body text-sm font-medium text-primary inline-flex items-center gap-1"
+    >
+      See how I built it
+      <span class="inline-block transition-transform duration-150 ease-in-out group-hover/link:translate-x-1">
+        &rarr;
+      </span>
+    </a>
+
+    {liveUrl && (
+      <a
+        href={liveUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group/live font-body text-sm font-medium text-primary inline-flex items-center gap-1"
+      >
+        Try it live
+        <span class="inline-block transition-transform duration-150 ease-in-out group-hover/live:translate-x-1">
+          &rarr;
+        </span>
+      </a>
+    )}
+  </div>
+</div>

@@ -71,3 +71,11 @@ The Neumorphic design system in D-Chat was a mistake I made by not thinking far 
 On scope: groups were the right call, but I built them the day after launch because I needed them immediately, not because I'd thought them through. The architecture held up. I got lucky. I'd spend one more hour upfront mapping where the product could go before I needed groups, and decide intentionally rather than urgently.
 
 The name D-Chat was fine for a personal tool. Spending a few more minutes on it before the first commit would have saved the rename cost later.
+
+---
+
+## Try it out
+
+Iris is live. Open it on any device, generate a code, and send something to yourself.
+
+<a href="https://d-chat.lovable.app" target="_blank" rel="noopener noreferrer">Open Iris →</a>

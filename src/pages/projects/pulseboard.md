@@ -59,3 +59,11 @@ The lesson: for any app that generates insights from logged data, start with the
 I also built the AI summary feature too early. It was the most satisfying feature to demo — watching it generate a paragraph from a week of logs felt like proof the thing worked. But I used that satisfaction as a reason to stop building rather than a reason to keep asking questions. The summary feature was impressive before it was useful. I'd swap that order.
 
 Small thing: the name. Pulseboard captures the "reflection system" idea reasonably well. I'd think harder about it next time. Names are cheaper to change before launch than after.
+
+---
+
+## Try it out
+
+Pulseboard is live. Log a week of work and see what the summary surfaces.
+
+<a href="https://pulseboards.lovable.app/" target="_blank" rel="noopener noreferrer">Open Pulseboard →</a>

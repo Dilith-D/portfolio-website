@@ -83,8 +83,7 @@ import Base from '../layouts/Base.astro';
       function maybeShow() {
         if (!emailClicked && !sessionStorage.getItem('dd-contact-left')) {
           sessionStorage.setItem('dd-contact-left', 'true');
-          window.showToast("Changed your mind? The email stays open. dilithdinesh007@gmail.com");
-          window.markEggFound?.('contact-leave');
+          window.markEggFound?.('contact-leave', "Changed your mind? The email stays open. dilithdinesh007@gmail.com");
         }
       }
       document.addEventListener('visibilitychange', () => {

@@ -128,8 +128,7 @@ import Base from '../layouts/Base.astro';
       if (!fromInternal) {
         sessionStorage.setItem('dd-now', 'true');
         setTimeout(() => {
-          window.showToast("You knew to look for a Now page. That tells me something about you.");
-          window.markEggFound?.('now-direct');
+          window.markEggFound?.('now-direct', "You knew to look for a Now page. That tells me something about you.");
         }, 2000);
       }
     })();

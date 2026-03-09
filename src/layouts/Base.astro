@@ -75,49 +75,67 @@ const ogImageURL = new URL(ogImage, Astro.site);
 
   <!-- ── Toast helper — defined first, all egg scripts call window.showToast() ── -->
   <script>
-    window.showToast = function(message) {
-      const toast = document.createElement('div');
-      toast.innerText = message;
-      toast.style.cssText = `
-        position: fixed;
-        bottom: 32px;
-        left: 50%;
-        transform: translateX(-50%) translateY(80px);
-        background: #1A1A1A;
-        color: #F9F7F4;
-        font-family: 'Inter', sans-serif;
-        font-size: 14px;
-        line-height: 1.5;
-        padding: 12px 24px;
-        border-radius: 6px;
-        z-index: 9999;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-        transition: transform 300ms ease, opacity 300ms ease;
-        opacity: 0;
-        pointer-events: none;
-        max-width: 420px;
-        text-align: center;
-      `;
-      document.body.appendChild(toast);
-      requestAnimationFrame(() => {
-        toast.style.transform = 'translateX(-50%) translateY(0)';
-        toast.style.opacity = '1';
-      });
-      setTimeout(() => {
-        toast.style.transform = 'translateX(-50%) translateY(80px)';
-        toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 300);
-      }, 4000);
+    window.showToast = function(message, delay, isIntro) {
+      delay = delay || 0;
+      isIntro = isIntro || false;
+      setTimeout(function() {
+        const toast = document.createElement('div');
+        toast.innerText = message;
+        toast.style.cssText = `
+          position: fixed;
+          bottom: 32px;
+          left: 50%;
+          transform: translateX(-50%) translateY(80px);
+          background: #1A1A1A;
+          color: #F9F7F4;
+          font-family: 'Inter', sans-serif;
+          font-size: 14px;
+          line-height: 1.5;
+          padding: 12px 24px;
+          border-radius: 6px;
+          z-index: 9999;
+          box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+          transition: transform 300ms ease, opacity 300ms ease;
+          opacity: 0;
+          pointer-events: none;
+          max-width: 420px;
+          text-align: center;
+        `;
+        if (isIntro) {
+          toast.style.borderLeft = '3px solid #2D5BE3';
+          toast.style.paddingLeft = '21px';
+        }
+        document.body.appendChild(toast);
+        requestAnimationFrame(() => {
+          toast.style.transform = 'translateX(-50%) translateY(0)';
+          toast.style.opacity = '1';
+        });
+        setTimeout(() => {
+          toast.style.transform = 'translateX(-50%) translateY(80px)';
+          toast.style.opacity = '0';
+          setTimeout(() => toast.remove(), 300);
+        }, 4000);
+      }, delay);
     };
   </script>
 
-  <!-- ── markEggFound — tracks discovered eggs, fires milestone toasts ── -->
+  <!-- ── markEggFound — tracks discovered eggs, fires intro + milestone toasts ── -->
   <script>
-    window.markEggFound = function(id) {
+    window.markEggFound = function(id, message) {
       const found = JSON.parse(localStorage.getItem('dd-found-eggs') || '[]');
       if (!found.includes(id)) {
         found.push(id);
         localStorage.setItem('dd-found-eggs', JSON.stringify(found));
+
+        const introShown = localStorage.getItem('dd-egg-intro-shown');
+
+        if (!introShown) {
+          localStorage.setItem('dd-egg-intro-shown', 'true');
+          window.showToast("This site has easter eggs hidden in it. You just found one.", 0, true);
+          if (message) window.showToast(message, 4800);
+        } else {
+          if (message) window.showToast(message, 0);
+        }
 
         fetch('/easter-eggs.json')
           .then(r => r.json())
@@ -161,8 +179,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
       sessionStorage.removeItem('fast-read-pending');
       window.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
-          window.showToast('That was fast. Some of this deserved more time.');
-          window.markEggFound?.('fast-reader');
+          window.markEggFound?.('fast-reader', 'That was fast. Some of this deserved more time.');
         }, 800);
       });
     }
@@ -216,8 +233,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
       function fireIdle() {
         if (sessionStorage.getItem('idle-shown')) return;
         sessionStorage.setItem('idle-shown', 'true');
-        window.showToast("Still reading? Good. Most people don't get this far.");
-        window.markEggFound?.('idle-5min');
+        window.markEggFound?.('idle-5min', "Still reading? Good. Most people don't get this far.");
       }
       function resetTimer() {
         clearTimeout(timer);
@@ -249,8 +265,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
         if (window.innerWidth === 420) {
-          window.showToast('Nice. You resize browser windows too.');
-          window.markEggFound?.('viewport-420');
+          window.markEggFound?.('viewport-420', 'Nice. You resize browser windows too.');
         }
       }, 200);
     });
@@ -316,8 +331,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
         if (shown) return;
         if (Date.now() - arrival >= 4 * 60 * 1000) {
           shown = true;
-          window.showToast("Four minutes on a first visit. You're a deep reader. I write for people like you.");
-          window.markEggFound?.('deep-reader');
+          window.markEggFound?.('deep-reader', "Four minutes on a first visit. You're a deep reader. I write for people like you.");
         }
       }
       setInterval(check, 10000);
@@ -331,8 +345,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
       const visited = localStorage.getItem('dd-visited');
       if (isHome && visited) {
         setTimeout(() => {
-          window.showToast("You came back. Something must have stuck.");
-          window.markEggFound?.('return-visitor');
+          window.markEggFound?.('return-visitor', "You came back. Something must have stuck.");
         }, 3000);
       }
       if (isHome) localStorage.setItem('dd-visited', 'true');
@@ -348,17 +361,17 @@ const ogImageURL = new URL(ogImage, Astro.site);
 
       if (hour >= 0 && hour < 5 && !sessionStorage.getItem('dd-night')) {
         sessionStorage.setItem('dd-night', 'true');
-        setTimeout(() => { window.showToast("It's late. Whatever you're working on — good luck."); window.markEggFound?.('night-owl'); }, 2000);
+        setTimeout(() => { window.markEggFound?.('night-owl', "It's late. Whatever you're working on — good luck."); }, 2000);
         return;
       }
       if (day === 1 && hour >= 8 && hour < 10 && isHome && !sessionStorage.getItem('dd-monday')) {
         sessionStorage.setItem('dd-monday', 'true');
-        setTimeout(() => { window.showToast("Monday morning. Evaluating options? So am I."); window.markEggFound?.('monday-morning'); }, 2000);
+        setTimeout(() => { window.markEggFound?.('monday-morning', "Monday morning. Evaluating options? So am I."); }, 2000);
         return;
       }
       if (day === 5 && hour >= 17 && hour < 21 && isHome && !sessionStorage.getItem('dd-friday')) {
         sessionStorage.setItem('dd-friday', 'true');
-        setTimeout(() => { window.showToast("Hiring decisions on a Friday? Respect the dedication."); window.markEggFound?.('friday-evening'); }, 2000);
+        setTimeout(() => { window.markEggFound?.('friday-evening', "Hiring decisions on a Friday? Respect the dedication."); }, 2000);
         return;
       }
     })();
@@ -378,7 +391,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
       }
       if (pages.every(p => seen.includes(p))) {
         sessionStorage.setItem('dd-all-pages', 'true');
-        setTimeout(() => { window.showToast("You've seen everything. Most people don't. I hope something was worth it."); window.markEggFound?.('all-pages'); }, 1500);
+        setTimeout(() => { window.markEggFound?.('all-pages', "You've seen everything. Most people don't. I hope something was worth it."); }, 1500);
       }
     })();
   </script>
@@ -393,8 +406,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
         logoClicks++;
         if (logoClicks === 3) {
           logoClicks = 0;
-          window.showToast("Three times home. Looking for something specific? dilithdinesh007@gmail.com");
-          window.markEggFound?.('logo-clicks');
+          window.markEggFound?.('logo-clicks', "Three times home. Looking for something specific? dilithdinesh007@gmail.com");
         }
       });
     })();
@@ -410,8 +422,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
           tabCount++;
           if (tabCount === 3) {
             sessionStorage.setItem('dd-keyboard', 'true');
-            window.showToast("Keyboard navigation. Accessibility-first thinking. Respect.");
-            window.markEggFound?.('keyboard-nav');
+            window.markEggFound?.('keyboard-nav', "Keyboard navigation. Accessibility-first thinking. Respect.");
           }
         }
       });
@@ -426,8 +437,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
         const selection = window.getSelection()?.toString().trim();
         if (selection && selection.length >= 80) {
           sessionStorage.setItem('dd-selection', 'true');
-          window.showToast("Found something worth keeping? I'd love to know what. dilithdinesh007@gmail.com");
-          window.markEggFound?.('text-selection');
+          window.markEggFound?.('text-selection', "Found something worth keeping? I'd love to know what. dilithdinesh007@gmail.com");
         }
       });
     })();

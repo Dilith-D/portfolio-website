@@ -257,8 +257,7 @@ import Base from '../layouts/Base.astro';
       setTimeout(() => {
         if (!sessionStorage.getItem('dd-about-long')) {
           sessionStorage.setItem('dd-about-long', 'true');
-          window.showToast("You stayed longer than the read time. I'm curious what you were thinking about.");
-          window.markEggFound?.('about-overread');
+          window.markEggFound?.('about-overread', "You stayed longer than the read time. I'm curious what you were thinking about.");
         }
       }, 630 * 1000);
     })();

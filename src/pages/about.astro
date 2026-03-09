@@ -153,7 +153,7 @@ import Base from '../layouts/Base.astro';
 
       <p class="font-prose text-lg leading-reading text-primary mt-6">
         One other thing worth mentioning — I have
-        a habit of hiding easter eggs in internal
+        a habit of hiding <span id="about-egg-trigger">easter eggs</span> in internal
         tools I build. Admin panels that only reveal
         themselves after a specific sequence of
         clicks. Riddles instead of login screens.
@@ -228,9 +228,18 @@ import Base from '../layouts/Base.astro';
 
   </div>
 
-  <!-- Highlight "easter eggs" or "magic" to get the Chamber of Secrets toast -->
+  <!-- "easter eggs" or "magic" selection → Chamber of Secrets toast; triple-click → /secret -->
   <script>
     (function() {
+      // Triple-click the words "easter eggs" → navigate to /secret
+      const trigger = document.getElementById('about-egg-trigger');
+      if (trigger) {
+        trigger.addEventListener('click', (e) => {
+          if (e.detail === 3) window.location.href = '/secret';
+        });
+      }
+
+      // Highlight "easter eggs" or "magic" anywhere on the page → toast
       document.addEventListener('mouseup', () => {
         const selection = window.getSelection()?.toString().trim().toLowerCase();
         if (!selection) return;

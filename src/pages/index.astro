@@ -16,12 +16,16 @@ import ProjectCard from '../components/ProjectCard.astro';
     <section class="pt-[120px] pb-[120px] border-b border-border">
       <div class="max-w-[740px]">
         <h1 class="font-display text-[64px] font-semibold leading-none text-primary">
-          Dilith Dinesh
+          <span id="hero-name" style="cursor:default;">Dilith Dinesh</span>
         </h1>
 
-        <p class="font-display text-[32px] font-medium leading-snug text-primary mt-6">
-          Product operator at the boundary between<br />
+        <p class="hero-tagline font-display text-[32px] font-medium leading-snug text-primary mt-6">
+          Product operator at the <span class="boundary-egg" style="position:relative; cursor:help; text-decoration-line:underline; text-underline-offset:3px; text-decoration-style:dotted;">boundary<span class="boundary-tip" style="display:none; position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:#1A1A1A; color:#F9F7F4; font-size:13px; font-family:'Inter',sans-serif; white-space:nowrap; padding:6px 12px; border-radius:4px; pointer-events:none; z-index:100;">This is where the interesting problems live.</span></span> between<br />
           customer reality and product systems.
+        </p>
+
+        <p id="triple-click-msg" class="font-body text-sm text-secondary italic mt-3" style="opacity:0; transition:opacity 300ms ease;">
+          Three clicks. You're either very bored or very thorough. Either way — hello.
         </p>
 
         <p class="font-body text-base leading-relaxed text-secondary mt-6">
@@ -220,5 +224,28 @@ import ProjectCard from '../components/ProjectCard.astro';
     </section>
 
   </div>
+
+
+  <!-- Easter Egg 2: boundary tooltip -->
+  <script>
+    const egg = document.querySelector('.boundary-egg');
+    const tip = document.querySelector('.boundary-tip');
+    egg.addEventListener('mouseenter', () => tip.style.display = 'block');
+    egg.addEventListener('mouseleave', () => tip.style.display = 'none');
+  </script>
+
+  <!-- Easter Egg 7: triple-click hero name -->
+  <script>
+    let clicks = 0;
+    document.getElementById('hero-name').addEventListener('click', () => {
+      clicks++;
+      if (clicks === 3) {
+        const msg = document.getElementById('triple-click-msg');
+        msg.style.opacity = '1';
+        setTimeout(() => { msg.style.opacity = '0'; }, 3000);
+        clicks = 0;
+      }
+    });
+  </script>
 
 </Base>

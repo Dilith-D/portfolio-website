@@ -19,5 +19,18 @@ import Base from '../layouts/Base.astro';
     >
       ← Back home
     </a>
+
+    <p id="riddle-q" style="margin-top:32px; font-family:'Inter',sans-serif; font-size:14px; color:#6B6B6B; cursor:pointer;">
+      Or: what has inputs, outputs, and gets ignored until it breaks? <span style="opacity:0.5;">(click to reveal)</span>
+    </p>
+    <p id="riddle-answer" style="margin-top:8px; font-family:'Inter',sans-serif; font-size:14px; color:#6B6B6B; opacity:0; transition:opacity 300ms ease;">
+      A system. Also, most PRDs.
+    </p>
   </div>
+
+  <script>
+    document.getElementById('riddle-q').addEventListener('click', () => {
+      document.getElementById('riddle-answer').style.opacity = '1';
+    });
+  </script>
 </Base>

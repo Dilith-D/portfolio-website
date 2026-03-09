@@ -63,5 +63,31 @@ const ogImageURL = new URL(ogImage, Astro.site);
       <slot />
     </main>
     <Footer />
+
+  <!-- Easter Egg 1: Console message -->
+  <script>
+    console.log("%cHey.", "font-size: 24px; font-weight: bold; color: #2D5BE3;");
+    console.log("%cYou opened the console. That's exactly the kind of thing I'd do too.", "font-size: 14px; color: #6B6B6B;");
+    console.log("%cdilithdinesh007@gmail.com", "font-size: 14px; color: #1A1A1A; font-weight: bold;");
+  </script>
+
+  <!-- Easter Egg 5: Type "product" to pulse hero tagline -->
+  <script>
+    let typed = '';
+    document.addEventListener('keydown', (e) => {
+      typed += e.key.toLowerCase();
+      if (typed.length > 7) typed = typed.slice(-7);
+      if (typed.includes('product')) {
+        const hero = document.querySelector('.hero-tagline');
+        if (hero) {
+          hero.style.transition = 'color 200ms ease';
+          hero.style.color = '#2D5BE3';
+          setTimeout(() => { hero.style.color = ''; }, 2000);
+        }
+        typed = '';
+      }
+    });
+  </script>
+
   </body>
 </html>

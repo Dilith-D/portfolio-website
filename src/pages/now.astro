@@ -118,4 +118,18 @@ import Base from '../layouts/Base.astro';
     </section>
 
   </div>
+
+  <!-- Direct /now navigation toast -->
+  <script>
+    (function() {
+      if (sessionStorage.getItem('dd-now')) return;
+      const fromInternal = document.referrer.includes('dilithdinesh.com');
+      if (!fromInternal) {
+        sessionStorage.setItem('dd-now', 'true');
+        setTimeout(() => {
+          window.showToast("You knew to look for a Now page. That tells me something about you.");
+        }, 2000);
+      }
+    })();
+  </script>
 </Base>

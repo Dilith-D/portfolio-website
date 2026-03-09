@@ -38,4 +38,101 @@ const { ...props } = Astro.props;
       More work &rarr;
     </a>
   </nav>
+
+  <!-- 8 minutes on page -->
+  <script>
+    (function() {
+      const key = 'dd-8min-' + window.location.pathname;
+      if (sessionStorage.getItem(key)) return;
+      setTimeout(() => {
+        if (!sessionStorage.getItem(key)) {
+          sessionStorage.setItem(key, 'true');
+          window.showToast("Eight minutes. You read every word. That's the kind of attention I try to give every problem too.");
+        }
+      }, 8 * 60 * 1000);
+    })();
+  </script>
+
+  <!-- Scroll to bottom -->
+  <script>
+    (function() {
+      const key = 'dd-bottom-' + window.location.pathname;
+      if (sessionStorage.getItem(key)) return;
+      window.addEventListener('scroll', () => {
+        const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 50;
+        if (atBottom && !sessionStorage.getItem(key)) {
+          sessionStorage.setItem(key, 'true');
+          window.showToast("You read the whole thing. That's rare. Thank you.");
+        }
+      }, { passive: true });
+    })();
+  </script>
+
+  <!-- "What I'd do differently" section tracker -->
+  <script>
+    (function() {
+      if (localStorage.getItem('dd-hard-parts-shown')) return;
+      const headings = document.querySelectorAll('h2, h3');
+      let targetHeading = null;
+      headings.forEach(h => {
+        if (h.textContent.toLowerCase().includes("what i'd do differently") ||
+            h.textContent.toLowerCase().includes("what i would do differently")) {
+          targetHeading = h;
+        }
+      });
+      if (!targetHeading) return;
+      const slug = window.location.pathname;
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            let seen = JSON.parse(localStorage.getItem('dd-hard-parts') || '[]');
+            if (!seen.includes(slug)) {
+              seen.push(slug);
+              localStorage.setItem('dd-hard-parts', JSON.stringify(seen));
+            }
+            if (seen.length >= 2 && !localStorage.getItem('dd-hard-parts-shown')) {
+              localStorage.setItem('dd-hard-parts-shown', 'true');
+              window.showToast("You read the hard part twice. That's a good sign in a PM.");
+            }
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.5 });
+      observer.observe(targetHeading);
+    })();
+  </script>
+
+  <!-- "What I'd do differently" heading tooltip -->
+  <script>
+    (function() {
+      const headings = document.querySelectorAll('h2, h3');
+      headings.forEach(h => {
+        if (h.textContent.toLowerCase().includes("what i'd do differently")) {
+          h.style.position = 'relative';
+          h.style.cursor = 'help';
+          const tip = document.createElement('span');
+          tip.innerText = 'This section took the longest to write.';
+          tip.style.cssText = `
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 0;
+            background: #1A1A1A;
+            color: #F9F7F4;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            white-space: nowrap;
+            padding: 6px 12px;
+            border-radius: 4px;
+            pointer-events: none;
+            z-index: 100;
+          `;
+          h.appendChild(tip);
+          h.addEventListener('mouseenter', () => tip.style.display = 'block');
+          h.addEventListener('mouseleave', () => tip.style.display = 'none');
+        }
+      });
+    })();
+  </script>
 </Prose>

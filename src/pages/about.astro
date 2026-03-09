@@ -224,4 +224,17 @@ import Base from '../layouts/Base.astro';
     </section>
 
   </div>
+
+  <!-- About page over-read timer (630s = 105% of 10min estimated read) -->
+  <script>
+    (function() {
+      if (sessionStorage.getItem('dd-about-long')) return;
+      setTimeout(() => {
+        if (!sessionStorage.getItem('dd-about-long')) {
+          sessionStorage.setItem('dd-about-long', 'true');
+          window.showToast("You stayed longer than the read time. I'm curious what you were thinking about.");
+        }
+      }, 630 * 1000);
+    })();
+  </script>
 </Base>

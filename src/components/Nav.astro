@@ -49,10 +49,10 @@ function isActive(href: string) {
         ))}
       </nav>
 
-      <!-- Theme toggle -->
+      <!-- Theme toggle — desktop only -->
       <button
         id="theme-toggle"
-        class="flex items-center text-secondary hover:text-primary transition-colors duration-150"
+        class="hidden md:flex items-center text-secondary hover:text-primary transition-colors duration-150"
         aria-label="Toggle dark mode"
       >
         <!-- Moon icon: shown in light mode -->
@@ -96,43 +96,23 @@ function isActive(href: string) {
          opacity-0 pointer-events-none transition-opacity duration-200"
   aria-hidden="true"
 >
-  <div class="absolute top-5 right-6 flex items-center gap-4">
-    <!-- Theme toggle (mobile overlay) -->
-    <button
-      id="theme-toggle-mobile"
-      class="flex items-center text-secondary hover:text-primary transition-colors duration-150"
-      aria-label="Toggle dark mode"
-    >
-      <svg id="icon-moon-mobile" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
-      </svg>
-      <svg id="icon-sun-mobile" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="hidden">
-        <circle cx="10" cy="10" r="3" fill="currentColor"/>
-        <line x1="10" y1="1"  x2="10" y2="3"  stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="10" y1="17" x2="10" y2="19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="1"  y1="10" x2="3"  y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="17" y1="10" x2="19" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="3.22"  y1="3.22"  x2="4.64"  y2="4.64"  stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="15.36" y1="15.36" x2="16.78" y2="16.78" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="3.22"  y1="16.78" x2="4.64"  y2="15.36" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        <line x1="15.36" y1="4.64"  x2="16.78" y2="3.22"  stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </button>
-
-    <button
-      id="close-menu"
-      class="p-2 text-primary font-body text-sm"
-      aria-label="Close menu"
-    >
-      Close
-    </button>
-  </div>
+  <!-- Close button — X icon, top right -->
+  <button
+    id="close-menu"
+    class="absolute top-4 right-6 p-2 text-primary"
+    aria-label="Close menu"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
 
   <nav class="flex flex-col items-center gap-8" aria-label="Mobile primary">
     {navLinks.map(({ href, label }) => (
       <a
         href={href}
-        class="font-display text-4xl text-primary hover:text-accent transition-colors duration-150"
+        class="mobile-nav-link font-display text-4xl text-primary hover:text-accent transition-colors duration-150"
       >
         {label}
       </a>
@@ -141,74 +121,66 @@ function isActive(href: string) {
 </div>
 
 <script>
-  const nav        = document.getElementById('nav')!;
-  const hamburger  = document.getElementById('hamburger')!;
-  const mobileMenu = document.getElementById('mobile-menu')!;
-  const closeBtn   = document.getElementById('close-menu')!;
-  const bar1 = document.getElementById('bar1')!;
-  const bar2 = document.getElementById('bar2')!;
-  const bar3 = document.getElementById('bar3')!;
+  document.addEventListener('DOMContentLoaded', () => {
+    const nav        = document.getElementById('nav')!;
+    const hamburger  = document.getElementById('hamburger')!;
+    const mobileMenu = document.getElementById('mobile-menu')!;
+    const closeBtn   = document.getElementById('close-menu')!;
 
-  // ── Scroll → nav background (uses CSS vars so dark mode works) ──
-  function updateNav() {
-    if (window.scrollY > 10) {
-      nav.style.backgroundColor = 'var(--color-background, #F9F7F4)';
-      nav.style.borderBottom = '1px solid var(--color-border, #E5E1DB)';
-    } else {
-      nav.style.backgroundColor = 'transparent';
-      nav.style.borderBottom = 'none';
+    // ── Scroll → nav background ──────────────────────────────────────
+    function updateNav() {
+      if (window.scrollY > 10) {
+        nav.style.backgroundColor = 'var(--color-background, #F9F7F4)';
+        nav.style.borderBottom = '1px solid var(--color-border, #E5E1DB)';
+      } else {
+        nav.style.backgroundColor = 'transparent';
+        nav.style.borderBottom = 'none';
+      }
     }
-  }
-  window.addEventListener('scroll', updateNav, { passive: true });
-  updateNav();
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
 
-  // ── Mobile menu ──────────────────────────────────────────────────
-  function openMenu() {
-    mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
-    mobileMenu.setAttribute('aria-hidden', 'false');
-    hamburger.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
-  }
+    // ── Mobile menu ──────────────────────────────────────────────────
+    function openMobileMenu() {
+      mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+      mobileMenu.setAttribute('aria-hidden', 'false');
+      hamburger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
 
-  function closeMenu() {
-    mobileMenu.classList.add('opacity-0', 'pointer-events-none');
-    mobileMenu.setAttribute('aria-hidden', 'true');
-    hamburger.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
-  }
+    function closeMobileMenu() {
+      mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
 
-  hamburger.addEventListener('click', openMenu);
-  closeBtn.addEventListener('click', closeMenu);
-  mobileMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
+    hamburger.addEventListener('click', openMobileMenu);
+    closeBtn.addEventListener('click', closeMobileMenu);
 
-  // ── Dark mode toggle ─────────────────────────────────────────────
-  const themeToggle       = document.getElementById('theme-toggle')!;
-  const themeToggleMobile = document.getElementById('theme-toggle-mobile')!;
-  const iconMoon          = document.getElementById('icon-moon')!;
-  const iconSun           = document.getElementById('icon-sun')!;
-  const iconMoonMobile    = document.getElementById('icon-moon-mobile')!;
-  const iconSunMobile     = document.getElementById('icon-sun-mobile')!;
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => closeMobileMenu());
+    });
 
-  function updateIcons() {
-    const isDark = document.documentElement.classList.contains('dark');
-    iconMoon.classList.toggle('hidden', isDark);
-    iconSun.classList.toggle('hidden', !isDark);
-    iconMoonMobile.classList.toggle('hidden', isDark);
-    iconSunMobile.classList.toggle('hidden', !isDark);
-  }
+    // ── Dark mode toggle (desktop only) ──────────────────────────────
+    const themeToggle = document.getElementById('theme-toggle')!;
+    const iconMoon    = document.getElementById('icon-moon')!;
+    const iconSun     = document.getElementById('icon-sun')!;
 
-  function toggleTheme() {
-    const isDark = document.documentElement.classList.toggle('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    function updateIcons() {
+      const isDark = document.documentElement.classList.contains('dark');
+      iconMoon.classList.toggle('hidden', isDark);
+      iconSun.classList.toggle('hidden', !isDark);
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateIcons();
+      updateNav();
+    }
+
+    themeToggle.addEventListener('click', toggleTheme);
     updateIcons();
-    updateNav(); // refresh nav bg colour for new theme
-  }
-
-  themeToggle.addEventListener('click', toggleTheme);
-  themeToggleMobile.addEventListener('click', toggleTheme);
-
-  // Sync icons with current theme (set by anti-flash script in <head>)
-  updateIcons();
+  });
 </script>

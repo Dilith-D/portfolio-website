@@ -1,0 +1,217 @@
+---
+---
+<div class="diagram-wrap">
+  <p class="diagram-label">Iris — Multi-Tenant Architecture</p>
+
+  <div class="top-row">
+    <div class="node node-light">Device A</div>
+    <div class="top-connector"></div>
+    <div class="node node-light">Device B / Trusted contact</div>
+  </div>
+
+  <div class="merge-down">
+    <div class="merge-left-line"></div>
+    <div class="merge-right-line"></div>
+  </div>
+
+  <div class="center-stack">
+    <div class="node node-blue" style="text-align:center;">
+      <div class="node-name">8-character pairing code</div>
+    </div>
+
+    <div class="v-line"></div>
+
+    <div class="node node-dark" style="text-align:center;">
+      <div class="node-name">Supabase backend</div>
+      <div class="node-sub">Per-tenant isolation · Encrypted API keys · Signed URL file storage</div>
+    </div>
+
+    <div class="v-line"></div>
+
+    <div class="node" style="text-align:center;">
+      <div class="node-name">n8n proxy layer</div>
+      <div class="node-sub-light">Validates tenant on every request · No API key exposed to frontend</div>
+    </div>
+  </div>
+
+  <div class="split-down">
+    <div class="split-left-line"></div>
+    <div class="split-right-line"></div>
+  </div>
+
+  <div class="bottom-row">
+    <div class="node node-light" style="text-align:center;">React 18 + TypeScript frontend</div>
+    <div class="bottom-spacer"></div>
+    <div class="node node-light" style="text-align:center;">7-day auto-expiry sessions</div>
+  </div>
+
+  <div class="bottom-note">
+    Each contractor is a fully isolated tenant. Frontend never touches an API key.
+  </div>
+</div>
+
+<style>
+  .diagram-wrap {
+    background: var(--color-surface);
+    border-radius: 8px;
+    padding: 32px 28px;
+    border-left: 2px solid var(--color-border);
+    margin: 2rem 0;
+    font-family: 'Inter', sans-serif;
+  }
+  .diagram-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-secondary);
+    margin-bottom: 24px;
+  }
+  .node {
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    background: var(--color-background);
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-primary);
+  }
+  .node-light {
+    background: var(--color-background);
+    flex: 1;
+    text-align: center;
+  }
+  .node-dark {
+    background: var(--color-primary);
+    color: #F9F7F4;
+    border-color: var(--color-primary);
+  }
+  .node-dark .node-sub {
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(249, 247, 244, 0.6);
+    margin-top: 4px;
+  }
+  .node-blue {
+    border-color: var(--color-blue);
+  }
+  .node-sub-light {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--color-secondary);
+    margin-top: 4px;
+  }
+  .node-name {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .top-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .top-connector {
+    height: 1px;
+    width: 32px;
+    background: var(--color-border);
+    flex-shrink: 0;
+  }
+  .merge-down {
+    display: flex;
+    height: 20px;
+    position: relative;
+  }
+  .merge-left-line {
+    position: absolute;
+    left: 25%;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: var(--color-border);
+  }
+  .merge-right-line {
+    position: absolute;
+    right: 25%;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: var(--color-border);
+  }
+  .center-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .v-line {
+    width: 1px;
+    height: 20px;
+    background: var(--color-border);
+    margin: 0 auto;
+  }
+  .split-down {
+    display: flex;
+    height: 20px;
+    position: relative;
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .split-left-line {
+    position: absolute;
+    left: 25%;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: var(--color-border);
+  }
+  .split-right-line {
+    position: absolute;
+    right: 25%;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: var(--color-border);
+  }
+  .bottom-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .bottom-spacer {
+    width: 32px;
+    flex-shrink: 0;
+  }
+  .bottom-note {
+    margin-top: 20px;
+    font-size: 11px;
+    color: var(--color-secondary);
+    text-align: center;
+    line-height: 1.5;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+  }
+  @media (max-width: 640px) {
+    .top-row {
+      flex-direction: column;
+    }
+    .top-connector {
+      width: 1px;
+      height: 16px;
+    }
+    .merge-down,
+    .split-down {
+      display: none;
+    }
+    .bottom-row {
+      flex-direction: column;
+    }
+    .bottom-spacer {
+      display: none;
+    }
+    .center-stack {
+      max-width: 100%;
+    }
+  }
+</style>

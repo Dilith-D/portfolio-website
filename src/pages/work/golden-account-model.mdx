@@ -11,6 +11,9 @@ slug: "golden-account-model"
 ---
 
 import PullQuote from '../../components/PullQuote.astro';
+import ThreePipelines from '../../components/diagrams/ThreePipelines.astro';
+import CPQDecision from '../../components/diagrams/CPQDecision.astro';
+import OutcomeMetrics from '../../components/diagrams/OutcomeMetrics.astro';
 
 ## 01 Situation
 
@@ -66,6 +69,8 @@ This is where I hit the first real structural insight. Roofing contractors don't
 
 With that understanding, I began building. I gave the golden account a persona — a Seattle-based residential roofing company — and configured it as if it were a real account. Real service territories, real trade types, real job structures. I wanted it to feel like a live account, not a demo environment. Because eventually, it would become both.
 
+<ThreePipelines />
+
 ---
 
 ## 05 The Decision
@@ -85,6 +90,8 @@ I chose Option B — but with a specific condition. Every workaround I built had
 The assumption I was betting on: that real usage of an imperfect solution would generate better product requirements than a spec written in the abstract. That turned out to be right.
 
 The CPQ workaround was limited — it couldn't handle complex nested formulas, and contractors hit its edges quickly. But those edges were exactly what I needed. I spent months walking the Principal PM through every CPQ edge case I'd observed, every formula variation across different contractors, every place the workaround had failed. That input directly shaped the product feature that shipped three months later. When contractors saw the native CPQ, the response was that it seemed too good to be true. That reaction was built on the groundwork of a scrappy solution that was never meant to last.
+
+<CPQDecision />
 
 <PullQuote quote="The real problem wasn't onboarding speed. The golden account was a product discovery vehicle disguised as an implementation template." />
 
@@ -107,6 +114,8 @@ Onboarding time dropped from 12–16 weeks of custom configuration to 15 days at
 The more meaningful result was qualitative. Contractors logging into their account after the golden account existed had a fundamentally different first experience — they logged into something that already spoke their language. The feedback we heard repeatedly was a version of the same thing: it feels like this was made for us.
 
 The CPQ workaround ran for two months across every roofing customer before the native feature shipped. Almost every contractor hit the edge cases — the workaround couldn't handle nested formulas, and those edges were exactly what I needed. That two months of observed failure became the requirements for a feature that now works.
+
+<OutcomeMetrics />
 
 ---
 

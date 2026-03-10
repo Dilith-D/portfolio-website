@@ -1,0 +1,132 @@
+---
+---
+<div class="diagram-wrap">
+  <p class="diagram-label">Data vs. Interpretation</p>
+
+  <div class="comparison-grid">
+    <div class="col-header col-left-header">Generic year-in-review</div>
+    <div class="col-divider"></div>
+    <div class="col-header col-right-header">Spotify Wrapped</div>
+
+    <div class="row-left">You watched 847 videos.</div>
+    <div class="row-arrow">→</div>
+    <div class="row-right">You went deep on indie finds.</div>
+
+    <div class="row-left">Your top category: Productivity.</div>
+    <div class="row-arrow">→</div>
+    <div class="row-right">You're a growth seeker.</div>
+
+    <div class="row-left last">You listened to 50,000 minutes.</div>
+    <div class="row-arrow last">→</div>
+    <div class="row-right last">You're in the top 1% of listeners.</div>
+  </div>
+
+  <div class="bottom-note">
+    Same data. Different framing. The interpretation layer is where the value lives.
+  </div>
+</div>
+
+<style>
+  .diagram-wrap {
+    background: var(--color-surface);
+    border-radius: 8px;
+    padding: 32px 28px;
+    border-left: 2px solid var(--color-border);
+    margin: 2rem 0;
+    font-family: 'Inter', sans-serif;
+  }
+  .diagram-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-secondary);
+    margin-bottom: 24px;
+  }
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 28px 1fr;
+    gap: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .col-header {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .col-left-header {
+    background: var(--color-background);
+    color: var(--color-secondary);
+  }
+  .col-right-header {
+    background: var(--color-surface);
+    color: var(--color-primary);
+  }
+  .col-divider {
+    background: var(--color-border);
+    width: 1px;
+    border-bottom: 1px solid var(--color-border);
+    margin: 0 auto;
+  }
+  .row-left {
+    background: var(--color-background);
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--color-secondary);
+    line-height: 1.4;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .row-arrow {
+    background: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--color-secondary);
+    border-bottom: 1px solid var(--color-border);
+    border-left: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+  }
+  .row-right {
+    background: var(--color-surface);
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--color-primary);
+    line-height: 1.4;
+    border-bottom: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-blue);
+    font-weight: 500;
+  }
+  .row-left.last,
+  .row-arrow.last,
+  .row-right.last {
+    border-bottom: none;
+  }
+  .bottom-note {
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--color-secondary);
+    text-align: center;
+    line-height: 1.5;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+  }
+  @media (max-width: 640px) {
+    .comparison-grid {
+      grid-template-columns: 1fr;
+    }
+    .col-divider {
+      display: none;
+    }
+    .row-arrow {
+      display: none;
+    }
+    .row-right {
+      border-top: none;
+    }
+  }
+</style>

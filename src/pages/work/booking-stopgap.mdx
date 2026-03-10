@@ -11,6 +11,9 @@ slug: "booking-stopgap"
 ---
 
 import PullQuote from '../../components/PullQuote.astro';
+import BookingFlow from '../../components/diagrams/BookingFlow.astro';
+import StopgapDecision from '../../components/diagrams/StopgapDecision.astro';
+import StopgapMetrics from '../../components/diagrams/StopgapMetrics.astro';
 
 ## 01 Situation
 
@@ -86,6 +89,8 @@ The multi-tenant architecture was the part I was most proud of. Each contractor 
 
 Building it was harder than I expected. Which was the point.
 
+<StopgapDecision />
+
 <PullQuote quote="The product thinking moment was recognizing this wasn't meant to scale forever." />
 
 ---
@@ -104,6 +109,8 @@ The 10DLC compliance connection — which nobody had mapped before this — mean
 
 The custom pages approach continues for current customers while the native feature is in development. Not ideal — but understood and bounded. It has a clear end date.
 
+<BookingFlow />
+
 ---
 
 ## 07 Outcome
@@ -115,6 +122,8 @@ But the more meaningful outcome was a shift in how I thought about what I was bu
 That experience changed how I estimate. When I pushed for this feature, I thought the ask was reasonable and the lift was moderate. Building the prototype taught me that the lift was substantial — and that a PM who hasn't tried to build the thing they're asking for has a systematically optimistic view of what "reasonable" means.
 
 The feedback loop compression was the real output. What used to take weeks of uncertainty — is this worth building, how complex is it, what does it actually need to do — took hours. We didn't ship the feature this quarter. But the decision to deprioritize it was made with full information, not incomplete assumptions.
+
+<StopgapMetrics />
 
 ---
 

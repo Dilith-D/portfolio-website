@@ -8,6 +8,8 @@ date: "2026"
 slug: "iris"
 ---
 
+import IrisArchitecture from '../../components/diagrams/IrisArchitecture.astro';
+
 ## The Problem
 
 I work across four devices simultaneously — an Android phone, an iPad, a personal laptop, and an office laptop. Every day, without fail, I need to move something between them. A screenshot on my phone that I need open on my laptop. A file on my office machine I want at home. A link I want on a different screen.
@@ -61,6 +63,8 @@ The rebuild taught me something the first build hadn't: designing for someone el
 **Sessions that expire.** 7-day auto-expiry felt like artificial friction and I almost reversed it twice. But the alternative — permanent connections — meant Iris became something you had to manage. The expiry means the connection only exists when it's active. That keeps the app small. Small was the point.
 
 **What I cut.** Read receipts and typing indicators exist for 1:1 chats but not groups. Message reactions, replies, search — all out of scope. The bar was: screenshot to another device in under 5 seconds. Anything that didn't help that wasn't included.
+
+<IrisArchitecture />
 
 ---
 

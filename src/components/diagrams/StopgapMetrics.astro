@@ -1,0 +1,70 @@
+---
+---
+<div class="diagram-wrap">
+  <p class="diagram-label">Outcome — Booking Stopgap</p>
+
+  <div class="metrics-row">
+    <div class="metric-card">
+      <div class="metric-number">9/15</div>
+      <div class="metric-label">Active roofing customers who needed a booking widget</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-number">6h</div>
+      <div class="metric-label">Time to build working multi-tenant prototype</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-number">1</div>
+      <div class="metric-label">Call with Principal PM to get feature back on the roadmap</div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .diagram-wrap {
+    background: var(--color-surface);
+    border-radius: 8px;
+    padding: 32px 28px;
+    border-left: 2px solid var(--color-border);
+    margin: 2rem 0;
+    font-family: 'Inter', sans-serif;
+  }
+  .diagram-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-secondary);
+    margin-bottom: 24px;
+  }
+  .metrics-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  .metric-card {
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    background: var(--color-background);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .metric-number {
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--color-primary);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    font-family: 'Cabinet Grotesk', sans-serif;
+  }
+  .metric-label {
+    font-size: 12px;
+    color: var(--color-secondary);
+    line-height: 1.5;
+  }
+  @media (max-width: 640px) {
+    .metrics-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

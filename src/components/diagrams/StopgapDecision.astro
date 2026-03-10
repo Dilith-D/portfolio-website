@@ -1,0 +1,196 @@
+---
+---
+<div class="diagram-wrap">
+  <p class="diagram-label">Booking Widget — Wait vs. Build</p>
+
+  <div class="node node-dark">
+    <div>9 of 15 roofing customers need a booking widget.</div>
+    <div class="node-sub">No native feature. Manual build takes 1 day + 2 people each.</div>
+  </div>
+
+  <div class="v-line"></div>
+  <div class="h-line"></div>
+
+  <div class="decision-row">
+    <div class="d-col">
+      <div class="v-drop"></div>
+      <div class="option-card">
+        <div class="option-letter">Option A</div>
+        <div class="option-title">Wait for the native feature</div>
+        <div class="option-desc">Clean. No technical debt.</div>
+        <div class="cost-row">
+          <span class="cost-label">Cost</span>
+          Customers go live without booking. Inbound leads lost. 10DLC compliance still blocked.
+        </div>
+        <div class="badge badge-plain">Not chosen</div>
+      </div>
+    </div>
+    <div class="d-col">
+      <div class="v-drop"></div>
+      <div class="option-card option-card-chosen">
+        <div class="option-letter option-letter-blue">Option B</div>
+        <div class="option-title">Build a prototype now</div>
+        <div class="option-desc">React + TypeScript + Supabase. Multi-tenant. Four booking modes.</div>
+        <div class="cost-row">
+          <span class="cost-label">Cost</span>
+          6 hours to build. Not production-ready — but enough to get the feature back on the roadmap with full requirements.
+        </div>
+        <div class="badge badge-chosen">Chosen</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="h-line"></div>
+  <div class="v-line"></div>
+
+  <div class="node node-dark">
+    Feature reprioritized. Native booking widget now in development with requirements shaped by the prototype.
+  </div>
+</div>
+
+<style>
+  .diagram-wrap {
+    background: var(--color-surface);
+    border-radius: 8px;
+    padding: 32px 28px;
+    border-left: 2px solid var(--color-border);
+    margin: 2rem 0;
+    font-family: 'Inter', sans-serif;
+  }
+  .diagram-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-secondary);
+    margin-bottom: 24px;
+  }
+  .node {
+    border-radius: 6px;
+    padding: 16px 20px;
+    border: 1px solid var(--color-border);
+    background: var(--color-background);
+    color: var(--color-primary);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+  }
+  .node-dark {
+    background: var(--color-primary);
+    color: #F9F7F4;
+    border-color: var(--color-primary);
+  }
+  .node-dark .node-sub {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(249, 247, 244, 0.6);
+    margin-top: 4px;
+  }
+  .v-line {
+    width: 1px;
+    height: 20px;
+    background: var(--color-border);
+    margin: 0 auto;
+  }
+  .h-line {
+    height: 1px;
+    background: var(--color-border);
+  }
+  .v-drop {
+    width: 1px;
+    height: 14px;
+    background: var(--color-border);
+    margin: 0 auto;
+  }
+  .decision-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .d-col {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .option-card {
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    background: var(--color-background);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+  .option-card-chosen {
+    border-color: var(--color-blue);
+  }
+  .option-letter {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-secondary);
+    font-weight: 500;
+  }
+  .option-letter-blue {
+    color: var(--color-blue);
+  }
+  .option-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-primary);
+    line-height: 1.4;
+  }
+  .option-desc {
+    font-size: 12px;
+    color: var(--color-secondary);
+    line-height: 1.5;
+  }
+  .cost-row {
+    font-size: 11px;
+    color: var(--color-secondary);
+    line-height: 1.5;
+    border-top: 1px solid var(--color-border);
+    padding-top: 10px;
+    margin-top: 2px;
+  }
+  .cost-label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-secondary);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    align-self: flex-start;
+    margin-top: 4px;
+  }
+  .badge-plain {
+    color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+  }
+  .badge-chosen {
+    background: var(--color-blue);
+    color: #F9F7F4;
+    border: 1px solid var(--color-blue);
+  }
+  @media (max-width: 640px) {
+    .decision-row {
+      grid-template-columns: 1fr;
+    }
+    .v-drop {
+      display: none;
+    }
+    .h-line {
+      display: none;
+    }
+  }
+</style>

@@ -1,7 +1,7 @@
 ---
 ---
 <div class="diagram-wrap">
-  <p class="diagram-label">Iris — Multi-Tenant Architecture</p>
+  <p class="diagram-label">Iris — Architecture</p>
 
   <div class="top-row">
     <div class="node node-light">Device A</div>
@@ -17,20 +17,14 @@
   <div class="center-stack">
     <div class="node node-blue" style="text-align:center;">
       <div class="node-name">8-character pairing code</div>
+      <div class="node-sub-light">Share the code. Enter it. Connected.</div>
     </div>
 
     <div class="v-line"></div>
 
     <div class="node node-dark" style="text-align:center;">
       <div class="node-name">Supabase backend</div>
-      <div class="node-sub">Per-tenant isolation · Encrypted API keys · Signed URL file storage</div>
-    </div>
-
-    <div class="v-line"></div>
-
-    <div class="node" style="text-align:center;">
-      <div class="node-name">n8n proxy layer</div>
-      <div class="node-sub-light">Validates tenant on every request · No API key exposed to frontend</div>
+      <div class="node-sub">Device registration · Signed URL file storage · Session management</div>
     </div>
   </div>
 
@@ -46,7 +40,7 @@
   </div>
 
   <div class="bottom-note">
-    Each contractor is a fully isolated tenant. Frontend never touches an API key.
+    No accounts. No installs required. Register a device, share a code, start sending.
   </div>
 </div>
 

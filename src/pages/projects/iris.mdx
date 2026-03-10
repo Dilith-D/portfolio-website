@@ -30,7 +30,7 @@ That was the original idea. A private bridge. Between my devices, and between me
 
 The first version took about four hours and I called it [D-Chat](https://d-chat.lovable.app). Yes, after myself. Yes, that's embarrassing. Yes, it worked exactly as intended.
 
-The stack was React 18, TypeScript, Supabase for the backend, and Lovable to accelerate the build. The core mechanic was an 8-character private code instead of a phone number or email — you share the code, the other device enters it, you're connected. Sessions auto-expire after 7 days. Files stored as signed URLs. No persistent storage beyond what you explicitly sent.
+The stack was React 18, TypeScript, Supabase for the backend, and Lovable to accelerate the build. The core mechanic was an 8-character private code instead of a phone number or email — you share the code, the other device enters it, you're connected. Files stored as signed URLs. No persistent storage beyond what you explicitly sent.
 
 The key design decisions weren't technical — they were decisional. I didn't want user accounts with email verification. I didn't want app installs as a prerequisite. I didn't want setup friction. So I built device registration instead of user registration: name your device, generate a code, pair by entering the code or scanning a QR. That's it. You're in.
 
@@ -60,7 +60,7 @@ The rebuild taught me something the first build hadn't: designing for someone el
 
 **Device registration, not user registration.** You're not registering as a person. You're registering a device. That distinction changes the mental model: Iris is infrastructure between your devices and the people you choose, not a social profile you maintain.
 
-**Sessions that expire.** 7-day auto-expiry felt like artificial friction and I almost reversed it twice. But the alternative — permanent connections — meant Iris became something you had to manage. The expiry means the connection only exists when it's active. That keeps the app small. Small was the point.
+**Persistent connections.** Connections stay active until you remove them. The alternative — auto-expiry — created friction that didn't serve the use case. If I trust you enough to pair with you, that trust doesn't have an expiry date.
 
 **What I cut.** Read receipts and typing indicators exist for 1:1 chats but not groups. Message reactions, replies, search — all out of scope. The bar was: screenshot to another device in under 5 seconds. Anything that didn't help that wasn't included.
 

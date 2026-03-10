@@ -3,45 +3,65 @@
 <div class="diagram-wrap">
   <p class="diagram-label">Iris — Architecture</p>
 
-  <div class="top-row">
-    <div class="node node-light">Device A</div>
-    <div class="top-connector"></div>
-    <div class="node node-light">Device B / Trusted contact</div>
+  <!-- Top: Device A + Device B with fork connector -->
+  <div class="devices-row">
+    <div class="device-col">
+      <div class="input-label">Input</div>
+      <div class="node node-light">Device A</div>
+    </div>
+    <div class="device-col">
+      <div class="input-label">Input</div>
+      <div class="node node-light">Device B / Trusted contact</div>
+    </div>
   </div>
 
-  <div class="merge-down">
-    <div class="merge-left-line"></div>
-    <div class="merge-right-line"></div>
+  <!-- Fork connector: horizontal line + vertical drop from midpoint -->
+  <div class="fork-connector">
+    <div class="fork-h-line"></div>
+    <div class="fork-v-line"></div>
   </div>
 
-  <div class="center-stack">
-    <div class="node node-blue" style="text-align:center;">
+  <!-- Pairing code -->
+  <div class="center-node-wrap">
+    <div class="node node-blue pairing-node">
       <div class="node-name">8-character pairing code</div>
       <div class="node-sub-light">Share the code. Enter it. Connected.</div>
     </div>
+  </div>
 
-    <div class="v-line"></div>
+  <div class="v-line"></div>
 
-    <div class="node node-dark" style="text-align:center;">
+  <!-- Supabase -->
+  <div class="center-node-wrap">
+    <div class="node node-dark supabase-node">
       <div class="node-name">Supabase backend</div>
-      <div class="node-sub">Device registration · Signed URL file storage · Session management</div>
+      <div class="tag-row">
+        <span class="tag">Device registration</span>
+        <span class="tag">Signed URLs</span>
+        <span class="tag">Session management</span>
+      </div>
     </div>
   </div>
 
-  <div class="split-down">
-    <div class="split-left-line"></div>
-    <div class="split-right-line"></div>
+  <!-- Reverse fork: vertical line splits to two bottom nodes -->
+  <div class="split-connector">
+    <div class="split-v-line"></div>
+    <div class="split-h-line"></div>
   </div>
 
-  <div class="bottom-row">
-    <div class="node node-light" style="text-align:center;">React 18 + TypeScript frontend</div>
-    <div class="bottom-spacer"></div>
-    <div class="node node-light" style="text-align:center;">Persistent sessions</div>
+  <!-- Bottom two nodes -->
+  <div class="devices-row">
+    <div class="device-col">
+      <div class="node node-light">React 18 + TypeScript</div>
+    </div>
+    <div class="device-col">
+      <div class="node node-light">Persistent sessions</div>
+    </div>
   </div>
 
-  <div class="bottom-note">
+  <p class="bottom-note">
     No accounts. No installs required. Register a device, share a code, start sending.
-  </div>
+  </p>
 </div>
 
 <style>
@@ -53,6 +73,7 @@
     margin: 2rem 0;
     font-family: 'Inter', sans-serif;
   }
+
   .diagram-label {
     font-size: 10px;
     text-transform: uppercase;
@@ -60,152 +81,203 @@
     color: var(--color-secondary);
     margin-bottom: 24px;
   }
+
+  /* ── Nodes ── */
   .node {
     border-radius: 6px;
     border: 1px solid var(--color-border);
     background: var(--color-background);
-    padding: 14px 20px;
+    padding: 10px 16px;
     font-size: 13px;
     font-weight: 500;
     color: var(--color-primary);
-  }
-  .node-light {
-    background: var(--color-background);
-    flex: 1;
     text-align: center;
   }
+
+  .node-light {
+    background: var(--color-background);
+  }
+
   .node-dark {
     background: var(--color-primary);
     color: #F9F7F4;
     border-color: var(--color-primary);
   }
-  .node-dark .node-sub {
-    font-size: 11px;
-    font-weight: 400;
-    color: rgba(249, 247, 244, 0.6);
-    margin-top: 4px;
-  }
+
   .node-blue {
     border-color: var(--color-blue);
   }
-  .node-sub-light {
-    font-size: 11px;
-    font-weight: 400;
-    color: var(--color-secondary);
-    margin-top: 4px;
+
+  .pairing-node {
+    max-width: 340px;
+    width: 100%;
   }
+
+  .supabase-node {
+    max-width: 400px;
+    width: 100%;
+  }
+
   .node-name {
     font-size: 13px;
     font-weight: 500;
   }
-  .top-row {
+
+  .node-sub-light {
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--color-secondary);
+    margin-top: 3px;
+  }
+
+  /* ── Tag pills inside Supabase node ── */
+  .tag-row {
     display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .tag {
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 9px;
+    font-weight: 400;
+    color: rgba(249, 247, 244, 0.7);
+    display: inline-flex;
     align-items: center;
-    gap: 12px;
   }
-  .top-connector {
-    height: 1px;
-    width: 32px;
-    background: var(--color-border);
-    flex-shrink: 0;
-  }
-  .merge-down {
+
+  /* ── Device rows ── */
+  .devices-row {
     display: flex;
-    height: 20px;
-    position: relative;
+    justify-content: center;
+    gap: 40px;
   }
-  .merge-left-line {
-    position: absolute;
-    left: 25%;
-    top: 0;
-    width: 1px;
-    height: 100%;
-    background: var(--color-border);
-  }
-  .merge-right-line {
-    position: absolute;
-    right: 25%;
-    top: 0;
-    width: 1px;
-    height: 100%;
-    background: var(--color-border);
-  }
-  .center-stack {
+
+  .device-col {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    max-width: 480px;
-    margin: 0 auto;
+    align-items: center;
+    max-width: 200px;
     width: 100%;
   }
+
+  .input-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-secondary);
+    margin-bottom: 6px;
+  }
+
+  /* ── Center node wrapper ── */
+  .center-node-wrap {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* ── Vertical line ── */
   .v-line {
     width: 1px;
     height: 20px;
     background: var(--color-border);
     margin: 0 auto;
   }
-  .split-down {
+
+  /* ── Fork connector (two devices → one pairing code) ── */
+  .fork-connector {
     display: flex;
-    height: 20px;
-    position: relative;
-    max-width: 480px;
-    margin: 0 auto;
-    width: 100%;
-  }
-  .split-left-line {
-    position: absolute;
-    left: 25%;
-    top: 0;
-    width: 1px;
-    height: 100%;
-    background: var(--color-border);
-  }
-  .split-right-line {
-    position: absolute;
-    right: 25%;
-    top: 0;
-    width: 1px;
-    height: 100%;
-    background: var(--color-border);
-  }
-  .bottom-row {
-    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 12px;
+    height: 28px;
+    position: relative;
   }
-  .bottom-spacer {
-    width: 32px;
-    flex-shrink: 0;
+
+  /* Horizontal line spanning between the two device column centers.
+     The devices-row has gap:40px and each col is max 200px.
+     We approximate the span with a fixed width. */
+  .fork-h-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 240px;
+    height: 1px;
+    background: var(--color-border);
   }
+
+  /* Vertical drop from midpoint of horizontal line down to pairing node */
+  .fork-v-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 100%;
+    background: var(--color-border);
+  }
+
+  /* ── Split connector (Supabase → two bottom nodes) ── */
+  .split-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 28px;
+    position: relative;
+  }
+
+  .split-v-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 100%;
+    background: var(--color-border);
+  }
+
+  .split-h-line {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 240px;
+    height: 1px;
+    background: var(--color-border);
+  }
+
+  /* ── Bottom note ── */
   .bottom-note {
     margin-top: 20px;
     font-size: 11px;
+    font-style: italic;
     color: var(--color-secondary);
     text-align: center;
     line-height: 1.5;
     padding-top: 16px;
     border-top: 1px solid var(--color-border);
   }
+
+  /* ── Mobile ── */
   @media (max-width: 640px) {
-    .top-row {
+    .devices-row {
       flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
-    .top-connector {
-      width: 1px;
-      height: 16px;
-    }
-    .merge-down,
-    .split-down {
+
+    .fork-h-line,
+    .split-h-line {
       display: none;
     }
-    .bottom-row {
-      flex-direction: column;
-    }
-    .bottom-spacer {
-      display: none;
-    }
-    .center-stack {
-      max-width: 100%;
+
+    .fork-connector,
+    .split-connector {
+      height: 20px;
     }
   }
 </style>

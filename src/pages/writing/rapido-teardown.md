@@ -141,3 +141,11 @@ The products that win long-term aren't the ones with the most features. They're 
 ---
 
 *Written in Jan 2026. Part of my ongoing product teardown series.*
+
+<div class="not-prose mt-16 pt-12 border-t border-border">
+  <p class="font-body text-xs font-medium tracking-widest uppercase text-secondary mb-4">Read next</p>
+  <a href="/writing/spotify-wrapped" class="group font-body text-base font-medium text-primary hover:text-blue transition-colors duration-150 inline-flex items-center gap-1">
+    How Spotify Turned Usage Data Into an Annual Identity Ritual
+    <span class="inline-block transition-transform duration-150 ease-in-out group-hover:translate-x-1">→</span>
+  </a>
+</div>

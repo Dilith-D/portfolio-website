@@ -52,6 +52,17 @@ import ProjectCard from '../components/ProjectCard.astro';
             Read my thinking →
           </a>
         </div>
+
+        <div class="mt-5">
+          <a
+            href="https://linkedin.com/in/dilithdinesh"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-body text-sm text-secondary hover:text-primary transition-colors duration-150"
+          >
+            → LinkedIn
+          </a>
+        </div>
       </div>
     </section>
 
@@ -60,6 +71,32 @@ import ProjectCard from '../components/ProjectCard.astro';
       <p class="font-body text-sm text-secondary tracking-wide">
         Zuper&nbsp;&nbsp;·&nbsp;&nbsp;Field Service Management&nbsp;&nbsp;·&nbsp;&nbsp;B2B SaaS&nbsp;&nbsp;·&nbsp;&nbsp;Chennai&nbsp;&nbsp;·&nbsp;&nbsp;<span class="years-egg" style="position:relative; cursor:help; text-decoration-line:underline; text-underline-offset:3px; text-decoration-style:dotted;">2 years<span class="years-tip" style="display:none; position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:#1A1A1A; color:#F9F7F4; font-size:13px; font-family:'Inter',sans-serif; white-space:nowrap; padding:6px 12px; border-radius:4px; pointer-events:none; z-index:100;">408 working days. Approximately 200 contractor calls. One roofing vertical.</span></span> in the field before the title
       </p>
+    </section>
+
+    <!-- Signal Section -->
+    <section class="py-[80px] border-b border-border">
+      <div class="max-w-[740px]">
+        <p class="font-prose text-lg leading-reading text-primary">
+          Most product teams learn about customer problems through
+          tickets, NPS scores, and quarterly reviews.
+        </p>
+        <p class="font-prose text-lg leading-reading text-primary mt-6">
+          I've spent two years inside the operational layer —
+          sitting with contractors, mapping how they actually
+          collect money, watching where workflows break before
+          anyone files a bug report.
+        </p>
+        <p class="font-prose text-lg leading-reading text-primary mt-6">
+          That proximity changes how I think about product
+          decisions. Not every problem needs a feature.
+          Not every feature request is the actual problem.
+          The real work is finding the gap between what
+          people say they want and what would actually help them.
+        </p>
+        <p class="font-prose text-lg leading-reading text-primary mt-6">
+          That's the kind of product thinking I'm building toward.
+        </p>
+      </div>
     </section>
 
     <!-- Work Preview -->
@@ -150,7 +187,7 @@ import ProjectCard from '../components/ProjectCard.astro';
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <ProjectCard
           title="Iris"
-          problem="I needed a messaging app that worked across devices without forcing me into one ecosystem. So I built one."
+          problem="I work across four devices. Every day I need to move something between them — a screenshot, a file, a link. Every existing solution added friction I didn't want. So I built one."
           stack={["React 18", "TypeScript", "Supabase"]}
           year="2026"
           slug="iris"
@@ -158,7 +195,7 @@ import ProjectCard from '../components/ProjectCard.astro';
         />
         <ProjectCard
           title="Pulseboard"
-          problem="I wanted to understand what it actually takes to build a B2B SaaS from zero. User interviews, RICE prioritization, shipped MVP. No engineering team."
+          problem="A colleague asked what I'd been working on lately. I blanked. Not because I hadn't done enough — but because scattered work doesn't accumulate into a narrative on its own. So I built one."
           stack={["B2B SaaS", "Lovable"]}
           year="2025"
           slug="pulseboard"
@@ -174,34 +211,6 @@ import ProjectCard from '../components/ProjectCard.astro';
           See all projects
           <span class="inline-block transition-transform duration-150 ease-in-out group-hover:translate-x-1">→</span>
         </a>
-      </div>
-    </section>
-
-    <hr class="border-t border-border my-0" />
-
-    <!-- Signal Section -->
-    <section class="py-[80px]">
-      <div class="max-w-[740px]">
-        <p class="font-prose text-lg leading-reading text-primary">
-          Most product teams learn about customer problems through
-          tickets, NPS scores, and quarterly reviews.
-        </p>
-        <p class="font-prose text-lg leading-reading text-primary mt-6">
-          I've spent two years inside the operational layer —
-          sitting with contractors, mapping how they actually
-          collect money, watching where workflows break before
-          anyone files a bug report.
-        </p>
-        <p class="font-prose text-lg leading-reading text-primary mt-6">
-          That proximity changes how I think about product
-          decisions. Not every problem needs a feature.
-          Not every feature request is the actual problem.
-          The real work is finding the gap between what
-          people say they want and what would actually help them.
-        </p>
-        <p class="font-prose text-lg leading-reading text-primary mt-6">
-          That's the kind of product thinking I'm building toward.
-        </p>
       </div>
     </section>
 

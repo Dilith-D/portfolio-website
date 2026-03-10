@@ -59,6 +59,12 @@ const meta = [date, readTime, role].filter(Boolean).join(' · ');
     </div>
   </article>
 
+  <slot name="endnav">
+    <div class="max-w-[740px] mx-auto px-6 pb-20">
+      <a href="/writing" class="font-body text-sm text-secondary hover:text-primary transition-colors duration-150">← All writing</a>
+    </div>
+  </slot>
+
   <!-- Easter Egg: Fast reader — set flag on exit, Base shows toast on next page -->
   <script define:vars={{ hasReadTime: !!readTime }}>
     (function() {

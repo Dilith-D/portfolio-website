@@ -16,7 +16,7 @@ import PullQuote from '../../components/PullQuote.astro';
 
 Every roofing contractor has a website. And on every roofing contractor's website, there's some version of the same CTA — "Get a free inspection," "Contact us today," "Book now." When a homeowner with a leaking roof finds that page, they expect to do something. Fill out a form. Pick a time. Start the process.
 
-Zuper had a way to handle this. Sort of. The platform supported custom booking pages — a form that lived at a hosted URL, captured customer information, and created the right record in Zuper on submission. It worked. But every single one was built by hand. Custom code, custom hosting, one engineer and one DevOps person, roughly a full day of work per contractor.
+Zuper had a way to handle this. Sort of. The platform supported custom booking pages — a form that lived at a hosted URL, captured customer information, and created the right record in Zuper on submission. It worked. But every single one was built by hand. Custom code, custom hosting, one engineer and one DevOps person, roughly a full day of work per contractor. Each widget took one full day and two people to build — a workflow engineer and a DevOps resource. By the time I escalated this, 9 of our 15+ active roofing customers had been through this process. Nine custom builds, nine days of engineering time, zero reuse between them.
 
 When we were onboarding a handful of roofing customers a quarter, that was manageable. As the vertical grew, it became a tax that compounded with every new account. And it broke the golden account model entirely — the whole point of cloning was that a contractor logged in on day zero and found a system that already worked. A booking widget that had to be hand-built and manually hosted after the fact wasn't part of that. It was a gap in the foundation.
 
@@ -41,6 +41,8 @@ The real problem wasn't that widgets were slow to build. It was that the entire 
 ## 03 Constraints
 
 **No native feature.** Zuper didn't have a configurable booking widget on the product roadmap at the time. Any solution had to be built outside the platform.
+
+**Nine widgets already built manually.** An unknown number in the backlog. The volume was accelerating faster than the custom approach could absorb.
 
 **No dedicated engineering resources.** This sat outside the core product build, which meant I was working with what I could build or configure myself.
 
@@ -78,7 +80,7 @@ But I knew from the golden account work that anything requiring manual effort pe
 
 So I built the prototype with that frame explicitly in mind. Not "how do I solve this for current customers" but "how do I build something real enough to show exactly what the native feature needs to do."
 
-I used AI tools to think through architecture and edge cases, and built a working multi-tenant system in a few hours using React, TypeScript, Supabase, and n8n. One universal widget. Four configurable booking modes. Territory matching. Per-account 10DLC compliance links. An admin panel where a new contractor account could be configured in under two minutes. A subdomain-based hosting model that meant no deployment required per customer — just a configuration change.
+I spent two hours on discovery, planning, and solutioning. Then four hours building. The result was a working multi-tenant system — one universal widget, four configurable booking modes, territory matching, per-account 10DLC compliance links, and an admin panel where a new contractor could be configured in under two minutes. Built on React, TypeScript, Supabase, and n8n. A subdomain-based hosting model that meant no deployment required per customer — just a configuration change.
 
 The multi-tenant architecture was the part I was most proud of. Each contractor was a fully isolated tenant — their own Zuper API key encrypted in the backend, their own service configuration, their own booking behavior. The frontend never touched an API key. Every Zuper call went through a backend proxy that validated the tenant on every request.
 
@@ -92,11 +94,13 @@ Building it was harder than I expected. Which was the point.
 
 The prototype itself didn't go to production. The Chief Architect's assessment was that the engineering effort to make it production-ready was significant enough that it made more sense to build the native feature properly than to ship an intermediate version. That was the right call.
 
-What actually shipped was the decision — made in hours instead of weeks.
+What actually shipped was the decision — made in one hour instead of weeks. I walked the Principal PM through the working prototype on a call. By the end of that hour, the feature was back on the roadmap with the right scope. Six hours from problem to roadmap decision.
 
 Traditionally, getting a feature from "this is a problem" to "this is prioritized and spec'd" takes months of PRD reviews, alignment meetings, and roadmap negotiations. The prototype compressed that loop. When I walked the Principal PM through the working system, he could see exactly what the feature needed to do, exactly where the complexity lived, and exactly what a simpler version would miss. The four booking modes. The 10DLC compliance requirement — which he hadn't known about because telephony sat with a different PM. The territory matching logic. The multi-tenant isolation requirements.
 
 His original plan was a straightforward booking form — one mode, basic fields, get it out the door. After seeing the prototype and the data behind it, the feature scope expanded to match what customers actually needed. It's now being built properly.
+
+The 10DLC compliance connection — which nobody had mapped before this — meant zero customers were blocked from telephony. We caught it before it became a problem. That's the kind of outcome that doesn't show up in a metric but changes how a team operates.
 
 The custom pages approach continues for current customers while the native feature is in development. Not ideal — but understood and bounded. It has a clear end date.
 

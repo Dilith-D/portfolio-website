@@ -1,0 +1,94 @@
+---
+interface Metric {
+  number: string;
+  label: string;
+}
+
+interface Props {
+  metrics: Metric[];
+}
+
+const { metrics } = Astro.props;
+---
+
+<div class="metrics-summary">
+  {metrics.map((metric, i) => (
+    <>
+      <div class="metric-item">
+        <span class="metric-number">{metric.number}</span>
+        <span class="metric-label">{metric.label}</span>
+      </div>
+      {i < metrics.length - 1 && <div class="metric-divider" aria-hidden="true" />}
+    </>
+  ))}
+</div>
+
+<style>
+  .metrics-summary {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-top: 1px solid var(--color-border, #E5E1DB);
+    border-bottom: 1px solid var(--color-border, #E5E1DB);
+    padding: 24px 0;
+    margin-bottom: 48px;
+    gap: 0;
+  }
+
+  .metric-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    padding: 0 32px;
+  }
+
+  .metric-item:first-child {
+    padding-left: 0;
+  }
+
+  .metric-item:last-child {
+    padding-right: 0;
+  }
+
+  .metric-number {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--color-primary, #1A1A1A);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .metric-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--color-secondary, #6B6B6B);
+    line-height: 1.4;
+    max-width: 140px;
+  }
+
+  .metric-divider {
+    width: 1px;
+    height: 40px;
+    background-color: var(--color-border, #E5E1DB);
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  @media (max-width: 640px) {
+    .metrics-summary {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .metric-item {
+      padding: 0;
+    }
+
+    .metric-divider {
+      display: none;
+    }
+  }
+</style>

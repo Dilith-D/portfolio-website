@@ -14,6 +14,13 @@ import PullQuote from '../../components/PullQuote.astro';
 import BookingFlow from '../../components/diagrams/BookingFlow.astro';
 import StopgapDecision from '../../components/diagrams/StopgapDecision.astro';
 import StopgapMetrics from '../../components/diagrams/StopgapMetrics.astro';
+import MetricsSummary from '../../components/MetricsSummary.astro';
+
+<MetricsSummary metrics={[
+  { number: "9/15", label: "Active roofing customers who needed a booking widget" },
+  { number: "6 hours", label: "Time to build a working multi-tenant prototype" },
+  { number: "1 call", label: "With the Principal PM to get the feature back on the roadmap" }
+]} />
 
 ## 01 Situation
 

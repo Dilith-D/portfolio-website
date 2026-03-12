@@ -14,6 +14,13 @@ import PullQuote from '../../components/PullQuote.astro';
 import ThreePipelines from '../../components/diagrams/ThreePipelines.astro';
 import CPQDecision from '../../components/diagrams/CPQDecision.astro';
 import OutcomeMetrics from '../../components/diagrams/OutcomeMetrics.astro';
+import MetricsSummary from '../../components/MetricsSummary.astro';
+
+<MetricsSummary metrics={[
+  { number: "30+", label: "Roofing contractor accounts onboarded via the golden account template" },
+  { number: "15 days", label: "Onboarding time at the fast end — down from 12–16 weeks" },
+  { number: "3 months", label: "From CPQ workaround to native feature shipped" }
+]} />
 
 ## 01 Situation
 

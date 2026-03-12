@@ -11,9 +11,11 @@ interface Props {
   summary?: string;
   tags?: string[];
   ogImage?: string;
+  backHref?: string;
+  backLabel?: string;
 }
 
-const { title, description, date, readTime, role, summary, tags = [], ogImage } = Astro.props;
+const { title, description, date, readTime, role, summary, tags = [], ogImage, backHref = '/writing', backLabel = 'Back to writing' } = Astro.props;
 
 const meta = [date, readTime, role].filter(Boolean).join(' · ');
 ---
@@ -21,12 +23,14 @@ const meta = [date, readTime, role].filter(Boolean).join(' · ');
 <Base title={title} description={description} ogImage={ogImage}>
   <ReadingProgress />
 
-  <slot name="backnav">
-    <div class="max-w-[740px] mx-auto px-6 pt-[100px]"><a href="/writing" class="font-body text-sm text-secondary hover:text-primary transition-colors duration-150">← Back to writing</a></div>
-  </slot>
-
-  <article class="pt-8 pb-20 px-6">
+  <article class="pt-32 pb-20 px-6">
     <div class="max-w-[740px] mx-auto">
+
+      <a
+        href={backHref}
+        class="font-body text-sm text-secondary hover:text-primary transition-colors duration-150 inline-block mb-8 no-underline"
+        style="text-decoration: none;"
+      >← {backLabel}</a>
 
       {tags.length > 0 && (
         <p class="font-body text-xs tracking-widest uppercase text-secondary mb-3">

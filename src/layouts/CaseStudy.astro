@@ -15,9 +15,7 @@ interface Props {
 const { ...props } = Astro.props;
 ---
 
-<Prose {...props}>
-  <div slot="backnav" class="max-w-[740px] mx-auto px-6 pt-6"><a href="/work" class="font-body text-sm text-secondary hover:text-primary transition-colors duration-150">← Back to work</a></div>
-
+<Prose {...props} backHref="/work" backLabel="Back to work">
   <slot />
 
   <!-- End navigation -->

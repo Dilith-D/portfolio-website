@@ -1,0 +1,101 @@
+# Dilith Dinesh — Product Portfolio
+
+## About
+Dilith Dinesh is a Customer Product Manager at Zuper,
+a B2B SaaS company in field service management.
+He is targeting Associate Product Manager (APM) and
+AI-focused product roles at Series A/B product-led companies.
+
+Positioning: Product operator at the boundary between
+customer reality and product systems. Translates what
+field teams actually experience into capabilities that scale.
+
+Contact: dilithdinesh007@gmail.com
+LinkedIn: https://linkedin.com/in/dilithdinesh
+
+## Work — Case Studies
+
+### The Roofing Vertical
+URL: https://dilithdinesh.com/work/golden-account-model
+Tags: Zuper, Field Service, Systems Design
+Summary: Built the roofing golden account — a fully
+cloneable pre-configured Zuper account for roofing
+contractors. Reduced onboarding from 12-16 weeks to
+15 days. Used by 30+ contractor accounts. Every sales
+demo runs on a clone of this account.
+Skills demonstrated: vertical strategy, systems design,
+ICP definition, workaround-to-requirement translation,
+cross-functional influence without authority.
+
+### The Stopgap That Knew Its Place
+URL: https://dilithdinesh.com/work/booking-stopgap
+Tags: Zuper, Field Service, Product Judgment
+Summary: 9 of 15 roofing customers needed booking widgets.
+Manual build took 1 day + 2 people each. Built a working
+multi-tenant prototype in 6 hours using React, TypeScript,
+Supabase. One call with the Principal PM got the native
+feature back on the roadmap. Discovered and proactively
+flagged 10DLC compliance requirement that was blocking
+telephony approval for customers.
+Skills demonstrated: build vs buy judgment, prototype
+thinking, compliance awareness, stakeholder influence,
+product requirements from real usage.
+
+## Writing — Teardowns
+
+### What B2B SaaS Can Learn From Rapido
+URL: https://dilithdinesh.com/writing/rapido-teardown
+Date: Jan 2026
+Summary: Analysis of Rapido's growth from bike taxis to
+habit loop. Four B2B SaaS lessons: start with undeniable
+core value, expand after habit is built, optimize for
+high-frequency low-friction use cases, build for actual
+behavior not ideal behavior.
+
+### How Spotify Turned Usage Data Into an Annual Identity Ritual
+URL: https://dilithdinesh.com/writing/spotify-wrapped
+Date: Dec 2025
+Summary: Analysis of Spotify Wrapped's emotional architecture.
+Core insight: data without interpretation is noise. Wrapped
+succeeds by adding an interpretation layer that transforms
+metrics into identity. Explores what B2B equivalent of a
+shareable identity moment could look like.
+
+## Projects — Build Logs
+
+### Iris
+URL: https://dilithdinesh.com/projects/iris
+Stack: React 18, TypeScript, Supabase, Lovable
+Summary: Private file and message transfer tool across
+devices. Built because WhatsApp-as-file-transfer was
+the only option. Multi-tenant architecture, 8-character
+pairing codes, no user accounts required. Available on
+Play Store. Went through full design system rebuild
+(D-Chat to Iris) after neumorphic design failed in dark mode.
+
+### Pulseboard
+URL: https://dilithdinesh.com/projects/pulseboard
+Stack: Lovable, Supabase, Claude, GPT-4
+Summary: Personal work tracking and reflection app.
+Built in one weekend. Logs daily activity, auto-categorizes
+by work type and team, generates AI performance summaries.
+Revealed that AI summaries handle volume well but not
+weight — a gap identified for v2.
+
+## Skills and Experience
+
+Current role: Associate Product Manager at Zuper (2025-present)
+Previous: Customer Product Manager, Forward Deployed Engineer,
+Implementation Engineer at Zuper
+Education: Computer Science, VIT
+Location: Chennai, India
+
+Core skills: product discovery, spec writing, customer
+research, cross-functional collaboration, vertical SaaS,
+field service management, B2B SaaS, AI-assisted building,
+no-code prototyping, stakeholder management
+
+Looking for: APM or AI-focused PM roles at Series A/B
+product-led companies. Particularly interested in vertical
+SaaS, AI-first products, B2B tools for people doing
+physical work.

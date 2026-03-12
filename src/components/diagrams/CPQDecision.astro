@@ -3,16 +3,17 @@
 <div class="diagram-wrap">
   <p class="diagram-label">CPQ — Wait vs. Build</p>
 
-  <div class="node node-dark">
-    <div>Contractors need material estimates.</div>
-    <div class="node-sub">Zuper has no CPQ engine.</div>
+  <div class="node-wrap">
+    <div class="node node-dark node-lg">
+      <div>Contractors need material estimates.</div>
+      <div class="node-sub">Zuper has no CPQ engine.</div>
+    </div>
   </div>
 
   <div class="v-line"></div>
-  <div class="h-line"></div>
 
-  <div class="decision-row">
-    <div class="d-col">
+  <div class="branch-grid cols-2">
+    <div class="b-col">
       <div class="v-drop"></div>
       <div class="option-card">
         <div class="option-letter">Option A</div>
@@ -24,8 +25,9 @@
         </div>
         <div class="badge badge-plain">Not chosen</div>
       </div>
+      <div class="v-rise"></div>
     </div>
-    <div class="d-col">
+    <div class="b-col">
       <div class="v-drop"></div>
       <div class="option-card option-card-chosen">
         <div class="option-letter option-letter-blue">Option B</div>
@@ -37,14 +39,16 @@
         </div>
         <div class="badge badge-chosen">Chosen</div>
       </div>
+      <div class="v-rise"></div>
     </div>
   </div>
 
-  <div class="h-line"></div>
   <div class="v-line"></div>
 
-  <div class="node node-dark">
-    Native CPQ shipped 3 months later — built directly on the workaround's edge cases
+  <div class="node-wrap">
+    <div class="node node-dark node-lg">
+      Native CPQ shipped 3 months later — built directly on the workaround's edge cases
+    </div>
   </div>
 </div>
 
@@ -64,70 +68,98 @@
     color: var(--color-secondary);
     margin-bottom: 24px;
   }
+  .node-wrap {
+    display: flex;
+    justify-content: center;
+  }
+  .node-lg { max-width: 420px; width: 100%; }
+
   .node {
     border-radius: 6px;
-    padding: 16px 20px;
     border: 1px solid var(--color-border);
     background: var(--color-background);
-    color: var(--color-primary);
-    font-size: 14px;
+    padding: 10px 16px;
+    font-size: 13px;
     font-weight: 500;
+    color: var(--color-primary);
     text-align: center;
   }
   .node-dark {
     background: var(--color-primary);
     color: #F9F7F4;
     border-color: var(--color-primary);
+    padding: 12px 20px;
   }
-  .node-dark .node-sub {
-    font-size: 12px;
+  .node-sub {
+    font-size: 10px;
     font-weight: 400;
     color: rgba(249, 247, 244, 0.6);
-    margin-top: 4px;
+    margin-top: 3px;
   }
+
   .v-line {
     width: 1px;
     height: 20px;
     background: var(--color-border);
     margin: 0 auto;
   }
-  .h-line {
-    height: 1px;
-    background: var(--color-border);
-  }
-  .v-drop {
+  .v-drop, .v-rise {
     width: 1px;
-    height: 14px;
+    height: 16px;
     background: var(--color-border);
     margin: 0 auto;
   }
-  .decision-row {
+
+  .branch-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: 12px;
+    position: relative;
   }
-  .d-col {
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+
+  .cols-2::before {
+    content: '';
+    position: absolute;
+    height: 1px;
+    background: var(--color-border);
+    top: 8px;
+    left: 25%;
+    right: 25%;
+  }
+  .cols-2::after {
+    content: '';
+    position: absolute;
+    height: 1px;
+    background: var(--color-border);
+    bottom: 8px;
+    left: 25%;
+    right: 25%;
+  }
+
+  .b-col {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
   }
+
   .option-card {
     border-radius: 6px;
     border: 1px solid var(--color-border);
     background: var(--color-background);
-    padding: 20px;
+    padding: 14px 16px;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     flex: 1;
   }
   .option-card-chosen {
     border-color: var(--color-blue);
   }
   .option-letter {
-    font-size: 10px;
+    font-size: 9px;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     color: var(--color-secondary);
     font-weight: 500;
   }
@@ -135,46 +167,47 @@
     color: var(--color-blue);
   }
   .option-title {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--color-primary);
-    line-height: 1.4;
+    line-height: 1.3;
   }
   .option-desc {
-    font-size: 12px;
+    font-size: 10px;
     color: var(--color-secondary);
-    line-height: 1.5;
+    line-height: 1.4;
   }
   .cost-row {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--color-secondary);
-    line-height: 1.5;
+    line-height: 1.4;
     border-top: 1px solid var(--color-border);
-    padding-top: 10px;
-    margin-top: 2px;
+    padding-top: 8px;
   }
   .cost-label {
     display: block;
-    font-size: 10px;
+    font-size: 9px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--color-secondary);
-    margin-bottom: 4px;
+    margin-bottom: 3px;
     font-weight: 500;
   }
   .badge {
-    display: inline-block;
-    font-size: 10px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 9px;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 3px;
+    padding: 3px 12px;
+    border-radius: 999px;
     align-self: flex-start;
-    margin-top: 4px;
+    margin-top: 2px;
   }
   .badge-plain {
     color: var(--color-secondary);
+    background: var(--color-surface);
     border: 1px solid var(--color-border);
   }
   .badge-chosen {
@@ -182,15 +215,10 @@
     color: #F9F7F4;
     border: 1px solid var(--color-blue);
   }
+
   @media (max-width: 640px) {
-    .decision-row {
-      grid-template-columns: 1fr;
-    }
-    .v-drop {
-      display: none;
-    }
-    .h-line {
-      display: none;
-    }
+    .branch-grid { grid-template-columns: 1fr; }
+    .cols-2::before, .cols-2::after { display: none; }
+    .v-drop, .v-rise { display: none; }
   }
 </style>

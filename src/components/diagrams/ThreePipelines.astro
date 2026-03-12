@@ -3,49 +3,51 @@
 <div class="diagram-wrap">
   <p class="diagram-label">Roofing Account — Three Pipelines</p>
 
-  <div class="node node-dark">
-    Contractor signs with Zuper
+  <div class="node-wrap">
+    <div class="node node-dark node-lg">
+      Contractor signs with Zuper
+    </div>
   </div>
 
   <div class="v-line"></div>
-  <div class="h-line"></div>
 
-  <div class="pipeline-row">
-    <div class="p-col">
+  <div class="branch-grid cols-3">
+    <div class="b-col">
       <div class="v-drop"></div>
-      <div class="node node-highlighted">
+      <div class="card card-blue">
         <div class="pipe-num">Pipeline 01</div>
         <div class="pipe-name">Lead Qualification</div>
         <div class="pipe-desc">Homeowner contact → site assessment → eligibility check</div>
       </div>
-      <div class="v-drop"></div>
+      <div class="v-rise"></div>
     </div>
-    <div class="p-col">
+    <div class="b-col">
       <div class="v-drop"></div>
-      <div class="node">
+      <div class="card">
         <div class="pipe-num">Pipeline 02</div>
         <div class="pipe-name">Inspection</div>
         <div class="pipe-desc">On-site visit → damage assessment → proposal</div>
       </div>
-      <div class="v-drop"></div>
+      <div class="v-rise"></div>
     </div>
-    <div class="p-col">
+    <div class="b-col">
       <div class="v-drop"></div>
-      <div class="node">
+      <div class="card">
         <div class="pipe-num">Pipeline 03</div>
         <div class="pipe-name">Production</div>
         <div class="pipe-desc">Materials ordered → crew assigned → job completed</div>
       </div>
-      <div class="v-drop"></div>
+      <div class="v-rise"></div>
     </div>
   </div>
 
-  <div class="h-line"></div>
   <div class="v-line"></div>
 
-  <div class="node node-dark">
-    <div>Cloneable golden account</div>
-    <div class="node-sub">Pre-configured · roofing terminology · day-zero ready</div>
+  <div class="node-wrap">
+    <div class="node node-dark node-lg">
+      <div>Cloneable golden account</div>
+      <div class="node-sub">Pre-configured · roofing terminology · day-zero ready</div>
+    </div>
   </div>
 </div>
 
@@ -65,87 +67,128 @@
     color: var(--color-secondary);
     margin-bottom: 24px;
   }
+
+  /* Node wrapper — centers constrained nodes */
+  .node-wrap {
+    display: flex;
+    justify-content: center;
+  }
+  .node-lg { max-width: 420px; width: 100%; }
+
   .node {
     border-radius: 6px;
-    padding: 16px 20px;
     border: 1px solid var(--color-border);
     background: var(--color-background);
-    color: var(--color-primary);
-    font-size: 14px;
+    padding: 10px 16px;
+    font-size: 13px;
     font-weight: 500;
+    color: var(--color-primary);
     text-align: center;
   }
   .node-dark {
     background: var(--color-primary);
     color: #F9F7F4;
     border-color: var(--color-primary);
+    padding: 12px 20px;
   }
-  .node-dark .node-sub {
-    font-size: 11px;
+  .node-sub {
+    font-size: 10px;
     font-weight: 400;
     color: rgba(249, 247, 244, 0.6);
-    margin-top: 4px;
+    margin-top: 3px;
   }
-  .node-highlighted {
-    border-color: var(--color-blue);
-  }
-  .node-highlighted .pipe-num {
-    color: var(--color-blue);
-  }
+
+  /* Vertical connector */
   .v-line {
     width: 1px;
     height: 20px;
     background: var(--color-border);
     margin: 0 auto;
   }
-  .h-line {
-    height: 1px;
-    background: var(--color-border);
-  }
-  .v-drop {
+  /* Short drops inside columns */
+  .v-drop, .v-rise {
     width: 1px;
-    height: 14px;
+    height: 16px;
     background: var(--color-border);
     margin: 0 auto;
   }
-  .pipeline-row {
+
+  /* Branch grid with fork connectors via pseudo-elements */
+  .branch-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
+    position: relative;
   }
-  .p-col {
+  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+  /* Top horizontal line — connects column centers at midpoint of v-drop */
+  .cols-3::before {
+    content: '';
+    position: absolute;
+    height: 1px;
+    background: var(--color-border);
+    top: 8px;
+    left: calc(100% / 6);
+    right: calc(100% / 6);
+  }
+  /* Bottom horizontal line — merge connector at midpoint of v-rise */
+  .cols-3::after {
+    content: '';
+    position: absolute;
+    height: 1px;
+    background: var(--color-border);
+    bottom: 8px;
+    left: calc(100% / 6);
+    right: calc(100% / 6);
+  }
+
+  .b-col {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
   }
+
+  /* Pipeline cards fill their column */
+  .card {
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+    background: var(--color-background);
+    padding: 10px 14px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+  }
+  .card-blue {
+    border-color: var(--color-blue);
+  }
+  .card-blue .pipe-num {
+    color: var(--color-blue);
+  }
+
   .pipe-num {
-    font-size: 10px;
+    font-size: 9px;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     color: var(--color-secondary);
-    margin-bottom: 6px;
+    font-weight: 500;
   }
   .pipe-name {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--color-primary);
-    margin-bottom: 8px;
+    line-height: 1.3;
   }
   .pipe-desc {
-    font-size: 12px;
+    font-size: 10px;
     color: var(--color-secondary);
-    line-height: 1.5;
-    font-weight: 400;
+    line-height: 1.4;
   }
+
   @media (max-width: 640px) {
-    .pipeline-row {
-      grid-template-columns: 1fr;
-    }
-    .v-drop {
-      display: none;
-    }
-    .h-line {
-      display: none;
-    }
+    .branch-grid { grid-template-columns: 1fr; }
+    .cols-3::before, .cols-3::after { display: none; }
+    .v-drop, .v-rise { display: none; }
   }
 </style>

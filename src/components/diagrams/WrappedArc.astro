@@ -7,7 +7,7 @@
     <div class="arc-step">
       <div class="step-left">
         <div class="step-dot dot-dark"></div>
-        <div class="step-connector"></div>
+        <div class="step-line"></div>
       </div>
       <div class="step-card step-card-dark">
         <div class="act-label">Act I</div>
@@ -19,7 +19,7 @@
     <div class="arc-step">
       <div class="step-left">
         <div class="step-dot"></div>
-        <div class="step-connector"></div>
+        <div class="step-line"></div>
       </div>
       <div class="step-card">
         <div class="act-label">Act II</div>
@@ -31,7 +31,7 @@
     <div class="arc-step">
       <div class="step-left">
         <div class="step-dot"></div>
-        <div class="step-connector"></div>
+        <div class="step-line"></div>
       </div>
       <div class="step-card">
         <div class="act-label">Act III</div>
@@ -43,7 +43,7 @@
     <div class="arc-step">
       <div class="step-left">
         <div class="step-dot"></div>
-        <div class="step-connector"></div>
+        <div class="step-line"></div>
       </div>
       <div class="step-card">
         <div class="act-label">Act IV</div>
@@ -58,7 +58,7 @@
       </div>
       <div class="step-card step-card-blue">
         <div class="act-label act-label-blue">Act V</div>
-        <div class="act-name">The Flex</div>
+        <div class="act-name act-name-blue">The Flex</div>
         <div class="act-desc">Top X% of this artist's listeners worldwide.</div>
       </div>
     </div>
@@ -84,28 +84,24 @@
   .arc-list {
     display: flex;
     flex-direction: column;
-    gap: 0;
   }
   .arc-step {
     display: flex;
     align-items: flex-start;
-    gap: 16px;
-  }
-  .arc-step-last .step-left {
-    padding-bottom: 0;
+    gap: 14px;
   }
   .step-left {
     display: flex;
     flex-direction: column;
     align-items: center;
     flex-shrink: 0;
-    padding-top: 14px;
+    padding-top: 12px;
   }
   .step-dot {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    border: 2px solid var(--color-border);
+    border: 1px solid var(--color-border);
     background: var(--color-background);
     flex-shrink: 0;
   }
@@ -117,23 +113,23 @@
     background: var(--color-blue);
     border-color: var(--color-blue);
   }
-  .step-connector {
+  .step-line {
     width: 1px;
     flex: 1;
-    min-height: 20px;
+    min-height: 16px;
     background: var(--color-border);
-    margin-top: 4px;
+    margin-top: 3px;
   }
   .step-card {
     border-radius: 6px;
     border: 1px solid var(--color-border);
     background: var(--color-background);
-    padding: 14px 18px;
-    margin-bottom: 8px;
+    padding: 10px 14px;
+    margin-bottom: 6px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 3px;
   }
   .step-card-dark {
     background: var(--color-primary);
@@ -143,33 +139,28 @@
     border-color: var(--color-blue);
   }
   .act-label {
-    font-size: 10px;
+    font-size: 9px;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     color: var(--color-secondary);
     font-weight: 500;
   }
-  .step-card-dark .act-label {
-    color: rgba(249, 247, 244, 0.55);
-  }
-  .act-label-blue {
-    color: var(--color-blue) !important;
-  }
+  .step-card-dark .act-label { color: rgba(249, 247, 244, 0.5); }
+  .act-label-blue { color: var(--color-blue) !important; }
+
   .act-name {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--color-primary);
     line-height: 1.3;
   }
-  .step-card-dark .act-name {
-    color: #F9F7F4;
-  }
+  .step-card-dark .act-name { color: #F9F7F4; }
+  .act-name-blue { color: var(--color-blue); }
+
   .act-desc {
-    font-size: 12px;
+    font-size: 10px;
     color: var(--color-secondary);
     line-height: 1.4;
   }
-  .step-card-dark .act-desc {
-    color: rgba(249, 247, 244, 0.65);
-  }
+  .step-card-dark .act-desc { color: rgba(249, 247, 244, 0.6); }
 </style>

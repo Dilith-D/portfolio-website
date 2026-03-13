@@ -2,6 +2,7 @@
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
+import PostHog from '../components/posthog.astro';
 
 interface Props {
   title: string;
@@ -16,6 +17,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
 
 <html lang="en">
   <head>
+    <PostHog />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
@@ -301,6 +303,32 @@ const ogImageURL = new URL(ogImage, Astro.site);
         }
       }, 200);
     });
+  </script>
+
+  <!-- PostHog event tracking -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Track case study CTA clicks
+      document.querySelectorAll('a[href^="/work/"]').forEach(link => {
+        link.addEventListener('click', () => {
+          window.posthog?.capture('case_study_clicked', { slug: link.getAttribute('href') })
+        })
+      })
+
+      // Track essay CTA clicks
+      document.querySelectorAll('a[href^="/writing/"]').forEach(link => {
+        link.addEventListener('click', () => {
+          window.posthog?.capture('essay_clicked', { slug: link.getAttribute('href') })
+        })
+      })
+
+      // Track contact intent
+      document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+        link.addEventListener('click', () => {
+          window.posthog?.capture('contact_intent')
+        })
+      })
+    })
   </script>
 
   <!-- Right-click easter egg (native menu still works) -->

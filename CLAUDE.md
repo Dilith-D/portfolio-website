@@ -17,7 +17,7 @@ When in doubt, refer back to this file.
 | MDX | @astrojs/mdx |
 | Sitemap | @astrojs/sitemap |
 | Fonts | Self-hosted (Cabinet Grotesk + Inter + Lora) |
-| Deployment | Vercel |
+| Deployment | Netlify |
 | Content | Markdown files — no CMS |
 
 ---

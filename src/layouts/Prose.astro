@@ -15,12 +15,23 @@ interface Props {
   backLabel?: string;
 }
 
-const { title, description, date, readTime, role, summary, tags = [], ogImage, backHref = '/writing', backLabel = 'Back to writing' } = Astro.props;
+// In Astro 5, MDX layout frontmatter may be nested under .frontmatter
+const fm: Record<string, any> = (Astro.props as any).frontmatter ?? Astro.props;
+const title: string = fm.title;
+const description: string = fm.description;
+const date: string | undefined = fm.date;
+const readTime: string | undefined = fm.readTime;
+const role: string | undefined = fm.role;
+const summary: string | undefined = fm.summary;
+const tags: string[] = fm.tags ?? [];
+const ogImage: string | undefined = fm.ogImage ?? (Astro.props as any).ogImage;
+const backHref: string = (Astro.props as any).backHref ?? '/writing';
+const backLabel: string = (Astro.props as any).backLabel ?? 'Back to writing';
 
 const meta = [date, readTime, role].filter(Boolean).join(' · ');
 ---
 
-<Base title={title} description={description} ogImage={ogImage}>
+<Base title={title} description={description || summary || ''} ogImage={ogImage}>
   <ReadingProgress />
 
   <article class="pt-32 pb-20 px-6">

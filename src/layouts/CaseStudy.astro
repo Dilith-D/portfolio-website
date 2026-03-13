@@ -12,7 +12,9 @@ interface Props {
   ogImage?: string;
 }
 
-const { ...props } = Astro.props;
+// In Astro 5, MDX layout frontmatter may be nested under .frontmatter
+const fm: Record<string, any> = (Astro.props as any).frontmatter ?? Astro.props;
+const { ...props } = fm;
 ---
 
 <Prose {...props} backHref="/work" backLabel="Back to work">

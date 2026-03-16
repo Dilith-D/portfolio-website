@@ -31,7 +31,7 @@ const backLabel: string = (Astro.props as any).backLabel ?? 'Back to writing';
 const meta = [date, readTime, role].filter(Boolean).join(' · ');
 ---
 
-<Base title={title} description={description || summary || ''} ogImage={ogImage}>
+<Base title={title} description={description || summary || ''} ogImage={ogImage} schema={fm.schema}>
   <ReadingProgress />
 
   <article class="pt-32 pb-20 px-6">

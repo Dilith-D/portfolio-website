@@ -1,101 +1,50 @@
-# Dilith Dinesh — Product Portfolio
+# Dilith Dinesh — dilithdinesh.com
 
-## About
-Dilith Dinesh is a Customer Product Manager at Zuper,
-a B2B SaaS company in field service management.
-He is targeting Associate Product Manager (APM) and
-AI-focused product roles at Series A/B product-led companies.
+## Who I am
 
-Positioning: Product operator at the boundary between
-customer reality and product systems. Translates what
-field teams actually experience into capabilities that scale.
+Dilith Dinesh is a Product Manager and product operator working at the boundary between customer reality and product systems. He is currently Customer Product Manager at Zuper, a B2B SaaS platform for field service management, where he built the roofing vertical from scratch. He has one year of experience as a Forward Deployed Engineer and one year as a Customer Product Manager. He studied Computer Science at VIT University. He is actively targeting Associate Product Manager and AI-first product roles at Series A/B companies, with particular interest in vertical SaaS, field operations, and AI-native product development.
 
-Contact: dilithdinesh007@gmail.com
+## Site pages
+
+/ — Home. Positioning, case study previews, essay previews, project previews, and contact.
+/work — Work index. All product case studies.
+/work/golden-account-model — Case study: The Roofing Vertical.
+/work/booking-stopgap — Case study: The Booking Stopgap.
+/writing — Writing index. All product essays and teardowns.
+/writing/rapido-teardown — Essay: Rapido product teardown.
+/writing/spotify-wrapped — Essay: Spotify Wrapped analysis.
+/projects — Projects index. All personal build logs.
+/projects/iris — Project: Iris cross-device transfer app.
+/projects/pulseboard — Project: Pulseboard work-tracking tool.
+/about — Background, career arc, cognitive influences.
+/now — What Dilith is currently building, reading, and thinking about.
+/contact — Contact information and role openness.
+
+## Case studies
+
+The Roofing Vertical (/work/golden-account-model):
+Built the golden account model for Zuper's roofing vertical — a pre-configured, cloneable account with roofing-specific workflows, job types, automations, and terminology. Key decision: build a CPQ workaround using existing platform capabilities rather than waiting for a native feature, then use real usage data to shape the product requirement. Outcome: onboarding time reduced by more than 50%. The golden account became a product discovery vehicle that directly shaped Zuper's native CPQ feature.
+
+The Booking Stopgap (/work/booking-stopgap):
+Designed and prototyped a multi-tenant configurable booking widget system for roofing contractors. Four booking modes, 10DLC compliance support, territory matching, per-contractor admin configuration. Key decision: build a working prototype in hours rather than writing a PRD in the abstract — compressed a feature prioritization decision from weeks to days. Outcome: feature scoped and on roadmap with requirements shaped by the prototype.
+
+## Essays
+
+What B2B SaaS Can Learn From Rapido (/writing/rapido-teardown):
+Published January 2026. Analyzes Rapido's growth in India's two-wheeler mobility market through the lens of habit loop formation, supply-side subscription economics, and ecosystem lock-in. Central argument: Rapido won by building a habit first, then expanding within that habit — a strategy B2B SaaS products underuse.
+
+How Spotify Wrapped Became a Cultural Ritual (/writing/spotify-wrapped):
+Published December 2025. Analyzes why Spotify Wrapped dominates year-end cultural conversation while most imitators fail. Central argument: Wrapped succeeds because it adds an interpretation layer on top of data — turning metrics into identity narratives users want to share. Most B2B year-in-review features stop at data presentation and miss the emotional architecture.
+
+## Projects
+
+Iris (/projects/iris):
+Built 2026. Cross-device private file and message transfer app. Problem: moving files between four personal devices (Android, iPad, two laptops) without using WhatsApp or email as workarounds. Stack: React 18, TypeScript, Supabase, Tailwind CSS. Key decisions: device registration instead of user accounts; 8-character pairing codes instead of phone numbers; 7-day session expiry to keep the tool lightweight. Rebuilt from an earlier version (D-Chat) after the original Neumorphic design system failed in dark mode on mobile.
+
+Pulseboard (/projects/pulseboard):
+Built 2025. Personal work-tracking and reflection tool for product managers. Problem: scattered cross-functional work doesn't accumulate into a visible narrative without deliberate logging. Stack: Lovable, Supabase, Claude, GPT-4. Key finding: AI-generated summaries are good at volume but bad at weight — they can't distinguish a week with one important decision from a week with twenty routine tasks. This gap would be the focus of a v2.
+
+## Contact
+
+Email: dilithdinesh007@gmail.com
 LinkedIn: https://linkedin.com/in/dilithdinesh
-
-## Work — Case Studies
-
-### The Roofing Vertical
-URL: https://dilithdinesh.com/work/golden-account-model
-Tags: Zuper, Field Service, Systems Design
-Summary: Built the roofing golden account — a fully
-cloneable pre-configured Zuper account for roofing
-contractors. Reduced onboarding from 12-16 weeks to
-15 days. Used by 30+ contractor accounts. Every sales
-demo runs on a clone of this account.
-Skills demonstrated: vertical strategy, systems design,
-ICP definition, workaround-to-requirement translation,
-cross-functional influence without authority.
-
-### The Stopgap That Knew Its Place
-URL: https://dilithdinesh.com/work/booking-stopgap
-Tags: Zuper, Field Service, Product Judgment
-Summary: 9 of 15 roofing customers needed booking widgets.
-Manual build took 1 day + 2 people each. Built a working
-multi-tenant prototype in 6 hours using React, TypeScript,
-Supabase. One call with the Principal PM got the native
-feature back on the roadmap. Discovered and proactively
-flagged 10DLC compliance requirement that was blocking
-telephony approval for customers.
-Skills demonstrated: build vs buy judgment, prototype
-thinking, compliance awareness, stakeholder influence,
-product requirements from real usage.
-
-## Writing — Teardowns
-
-### What B2B SaaS Can Learn From Rapido
-URL: https://dilithdinesh.com/writing/rapido-teardown
-Date: Jan 2026
-Summary: Analysis of Rapido's growth from bike taxis to
-habit loop. Four B2B SaaS lessons: start with undeniable
-core value, expand after habit is built, optimize for
-high-frequency low-friction use cases, build for actual
-behavior not ideal behavior.
-
-### How Spotify Turned Usage Data Into an Annual Identity Ritual
-URL: https://dilithdinesh.com/writing/spotify-wrapped
-Date: Dec 2025
-Summary: Analysis of Spotify Wrapped's emotional architecture.
-Core insight: data without interpretation is noise. Wrapped
-succeeds by adding an interpretation layer that transforms
-metrics into identity. Explores what B2B equivalent of a
-shareable identity moment could look like.
-
-## Projects — Build Logs
-
-### Iris
-URL: https://dilithdinesh.com/projects/iris
-Stack: React 18, TypeScript, Supabase, Lovable
-Summary: Private file and message transfer tool across
-devices. Built because WhatsApp-as-file-transfer was
-the only option. Multi-tenant architecture, 8-character
-pairing codes, no user accounts required. Available on
-Play Store. Went through full design system rebuild
-(D-Chat to Iris) after neumorphic design failed in dark mode.
-
-### Pulseboard
-URL: https://dilithdinesh.com/projects/pulseboard
-Stack: Lovable, Supabase, Claude, GPT-4
-Summary: Personal work tracking and reflection app.
-Built in one weekend. Logs daily activity, auto-categorizes
-by work type and team, generates AI performance summaries.
-Revealed that AI summaries handle volume well but not
-weight — a gap identified for v2.
-
-## Skills and Experience
-
-Current role: Associate Product Manager at Zuper (2025-present)
-Previous: Customer Product Manager, Forward Deployed Engineer,
-Implementation Engineer at Zuper
-Education: Computer Science, VIT
-Location: Chennai, India
-
-Core skills: product discovery, spec writing, customer
-research, cross-functional collaboration, vertical SaaS,
-field service management, B2B SaaS, AI-assisted building,
-no-code prototyping, stakeholder management
-
-Looking for: APM or AI-focused PM roles at Series A/B
-product-led companies. Particularly interested in vertical
-SaaS, AI-first products, B2B tools for people doing
-physical work.

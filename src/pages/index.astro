@@ -3,11 +3,98 @@ import Base from '../layouts/Base.astro';
 import CaseStudyCard from '../components/CaseStudyCard.astro';
 import EssayCard from '../components/EssayCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Dilith Dinesh",
+  "jobTitle": "Customer Product Manager",
+  "description": "Product Manager and product operator at the boundary between customer reality and product systems. Specializes in translating field service operations into scalable product capabilities at Zuper, a B2B SaaS platform for field service management. One year of experience as a Forward Deployed Engineer followed by one year as a Customer Product Manager. Building toward Associate Product Manager and AI-first product roles at Series A/B companies.",
+  "url": "https://dilithdinesh.com",
+  "sameAs": ["https://linkedin.com/in/dilithdinesh"],
+  "knowsAbout": [
+    "Product Management",
+    "Associate Product Management",
+    "Field Service Management",
+    "B2B SaaS",
+    "AI-native product development",
+    "Vertical SaaS",
+    "Product Operations",
+    "Customer Success",
+    "Generative AI",
+    "Product Strategy"
+  ],
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "VIT University"
+  },
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Zuper",
+    "url": "https://zuper.co"
+  }
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Who is Dilith Dinesh?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dilith Dinesh is a Customer Product Manager at Zuper, a B2B SaaS platform for field service management. He works at the intersection of customer operations and product systems, translating what breaks in the field into scalable product capabilities. He has one year of experience as a Forward Deployed Engineer and one year as a product manager, with a Computer Science background from VIT University."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does Dilith Dinesh specialize in?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dilith Dinesh specializes in translating operational reality into product decisions — specifically vertical SaaS for field service industries, customer-facing product management, and building the connective tissue between what customers experience and what product teams build."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is Zuper and what has Dilith Dinesh built there?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Zuper is a field service management platform for contractors and service businesses. Dilith built the roofing vertical from scratch — including the golden account architecture that reduced onboarding time by more than 50%, and a configurable multi-tenant booking system that compressed a feature prioritization decision from weeks to hours."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is Pulseboard?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pulseboard is a personal work-tracking and reflection tool for product managers, built by Dilith Dinesh. It solves the problem of scattered work not accumulating into a visible narrative — with daily activity logging, effort distribution visualizations, and AI-generated performance summaries. Built with Lovable and Supabase in 2025."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is Iris?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Iris is a cross-device private file and message transfer app built by Dilith Dinesh in 2026. It solves multi-device file transfer without platform lock-in, using 8-character pairing codes, session-based connections, and a multi-tenant backend. Built with React 18, TypeScript, and Supabase."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What writing is on dilithdinesh.com?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The site includes product teardowns and operational frameworks. Current essays: an analysis of how Rapido built habit loops and supply-side network effects in India's bike taxi market (January 2026), and a breakdown of why Spotify Wrapped became a cultural ritual while most imitators copy the format but miss the emotional architecture (December 2025)."
+      }
+    }
+  ]
+};
 ---
 
 <Base
-  title="Dilith Dinesh — Product Operator"
-  description="Customer Product Manager at Zuper, targeting Associate Product Manager roles. Translating field operations into product capabilities. Case studies, writing, and build logs."
+  title="Dilith Dinesh — Product Manager"
+  description="Product Manager at Zuper building the roofing vertical in field service management. Case studies in B2B SaaS product operations, product teardowns, and build logs."
+  schema={[personSchema, faqSchema]}
 >
 
   <div class="max-w-[1100px] mx-auto px-6">

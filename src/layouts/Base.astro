@@ -8,6 +8,7 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  schema?: any;
 }
 
 const {
@@ -15,6 +16,7 @@ const {
   description: directDescription,
   frontmatter,
   ogImage = '/og-image.png',
+  schema,
 } = Astro.props;
 
 const title = directTitle ?? frontmatter?.title ?? 'Dilith Dinesh';
@@ -58,37 +60,13 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
     <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Dilith Dinesh",
-      "url": "https://dilithdinesh.com",
-      "jobTitle": "Customer Product Manager",
-      "seeks": "Associate Product Manager role",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Zuper"
-      },
-      "sameAs": [
-        "https://linkedin.com/in/dilithdinesh",
-        "https://github.com/Dilith-D"
-      ],
-      "description": "Customer Product Manager at Zuper targeting Associate Product Manager roles. Product operator at the boundary between customer reality and product systems.",
-      "knowsAbout": [
-        "Product Management",
-        "Associate Product Manager",
-        "APM",
-        "Field Service Management",
-        "B2B SaaS",
-        "Vertical SaaS",
-        "AI Product Management",
-        "Product Operations",
-        "Product Spec Writing",
-        "Systems Design"
-      ]
-    }
-    </script>
+    {schema && (
+      Array.isArray(schema)
+        ? schema.map((s: any) => (
+            <Fragment set:html={`<script type="application/ld+json">${JSON.stringify(s)}</script>`} />
+          ))
+        : <Fragment set:html={`<script type="application/ld+json">${JSON.stringify(schema)}</script>`} />
+    )}
 
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-X4C4BFY2PZ"></script>

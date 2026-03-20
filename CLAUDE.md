@@ -31,20 +31,21 @@ dilithdinesh/
 │   │   ├── index.astro
 │   │   ├── work/
 │   │   │   ├── index.astro
-│   │   │   ├── maven-model.md
-│   │   │   ├── booking-stopgap.md
-│   │   │   └── deposit-spec.md
+│   │   │   ├── golden-account-model.mdx
+│   │   │   └── booking-stopgap.mdx
 │   │   ├── writing/
 │   │   │   ├── index.astro
-│   │   │   ├── rapido-teardown.md
-│   │   │   └── spotify-wrapped.md
+│   │   │   ├── rapido-teardown.mdx
+│   │   │   └── spotify-wrapped.mdx
 │   │   ├── projects/
 │   │   │   ├── index.astro
-│   │   │   ├── iris.md
-│   │   │   └── pulseboard.md
+│   │   │   ├── iris.mdx
+│   │   │   └── pulseboard.mdx
 │   │   ├── now.astro
 │   │   ├── about.astro
-│   │   └── contact.astro
+│   │   ├── contact.astro
+│   │   ├── 404.astro
+│   │   └── secret.astro
 │   ├── components/
 │   │   ├── Nav.astro
 │   │   ├── Footer.astro
@@ -53,7 +54,22 @@ dilithdinesh/
 │   │   ├── ProjectCard.astro
 │   │   ├── PullQuote.astro
 │   │   ├── SpecBlock.astro
-│   │   └── ReadingProgress.astro
+│   │   ├── ReadingProgress.astro
+│   │   ├── MetricsSummary.astro
+│   │   ├── posthog.astro
+│   │   └── diagrams/
+│   │       ├── BookingFlow.astro
+│   │       ├── CPQDecision.astro
+│   │       ├── IrisArchitecture.astro
+│   │       ├── OutcomeMetrics.astro
+│   │       ├── PulseboardSequence.astro
+│   │       ├── RapidoHabitLoop.astro
+│   │       ├── RapidoPositioning.astro
+│   │       ├── StopgapDecision.astro
+│   │       ├── StopgapMetrics.astro
+│   │       ├── ThreePipelines.astro
+│   │       ├── WrappedArc.astro
+│   │       └── WrappedInterpretation.astro
 │   ├── layouts/
 │   │   ├── Base.astro
 │   │   ├── Prose.astro
@@ -63,10 +79,16 @@ dilithdinesh/
 ├── public/
 │   ├── fonts/
 │   │   ├── CabinetGrotesk-Variable.woff2
-│   │   ├── Inter-Variable.woff2
-│   │   └── Lora-Variable.woff2
+│   │   ├── Inter/Inter-VariableFont_opsz,wght.ttf
+│   │   ├── Inter/Inter-Italic-VariableFont_opsz,wght.ttf
+│   │   ├── Lora/Lora-VariableFont_wght.ttf
+│   │   └── Lora/Lora-Italic-VariableFont_wght.ttf
 │   ├── robots.txt
-│   └── og-image.png
+│   ├── og-image.png
+│   ├── favicon.svg
+│   ├── favicon.ico
+│   ├── easter-eggs.json
+│   └── llms.txt
 ├── CLAUDE.md
 ├── CONTENT.md
 ├── astro.config.mjs
@@ -602,7 +624,7 @@ Example: ZUPER  ·  FIELD SERVICE  ·  SYSTEMS DESIGN
 
 ## Markdown Frontmatter Schemas
 
-### Case Studies (/work/*.md)
+### Case Studies (/work/*.mdx)
 
 ```yaml
 ---
@@ -616,7 +638,7 @@ slug: string             # matches filename
 ---
 ```
 
-### Essays (/writing/*.md)
+### Essays (/writing/*.mdx)
 
 ```yaml
 ---
@@ -630,7 +652,7 @@ featured: boolean        # true for featured essay (hero treatment on index)
 ---
 ```
 
-### Projects (/projects/*.md)
+### Projects (/projects/*.mdx)
 
 ```yaml
 ---
@@ -715,21 +737,34 @@ Sitemap: https://dilithdinesh.com/sitemap.xml
 
 ---
 
-## Build Order (Page by Page)
+## Build Status
 
-Build in this exact sequence. Each page depends on the ones before it.
+All 9 sessions complete. Site is production-ready.
 
 ```
-Session 1:  Project scaffold + design system + Base/Prose/CaseStudy layouts + Nav + Footer
-Session 2:  Home page (index.astro)
-Session 3:  Work index + CaseStudyCard + first case study page
-Session 4:  Remaining two case study pages
-Session 5:  Writing index + EssayCard + both essay pages
-Session 6:  Projects index + ProjectCard + both project pages
-Session 7:  Now page + About page
-Session 8:  Contact page + 404 page
-Session 9:  SEO pass + OG image + sitemap verification + performance audit
+Session 1:  ✓ Project scaffold + design system + Base/Prose/CaseStudy layouts + Nav + Footer
+Session 2:  ✓ Home page (index.astro)
+Session 3:  ✓ Work index + CaseStudyCard + first case study page
+Session 4:  ✓ Remaining case study pages
+Session 5:  ✓ Writing index + EssayCard + both essay pages
+Session 6:  ✓ Projects index + ProjectCard + both project pages
+Session 7:  ✓ Now page + About page
+Session 8:  ✓ Contact page + 404 page
+Session 9:  ✓ SEO pass + OG image + sitemap verification
 ```
+
+## Features Beyond Original Spec (Implemented)
+
+These features were added during the build and are live in the codebase:
+
+- **Dark mode** — localStorage-based theme persistence, full token set, toggle in Nav
+- **Easter egg system** — 20+ eggs tracked via `public/easter-eggs.json` and localStorage
+- **Secret page** (`/secret`) — easter egg dashboard showing progress
+- **PostHog analytics** — `posthog.astro` component, tracks case study/essay/contact clicks
+- **MetricsSummary component** — data visualization for case studies
+- **11 SVG diagram components** — in `src/components/diagrams/`, used in MDX content
+- **JSON-LD structured data** — Person, TechArticle, Article, SoftwareApplication schemas
+- **`public/llms.txt`** — custom LLM crawler rules
 
 ---
 

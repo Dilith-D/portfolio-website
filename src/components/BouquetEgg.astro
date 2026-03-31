@@ -1,0 +1,409 @@
+---
+// BouquetEgg.astro
+// Easter egg: bouquet appears based on scroll depth across all 6 main pages
+---
+
+<div id="bouquet-overlay" aria-hidden="true" style="
+  position: fixed;
+  inset: 0;
+  background: rgba(249,247,244,0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.7s ease;
+">
+  <div id="bouquet-modal" style="
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 340px;
+    width: 90%;
+    transform: translateY(24px);
+    transition: transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  ">
+
+    <!-- SVG Bouquet illustration -->
+    <div style="width:300px;height:320px;flex-shrink:0;">
+      <svg width="300" height="320" viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg" style="overflow:visible;">
+        <defs>
+          <filter id="begg-rough" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+          <filter id="begg-soft" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" result="n2"/>
+            <feDisplacementMap in="SourceGraphic" in2="n2" scale="2" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+
+        <!-- warm backdrop -->
+        <circle cx="150" cy="140" r="110" fill="#FDF0E0" opacity="0.75"/>
+        <circle cx="150" cy="140" r="95" fill="#FAE8D0" opacity="0.4"/>
+
+        <!-- stems and leaves -->
+        <g filter="url(#begg-soft)">
+          <path d="M110 285 Q102 250 88 200 Q80 168 82 138" stroke="#5C7A38" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M148 290 Q148 255 148 218 Q148 188 146 158" stroke="#6A8840" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M185 285 Q192 250 202 200 Q210 168 208 138" stroke="#5C7A38" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M125 288 Q110 258 92 228 Q80 208 78 185" stroke="#4E6B30" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M170 288 Q185 258 202 228 Q214 208 216 185" stroke="#4E6B30" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M100 230 Q82 218 74 200 Q86 206 100 218 Z" fill="#5C7A38" opacity="0.85"/>
+          <path d="M196 230 Q214 218 220 200 Q208 206 196 218 Z" fill="#5C7A38" opacity="0.85"/>
+          <path d="M140 200 Q124 188 118 172 Q130 180 142 192 Z" fill="#6A8840" opacity="0.75"/>
+          <path d="M158 200 Q174 188 180 172 Q168 180 156 192 Z" fill="#6A8840" opacity="0.75"/>
+          <path d="M148 250 Q128 230 112 210" stroke="#8AAA58" stroke-width="1.2" fill="none" opacity="0.5" stroke-dasharray="3,2"/>
+          <path d="M152 250 Q172 230 188 210" stroke="#8AAA58" stroke-width="1.2" fill="none" opacity="0.5" stroke-dasharray="3,2"/>
+        </g>
+
+        <!-- Flower 1: amber/coral rose top left -->
+        <g style="transform-origin:88px 280px;animation:begg-sway1 4.2s ease-in-out infinite;">
+          <g transform="translate(88,138)" filter="url(#begg-rough)">
+            <ellipse cx="0" cy="-22" rx="13" ry="18" fill="#D4621A" opacity="0.9" transform="rotate(-15)"/>
+            <ellipse cx="0" cy="-22" rx="13" ry="18" fill="#C85A18" opacity="0.9" transform="rotate(57)"/>
+            <ellipse cx="0" cy="-22" rx="13" ry="18" fill="#D4621A" opacity="0.9" transform="rotate(129)"/>
+            <ellipse cx="0" cy="-22" rx="13" ry="18" fill="#C85A18" opacity="0.9" transform="rotate(201)"/>
+            <ellipse cx="0" cy="-22" rx="13" ry="18" fill="#D4621A" opacity="0.9" transform="rotate(273)"/>
+            <ellipse cx="0" cy="-15" rx="9" ry="13" fill="#E06E22" transform="rotate(-8)"/>
+            <ellipse cx="0" cy="-15" rx="9" ry="13" fill="#D46420" transform="rotate(64)"/>
+            <ellipse cx="0" cy="-15" rx="9" ry="13" fill="#E06E22" transform="rotate(136)"/>
+            <ellipse cx="0" cy="-15" rx="9" ry="13" fill="#D46420" transform="rotate(208)"/>
+            <ellipse cx="0" cy="-15" rx="9" ry="13" fill="#E06E22" transform="rotate(280)"/>
+            <circle cx="0" cy="0" r="10" fill="#B84E14"/>
+            <circle cx="-2" cy="-2" r="5" fill="#9E3E0C" opacity="0.8"/>
+          </g>
+        </g>
+
+        <!-- Flower 2: golden sunflower center -->
+        <g style="transform-origin:148px 280px;animation:begg-sway2 3.8s ease-in-out infinite;">
+          <g transform="translate(148,155)" filter="url(#begg-rough)">
+            <ellipse cx="0" cy="-26" rx="8" ry="16" fill="#E8B420" transform="rotate(0)"/>
+            <ellipse cx="0" cy="-26" rx="8" ry="16" fill="#DCA818" transform="rotate(24)"/>
+            <ellipse cx="0" cy="-26" rx="8" ry="16" fill="#E8B420" transform="rotate(48)"/>
+            <ellipse cx="0" cy="-26" rx="8" ry="16" fill="#DCA818" transform="rotate(72)"/>
+            <ellipse cx="0" cy="-26" rx="8" ry="16" fill="#E8B420" transform="rotate(96)"/>
+            <ellipse cx="0" cy="-26" rx="8" ry="16" fill="#DCA818" transform="rotate(120)"/>
+            <ellipse cx="0" cy="-26" rx="8" ry="16" fill="#E8B420" transform="rotate(144)"/>
+            <ellipse cx="0" cy="-26" rx="8" ry="16" fill="#DCA818" transform="rotate(168)"/>
+            <ellipse cx="0" cy="-26" rx="8" ry="16" fill="#E8B420" transform="rotate(192)"/>
+            <ellipse cx="0" cy="-26" rx="8" ry="16" fill="#DCA818" transform="rotate(216)"/>
+            <ellipse cx="0" cy="-26" rx="8" ry="16" fill="#E8B420" transform="rotate(240)"/>
+            <ellipse cx="0" cy="-26" rx="8" ry="16" fill="#DCA818" transform="rotate(264)"/>
+            <ellipse cx="0" cy="-26" rx="8" ry="16" fill="#E8B420" transform="rotate(288)"/>
+            <ellipse cx="0" cy="-26" rx="8" ry="16" fill="#DCA818" transform="rotate(312)"/>
+            <ellipse cx="0" cy="-26" rx="8" ry="16" fill="#E8B420" transform="rotate(336)"/>
+            <circle cx="0" cy="0" r="18" fill="#7A4010"/>
+            <circle cx="0" cy="0" r="14" fill="#8A4E18"/>
+            <circle cx="-4" cy="-4" r="2.5" fill="#6A3008" opacity="0.8"/>
+            <circle cx="4" cy="-4" r="2.5" fill="#6A3008" opacity="0.8"/>
+            <circle cx="0" cy="3" r="2.5" fill="#6A3008" opacity="0.8"/>
+            <circle cx="-6" cy="3" r="2" fill="#6A3008" opacity="0.6"/>
+            <circle cx="6" cy="3" r="2" fill="#6A3008" opacity="0.6"/>
+          </g>
+        </g>
+
+        <!-- Flower 3: peach daffodil top right -->
+        <g style="transform-origin:208px 280px;animation:begg-sway3 4.6s ease-in-out infinite;">
+          <g transform="translate(208,138)" filter="url(#begg-rough)">
+            <ellipse cx="0" cy="-22" rx="9" ry="19" fill="#F0C4A0" transform="rotate(0)" opacity="0.95"/>
+            <ellipse cx="0" cy="-22" rx="9" ry="19" fill="#E8B890" transform="rotate(60)" opacity="0.95"/>
+            <ellipse cx="0" cy="-22" rx="9" ry="19" fill="#F0C4A0" transform="rotate(120)" opacity="0.95"/>
+            <ellipse cx="0" cy="-22" rx="9" ry="19" fill="#E8B890" transform="rotate(180)" opacity="0.95"/>
+            <ellipse cx="0" cy="-22" rx="9" ry="19" fill="#F0C4A0" transform="rotate(240)" opacity="0.95"/>
+            <ellipse cx="0" cy="-22" rx="9" ry="19" fill="#E8B890" transform="rotate(300)" opacity="0.95"/>
+            <circle cx="0" cy="0" r="13" fill="#F5D0A8" stroke="#E0A870" stroke-width="1.5"/>
+            <circle cx="0" cy="0" r="9" fill="#ECA060"/>
+            <circle cx="0" cy="0" r="5" fill="#D47830"/>
+          </g>
+        </g>
+
+        <!-- Flower 4: coral gerbera front left -->
+        <g style="transform-origin:112px 280px;animation:begg-sway4 3.5s ease-in-out infinite;">
+          <g transform="translate(112,188)" filter="url(#begg-rough)">
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#E87830" transform="rotate(0)" opacity="0.92"/>
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#D86820" transform="rotate(22)" opacity="0.92"/>
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#E87830" transform="rotate(44)" opacity="0.92"/>
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#D86820" transform="rotate(66)" opacity="0.92"/>
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#E87830" transform="rotate(88)" opacity="0.92"/>
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#D86820" transform="rotate(110)" opacity="0.92"/>
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#E87830" transform="rotate(132)" opacity="0.92"/>
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#D86820" transform="rotate(154)" opacity="0.92"/>
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#E87830" transform="rotate(176)" opacity="0.92"/>
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#D86820" transform="rotate(198)" opacity="0.92"/>
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#E87830" transform="rotate(220)" opacity="0.92"/>
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#D86820" transform="rotate(242)" opacity="0.92"/>
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#E87830" transform="rotate(264)" opacity="0.92"/>
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#D86820" transform="rotate(286)" opacity="0.92"/>
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#E87830" transform="rotate(308)" opacity="0.92"/>
+            <ellipse cx="0" cy="-23" rx="6" ry="15" fill="#D86820" transform="rotate(330)" opacity="0.92"/>
+            <circle cx="0" cy="0" r="13" fill="#C86010"/>
+            <circle cx="0" cy="0" r="9" fill="#A84808"/>
+            <circle cx="0" cy="0" r="5" fill="#8A3808"/>
+          </g>
+        </g>
+
+        <!-- Flower 5: warm cream rose front right -->
+        <g style="transform-origin:186px 280px;animation:begg-sway5 5s ease-in-out infinite;">
+          <g transform="translate(186,190)" filter="url(#begg-rough)">
+            <ellipse cx="0" cy="-18" rx="11" ry="15" fill="#E8A870" opacity="0.9" transform="rotate(-12)"/>
+            <ellipse cx="0" cy="-18" rx="11" ry="15" fill="#DDA060" opacity="0.9" transform="rotate(60)"/>
+            <ellipse cx="0" cy="-18" rx="11" ry="15" fill="#E8A870" opacity="0.9" transform="rotate(132)"/>
+            <ellipse cx="0" cy="-18" rx="11" ry="15" fill="#DDA060" opacity="0.9" transform="rotate(204)"/>
+            <ellipse cx="0" cy="-18" rx="11" ry="15" fill="#E8A870" opacity="0.9" transform="rotate(276)"/>
+            <ellipse cx="0" cy="-12" rx="8" ry="10" fill="#F0B878" transform="rotate(-6)"/>
+            <ellipse cx="0" cy="-12" rx="8" ry="10" fill="#E8AC68" transform="rotate(66)"/>
+            <ellipse cx="0" cy="-12" rx="8" ry="10" fill="#F0B878" transform="rotate(138)"/>
+            <ellipse cx="0" cy="-12" rx="8" ry="10" fill="#E8AC68" transform="rotate(210)"/>
+            <ellipse cx="0" cy="-12" rx="8" ry="10" fill="#F0B878" transform="rotate(282)"/>
+            <circle cx="0" cy="0" r="8" fill="#C88048"/>
+            <circle cx="-1" cy="-1" r="4" fill="#A86030" opacity="0.7"/>
+          </g>
+        </g>
+
+        <!-- wrap paper -->
+        <path d="M88 272 Q118 318 150 320 Q182 318 212 272 Z" fill="#F5ECD8" stroke="#DDD0B8" stroke-width="1.5" filter="url(#begg-soft)"/>
+        <path d="M96 295 Q120 310 150 312 Q180 310 204 295" stroke="#C8BCA8" stroke-width="1" fill="none" opacity="0.6"/>
+        <path d="M88 272 L100 295" stroke="#C8BCA8" stroke-width="0.8" fill="none" opacity="0.5"/>
+        <path d="M212 272 L200 295" stroke="#C8BCA8" stroke-width="0.8" fill="none" opacity="0.5"/>
+
+        <!-- ribbon and bow -->
+        <path d="M128 270 Q136 260 142 265 Q136 273 128 270Z" fill="#C4903A" opacity="0.9"/>
+        <path d="M172 270 Q164 260 158 265 Q164 273 172 270Z" fill="#B88030" opacity="0.9"/>
+        <circle cx="150" cy="267" r="6" fill="#D4A04A"/>
+        <path d="M118 272 Q150 262 182 272" stroke="#C4903A" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+      </svg>
+    </div>
+
+    <!-- Note card -->
+    <div id="bouquet-note" style="
+      background: #FFFBF5;
+      border: 1px solid #E8DFD0;
+      border-radius: 6px;
+      padding: 20px 22px;
+      width: 100%;
+      margin-top: -20px;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 4px 24px rgba(180,140,100,0.12);
+    ">
+      <p id="bouquet-note-text" style="
+        font-family: 'Caveat', cursive;
+        font-size: 21px;
+        line-height: 1.55;
+        color: #2A1F14;
+        white-space: pre-line;
+        margin-bottom: 10px;
+      "></p>
+      <div id="bouquet-cta-wrap"></div>
+      <p style="
+        font-family: 'Caveat', cursive;
+        font-size: 21px;
+        color: #6B4F35;
+        text-align: right;
+        margin-top: 8px;
+      ">— Dilith</p>
+    </div>
+
+    <button id="bouquet-close" style="
+      margin-top: 18px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: #6B6B6B;
+      background: none;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 0;
+    ">Close ×</button>
+  </div>
+</div>
+
+<style>
+  @keyframes begg-sway1 {
+    0%,100% { transform: rotate(-2deg) translateY(0); }
+    50% { transform: rotate(2deg) translateY(-5px); }
+  }
+  @keyframes begg-sway2 {
+    0%,100% { transform: rotate(2.5deg) translateY(0); }
+    50% { transform: rotate(-2deg) translateY(-6px); }
+  }
+  @keyframes begg-sway3 {
+    0%,100% { transform: rotate(-1.5deg) translateY(0); }
+    50% { transform: rotate(3deg) translateY(-4px); }
+  }
+  @keyframes begg-sway4 {
+    0%,100% { transform: rotate(3deg) translateY(0); }
+    50% { transform: rotate(-1.5deg) translateY(-7px); }
+  }
+  @keyframes begg-sway5 {
+    0%,100% { transform: rotate(-2.5deg) translateY(0); }
+    50% { transform: rotate(1.5deg) translateY(-5px); }
+  }
+  @keyframes begg-bloom {
+    from { transform: scale(0.2) rotate(-10deg); opacity: 0; }
+    to { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  @keyframes begg-cf {
+    0% { transform: translate(0,-10px) rotate(0deg); opacity:1; }
+    100% { transform: translate(var(--dx),160px) rotate(var(--rot)); opacity:0; }
+  }
+  #bouquet-overlay.begg-visible {
+    opacity: 1 !important;
+    pointer-events: all !important;
+  }
+  #bouquet-modal.begg-visible {
+    transform: translateY(0) !important;
+  }
+  #bouquet-modal svg {
+    animation: begg-bloom 0.9s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  #bouquet-close:hover { color: #1A1A1A; }
+</style>
+
+<script>
+(function() {
+  const PAGES = ['/', '/work', '/writing', '/projects', '/now', '/about'];
+  const SHOWN_KEY = 'dd_bouquet_shown';
+  const SCROLL_KEY = 'dd_scroll_depths';
+
+  // Don't run if already shown this session
+  if (sessionStorage.getItem(SHOWN_KEY)) return;
+
+  const depths = JSON.parse(sessionStorage.getItem(SCROLL_KEY) || '{}');
+
+  // Record current page scroll
+  const path = window.location.pathname;
+  const normalised = path === '/' ? '/' : path.replace(/\/$/, '');
+
+  const matchedPage = PAGES.find(p => {
+    if (p === '/') return normalised === '/';
+    return normalised.startsWith(p);
+  });
+
+  if (matchedPage) {
+    let triggered = false;
+
+    const onScroll = () => {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      if (total <= 0) return;
+      const depth = scrolled / total;
+      depths[matchedPage] = Math.max(depths[matchedPage] || 0, depth);
+      sessionStorage.setItem(SCROLL_KEY, JSON.stringify(depths));
+      if (!triggered) checkAndShow();
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  function checkAndShow() {
+    const allPages = PAGES.every(p => depths[p] !== undefined);
+    if (!allPages) return;
+
+    const allFull = PAGES.every(p => (depths[p] || 0) >= 0.88);
+    const allHalf = PAGES.every(p => (depths[p] || 0) >= 0.5);
+
+    if (allFull) {
+      setTimeout(() => showBouquet('full'), 800);
+    } else if (allHalf) {
+      setTimeout(() => showBouquet('half'), 800);
+    } else {
+      setTimeout(() => showBouquet('visited'), 800);
+    }
+  }
+
+  const NOTES = {
+    visited: {
+      text: "Don't tell anyone about this.\n\nMost product portfolios don't have hidden bouquets.\n\nYou found this one. But you haven't seen everything yet — the good stuff is further down the page.",
+      cta: "Keep scrolling →"
+    },
+    half: {
+      text: "Don't tell anyone about this.\n\nMost product portfolios don't have hidden bouquets.\n\nYou're halfway there. Keep going — you're the kind of person who finishes what they start.",
+      cta: "Keep reading →"
+    },
+    full: {
+      text: "Don't tell anyone about this.\n\nMost product portfolios don't have hidden bouquets.\nMost people don't find them either.\n\nYou did. Here's yours.",
+      cta: null
+    }
+  };
+
+  function showBouquet(state) {
+    if (sessionStorage.getItem(SHOWN_KEY)) return;
+    sessionStorage.setItem(SHOWN_KEY, state);
+
+    // Update easter egg registry
+    try {
+      window.markEggFound('bouquet', 'You found the hidden bouquet.');
+    } catch(e) {}
+
+    const note = NOTES[state];
+    document.getElementById('bouquet-note-text').textContent = note.text;
+
+    const ctaWrap = document.getElementById('bouquet-cta-wrap');
+    if (note.cta) {
+      const btn = document.createElement('button');
+      btn.textContent = note.cta;
+      btn.style.cssText = `
+        display:inline-block;
+        margin-top:10px;
+        font-family:'Inter',sans-serif;
+        font-size:12px;
+        font-weight:500;
+        color:#FFFBF5;
+        background:#C17B4E;
+        padding:8px 18px;
+        border-radius:5px;
+        border:none;
+        cursor:pointer;
+        letter-spacing:0.02em;
+      `;
+      btn.onclick = () => closeModal();
+      ctaWrap.appendChild(btn);
+    } else {
+      spawnConfetti();
+    }
+
+    const overlay = document.getElementById('bouquet-overlay');
+    const modal = document.getElementById('bouquet-modal');
+    overlay.classList.add('begg-visible');
+    modal.classList.add('begg-visible');
+  }
+
+  function closeModal() {
+    document.getElementById('bouquet-overlay').classList.remove('begg-visible');
+    document.getElementById('bouquet-modal').classList.remove('begg-visible');
+  }
+
+  function spawnConfetti() {
+    const colors = ['#E87830','#E8B420','#F0C4A0','#D4621A','#E8A870','#5C7A38','#D4A04A'];
+    const overlay = document.getElementById('bouquet-overlay');
+    for (let i = 0; i < 34; i++) {
+      const el = document.createElement('div');
+      const size = 4 + Math.random() * 7;
+      el.style.cssText = `
+        position:absolute;
+        left:${10 + Math.random()*80}%;
+        top:12%;
+        width:${size}px;
+        height:${size}px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        border-radius:${Math.random()>0.5?'50%':'2px'};
+        opacity:0;
+        pointer-events:none;
+        --dx:${(Math.random()-0.5)*220}px;
+        --rot:${Math.random()*420}deg;
+        animation:begg-cf ${1.3+Math.random()*1.3}s ease-out ${Math.random()*0.7}s forwards;
+      `;
+      overlay.appendChild(el);
+      setTimeout(() => el.remove(), 4000);
+    }
+  }
+
+  document.getElementById('bouquet-close').addEventListener('click', closeModal);
+})();
+</script>

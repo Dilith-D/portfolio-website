@@ -305,15 +305,15 @@
     const allPages = PAGES.every(p => depths[p] !== undefined);
     if (!allPages) return;
 
-    const allFull = PAGES.every(p => (depths[p] || 0) >= 0.88);
+    const allFull = PAGES.every(p => (depths[p] || 0) >= 0.95);
     const allHalf = PAGES.every(p => (depths[p] || 0) >= 0.5);
 
     if (allFull) {
-      setTimeout(() => showBouquet('full'), 800);
+      setTimeout(() => showBouquet('full'), 3500);
     } else if (allHalf) {
-      setTimeout(() => showBouquet('half'), 800);
+      setTimeout(() => showBouquet('half'), 3500);
     } else {
-      setTimeout(() => showBouquet('visited'), 800);
+      setTimeout(() => showBouquet('visited'), 3500);
     }
   }
 

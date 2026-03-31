@@ -34,5 +34,5 @@
   {"id":"hard-parts-twice","hint":"Find the section titled 'What I'd do differently' in both case studies.","message":"You read the hard part twice. That's a good sign in a PM."},
   {"id":"about-overread","hint":"Stay on the About page longer than it takes to read.","message":"You stayed longer than the read time. I'm curious what you were thinking about."},
   {"id":"contact-leave","hint":"Visit Contact and leave without clicking the email.","message":"Changed your mind? The email stays open. dilithdinesh007@gmail.com"},
-  {"id":"bouquet","name":"The Full Read","hint":"What happens if you actually read everything?","description":"You scrolled through every page. A bouquet appeared."}
+  {"id":"bouquet","name":"The Full Read","hint":"What happens if you actually read everything?","description":"You scrolled through every page. A bouquet appeared.","message":"You scrolled every page. Most people don't. A bouquet appeared — that one was for you."}
 ]

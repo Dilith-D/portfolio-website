@@ -122,7 +122,7 @@ const faqSchema = {
 
         <p class="font-body text-sm text-secondary mt-4">
           Currently: Customer Product Manager at Zuper —<br />
-          building the roofing vertical from the ground up.
+          built the roofing vertical from zero.
         </p>
 
         <div class="flex flex-wrap gap-4 mt-10">
@@ -156,7 +156,7 @@ const faqSchema = {
     <!-- Proof Strip -->
     <section class="py-6 border-b border-border">
       <p class="font-body text-sm text-secondary tracking-wide">
-        Zuper&nbsp;&nbsp;·&nbsp;&nbsp;Field Service Management&nbsp;&nbsp;·&nbsp;&nbsp;B2B SaaS&nbsp;&nbsp;·&nbsp;&nbsp;Chennai&nbsp;&nbsp;·&nbsp;&nbsp;<span class="years-egg" style="position:relative; cursor:help; text-decoration-line:underline; text-underline-offset:3px; text-decoration-style:dotted;">2 years<span class="years-tip" style="display:none; position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:#1A1A1A; color:#F9F7F4; font-size:13px; font-family:'Inter',sans-serif; white-space:nowrap; padding:6px 12px; border-radius:4px; pointer-events:none; z-index:100;">408 working days. Approximately 200 contractor calls. One roofing vertical.</span></span> in the field before the title
+        Zuper&nbsp;&nbsp;·&nbsp;&nbsp;Field Service Management&nbsp;&nbsp;·&nbsp;&nbsp;B2B SaaS&nbsp;&nbsp;·&nbsp;&nbsp;Built the roofing vertical from 0 to 1&nbsp;&nbsp;·&nbsp;&nbsp;Chennai
       </p>
     </section>
 
@@ -196,8 +196,8 @@ const faqSchema = {
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <CaseStudyCard
           title="The Roofing Vertical"
-          tags={["ZUPER", "FIELD SERVICE", "SYSTEMS DESIGN"]}
-          description="There was no repeatable way to onboard a roofing contractor onto Zuper. Every implementation was custom, slow, and impossible to clone. So I built one that could be."
+          tags={["ZUPER", "FIELD SERVICE", "VERTICAL BUILD"]}
+          description="The roofing vertical at Zuper didn't exist. No architecture, no repeatable process, no foundation for the product to grow on. I built it — from first discovery call to cloneable system."
           slug="golden-account-model"
         />
         <CaseStudyCard
@@ -322,12 +322,14 @@ const faqSchema = {
   </div>
 
 
-  <!-- Easter Egg: "2 years" proof strip tooltip -->
+  <!-- Easter Egg: "2 years" proof strip tooltip (element removed; guard kept to avoid errors) -->
   <script>
     const yearsEgg = document.querySelector('.years-egg');
     const yearsTip = document.querySelector('.years-tip');
-    yearsEgg.addEventListener('mouseenter', () => { yearsTip.style.display = 'block'; window.markEggFound?.('years-tooltip'); });
-    yearsEgg.addEventListener('mouseleave', () => yearsTip.style.display = 'none');
+    if (yearsEgg) {
+      yearsEgg.addEventListener('mouseenter', () => { yearsTip.style.display = 'block'; window.markEggFound?.('years-tooltip'); });
+      yearsEgg.addEventListener('mouseleave', () => yearsTip.style.display = 'none');
+    }
   </script>
 
   <!-- Easter Egg 2: boundary tooltip -->

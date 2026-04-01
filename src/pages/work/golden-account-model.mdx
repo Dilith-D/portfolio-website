@@ -2,8 +2,8 @@
 layout: ../../layouts/CaseStudy.astro
 title: "The Roofing Vertical"
 description: "How Dilith Dinesh built Zuper's roofing vertical golden account — cutting contractor onboarding time by 50% and shaping the platform's native CPQ feature through deliberate workaround design."
-summary: "There was no repeatable way to onboard a roofing contractor onto Zuper. I built one that could be cloned."
-tags: ["Zuper", "Field Service", "Systems Design"]
+summary: "The roofing vertical at Zuper didn't exist. I built the entire foundation — discovery, architecture, pipelines, CPQ workaround, and product requirements — and in doing so, defined what the vertical needed to become."
+tags: ["Zuper", "Field Service", "Vertical Build"]
 date: "2024"
 readTime: "8 min"
 role: "Customer Product Manager"
@@ -36,15 +36,17 @@ import MetricsSummary from '../../components/MetricsSummary.astro';
 
 ## 01 Situation
 
-Zuper had roofing customers before the roofing vertical existed. They were onboarded, made live, and left running on configurations that worked — but only for them. Every implementation was rebuilt from scratch by whoever ran the engagement. Different workflow logic, different job structures, different automation setups. Nothing transferred from one account to the next.
+The roofing vertical at Zuper didn't exist — not in any structured, repeatable sense.
+
+There were roofing customers on the platform, but each one had been built from scratch. Different workflow logic, different job structures, different automation setups. Nothing transferred from one account to the next. Each implementation was rebuilt entirely by whoever ran the engagement. The institutional knowledge walked out the door with the implementation engineer.
 
 Before the golden account existed, onboarding a roofing contractor took anywhere from 12 to 16 weeks. Configuration was custom every time — different workflow logic, different job structures, nothing transferred.
 
 This wasn't just an efficiency problem. It was a signal that Zuper was still operating as a fit-for-all platform in a vertical that had specific, repeatable patterns. A roofer in Seattle and a roofer in Texas are running the same business logic. Nobody had mapped it yet.
 
-When the decision was made to go deep on roofing as a vertical, I was brought onto the core execution team alongside the SVP — who had decades of field service industry experience — and the Chief Architect, who understood what it took to build systems that scale. I was the youngest person on the team. My job was to build the roofing golden account: a pre-configured, fully cloneable account with roofing contractor terminology, workflows, configurations, job types, automations, and features already in place.
+When the decision was made to go deep on roofing as a vertical, I was one of three people on the core execution team: the SVP, who brought decades of field service industry experience; the Chief Architect, who understood what it took to build systems that scale; and me — the youngest person on the team, responsible for doing the actual build. My job was to create the roofing golden account: a pre-configured, fully cloneable account with roofing contractor terminology, workflows, configurations, job types, automations, and features already in place. And to generate the product requirements that would turn workarounds into real features.
 
-The mandate was clear. The path was not.
+The mandate was clear. The path was not. I was building something that had never been built before.
 
 ---
 
@@ -58,7 +60,7 @@ Zuper was a platform built to serve every industry. Roofing contractors were usi
 
 The golden account wasn't just a faster way to onboard roofing customers. It was the first place where Zuper could systematically identify what roofing contractors actually needed — and begin to answer the question of what the product would have to become to make those other tools unnecessary.
 
-I wasn't just building a template. I was building a discovery mechanism.
+I wasn't just building a template. I was building a discovery mechanism. Every workaround I built, every edge case I hit, every contractor workflow I mapped — all of it was input for the product roadmap. The golden account was where the product learned what roofing contractors actually needed, because I was the person closest to that reality.
 
 ---
 
@@ -84,7 +86,7 @@ Once I understood the strategic intent, I went into every existing roofing accou
 
 I also had to understand the business process end to end. Not how the platform supported it, but how roofing contractors actually worked. What happened when a homeowner called in? What did a sales crew do on a site visit? What was on that 30-foot ladder? How did an inspection become a proposal? How did a proposal become a production job, and what happened when the production job involved three different trades?
 
-This is where I hit the first real structural insight. Roofing contractors don't run one type of job. They run multiple, distinct pipelines — each with different logic, different people, different checkpoints. Lead qualification, inspection, production. These weren't statuses on a single job. They were different things.
+This is where I hit the first real structural insight. Roofing contractors don't run one type of job. They run multiple, distinct pipelines — each with different logic, different people, different checkpoints. Lead qualification, inspection, production. These weren't statuses on a single job. They were different things. No one had articulated this before I mapped it.
 
 With that understanding, I began building. I gave the golden account a persona — a Seattle-based residential roofing company — and configured it as if it were a real account. Real service territories, real trade types, real job structures. I wanted it to feel like a live account, not a demo environment. Because eventually, it would become both.
 
@@ -112,6 +114,8 @@ The CPQ workaround was limited — it couldn't handle complex nested formulas, a
 
 <CPQDecision />
 
+<p class="font-body text-sm text-secondary italic mb-8">Primary builder on a three-person core team. Responsible for the full customer-facing architecture: discovery, three-pipeline configuration, CPQ workaround, cloning mechanism, and the product requirements that shaped multiple native features shipped in subsequent roadmap cycles. There was no roofing vertical before this.</p>
+
 <PullQuote quote="The real problem wasn't onboarding speed. The golden account was a product discovery vehicle disguised as an implementation template." />
 
 ---
@@ -130,11 +134,15 @@ The CPQ workaround shipped as part of v1 — functional enough to demonstrate va
 
 Onboarding time dropped from 12–16 weeks of custom configuration to 15 days at the fast end, 4 weeks at the complex end. Thirty-plus accounts have been onboarded using the template. But the time reduction, while significant, wasn't the most important outcome.
 
-The more meaningful result was qualitative. Contractors logging into their account after the golden account existed had a fundamentally different first experience — they logged into something that already spoke their language. The feedback we heard repeatedly was a version of the same thing: it feels like this was made for us.
+But the time reduction, while meaningful, wasn't the most significant outcome. The more important result was structural. The roofing vertical moved from a manual, non-transferable process to a repeatable architecture that every new roofing customer now onboards into. There was no vertical before this build. After it, there was a foundation that scales.
+
+The shift in contractor first experience was qualitative but consistent. Instead of logging into a blank, generic system and watching an implementation engineer build their world from scratch, contractors logged into something that already spoke their language. The feedback we heard repeatedly was a version of the same thing: 'it feels like this was made for us.'
 
 The CPQ workaround ran for two months across every roofing customer before the native feature shipped. Almost every contractor hit the edge cases — the workaround couldn't handle nested formulas, and those edges were exactly what I needed. That two months of observed failure became the requirements for a feature that now works.
 
 <OutcomeMetrics />
+
+The golden account was never just a template. It was where the product learned what roofing contractors actually needed, because I was the person generating that learning.
 
 ---
 

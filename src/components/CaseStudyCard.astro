@@ -15,7 +15,7 @@ const { title, tags, description, slug } = Astro.props;
          transition-all duration-200 ease-in-out
          hover:border-primary hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
 >
-  <p class="font-body text-xs tracking-widest uppercase text-secondary">
+  <p class="font-body text-xs tracking-widest uppercase text-secondary transition-colors duration-200 group-hover:text-primary">
     {tags.join('  ·  ')}
   </p>
 

@@ -99,102 +99,18 @@ const ogImageURL = new URL(ogImage, Astro.site);
     </main>
     <Footer />
 
-  <!-- ── Toast helper — defined first, all egg scripts call window.showToast() ── -->
+  <!-- ── Toast helper — no-op, toasts disabled ── -->
   <script>
-    window.showToast = function(message, delay, isIntro) {
-      delay = delay || 0;
-      isIntro = isIntro || false;
-      setTimeout(function() {
-        const toast = document.createElement('div');
-        toast.innerText = message;
-        toast.style.cssText = `
-          position: fixed;
-          bottom: 32px;
-          left: 50%;
-          transform: translateX(-50%) translateY(80px);
-          background: #1A1A1A;
-          color: #F9F7F4;
-          font-family: 'Inter', sans-serif;
-          font-size: 14px;
-          line-height: 1.5;
-          padding: 12px 24px;
-          border-radius: 6px;
-          z-index: 9999;
-          box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-          transition: transform 300ms ease, opacity 300ms ease;
-          opacity: 0;
-          pointer-events: none;
-          max-width: 420px;
-          text-align: center;
-        `;
-        if (isIntro) {
-          toast.style.borderLeft = '3px solid #2D5BE3';
-          toast.style.paddingLeft = '21px';
-        }
-        document.body.appendChild(toast);
-        requestAnimationFrame(() => {
-          toast.style.transform = 'translateX(-50%) translateY(0)';
-          toast.style.opacity = '1';
-        });
-        setTimeout(() => {
-          toast.style.transform = 'translateX(-50%) translateY(80px)';
-          toast.style.opacity = '0';
-          setTimeout(() => toast.remove(), 300);
-        }, 4000);
-      }, delay);
-    };
+    window.showToast = function() {};
   </script>
 
-  <!-- ── markEggFound — tracks discovered eggs, fires intro + milestone toasts ── -->
+  <!-- ── markEggFound — tracks discovered eggs in localStorage ── -->
   <script>
-    window.markEggFound = function(id, message) {
+    window.markEggFound = function(id) {
       const found = JSON.parse(localStorage.getItem('dd-found-eggs') || '[]');
       if (!found.includes(id)) {
         found.push(id);
         localStorage.setItem('dd-found-eggs', JSON.stringify(found));
-
-        const introShown = localStorage.getItem('dd-egg-intro-shown');
-
-        if (!introShown) {
-          localStorage.setItem('dd-egg-intro-shown', 'true');
-          window.showToast("This site has easter eggs hidden in it. You just found one.", 0, true);
-          if (message) window.showToast(message, 4800);
-        } else {
-          if (message) window.showToast(message, 0);
-        }
-
-        fetch('/easter-eggs.json')
-          .then(r => r.json())
-          .then(eggs => {
-            const total = eggs.length;
-
-            if (found.length === 3) {
-              setTimeout(() => {
-                window.showToast(
-                  "Damn. You've found 3 already. There are " + total + " hidden across this site. Keep going — or if you've tried everything, there's a line on the About page that knows the way."
-                );
-              }, 500);
-            }
-
-            if (found.length === 10) {
-              setTimeout(() => {
-                window.showToast("10 found. You're not browsing anymore. You're hunting.");
-              }, 500);
-            }
-
-            if (found.length === Math.floor(total / 2)) {
-              setTimeout(() => {
-                window.showToast("Halfway there. The second half is harder.");
-              }, 500);
-            }
-
-            if (found.length === total) {
-              setTimeout(() => {
-                window.showToast("You found all " + total + ". I genuinely did not expect anyone to do that.");
-              }, 500);
-            }
-          })
-          .catch(() => {});
       }
     };
   </script>

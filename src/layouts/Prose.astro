@@ -1,6 +1,7 @@
 ---
 import Base from './Base.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
+import BackToTop from '../components/BackToTop.astro';
 
 interface Props {
   title: string;
@@ -33,6 +34,7 @@ const meta = [date, readTime, role].filter(Boolean).join(' · ');
 
 <Base title={title} description={description || summary || ''} ogImage={ogImage} schema={fm.schema}>
   <ReadingProgress />
+  <BackToTop />
 
   <article class="pt-32 pb-20 px-6">
     <div class="max-w-[740px] mx-auto">

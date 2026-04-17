@@ -38,9 +38,9 @@ function isActive(href: string) {
           <a
             href={href}
             class={[
-              'font-body text-sm tracking-wide transition-colors duration-150',
+              'nav-desktop-link font-body text-sm tracking-wide transition-colors duration-150 relative',
               isActive(href)
-                ? 'text-primary underline underline-offset-4 decoration-2'
+                ? 'text-primary is-active'
                 : 'text-secondary hover:text-primary',
             ].join(' ')}
           >
@@ -108,7 +108,7 @@ function isActive(href: string) {
     </svg>
   </button>
 
-  <nav class="flex flex-col items-center gap-8" aria-label="Mobile primary">
+  <nav id="mobile-nav" class="flex flex-col items-center gap-8" aria-label="Mobile primary">
     {navLinks.map(({ href, label }) => (
       <a
         href={href}
@@ -120,11 +120,49 @@ function isActive(href: string) {
   </nav>
 </div>
 
+<style is:global>
+  /* ── Desktop nav underline grow ─────────────────────────────── */
+  .nav-desktop-link {
+    position: relative;
+  }
+  .nav-desktop-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: currentColor;
+    transition: width 200ms ease;
+  }
+  .nav-desktop-link:hover::after,
+  .nav-desktop-link.is-active::after {
+    width: 100%;
+  }
+
+  /* ── Mobile nav staggered entrance ──────────────────────────── */
+  @keyframes mobileNavIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0);   }
+  }
+  #mobile-nav.mobile-nav-open .mobile-nav-link:nth-child(1) { animation: mobileNavIn 200ms ease forwards 0ms;   }
+  #mobile-nav.mobile-nav-open .mobile-nav-link:nth-child(2) { animation: mobileNavIn 200ms ease forwards 40ms;  }
+  #mobile-nav.mobile-nav-open .mobile-nav-link:nth-child(3) { animation: mobileNavIn 200ms ease forwards 80ms;  }
+  #mobile-nav.mobile-nav-open .mobile-nav-link:nth-child(4) { animation: mobileNavIn 200ms ease forwards 120ms; }
+  #mobile-nav.mobile-nav-open .mobile-nav-link:nth-child(5) { animation: mobileNavIn 200ms ease forwards 160ms; }
+  #mobile-nav.mobile-nav-open .mobile-nav-link:nth-child(6) { animation: mobileNavIn 200ms ease forwards 200ms; }
+  /* Reset opacity when menu is closed so animation replays on next open */
+  #mobile-nav:not(.mobile-nav-open) .mobile-nav-link {
+    opacity: 0;
+  }
+</style>
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const nav        = document.getElementById('nav')!;
     const hamburger  = document.getElementById('hamburger')!;
     const mobileMenu = document.getElementById('mobile-menu')!;
+    const mobileNav  = document.getElementById('mobile-nav')!;
     const closeBtn   = document.getElementById('close-menu')!;
 
     // ── Scroll → nav background ──────────────────────────────────────
@@ -146,6 +184,7 @@ function isActive(href: string) {
       mobileMenu.setAttribute('aria-hidden', 'false');
       hamburger.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
+      mobileNav.classList.add('mobile-nav-open');
     }
 
     function closeMobileMenu() {
@@ -153,6 +192,7 @@ function isActive(href: string) {
       mobileMenu.setAttribute('aria-hidden', 'true');
       hamburger.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
+      mobileNav.classList.remove('mobile-nav-open');
     }
 
     hamburger.addEventListener('click', openMobileMenu);

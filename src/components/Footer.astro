@@ -1,15 +1,30 @@
 ---
+import EmailCopy from './EmailCopy.astro';
 const year = new Date().getFullYear();
 ---
 
+<style>
+  .footer-link {
+    position: relative;
+  }
+  .footer-link::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: #6B6B6B;
+    transition: width 200ms ease;
+  }
+  .footer-link:hover::after {
+    width: 100%;
+  }
+</style>
+
 <footer class="border-t border-border py-12">
   <div class="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-    <a
-      href="mailto:dilithdinesh007@gmail.com"
-      class="font-body text-sm text-primary hover:text-blue transition-colors duration-150"
-    >
-      dilithdinesh007@gmail.com
-    </a>
+    <EmailCopy email="dilithdinesh007@gmail.com" />
     <div class="flex flex-col items-center gap-1">
       <p class="font-body text-sm text-secondary">
         &copy; {year} Dilith Dinesh
@@ -22,7 +37,7 @@ const year = new Date().getFullYear();
       href="https://linkedin.com/in/dilithdinesh"
       target="_blank"
       rel="noopener noreferrer"
-      class="font-body text-sm text-primary hover:text-blue transition-colors duration-150"
+      class="footer-link font-body text-sm text-primary hover:text-blue transition-colors duration-150"
     >
       LinkedIn &rarr;
     </a>

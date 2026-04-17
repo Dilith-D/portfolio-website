@@ -6,8 +6,60 @@ interface Props {
 const { quote } = Astro.props;
 ---
 
-<blockquote class="border-l-2 border-primary pl-6 my-12">
+<blockquote class="pull-quote border-primary pl-6 my-12">
   <p class="font-prose text-2xl italic text-primary leading-relaxed">
     {quote}
   </p>
 </blockquote>
+
+<style>
+  .pull-quote {
+    position: relative;
+  }
+
+  .pull-quote::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2px;
+    background: #1A1A1A;
+    height: 0;
+  }
+
+  /* Reduced motion: show border immediately */
+  @media (prefers-reduced-motion: reduce) {
+    .pull-quote::before {
+      height: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes borderGrow {
+      from { height: 0; }
+      to   { height: 100%; }
+    }
+
+    .pull-quote.is-visible::before {
+      animation: borderGrow 500ms ease-out forwards;
+    }
+  }
+</style>
+
+<script>
+  const quotes = document.querySelectorAll<HTMLElement>('.pull-quote');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+
+  quotes.forEach((el) => observer.observe(el));
+</script>

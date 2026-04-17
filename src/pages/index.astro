@@ -154,7 +154,7 @@ const faqSchema = {
     </section>
 
     <!-- Proof Strip -->
-    <section class="py-6 border-b border-border">
+    <section class="proof-strip py-6 border-b border-border">
       <p class="font-body text-sm text-secondary tracking-wide">
         Zuper&nbsp;&nbsp;·&nbsp;&nbsp;Field Service Management&nbsp;&nbsp;·&nbsp;&nbsp;B2B SaaS&nbsp;&nbsp;·&nbsp;&nbsp;Built the roofing vertical from 0 to 1&nbsp;&nbsp;·&nbsp;&nbsp;Chennai
       </p>
@@ -355,4 +355,16 @@ const faqSchema = {
     });
   </script>
 
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes proofFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .proof-strip {
+      animation: proofFadeIn 400ms ease 350ms both;
+    }
+  }
+</style>
 </Base>

@@ -1,5 +1,6 @@
 ---
 import Prose from './Prose.astro';
+import BackToTop from '../components/BackToTop.astro';
 
 interface Props {
   title: string;
@@ -17,6 +18,7 @@ const fm: Record<string, any> = (Astro.props as any).frontmatter ?? Astro.props;
 const { ...props } = fm;
 ---
 
+<BackToTop />
 <Prose {...props} backHref="/work" backLabel="Back to work">
   <slot />
 
@@ -99,6 +101,61 @@ const { ...props } = fm;
         });
       }, { threshold: 0.5 });
       observer.observe(targetHeading);
+    })();
+  </script>
+
+  <!-- Section number reading indicator -->
+  <style is:global>
+    .section-num {
+      opacity: 0.06;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .section-num {
+        transition: opacity 400ms ease;
+      }
+    }
+
+    .section-num.section-active {
+      opacity: 0.14;
+    }
+  </style>
+
+  <script>
+    (function () {
+      // Find h2 headings whose text starts with a two-digit number prefix (01–99)
+      const headings = document.querySelectorAll<HTMLHeadingElement>('.prose h2');
+      const numSpans: Element[] = [];
+
+      headings.forEach((h2) => {
+        const text = h2.textContent ?? '';
+        if (!/^\d{2}\s/.test(text)) return;
+
+        // Wrap just the number prefix in a styled span
+        h2.innerHTML = h2.innerHTML.replace(
+          /^(\d{2})/,
+          '<span class="section-num">$1</span>'
+        );
+
+        const span = h2.querySelector('.section-num');
+        if (span) numSpans.push(span);
+      });
+
+      if (numSpans.length === 0) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            entry.target.classList.toggle('section-active', entry.isIntersecting);
+          });
+        },
+        {
+          rootMargin: '-40% 0px -40% 0px',
+          threshold: 0,
+        }
+      );
+
+      numSpans.forEach((span) => observer.observe(span));
     })();
   </script>
 

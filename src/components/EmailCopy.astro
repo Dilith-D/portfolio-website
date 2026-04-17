@@ -1,0 +1,65 @@
+---
+interface Props {
+  email: string;
+  class?: string;
+}
+const { email, class: className = '' } = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={['email-copy-btn font-body text-sm text-primary', className]}
+  data-email-copy={email}
+>
+  <span class="email-copy-label">{email}</span>
+</button>
+
+<style>
+  .email-copy-btn {
+    appearance: none;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    display: inline;
+    line-height: inherit;
+  }
+  .email-copy-label {
+    transition: opacity 150ms ease;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-email-copy]').forEach((btn) => {
+    const label = btn.querySelector<HTMLElement>('.email-copy-label');
+    if (!label) return;
+    const email = btn.dataset.emailCopy!;
+
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(email);
+      } catch {
+        return;
+      }
+
+      label.style.opacity = '0';
+      setTimeout(() => {
+        label.textContent = 'Copied ✓';
+        label.style.color = '#6B6B6B';
+        label.style.opacity = '1';
+
+        setTimeout(() => {
+          label.style.opacity = '0';
+          setTimeout(() => {
+            label.textContent = email;
+            label.style.color = '';
+            label.style.opacity = '1';
+          }, 150);
+        }, 2000);
+      }, 150);
+    });
+  });
+</script>

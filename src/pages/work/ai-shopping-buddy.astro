@@ -6,22 +6,22 @@ import BackToTop from '../../components/BackToTop.astro';
 const schema = {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "headline": "APIs Are Truth. LLMs Are Formatting.",
+  "headline": "The AI Shopping Buddy",
   "author": {
     "@type": "Person",
     "name": "Dilith Dinesh",
     "url": "https://dilithdinesh.com"
   },
   "datePublished": "2025",
-  "url": "https://dilithdinesh.com/work/apis-are-truth",
-  "description": "A technical product note for an AI copilot that helps electronics shoppers discover products through natural conversation — written from scratch, every decision made explicit.",
-  "about": "AI Systems, Product Management, LLM Architecture"
+  "url": "https://dilithdinesh.com/work/ai-shopping-buddy",
+  "description": "A build plan for an AI layer that sits on top of any e-commerce — designed from a real frustration of copy-pasting specs between Flipkart and Claude just to answer 'does this phone fit my needs?'",
+  "about": "AI Systems, E-commerce, Product Management"
 };
 ---
 
 <Base
-  title="APIs are truth. LLMs are formatting."
-  description="A technical product note for an AI copilot that helps electronics shoppers discover products through natural conversation — written from scratch, every decision made explicit."
+  title="The AI Shopping Buddy"
+  description="A build plan for an AI layer that sits on top of any e-commerce — designed from a real frustration of copy-pasting specs between Flipkart and Claude just to answer 'does this phone fit my needs?'"
   schema={schema}
 >
   <ReadingProgress />
@@ -38,27 +38,25 @@ const schema = {
       >← Work</a>
 
       <!-- Tag line -->
-      <p class="page-tagline">Product case study · AI systems</p>
+      <p class="page-tagline">Personal project · AI systems</p>
 
       <!-- H1 -->
       <h1 class="font-display text-[48px] font-semibold leading-tight text-primary mt-4">
-        APIs are truth.<br />
-        LLMs are formatting.<br />
-        <em class="h1-em">How I scoped an AI shopping assistant.</em>
+        The AI Shopping Buddy<br />
+        <em class="h1-em">An AI layer for e-commerce, designed from a real frustration.</em>
       </h1>
 
       <!-- Subtitle -->
       <p class="font-prose text-xl italic text-secondary mt-6 leading-relaxed">
-        A technical product note for an AI copilot that helps electronics
-        shoppers discover products through natural conversation — written
-        from scratch, every decision made.
+        I was buying a phone. I ended up with a build plan for an AI
+        discovery layer that any e-commerce could ship.
       </p>
 
       <!-- Meta row -->
       <div class="meta-row font-body text-sm mt-8 pt-6 border-t border-border grid grid-cols-2 md:grid-cols-4 gap-y-4 gap-x-6">
         <div>
-          <span class="meta-label">Context</span>
-          <span class="font-body text-sm text-primary block mt-1">Assignment — Canvas AI</span>
+          <span class="meta-label">Origin</span>
+          <span class="font-body text-sm text-primary block mt-1">Personal project</span>
         </div>
         <div>
           <span class="meta-label">Role</span>
@@ -66,7 +64,7 @@ const schema = {
         </div>
         <div>
           <span class="meta-label">Type</span>
-          <span class="font-body text-sm text-primary block mt-1">Technical product spec</span>
+          <span class="font-body text-sm text-primary block mt-1">Product + technical spec</span>
         </div>
         <div>
           <span class="meta-label">Scope</span>
@@ -76,29 +74,60 @@ const schema = {
 
       <hr class="border-t border-border mt-8 mb-12" />
 
-      <!-- 01 The Brief -->
+      <!-- 01 How it started -->
       <section class="section-block">
-        <p class="section-label">The brief</p>
+        <p class="section-label">How it started</p>
         <h2 class="font-display text-[28px] font-medium text-primary mt-2 mb-6 leading-snug">
-          A one-liner with a lot of ambiguity inside it
+          A shopping problem that became a product question
         </h2>
 
         <p class="font-prose text-lg leading-reading text-primary">
-          The prompt: build a front-end AI shopping copilot for an inherited
-          electronics e-commerce app. Help customers discover products, get
-          recommendations, and manage orders through natural conversation.
+          I needed a new phone. Budget was clear. Use case was clear. Which
+          phone to buy — not clear at all.
         </p>
         <p class="font-prose text-lg leading-reading text-primary mt-5">
-          That's the whole brief. No stack constraints, no user research, no
-          existing architecture context. The assignment isn't to write features
-          — it's to show how you think when given ambiguity and asked to produce
-          something buildable.
+          So I did what most people do now. I opened ChatGPT and described
+          my situation: daily driver, camera-heavy, under ₹50,000, prefer
+          stock Android. Got a shortlist. Clicked through to Flipkart. Opened
+          the first option. Loaded the spec sheet — 6.7" AMOLED, 50MP main
+          camera, Snapdragon 7 Gen 3, 5000mAh. Looked reasonable. Went back
+          to the LLM. Copy-pasted the entire spec block. Asked: "Given what
+          I told you about my needs, does this one fit?"
+        </p>
+        <p class="font-prose text-lg leading-reading text-primary mt-5">
+          Then did the same for the next phone. And the next. ChatGPT for
+          reasoning, Perplexity for research, Claude for deeper dives —
+          and Flipkart as the spec sheet I kept copying out of.
+        </p>
+        <p class="font-prose text-lg leading-reading text-primary mt-5">
+          I was the bridge between two systems that should have been talking
+          to each other.
+        </p>
+        <p class="font-prose text-lg leading-reading text-primary mt-5">
+          The LLM had the reasoning capability. The e-commerce site had the
+          inventory data. Neither knew the other existed. Every time I moved
+          between them — copy-pasting specs, re-explaining my context,
+          reformatting — I was doing integration work that the product should
+          have done for me.
+        </p>
+        <p class="font-prose text-lg leading-reading text-primary mt-5">
+          At some point mid-session I stopped and thought: I've spent 40
+          minutes on a decision I should have made in five. And as someone
+          who builds product systems for a living, I couldn't let the question
+          go — why does no e-commerce site have this built in? The reasoning
+          exists. The inventory data is already there. The user's context is
+          already being tracked. What would it actually take to close that loop?
+        </p>
+        <p class="font-prose text-lg leading-reading text-primary mt-5">
+          That question became a weekend rabbit hole. This is what came out
+          of it — a build plan for an AI shopping layer that can be embedded
+          into any e-commerce.
         </p>
 
         <blockquote class="pull-quote">
-          "The LLM exists for users who don't know what they want, don't know
-          what's available, and don't know what to ask. Structured navigation
-          fails them. Conversation doesn't."
+          "I was the bridge between two systems that should have been talking
+          to each other — copy-pasting specs from Flipkart into Claude and
+          asking 'does this fit my needs?'"
         </blockquote>
       </section>
 
@@ -110,9 +139,11 @@ const schema = {
         </h2>
 
         <p class="font-prose text-lg leading-reading text-primary mb-8">
-          The brief gave no business context. Before making a single product
-          decision, I named the assumptions explicitly — because every
-          architectural call downstream is contingent on these being true.
+          My starting point wasn't a product brief — it was a shopping
+          session that felt more broken than it should have. Before making
+          any design decisions, I named the assumptions I was building on
+          — because every architectural call downstream is contingent on
+          these being true.
         </p>
 
         <div class="assumption-block">
@@ -150,15 +181,15 @@ const schema = {
       <section class="section-block">
         <p class="section-label">Scope decision</p>
         <h2 class="font-display text-[28px] font-medium text-primary mt-2 mb-6 leading-snug">
-          What we're building — and what we deliberately aren't
+          What this builds — and what it deliberately doesn't
         </h2>
 
         <p class="font-prose text-lg leading-reading text-primary">
-          Order management is excluded from V1. Not because users don't need it,
-          but because order flows carry higher risk: "cancel the one I ordered
-          yesterday" requires disambiguation logic, transactional rollback
-          handling, and edge case coverage that adds 3–4 weeks of engineering
-          risk to the first sprint.
+          Order management is excluded from V1. Not because users don't need
+          it, but because order flows carry higher risk: "cancel the one I
+          ordered yesterday" requires disambiguation logic, transactional
+          rollback handling, and edge case coverage that adds 3–4 weeks of
+          engineering risk to the first sprint.
         </p>
         <p class="font-prose text-lg leading-reading text-primary mt-5">
           More importantly, order management doesn't need AI. The user already
@@ -167,10 +198,10 @@ const schema = {
         </p>
         <p class="font-prose text-lg leading-reading text-primary mt-5">
           Discovery and recommendations are the opposite. The user knows their
-          budget and use case but not the product. The copilot exists for the gap
-          between "I know what I need" and "I don't know what to buy." That's the
-          <em>I don't know what I don't know</em> problem — and that's exactly
-          where an LLM earns its place in the UX.
+          budget and use case but not the product. This is exactly the problem
+          I was living — the gap between "I know what I need" and "I don't know
+          what to buy." That's the <em>I don't know what I don't know</em>
+          problem, and that's exactly where an LLM earns its place in the UX.
         </p>
       </section>
 
@@ -210,7 +241,7 @@ const schema = {
           <div class="decision-card" style="border-bottom: none;">
             <p class="decision-num">06</p>
             <h3 class="decision-title">Two-layer freshness: vector DB for relevance, live API for truth</h3>
-            <p class="decision-body">Price and stock change constantly in electronics. Vector DB handles semantic match only — it never serves prices. A live API call at retrieval time fetches current price and stock. Eliminates the scenario where the copilot quotes ₹78,990 and the cart shows ₹82,499.</p>
+            <p class="decision-body">Price and stock change constantly in electronics. Vector DB handles semantic match only — it never serves prices. A live API call at retrieval time fetches current price and stock. Eliminates the scenario where the buddy quotes ₹78,990 and the cart shows ₹82,499.</p>
           </div>
         </div>
       </section>
@@ -287,24 +318,22 @@ const schema = {
         </h2>
 
         <p class="font-prose text-lg leading-reading text-primary mb-8">
-          Evals aren't dashboards you build after launch. They're the safety net
-          you build before changing anything — prompts, models, retrieval logic.
-          A golden dataset of 100 queries with expected outputs runs on every
-          change. Accuracy drop blocks the ship.
+          Evals aren't dashboards you build after launch. They're the safety
+          net you build before changing anything — prompts, models, retrieval
+          logic. A golden dataset of 100 queries with expected outputs runs on
+          every change. Accuracy drop blocks the ship.
         </p>
 
         <div class="metrics-grid">
-          <!-- North star — full width -->
           <div class="metric-card metric-north-star">
             <p class="metric-eyebrow">North star</p>
-            <p class="metric-ns-value">Copilot-assisted conversion rate vs baseline</p>
-            <p class="metric-ns-desc">Did users who used the copilot buy more than those who didn't? This is the single number that justifies the product.</p>
+            <p class="metric-ns-value">Buddy-assisted conversion rate vs baseline</p>
+            <p class="metric-ns-desc">Did users who used the buddy buy more than those who didn't? This is the single number that justifies the product.</p>
           </div>
-          <!-- Regular metrics -->
           <div class="metric-card">
             <p class="metric-num">30% faster</p>
             <p class="metric-name">Time to purchase</p>
-            <p class="metric-desc">Copilot sessions vs non-copilot. Proves the discovery thesis.</p>
+            <p class="metric-desc">Buddy sessions vs non-buddy. Proves the discovery thesis.</p>
           </div>
           <div class="metric-card">
             <p class="metric-num">&gt; 70%</p>
@@ -329,7 +358,7 @@ const schema = {
           <div class="metric-card">
             <p class="metric-num">10× ratio</p>
             <p class="metric-name">AI cost ROI</p>
-            <p class="metric-desc">Revenue influenced by copilot vs monthly inference cost. The number that goes to the CEO.</p>
+            <p class="metric-desc">Revenue influenced by the buddy vs monthly inference cost. The number that goes to the CEO.</p>
           </div>
         </div>
       </section>
@@ -370,13 +399,15 @@ const schema = {
         <div class="reflection-block">
           <p class="block-header teal-header">The honest caveat</p>
           <p class="font-body text-[15px] text-primary leading-relaxed">
-            If I were actually building this, the first thing I'd validate is
+            My own frustration is a data point of one. Before committing to a
+            single sprint of engineering, the first thing I'd validate is
             whether the discovery gap is real for this specific store's users.
-            Are they arriving without knowing what they want — or are they arriving
-            with a specific product in mind? The entire product thesis rests on
-            that assumption. I'd run a two-week session recording analysis on the
-            existing store before committing to a single sprint of engineering.
-            A copilot built for the wrong problem is a well-architected failure.
+            Are they arriving without knowing what they want — or are they
+            arriving with a specific product already in mind? The entire product
+            thesis rests on that assumption. I'd run a two-week session
+            recording analysis on the existing store before touching the
+            architecture. A buddy built for the wrong problem is a
+            well-architected failure.
           </p>
         </div>
       </section>
@@ -404,25 +435,23 @@ const schema = {
 </Base>
 
 <script>
-  // Fire once per session so refreshes don't double-count
   (function () {
-    const sessionKey = 'ph-viewed-apis-are-truth';
+    const sessionKey = 'ph-viewed-ai-shopping-buddy';
     if (sessionStorage.getItem(sessionKey)) return;
     sessionStorage.setItem(sessionKey, 'true');
     window.posthog?.capture('case_study_viewed', {
-      slug:  'apis-are-truth',
-      title: 'APIs Are Truth. LLMs Are Formatting.',
-      tags:  ['Canvas AI', 'AI Systems', 'Technical Spec'],
+      slug:  'ai-shopping-buddy',
+      title: 'The AI Shopping Buddy',
+      tags:  ['E-commerce', 'AI Systems', 'Product Spec'],
     });
   })();
 
-  // Section engagement — fire once per section per session
   document.addEventListener('DOMContentLoaded', () => {
     const sections = [
-      { id: 'sec-assumptions',  label: 'assumptions'   },
-      { id: 'sec-architecture', label: 'architecture'  },
-      { id: 'sec-metrics',      label: 'evaluation'    },
-      { id: 'sec-reflection',   label: 'reflection'    },
+      { id: 'sec-assumptions',  label: 'assumptions'  },
+      { id: 'sec-architecture', label: 'architecture' },
+      { id: 'sec-metrics',      label: 'evaluation'   },
+      { id: 'sec-reflection',   label: 'reflection'   },
     ];
 
     const observer = new IntersectionObserver((entries) => {
@@ -432,7 +461,7 @@ const schema = {
         if (sessionStorage.getItem(key)) return;
         sessionStorage.setItem(key, 'true');
         window.posthog?.capture('case_study_section_viewed', {
-          slug:    'apis-are-truth',
+          slug:    'ai-shopping-buddy',
           section: entry.target.dataset.section,
         });
       });
@@ -446,16 +475,15 @@ const schema = {
       }
     });
 
-    // Read-to-end
     const endNav = document.querySelector('[data-end-nav]');
     if (endNav) {
       const endObserver = new IntersectionObserver((entries) => {
         if (!entries[0].isIntersecting) return;
-        const key = 'ph-end-apis-are-truth';
+        const key = 'ph-end-ai-shopping-buddy';
         if (sessionStorage.getItem(key)) return;
         sessionStorage.setItem(key, 'true');
         window.posthog?.capture('case_study_read_to_end', {
-          slug: 'apis-are-truth',
+          slug: 'ai-shopping-buddy',
         });
       }, { threshold: 0.5 });
       endObserver.observe(endNav);
@@ -464,7 +492,6 @@ const schema = {
 </script>
 
 <style>
-  /* ─── Local colour tokens ─────────────────────────────────────── */
   .apis-page {
     --amber:       #b87515;
     --amber-light: #f5e6c8;
@@ -475,12 +502,10 @@ const schema = {
     --paper-3:     #E5E1DB;
   }
 
-  /* ─── Section spacing ─────────────────────────────────────────── */
   .section-block {
     margin-bottom: 80px;
   }
 
-  /* ─── Tag line (mono-style amber, above H1) ───────────────────── */
   .page-tagline {
     font-family: 'Inter', monospace;
     font-size: 0.6875rem;
@@ -490,13 +515,11 @@ const schema = {
     font-weight: 500;
   }
 
-  /* ─── H1 italic amber line ────────────────────────────────────── */
   .h1-em {
     font-style: italic;
     color: var(--amber);
   }
 
-  /* ─── Meta row labels ─────────────────────────────────────────── */
   .meta-label {
     font-family: 'Inter', sans-serif;
     font-size: 0.6875rem;
@@ -506,7 +529,6 @@ const schema = {
     font-weight: 500;
   }
 
-  /* ─── Section labels ──────────────────────────────────────────── */
   .section-label {
     font-family: 'Inter', sans-serif;
     font-size: 0.6875rem;
@@ -516,7 +538,6 @@ const schema = {
     font-weight: 500;
   }
 
-  /* ─── Pull quote ──────────────────────────────────────────────── */
   .pull-quote {
     border-left: 2px solid var(--amber);
     padding-left: 1.5rem;
@@ -528,7 +549,6 @@ const schema = {
     line-height: 1.7;
   }
 
-  /* ─── Shared block headers ────────────────────────────────────── */
   .block-header {
     font-family: 'Inter', sans-serif;
     font-size: 0.6875rem;
@@ -540,7 +560,6 @@ const schema = {
   .amber-header { color: var(--amber); }
   .teal-header  { color: var(--teal);  }
 
-  /* ─── Assumption block ────────────────────────────────────────── */
   .assumption-block {
     background: var(--amber-light);
     border-left: 3px solid var(--amber);
@@ -573,7 +592,6 @@ const schema = {
     margin-top: 0.1em;
   }
 
-  /* ─── Decision grid ───────────────────────────────────────────── */
   .decision-grid {
     border: 1px solid var(--paper-3);
     border-radius: 8px;
@@ -610,7 +628,6 @@ const schema = {
     line-height: 1.65;
   }
 
-  /* ─── Architecture block ──────────────────────────────────────── */
   .arch-block {
     background: var(--ink);
     border-radius: 8px;
@@ -660,7 +677,6 @@ const schema = {
     margin-top: 0.3rem;
   }
 
-  /* ─── Metrics grid ────────────────────────────────────────────── */
   .metrics-grid {
     border: 1px solid var(--paper-3);
     border-radius: 8px;
@@ -669,7 +685,6 @@ const schema = {
     grid-template-columns: 1fr 1fr;
   }
 
-  /* North star spans full width */
   .metric-north-star {
     grid-column: 1 / -1;
     background: var(--ink);
@@ -703,21 +718,15 @@ const schema = {
     line-height: 1.55;
   }
 
-  /* Regular metric cards */
   .metric-card:not(.metric-north-star) {
     padding: 1.25rem 1.5rem;
     border-bottom: 1px solid var(--paper-3);
   }
 
-  /*
-   * Children 2,4,6 (nth-child even) land in the left column.
-   * They get the vertical divider.
-   */
   .metric-card:not(.metric-north-star):nth-child(even) {
     border-right: 1px solid var(--paper-3);
   }
 
-  /* Last two regular cards (last row) — no bottom border */
   .metric-card:not(.metric-north-star):nth-last-child(-n+2) {
     border-bottom: none;
   }
@@ -748,7 +757,6 @@ const schema = {
     line-height: 1.55;
   }
 
-  /* ─── V2 list ─────────────────────────────────────────────────── */
   .v2-list {
     list-style: none;
     padding: 0;
@@ -765,7 +773,6 @@ const schema = {
     line-height: 1.6;
   }
 
-  /* ─── Reflection block ────────────────────────────────────────── */
   .reflection-block {
     background: var(--teal-light);
     border-left: 3px solid var(--teal);
@@ -773,9 +780,7 @@ const schema = {
     padding: 1.5rem 1.75rem;
   }
 
-  /* ─── Mobile responsive ───────────────────────────────────────── */
   @media (max-width: 639px) {
-    /* Arch rows: stack label above description */
     .arch-row {
       grid-template-columns: 1fr;
       gap: 0.375rem;
@@ -788,27 +793,18 @@ const schema = {
       color: var(--amber);
     }
 
-    /* Metrics: single column */
     .metrics-grid {
       grid-template-columns: 1fr;
     }
 
-    /* Reset column border */
     .metric-card:not(.metric-north-star):nth-child(even) {
       border-right: none;
     }
 
-    /* All regular cards get bottom border in single-column layout */
     .metric-card:not(.metric-north-star) {
       border-bottom: 1px solid var(--paper-3);
     }
 
-    /* Only the actual last card loses its bottom border */
-    .metric-card:last-child {
-      border-bottom: none;
-    }
-
-    /* Override the desktop nth-last-child(-n+2) rule */
     .metric-card:not(.metric-north-star):nth-last-child(-n+2) {
       border-bottom: 1px solid var(--paper-3);
     }

@@ -1,0 +1,820 @@
+---
+import Base from '../../layouts/Base.astro';
+import ReadingProgress from '../../components/ReadingProgress.astro';
+import BackToTop from '../../components/BackToTop.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "APIs Are Truth. LLMs Are Formatting.",
+  "author": {
+    "@type": "Person",
+    "name": "Dilith Dinesh",
+    "url": "https://dilithdinesh.com"
+  },
+  "datePublished": "2025",
+  "url": "https://dilithdinesh.com/work/apis-are-truth",
+  "description": "A technical product note for an AI copilot that helps electronics shoppers discover products through natural conversation — written from scratch, every decision made explicit.",
+  "about": "AI Systems, Product Management, LLM Architecture"
+};
+---
+
+<Base
+  title="APIs are truth. LLMs are formatting."
+  description="A technical product note for an AI copilot that helps electronics shoppers discover products through natural conversation — written from scratch, every decision made explicit."
+  schema={schema}
+>
+  <ReadingProgress />
+  <BackToTop />
+
+  <article class="pt-32 pb-20 px-6">
+    <div class="max-w-[740px] mx-auto apis-page">
+
+      <!-- Back link -->
+      <a
+        href="/work"
+        class="font-body text-sm text-secondary hover:text-primary transition-colors duration-150 inline-block mb-8"
+        style="text-decoration: none;"
+      >← Work</a>
+
+      <!-- Tag line -->
+      <p class="page-tagline">Product case study · AI systems</p>
+
+      <!-- H1 -->
+      <h1 class="font-display text-[48px] font-semibold leading-tight text-primary mt-4">
+        APIs are truth.<br />
+        LLMs are formatting.<br />
+        <em class="h1-em">How I scoped an AI shopping assistant.</em>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="font-prose text-xl italic text-secondary mt-6 leading-relaxed">
+        A technical product note for an AI copilot that helps electronics
+        shoppers discover products through natural conversation — written
+        from scratch, every decision made.
+      </p>
+
+      <!-- Meta row -->
+      <div class="meta-row font-body text-sm mt-8 pt-6 border-t border-border grid grid-cols-2 md:grid-cols-4 gap-y-4 gap-x-6">
+        <div>
+          <span class="meta-label">Context</span>
+          <span class="font-body text-sm text-primary block mt-1">Assignment — Canvas AI</span>
+        </div>
+        <div>
+          <span class="meta-label">Role</span>
+          <span class="font-body text-sm text-primary block mt-1">Product Manager</span>
+        </div>
+        <div>
+          <span class="meta-label">Type</span>
+          <span class="font-body text-sm text-primary block mt-1">Technical product spec</span>
+        </div>
+        <div>
+          <span class="meta-label">Scope</span>
+          <span class="font-body text-sm text-primary block mt-1">V1 discovery + recommendations</span>
+        </div>
+      </div>
+
+      <hr class="border-t border-border mt-8 mb-12" />
+
+      <!-- 01 The Brief -->
+      <section class="section-block">
+        <p class="section-label">The brief</p>
+        <h2 class="font-display text-[28px] font-medium text-primary mt-2 mb-6 leading-snug">
+          A one-liner with a lot of ambiguity inside it
+        </h2>
+
+        <p class="font-prose text-lg leading-reading text-primary">
+          The prompt: build a front-end AI shopping copilot for an inherited
+          electronics e-commerce app. Help customers discover products, get
+          recommendations, and manage orders through natural conversation.
+        </p>
+        <p class="font-prose text-lg leading-reading text-primary mt-5">
+          That's the whole brief. No stack constraints, no user research, no
+          existing architecture context. The assignment isn't to write features
+          — it's to show how you think when given ambiguity and asked to produce
+          something buildable.
+        </p>
+
+        <blockquote class="pull-quote">
+          "The LLM exists for users who don't know what they want, don't know
+          what's available, and don't know what to ask. Structured navigation
+          fails them. Conversation doesn't."
+        </blockquote>
+      </section>
+
+      <!-- 02 Assumptions -->
+      <section class="section-block" id="sec-assumptions">
+        <p class="section-label">Assumptions</p>
+        <h2 class="font-display text-[28px] font-medium text-primary mt-2 mb-6 leading-snug">
+          Named before anything else was decided
+        </h2>
+
+        <p class="font-prose text-lg leading-reading text-primary mb-8">
+          The brief gave no business context. Before making a single product
+          decision, I named the assumptions explicitly — because every
+          architectural call downstream is contingent on these being true.
+        </p>
+
+        <div class="assumption-block">
+          <p class="block-header amber-header">Explicit assumptions</p>
+          <ul class="assumption-list">
+            <li>
+              <span class="amber-arrow">→</span>
+              <span><strong>Indian market.</strong> Price sensitivity is high, average order values vary from ₹5,000 accessories to ₹2,00,000 laptops. Trust in AI-driven recommendations is still being established.</span>
+            </li>
+            <li>
+              <span class="amber-arrow">→</span>
+              <span><strong>Early-stage startup.</strong> Every decision is weighted against shipping speed and cost. Infrastructure requiring a dedicated ML team is out of scope for V1.</span>
+            </li>
+            <li>
+              <span class="amber-arrow">→</span>
+              <span><strong>User persona: mid-intent buyers.</strong> They know their use case and budget, not the specific product. "Gaming laptop under 60k" — not "Dell XPS 15 16GB".</span>
+            </li>
+            <li>
+              <span class="amber-arrow">→</span>
+              <span><strong>Build timeline: 2–3 week sprint.</strong> PM estimate, not engineering commitment. V1/V2 split is driven by this constraint, not feature priority alone.</span>
+            </li>
+            <li>
+              <span class="amber-arrow">→</span>
+              <span><strong>Usage: 1,000–10,000 queries/day at launch.</strong> Model selection and cost architecture calibrated to this range.</span>
+            </li>
+            <li>
+              <span class="amber-arrow">→</span>
+              <span><strong>Opus-class models excluded from V1.</strong> Quality delta over Sonnet on structured shopping tasks doesn't justify cost at this scale. Revisited in V2 when cost-per-order data exists.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 03 Scope Decision -->
+      <section class="section-block">
+        <p class="section-label">Scope decision</p>
+        <h2 class="font-display text-[28px] font-medium text-primary mt-2 mb-6 leading-snug">
+          What we're building — and what we deliberately aren't
+        </h2>
+
+        <p class="font-prose text-lg leading-reading text-primary">
+          Order management is excluded from V1. Not because users don't need it,
+          but because order flows carry higher risk: "cancel the one I ordered
+          yesterday" requires disambiguation logic, transactional rollback
+          handling, and edge case coverage that adds 3–4 weeks of engineering
+          risk to the first sprint.
+        </p>
+        <p class="font-prose text-lg leading-reading text-primary mt-5">
+          More importantly, order management doesn't need AI. The user already
+          knows what they want — their order, their status, their cancellation.
+          There's no ambiguity to resolve. Direct API call, direct response.
+        </p>
+        <p class="font-prose text-lg leading-reading text-primary mt-5">
+          Discovery and recommendations are the opposite. The user knows their
+          budget and use case but not the product. The copilot exists for the gap
+          between "I know what I need" and "I don't know what to buy." That's the
+          <em>I don't know what I don't know</em> problem — and that's exactly
+          where an LLM earns its place in the UX.
+        </p>
+      </section>
+
+      <!-- 04 Key Decisions -->
+      <section class="section-block">
+        <p class="section-label">Key decisions</p>
+        <h2 class="font-display text-[28px] font-medium text-primary mt-2 mb-6 leading-snug">
+          Every hard call, made in advance
+        </h2>
+
+        <div class="decision-grid">
+          <div class="decision-card">
+            <p class="decision-num">01</p>
+            <h3 class="decision-title">Floating side panel, not a dedicated page</h3>
+            <p class="decision-body">Reads current page context on open. User on the HP Omen product page — copilot infers gaming laptop intent, mid-to-high budget, performance focus. No cold start. User never explains where they are. Context is pre-loaded before the first message.</p>
+          </div>
+          <div class="decision-card">
+            <p class="decision-num">02</p>
+            <h3 class="decision-title">Two modes: authenticated vs guest</h3>
+            <p class="decision-body">Authenticated users get purchase history, wishlist, cart, inferred budget and ecosystem. User bought an iPhone and Sony earbuds — ecosystem compatibility is weighted in earbud recommendations without asking. Guest users get session-only context. Same interface, different context depth.</p>
+          </div>
+          <div class="decision-card">
+            <p class="decision-num">03</p>
+            <h3 class="decision-title">Rule-based pre-filter before the LLM</h3>
+            <p class="decision-body">High-precision intents bypass the model entirely. "Where is my order" routes directly to the order API. No LLM cost, no added latency, no hallucination risk. The LLM only sees queries that genuinely need language understanding.</p>
+          </div>
+          <div class="decision-card">
+            <p class="decision-num">04</p>
+            <h3 class="decision-title">Names are fuzzy. IDs are truth.</h3>
+            <p class="decision-body">Transactional actions (add to cart, wishlist) resolve to a product entity ID before execution. If resolution is ambiguous, the system asks. It never guesses. A state-changing action on the wrong product is a trust-breaking bug, not a UX edge case.</p>
+          </div>
+          <div class="decision-card">
+            <p class="decision-num">05</p>
+            <h3 class="decision-title">Hybrid spec passing for electronics</h3>
+            <p class="decision-body">Electronics is spec-heavy — a single laptop spec block is ~500 tokens. Default path passes summary specs (top 4 attributes, use case tags, ~150 tokens). Comparison and deep technical queries escalate to full specs. Tiered by intent, not by default.</p>
+          </div>
+          <div class="decision-card" style="border-bottom: none;">
+            <p class="decision-num">06</p>
+            <h3 class="decision-title">Two-layer freshness: vector DB for relevance, live API for truth</h3>
+            <p class="decision-body">Price and stock change constantly in electronics. Vector DB handles semantic match only — it never serves prices. A live API call at retrieval time fetches current price and stock. Eliminates the scenario where the copilot quotes ₹78,990 and the cart shows ₹82,499.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 Architecture -->
+      <section class="section-block" id="sec-architecture">
+        <p class="section-label">Architecture</p>
+        <h2 class="font-display text-[28px] font-medium text-primary mt-2 mb-6 leading-snug">
+          The system, not the features
+        </h2>
+
+        <div class="arch-block">
+          <p class="block-header amber-header">Query flow — end to end</p>
+          <div class="arch-rows">
+            <div class="arch-row">
+              <span class="arch-label">User input</span>
+              <span class="arch-desc">Text query arrives with page context (current product page) and user context (auth state, cart, purchase history).</span>
+            </div>
+            <div class="arch-row">
+              <span class="arch-label">Pre-filter</span>
+              <span class="arch-desc">
+                Rule-based check for high-precision intents.
+                <strong class="arch-hi">Order queries bypass LLM entirely — direct to order API.</strong>
+                <span class="arch-note">Fast, cheap, zero hallucination risk.</span>
+              </span>
+            </div>
+            <div class="arch-row">
+              <span class="arch-label">Intent layer</span>
+              <span class="arch-desc">
+                <strong class="arch-hi">Lightweight model (Gemini Flash)</strong> classifies intent and extracts entities. Returns structured JSON: intent, entities (category, price range, use case, brand), confidence score, context_required flag.
+              </span>
+            </div>
+            <div class="arch-row">
+              <span class="arch-label">Routing</span>
+              <span class="arch-desc">
+                Low confidence → one clarifying question. context_required: true →
+                <strong class="arch-hi">escalate to strong model (Claude Sonnet)</strong> with full session.
+                Out of scope → graceful redirect.
+              </span>
+            </div>
+            <div class="arch-row">
+              <span class="arch-label">Retrieval</span>
+              <span class="arch-desc">
+                Vector DB returns semantically similar products.
+                <strong class="arch-hi">Live API call fetches price + stock — never from the vector DB.</strong>
+                Hard filters applied post-retrieval.
+              </span>
+            </div>
+            <div class="arch-row">
+              <span class="arch-label">Generation</span>
+              <span class="arch-desc">
+                LLM formats the response.
+                <strong class="arch-hi">LLM never generates prices, inventory, delivery timelines, or order details.</strong>
+                These values pass from APIs through the LLM to the UI. Every visible fact is traceable to a live source.
+              </span>
+            </div>
+            <div class="arch-row" style="border-bottom: none;">
+              <span class="arch-label">Action</span>
+              <span class="arch-desc">
+                Cart and wishlist actions require
+                <strong class="arch-hi">explicit confirmation against a resolved product ID.</strong>
+                Revalidate price + stock at action time. If validation fails, surface alternatives — never a dead end.
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 Evaluation -->
+      <section class="section-block" id="sec-metrics">
+        <p class="section-label">Evaluation</p>
+        <h2 class="font-display text-[28px] font-medium text-primary mt-2 mb-6 leading-snug">
+          Three layers of signals, not one
+        </h2>
+
+        <p class="font-prose text-lg leading-reading text-primary mb-8">
+          Evals aren't dashboards you build after launch. They're the safety net
+          you build before changing anything — prompts, models, retrieval logic.
+          A golden dataset of 100 queries with expected outputs runs on every
+          change. Accuracy drop blocks the ship.
+        </p>
+
+        <div class="metrics-grid">
+          <!-- North star — full width -->
+          <div class="metric-card metric-north-star">
+            <p class="metric-eyebrow">North star</p>
+            <p class="metric-ns-value">Copilot-assisted conversion rate vs baseline</p>
+            <p class="metric-ns-desc">Did users who used the copilot buy more than those who didn't? This is the single number that justifies the product.</p>
+          </div>
+          <!-- Regular metrics -->
+          <div class="metric-card">
+            <p class="metric-num">30% faster</p>
+            <p class="metric-name">Time to purchase</p>
+            <p class="metric-desc">Copilot sessions vs non-copilot. Proves the discovery thesis.</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-num">&gt; 70%</p>
+            <p class="metric-name">Resolution rate</p>
+            <p class="metric-desc">User resolved without leaving chat.</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-num">&lt; 2%</p>
+            <p class="metric-name">Hallucination rate</p>
+            <p class="metric-desc">Responses with data not in retrieved context. Immediate investigation if breached.</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-num">100%</p>
+            <p class="metric-name">Spec accuracy</p>
+            <p class="metric-desc">Zero tolerance. A wrong spec causes a wrong purchase — that's a return, a ticket, and a broken trust moment.</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-num">&lt; 2s</p>
+            <p class="metric-name">Latency p95</p>
+            <p class="metric-desc">End to end. Responses stream token-by-token to reduce perceived latency.</p>
+          </div>
+          <div class="metric-card">
+            <p class="metric-num">10× ratio</p>
+            <p class="metric-name">AI cost ROI</p>
+            <p class="metric-desc">Revenue influenced by copilot vs monthly inference cost. The number that goes to the CEO.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 What Ships Next -->
+      <section class="section-block">
+        <p class="section-label">What ships next</p>
+        <h2 class="font-display text-[28px] font-medium text-primary mt-2 mb-6 leading-snug">
+          V2 is data-triggered, not assumed
+        </h2>
+
+        <p class="font-prose text-lg leading-reading text-primary mb-8">
+          Nothing in the V2 backlog ships on a timeline. It ships when
+          production data creates the case for it.
+        </p>
+
+        <ul class="v2-list">
+          <li>— Order management (status, cancellation, returns) with full transactional guardrails</li>
+          <li>— Voice input</li>
+          <li>— Summarisation layer for sessions exceeding 8 messages — added only when p95 session length data justifies it</li>
+          <li>— Embedding-based recommendation engine replacing popularity heuristics when behavioural data exists</li>
+          <li>— Collaborative filtering for authenticated users</li>
+          <li>— Personalised retrieval re-ranking based on purchase history</li>
+          <li>— Multi-modal search (search by image)</li>
+          <li>— A/B testing framework for prompt variants on live traffic</li>
+          <li>— LLM-as-judge for automated response quality evaluation</li>
+          <li>— Opus-class model evaluation when cost-per-order data makes the case</li>
+        </ul>
+      </section>
+
+      <!-- 08 Reflection -->
+      <section class="section-block" id="sec-reflection">
+        <p class="section-label">Reflection</p>
+        <h2 class="font-display text-[28px] font-medium text-primary mt-2 mb-6 leading-snug">
+          What I'd validate before writing a line of code
+        </h2>
+
+        <div class="reflection-block">
+          <p class="block-header teal-header">The honest caveat</p>
+          <p class="font-body text-[15px] text-primary leading-relaxed">
+            If I were actually building this, the first thing I'd validate is
+            whether the discovery gap is real for this specific store's users.
+            Are they arriving without knowing what they want — or are they arriving
+            with a specific product in mind? The entire product thesis rests on
+            that assumption. I'd run a two-week session recording analysis on the
+            existing store before committing to a single sprint of engineering.
+            A copilot built for the wrong problem is a well-architected failure.
+          </p>
+        </div>
+      </section>
+
+      <!-- End navigation -->
+      <hr class="border-t border-border my-20" />
+      <nav data-end-nav class="flex items-center justify-between font-body text-sm font-medium text-primary" aria-label="Case study navigation">
+        <a
+          href="/work"
+          class="hover:text-blue transition-colors duration-150 inline-flex items-center gap-1 group"
+        >
+          <span class="inline-block transition-transform duration-150 ease-in-out group-hover:-translate-x-1">&larr;</span>
+          Back to all work
+        </a>
+        <a
+          href="/work"
+          class="hover:text-blue transition-colors duration-150"
+        >
+          More work &rarr;
+        </a>
+      </nav>
+
+    </div>
+  </article>
+</Base>
+
+<script>
+  // Fire once per session so refreshes don't double-count
+  (function () {
+    const sessionKey = 'ph-viewed-apis-are-truth';
+    if (sessionStorage.getItem(sessionKey)) return;
+    sessionStorage.setItem(sessionKey, 'true');
+    window.posthog?.capture('case_study_viewed', {
+      slug:  'apis-are-truth',
+      title: 'APIs Are Truth. LLMs Are Formatting.',
+      tags:  ['Canvas AI', 'AI Systems', 'Technical Spec'],
+    });
+  })();
+
+  // Section engagement — fire once per section per session
+  document.addEventListener('DOMContentLoaded', () => {
+    const sections = [
+      { id: 'sec-assumptions',  label: 'assumptions'   },
+      { id: 'sec-architecture', label: 'architecture'  },
+      { id: 'sec-metrics',      label: 'evaluation'    },
+      { id: 'sec-reflection',   label: 'reflection'    },
+    ];
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const key = 'ph-sec-' + entry.target.id;
+        if (sessionStorage.getItem(key)) return;
+        sessionStorage.setItem(key, 'true');
+        window.posthog?.capture('case_study_section_viewed', {
+          slug:    'apis-are-truth',
+          section: entry.target.dataset.section,
+        });
+      });
+    }, { threshold: 0.3 });
+
+    sections.forEach(({ id, label }) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.dataset.section = label;
+        observer.observe(el);
+      }
+    });
+
+    // Read-to-end
+    const endNav = document.querySelector('[data-end-nav]');
+    if (endNav) {
+      const endObserver = new IntersectionObserver((entries) => {
+        if (!entries[0].isIntersecting) return;
+        const key = 'ph-end-apis-are-truth';
+        if (sessionStorage.getItem(key)) return;
+        sessionStorage.setItem(key, 'true');
+        window.posthog?.capture('case_study_read_to_end', {
+          slug: 'apis-are-truth',
+        });
+      }, { threshold: 0.5 });
+      endObserver.observe(endNav);
+    }
+  });
+</script>
+
+<style>
+  /* ─── Local colour tokens ─────────────────────────────────────── */
+  .apis-page {
+    --amber:       #b87515;
+    --amber-light: #f5e6c8;
+    --teal:        #0f6e56;
+    --teal-light:  #e1f5ee;
+    --ink:         #1A1A1A;
+    --ink-3:       #6B6B6B;
+    --paper-3:     #E5E1DB;
+  }
+
+  /* ─── Section spacing ─────────────────────────────────────────── */
+  .section-block {
+    margin-bottom: 80px;
+  }
+
+  /* ─── Tag line (mono-style amber, above H1) ───────────────────── */
+  .page-tagline {
+    font-family: 'Inter', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 500;
+  }
+
+  /* ─── H1 italic amber line ────────────────────────────────────── */
+  .h1-em {
+    font-style: italic;
+    color: var(--amber);
+  }
+
+  /* ─── Meta row labels ─────────────────────────────────────────── */
+  .meta-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6B6B6B;
+    font-weight: 500;
+  }
+
+  /* ─── Section labels ──────────────────────────────────────────── */
+  .section-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 500;
+  }
+
+  /* ─── Pull quote ──────────────────────────────────────────────── */
+  .pull-quote {
+    border-left: 2px solid var(--amber);
+    padding-left: 1.5rem;
+    margin: 2.5rem 0 0;
+    font-family: 'Lora', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  /* ─── Shared block headers ────────────────────────────────────── */
+  .block-header {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .amber-header { color: var(--amber); }
+  .teal-header  { color: var(--teal);  }
+
+  /* ─── Assumption block ────────────────────────────────────────── */
+  .assumption-block {
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
+    border-radius: 8px;
+    padding: 1.5rem 1.75rem;
+  }
+
+  .assumption-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .assumption-list li {
+    display: flex;
+    gap: 0.75rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    color: var(--ink);
+    line-height: 1.65;
+  }
+
+  .amber-arrow {
+    color: var(--amber);
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 0.1em;
+  }
+
+  /* ─── Decision grid ───────────────────────────────────────────── */
+  .decision-grid {
+    border: 1px solid var(--paper-3);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .decision-card {
+    padding: 1.5rem 1.75rem;
+    border-bottom: 1px solid var(--paper-3);
+  }
+
+  .decision-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 0.4rem;
+  }
+
+  .decision-title {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+
+  .decision-body {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    color: var(--ink-3);
+    line-height: 1.65;
+  }
+
+  /* ─── Architecture block ──────────────────────────────────────── */
+  .arch-block {
+    background: var(--ink);
+    border-radius: 8px;
+    padding: 1.75rem;
+  }
+
+  .arch-rows {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .arch-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 1.25rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    align-items: start;
+  }
+
+  .arch-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #F9F7F4;
+    padding-top: 0.1em;
+    flex-shrink: 0;
+  }
+
+  .arch-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: rgba(249, 247, 244, 0.7);
+    line-height: 1.65;
+  }
+
+  .arch-hi {
+    color: var(--amber);
+    font-weight: 600;
+  }
+
+  .arch-note {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    color: rgba(249, 247, 244, 0.4);
+    display: block;
+    margin-top: 0.3rem;
+  }
+
+  /* ─── Metrics grid ────────────────────────────────────────────── */
+  .metrics-grid {
+    border: 1px solid var(--paper-3);
+    border-radius: 8px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* North star spans full width */
+  .metric-north-star {
+    grid-column: 1 / -1;
+    background: var(--ink);
+    border-bottom: 1px solid var(--paper-3);
+    padding: 1.5rem;
+  }
+
+  .metric-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-ns-value {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #F9F7F4;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-ns-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: rgba(249, 247, 244, 0.65);
+    line-height: 1.55;
+  }
+
+  /* Regular metric cards */
+  .metric-card:not(.metric-north-star) {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--paper-3);
+  }
+
+  /*
+   * Children 2,4,6 (nth-child even) land in the left column.
+   * They get the vertical divider.
+   */
+  .metric-card:not(.metric-north-star):nth-child(even) {
+    border-right: 1px solid var(--paper-3);
+  }
+
+  /* Last two regular cards (last row) — no bottom border */
+  .metric-card:not(.metric-north-star):nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+
+  .metric-num {
+    font-family: 'Cabinet Grotesk', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 0.2rem;
+  }
+
+  .metric-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: var(--ink-3);
+    line-height: 1.55;
+  }
+
+  /* ─── V2 list ─────────────────────────────────────────────────── */
+  .v2-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .v2-list li {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    color: var(--ink-3);
+    line-height: 1.6;
+  }
+
+  /* ─── Reflection block ────────────────────────────────────────── */
+  .reflection-block {
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
+    border-radius: 8px;
+    padding: 1.5rem 1.75rem;
+  }
+
+  /* ─── Mobile responsive ───────────────────────────────────────── */
+  @media (max-width: 639px) {
+    /* Arch rows: stack label above description */
+    .arch-row {
+      grid-template-columns: 1fr;
+      gap: 0.375rem;
+    }
+
+    .arch-label {
+      font-size: 0.6875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+
+    /* Metrics: single column */
+    .metrics-grid {
+      grid-template-columns: 1fr;
+    }
+
+    /* Reset column border */
+    .metric-card:not(.metric-north-star):nth-child(even) {
+      border-right: none;
+    }
+
+    /* All regular cards get bottom border in single-column layout */
+    .metric-card:not(.metric-north-star) {
+      border-bottom: 1px solid var(--paper-3);
+    }
+
+    /* Only the actual last card loses its bottom border */
+    .metric-card:last-child {
+      border-bottom: none;
+    }
+
+    /* Override the desktop nth-last-child(-n+2) rule */
+    .metric-card:not(.metric-north-star):nth-last-child(-n+2) {
+      border-bottom: 1px solid var(--paper-3);
+    }
+
+    .metric-card:last-child {
+      border-bottom: none;
+    }
+  }
+</style>

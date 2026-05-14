@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import PostHog from '../components/posthog.astro';
 import BouquetEgg from '../components/BouquetEgg.astro';
+import VoiceAssistant from '../components/VoiceAssistant';
 
 interface Props {
   title: string;
@@ -411,6 +412,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
   </script>
 
   <BouquetEgg />
+  <VoiceAssistant client:only="react" />
 
   </body>
 </html>

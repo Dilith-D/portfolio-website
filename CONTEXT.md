@@ -347,6 +347,48 @@ Migrated from v3 to v4 once and it broke entirely — `@tailwindcss/vite` failed
 
 ---
 
+## Versioning + Staging/Prod Workflow
+
+### Remotes
+
+| Remote | Repo | Purpose |
+|--------|------|---------|
+| `staging` | `github.com/Dilith-D/internal-portfolio` | Preview — force push freely |
+| `origin` | `github.com/Dilith-D/portfolio-website` | Production — tag before pushing |
+
+Netlify auto-builds on every push to either remote.
+
+### Tag convention
+
+`v<major>.<minor>` — integers only.
+- Major: redesigns / visual overhauls
+- Minor: content, new case studies, feature additions
+
+### Version index
+
+| Tag | Commit | Description |
+|-----|--------|-------------|
+| v1.0 | `556710b` | Original design, voice assistant, all content |
+| v2.0 | `57c3192` | Bento redesign, WebGL animated background, dark mode contrast fix |
+
+### Prod push sequence
+
+```
+1. git push --force staging master   ← triggers staging build
+2. Verify staging URL looks correct
+3. git tag -a v2.x HEAD -m "v2.x: what changed"
+4. git push origin --tags
+5. git push origin master            ← triggers prod build
+```
+
+### Rollback any version in ~10 seconds
+
+```bash
+git push origin v1.0:master --force
+```
+
+---
+
 ## How to Start a Session
 
 1. Read `CLAUDE.md` — authoritative technical spec

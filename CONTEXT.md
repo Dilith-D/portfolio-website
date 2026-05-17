@@ -353,8 +353,8 @@ Migrated from v3 to v4 once and it broke entirely — `@tailwindcss/vite` failed
 
 | Remote | Repo | Purpose |
 |--------|------|---------|
-| `staging` | `github.com/Dilith-D/internal-portfolio` | Preview — force push freely |
-| `origin` | `github.com/Dilith-D/portfolio-website` | Production — tag before pushing |
+| `staging` | `github.com/Dilith-D/internal-portfolio` | https://internal-portfolio-dilith.netlify.app |
+| `origin` | `github.com/Dilith-D/portfolio-website` | https://dilithdinesh.com |
 
 Netlify auto-builds on every push to either remote.
 

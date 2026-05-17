@@ -1,45 +1,121 @@
 ---
-import EmailCopy from './EmailCopy.astro';
 const year = new Date().getFullYear();
 ---
 
-<style>
-  .footer-link {
-    position: relative;
-  }
-  .footer-link::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background-color: #6B6B6B;
-    transition: width 200ms ease;
-  }
-  .footer-link:hover::after {
-    width: 100%;
-  }
-</style>
+<footer class="site-footer">
 
-<footer class="border-t border-border py-12">
-  <div class="max-w-[1100px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-    <EmailCopy email="dilithdinesh007@gmail.com" />
-    <div class="flex flex-col items-center gap-1">
-      <p class="font-body text-sm text-secondary">
-        &copy; {year} Dilith Dinesh
+  <!-- Top CTA -->
+  <div class="footer-top">
+    <div class="max-w-[1100px] mx-auto footer-top-inner reveal">
+      <p class="footer-eyebrow">Open to opportunities</p>
+      <p class="footer-heading">
+        If you're building something that needs this kind of thinking — let's talk.
       </p>
-      <p class="font-body text-xs text-secondary">
-        Built with Astro · Tailwind · Claude Code
-      </p>
+      <a href="mailto:dilithdinesh007@gmail.com" class="footer-email">
+        dilithdinesh007@gmail.com
+      </a>
     </div>
-    <a
-      href="https://linkedin.com/in/dilithdinesh"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="footer-link font-body text-sm text-primary hover:text-blue transition-colors duration-150"
-    >
-      LinkedIn &rarr;
-    </a>
   </div>
+
+  <!-- Bottom bar -->
+  <div class="footer-bar">
+    <div class="max-w-[1100px] mx-auto footer-bar-inner">
+      <a href="mailto:dilithdinesh007@gmail.com" class="footer-bar-link">
+        dilithdinesh007@gmail.com
+      </a>
+      <span class="footer-bar-copy">&copy; {year} Dilith Dinesh</span>
+      <a
+        href="https://linkedin.com/in/dilithdinesh"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="footer-bar-link"
+      >
+        LinkedIn →
+      </a>
+    </div>
+  </div>
+
 </footer>
+
+<style is:global>
+.site-footer {
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-top-inner {
+  padding: 5rem 3rem;
+}
+
+.footer-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: 1.25rem;
+}
+
+.footer-heading {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--color-primary);
+  max-width: 700px;
+  margin-bottom: 1.5rem;
+}
+
+.footer-email {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(128,128,128,0.3);
+  transition:
+    text-decoration-color 150ms ease,
+    color 150ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-email:hover {
+    text-decoration-color: var(--color-primary);
+  }
+}
+
+.footer-bar {
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-bar-inner {
+  padding: 1.75rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-bar-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  color: var(--color-secondary);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.footer-bar-copy {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  color: var(--color-secondary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-bar-link:hover { color: var(--color-primary); }
+}
+
+@media (max-width: 767px) {
+  .footer-top-inner  { padding: 3.5rem 1.5rem; }
+  .footer-bar-inner  { flex-direction: column; gap: 0.75rem; text-align: center; padding: 1.5rem; }
+}
+</style>

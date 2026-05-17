@@ -4,33 +4,30 @@ interface Props {
   tags: string[];
   description: string;
   slug: string;
+  featured?: boolean;
+  stagger?: number;
 }
 
-const { title, tags, description, slug } = Astro.props;
+const { title, tags, description, slug, featured = false, stagger = 0 } = Astro.props;
 ---
 
-<a
-  href={`/work/${slug}`}
-  class="group block bg-surface border border-border rounded-lg p-8 cursor-pointer
-         transition-all duration-200 ease-in-out
-         hover:border-primary hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
+<div
+  class:list={['reveal', { 'card-featured-wrap': featured }]}
+  style={`transition-delay: calc(${stagger} * 90ms)`}
 >
-  <p class="font-body text-xs tracking-widest uppercase text-secondary transition-colors duration-200 group-hover:text-primary">
-    {tags.join('  ·  ')}
-  </p>
-
-  <h3 class="font-display text-2xl font-medium text-primary mt-3">
-    {title}
-  </h3>
-
-  <p class="font-body text-base text-secondary leading-relaxed mt-3">
-    {description}
-  </p>
-
-  <p class="font-body text-sm font-medium text-primary mt-6 inline-flex items-center gap-1">
-    Read the case study
-    <span class="inline-block transition-transform duration-150 ease-in-out group-hover:translate-x-1">
-      &rarr;
-    </span>
-  </p>
-</a>
+  <a
+    href={`/work/${slug}`}
+    class:list={['card-wrap', { 'card-featured': featured }]}
+  >
+    <span class="edge-light" aria-hidden="true"></span>
+    <div class="card-body">
+      <p class="card-tags">{tags.join('  ·  ')}</p>
+      <h3 class="card-title">{title}</h3>
+      <p class="card-desc">{description}</p>
+      <span class="card-link">
+        Read the case study
+        <span aria-hidden="true">→</span>
+      </span>
+    </div>
+  </a>
+</div>

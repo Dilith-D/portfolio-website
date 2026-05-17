@@ -39,19 +39,17 @@ const meta = [date, readTime, role].filter(Boolean).join(' · ');
   <article class="pt-32 pb-20 px-6">
     <div class="max-w-[740px] mx-auto">
 
-      <a
-        href={backHref}
-        class="font-body text-sm text-secondary hover:text-primary transition-colors duration-150 inline-block mb-8 no-underline"
-        style="text-decoration: none;"
-      >← {backLabel}</a>
+      <a href={backHref} class="prose-back font-body text-sm text-secondary inline-block mb-8 no-underline">
+        ← {backLabel}
+      </a>
 
       {tags.length > 0 && (
-        <p class="font-body text-xs tracking-widest uppercase text-secondary mb-3">
+        <p class="font-body text-[11px] uppercase tracking-[0.15em] text-secondary mb-3">
           {tags.join('  ·  ')}
         </p>
       )}
 
-      <h1 class="font-display text-5xl md:text-[48px] font-semibold text-primary leading-tight">
+      <h1 class="font-display text-[clamp(36px,4.5vw,52px)] font-medium tracking-[-0.025em] leading-tight text-primary">
         {title}
       </h1>
 
@@ -67,7 +65,7 @@ const meta = [date, readTime, role].filter(Boolean).join(' · ');
         </p>
       )}
 
-      <hr class="border-t border-border mt-8 mb-12" />
+      <hr class="border-t border-[var(--color-border)] mt-8 mb-12" />
 
       <div class="prose">
         <slot />
@@ -78,7 +76,7 @@ const meta = [date, readTime, role].filter(Boolean).join(' · ');
 
   <slot name="endnav">
     <div class="max-w-[740px] mx-auto px-6 pb-20">
-      <a href="/writing" class="font-body text-sm text-secondary hover:text-primary transition-colors duration-150">← All writing</a>
+      <a href="/writing" class="prose-back font-body text-sm text-secondary">← All writing</a>
     </div>
   </slot>
 
@@ -110,3 +108,16 @@ const meta = [date, readTime, role].filter(Boolean).join(' · ');
     })();
   </script>
 </Base>
+
+<style>
+  .prose-back {
+    text-decoration: none;
+    transition: color 150ms ease-out;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .prose-back:hover {
+      color: var(--color-primary);
+    }
+  }
+</style>

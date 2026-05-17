@@ -23,20 +23,14 @@ const { ...props } = fm;
   <slot />
 
   <!-- End navigation -->
-  <hr class="border-t border-border my-20" />
+  <hr class="border-t border-[var(--color-border)] my-20" />
 
-  <nav class="flex items-center justify-between font-body text-sm font-medium text-primary" aria-label="Case study navigation">
-    <a
-      href="/work"
-      class="hover:text-blue transition-colors duration-150 inline-flex items-center gap-1 group"
-    >
-      <span class="inline-block transition-transform duration-150 ease-in-out group-hover:-translate-x-1">&larr;</span>
+  <nav class="end-nav flex items-center justify-between font-body text-sm font-medium" aria-label="Case study navigation">
+    <a href="/work" class="end-nav-back inline-flex items-center gap-1">
+      <span class="end-nav-arrow" aria-hidden="true">&larr;</span>
       Back to all work
     </a>
-    <a
-      href="/work"
-      class="hover:text-blue transition-colors duration-150"
-    >
+    <a href="/work" class="end-nav-more">
       More work &rarr;
     </a>
   </nav>
@@ -112,7 +106,7 @@ const { ...props } = fm;
 
     @media (prefers-reduced-motion: no-preference) {
       .section-num {
-        transition: opacity 400ms ease;
+        transition: opacity 400ms ease-out;
       }
     }
 
@@ -123,7 +117,6 @@ const { ...props } = fm;
 
   <script>
     (function () {
-      // Find h2 headings whose text starts with a two-digit number prefix (01–99)
       const headings = document.querySelectorAll<HTMLHeadingElement>('.prose h2');
       const numSpans: Element[] = [];
 
@@ -131,7 +124,6 @@ const { ...props } = fm;
         const text = h2.textContent ?? '';
         if (!/^\d{2}\s/.test(text)) return;
 
-        // Wrap just the number prefix in a styled span
         h2.innerHTML = h2.innerHTML.replace(
           /^(\d{2})/,
           '<span class="section-num">$1</span>'
@@ -176,8 +168,9 @@ const { ...props } = fm;
             position: absolute;
             bottom: calc(100% + 8px);
             left: 0;
-            background: #1A1A1A;
-            color: #F9F7F4;
+            background: var(--color-surface);
+            color: var(--color-primary);
+            border: 1px solid var(--color-border);
             font-size: 13px;
             font-family: 'Inter', sans-serif;
             font-weight: 400;
@@ -195,3 +188,30 @@ const { ...props } = fm;
     })();
   </script>
 </Prose>
+
+<style is:global>
+  .end-nav a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 150ms ease-out;
+  }
+
+  .end-nav-arrow {
+    display: inline-block;
+    transition: transform 150ms ease-out;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .end-nav-back:hover {
+      color: var(--color-blue);
+    }
+
+    .end-nav-back:hover .end-nav-arrow {
+      transform: translateX(-4px);
+    }
+
+    .end-nav-more:hover {
+      color: var(--color-blue);
+    }
+  }
+</style>

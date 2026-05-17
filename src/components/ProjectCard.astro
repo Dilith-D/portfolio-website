@@ -6,53 +6,38 @@ interface Props {
   year: string;
   slug: string;
   liveUrl?: string;
+  stagger?: number;
 }
 
-const { title, problem, stack, year, slug, liveUrl } = Astro.props;
-
+const { title, problem, stack, year, slug, liveUrl, stagger = 0 } = Astro.props;
 const stackLabel = stack.map(s => s.toUpperCase()).join('  ·  ');
 ---
 
-<div
-  class="group bg-surface border border-border rounded-lg p-8
-         transition-all duration-200 ease-in-out
-         hover:border-primary hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)]"
->
-  <p class="font-body text-xs tracking-widest uppercase text-secondary transition-colors duration-200 group-hover:text-primary">
-    {year}&nbsp;&nbsp;·&nbsp;&nbsp;{stackLabel}
-  </p>
-
-  <h3 class="font-display text-2xl font-medium text-primary mt-3">
-    {title}
-  </h3>
-
-  <p class="font-body text-base text-secondary leading-relaxed mt-3">
-    {problem}
-  </p>
-
-  <div class="mt-6 flex flex-col gap-3">
-    <a
-      href={`/projects/${slug}`}
-      class="group/link font-body text-sm font-medium text-primary inline-flex items-center gap-1"
-    >
-      See how I built it
-      <span class="inline-block transition-transform duration-150 ease-in-out group-hover/link:translate-x-1">
-        &rarr;
-      </span>
-    </a>
-
-    {liveUrl && (
+<div class="reveal" style={`transition-delay: calc(${stagger} * 90ms)`}>
+<div class="card-wrap">
+  <span class="edge-light" aria-hidden="true"></span>
+  <div class="card-body">
+    <p class="card-tags">{year}&nbsp;&nbsp;·&nbsp;&nbsp;{stackLabel}</p>
+    <h3 class="card-title">{title}</h3>
+    <p class="card-desc">{problem}</p>
+    <div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.25rem;">
       <a
-        href={liveUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group/live font-body text-sm font-medium text-primary inline-flex items-center gap-1"
+        href={`/projects/${slug}`}
+        class="card-link"
       >
-        Try it live
-        <span class="inline-block transition-transform duration-150 ease-in-out group-hover/live:translate-x-1">
-          &rarr;
-        </span>
+        See how I built it <span aria-hidden="true">→</span>
       </a>
-    )}
+      {liveUrl && (
+        <a
+          href={liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="card-link"
+        >
+          Try it live <span aria-hidden="true">→</span>
+        </a>
+      )}
+    </div>
   </div>
+</div>
 </div>

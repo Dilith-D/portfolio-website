@@ -6,12 +6,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: '#F9F7F4',
-        surface:    '#F0EDE8',
-        border:     '#E5E1DB',
-        primary:    '#1A1A1A',
-        secondary:  '#6B6B6B',
-        accent:     '#1A1A2E',
+        background: '#F4F0E8',
+        surface:    '#EAE5DA',
+        border:     '#E8E3D9',
+        primary:    '#1C1814',
+        secondary:  '#7A7268',
         blue:       '#2D5BE3',
       },
       fontFamily: {
@@ -26,36 +25,36 @@ export default {
       lineHeight: {
         reading: '1.8',
       },
-      typography: (theme) => ({
+      typography: () => ({
         DEFAULT: {
           css: {
-            color: theme('colors.primary'),
-            fontFamily: theme('fontFamily.prose').join(', '),
+            color: '#1C1814',
+            fontFamily: 'Lora, serif',
             fontSize: '1.125rem',
             lineHeight: '1.8',
             maxWidth: '740px',
             'h2, h3, h4': {
-              fontFamily: theme('fontFamily.display').join(', '),
-              color: theme('colors.primary'),
+              fontFamily: 'Cabinet Grotesk, sans-serif',
+              color: '#1C1814',
               fontWeight: '500',
             },
             a: {
-              color: theme('colors.primary'),
+              color: '#1C1814',
               textDecoration: 'underline',
               textUnderlineOffset: '3px',
             },
             'a:hover': {
-              color: theme('colors.blue'),
+              color: '#2D5BE3',
             },
             strong: {
-              color: theme('colors.primary'),
+              color: '#1C1814',
               fontWeight: '600',
             },
             blockquote: {
-              borderLeftColor: theme('colors.primary'),
+              borderLeftColor: '#1C1814',
               borderLeftWidth: '3px',
               fontStyle: 'italic',
-              color: theme('colors.primary'),
+              color: '#1C1814',
             },
           },
         },

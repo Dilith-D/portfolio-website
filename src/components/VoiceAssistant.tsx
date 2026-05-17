@@ -2,38 +2,26 @@ import { useEffect, useState, useRef } from 'react';
 import Vapi from '@vapi-ai/web';
 
 type CallState = 'idle' | 'connecting' | 'listening' | 'speaking';
-type Tilt = { x: number; y: number };
 
 const VAPI_KEY = 'ec84568a-9bfa-4c93-91cc-a3b7447abc96';
 const ASSISTANT_ID = 'a48874e8-dd51-48ad-a536-741c0bfabcc6';
 
-const MicIcon = () => (
-  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
-    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-    <line x1="12" y1="19" x2="12" y2="22"/>
-    <line x1="8" y1="22" x2="16" y2="22"/>
-  </svg>
-);
-
-const Spinner = () => (
-  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" style={{ animation: 'va-spin 0.8s linear infinite' }}>
-    <circle cx="10" cy="10" r="8" stroke="#4D76EF" strokeWidth="2" strokeOpacity="0.25"/>
-    <path d="M10 2a8 8 0 0 1 8 8" stroke="#4D76EF" strokeWidth="2" strokeLinecap="round"/>
-  </svg>
-);
+function formatTime(s: number): string {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${m}:${sec.toString().padStart(2, '0')}`;
+}
 
 const Waveform = () => (
-  <div style={{ display: 'flex', alignItems: 'center', gap: '3px', height: '17px', width: '17px', justifyContent: 'center' }}>
-    {[0, 140, 280, 420].map((delay, i) => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: '2.5px', height: '16px' }}>
+    {[0, 120, 240, 360, 480].map((delay, i) => (
       <div
         key={i}
         style={{
-          width: '3px',
-          height: '5px',
-          backgroundColor: '#4D76EF',
+          width: '2.5px',
+          background: 'var(--color-blue)',
           borderRadius: '2px',
-          animation: 'va-wave 0.9s ease-in-out infinite',
+          animation: 'di-wave 0.9s ease-out infinite',
           animationDelay: `${delay}ms`,
         }}
       />
@@ -41,176 +29,222 @@ const Waveform = () => (
   </div>
 );
 
-const ariaLabel: Record<CallState, string> = {
-  idle: 'Start voice assistant',
-  connecting: 'Connecting...',
-  listening: 'End call',
-  speaking: 'End call',
-};
-
-const labelText: Record<CallState, string> = {
-  idle: 'Ask me anything',
-  connecting: 'Connecting',
-  listening: 'Listening',
-  speaking: 'Speaking',
-};
-
 export default function VoiceAssistant() {
   const [state, setState] = useState<CallState>('idle');
-  const [tilt, setTilt] = useState<Tilt>({ x: 0, y: 0 });
-  const [hovered, setHovered] = useState(false);
+  const [seconds, setSeconds] = useState(0);
+  const [reducedMotion, setReducedMotion] = useState(false);
   const vapiRef = useRef<Vapi | null>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const stateRef = useRef<CallState>('idle');
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  // Mirror state to ref so event handlers always see current value
+  useEffect(() => { stateRef.current = state; }, [state]);
+
+  const isVisible = state !== 'idle';
+  const isActive = state === 'listening' || state === 'speaking';
+
+  // Vapi init — do NOT change key or assistant ID
   useEffect(() => {
     vapiRef.current = new Vapi(VAPI_KEY);
     vapiRef.current.on('call-start', () => setState('listening'));
-    vapiRef.current.on('call-end', () => setState('idle'));
+    vapiRef.current.on('call-end', () => { setState('idle'); setSeconds(0); });
     vapiRef.current.on('speech-start', () => setState('speaking'));
     vapiRef.current.on('speech-end', () => setState('listening'));
     vapiRef.current.on('error', (err: unknown) => {
       console.error('[VoiceAssistant]', err);
       setState('idle');
+      setSeconds(0);
     });
     return () => { vapiRef.current?.stop(); };
   }, []);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const dx = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
-    const dy = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
-    setTilt({ x: -dy * 12, y: dx * 12 });
-  };
+  // voice:toggle custom event — dispatched by nav mic + hero link
+  useEffect(() => {
+    const handleToggle = () => {
+      if (stateRef.current === 'idle') {
+        setState('connecting');
+        vapiRef.current?.start(ASSISTANT_ID);
+      } else {
+        vapiRef.current?.stop();
+      }
+    };
+    document.addEventListener('voice:toggle', handleToggle);
+    return () => document.removeEventListener('voice:toggle', handleToggle);
+  }, []);
 
-  const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0 });
-    setHovered(false);
-  };
-
-  const handleClick = () => {
-    if (state === 'idle') {
-      setState('connecting');
-      vapiRef.current?.start(ASSISTANT_ID);
-    } else if (state === 'listening' || state === 'speaking') {
-      vapiRef.current?.stop();
+  // Call timer — runs while active
+  useEffect(() => {
+    if (isActive) {
+      timerRef.current = setInterval(() => setSeconds(s => s + 1), 1000);
+    } else {
+      if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
     }
+    return () => { if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; } };
+  }, [isActive]);
+
+  // Sync navMic classes + html.voice-active
+  useEffect(() => {
+    const mics = [
+      document.getElementById('navMic'),
+      document.getElementById('navMicMobile'),
+    ];
+    if (isVisible) {
+      mics.forEach(m => {
+        m?.classList.add('voice-on');
+        m?.setAttribute('aria-label', 'End call');
+      });
+      document.documentElement.classList.add('voice-active');
+    } else {
+      mics.forEach(m => {
+        m?.classList.remove('voice-on');
+        m?.setAttribute('aria-label', 'Start voice assistant');
+      });
+      document.documentElement.classList.remove('voice-active');
+    }
+  }, [isVisible]);
+
+  // prefers-reduced-motion
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  const handleEnd = () => {
+    vapiRef.current?.stop();
+    setState('idle');
+    setSeconds(0);
   };
 
-  const isActive = state === 'listening' || state === 'speaking';
-  const isResetting = tilt.x === 0 && tilt.y === 0;
+  const stateLabel =
+    state === 'connecting' ? 'Connecting' :
+    state === 'listening'  ? 'Listening'  : 'Speaking';
 
-  const shadow = isActive
-    ? '0 0 0 1px #4D76EF, 0 0 28px rgba(77,118,239,0.4), 0 16px 48px rgba(0,0,0,0.55), 0 4px 12px rgba(0,0,0,0.3)'
-    : hovered
-    ? '0 0 0 1px #38383d, 0 20px 56px rgba(0,0,0,0.65), 0 6px 20px rgba(0,0,0,0.45)'
-    : '0 0 0 1px #242427, 0 8px 28px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3)';
-
-  const labelColor = isActive
-    ? '#4D76EF'
-    : state === 'connecting'
-    ? '#4D76EF'
-    : '#8F8F92';
+  const enterT = reducedMotion
+    ? 'opacity 0.01ms, transform 0.01ms'
+    : 'opacity 260ms var(--ease-ui), transform 320ms var(--ease-drawer)';
+  const exitT = reducedMotion
+    ? 'opacity 0.01ms, transform 0.01ms'
+    : 'opacity 200ms var(--ease-ui), transform 240ms var(--ease-drawer)';
 
   return (
     <>
       <style>{`
-        @keyframes va-float {
-          0%, 100% { transform: translateY(0px); }
-          50%       { transform: translateY(-7px); }
+        @keyframes di-wave {
+          0%, 100% { height: 3px; }
+          50%       { height: 14px; }
         }
-        @keyframes va-spin {
-          to { transform: rotate(360deg); }
+        .di-pill {
+          background: rgba(13, 11, 10, 0.75);
         }
-        @keyframes va-wave {
-          0%, 100% { height: 4px; }
-          50%       { height: 16px; }
+        html:not(.dark) .di-pill {
+          background: rgba(244, 240, 232, 0.85);
         }
-        @keyframes va-mic-pulse {
-          0%, 100% { opacity: 0.7; }
-          50%       { opacity: 1; }
+        @media (hover: hover) and (pointer: fine) {
+          .di-pill:active {
+            transform: translateX(-50%) scale(0.96) translateY(0px) !important;
+          }
         }
-        .va-card:focus-visible {
-          outline: 2px solid #4D76EF;
-          outline-offset: 4px;
+        .di-end {
+          background: var(--color-cta-bg);
+          color: var(--color-cta-fg);
+          border: none;
+          border-radius: 9999px;
+          padding: 0.35rem 0.875rem;
+          font-family: 'Inter', sans-serif;
+          font-size: 0.8125rem;
+          font-weight: 500;
+          cursor: pointer;
+          flex-shrink: 0;
+          transition:
+            opacity 150ms var(--ease-ui),
+            transform 120ms var(--ease-ui);
+        }
+        .di-end:active {
+          transform: scale(0.93);
+        }
+        @media (hover: hover) and (pointer: fine) {
+          .di-end:hover { opacity: 0.9; }
+        }
+        .di-end:focus-visible {
+          outline: 2px solid var(--color-blue);
+          outline-offset: 2px;
         }
       `}</style>
 
+      {/* Dynamic Island */}
       <div
+        className="di-pill"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
         style={{
           position: 'fixed',
-          bottom: '28px',
-          right: '28px',
-          zIndex: 50,
-          fontFamily: 'Cabinet Grotesk, sans-serif',
+          top: '5.25rem',
+          left: '50%',
+          zIndex: 90,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.625rem',
+          padding: '0.45rem 0.5rem 0.45rem 1.1rem',
+          borderRadius: '9999px',
+          backdropFilter: 'blur(28px)',
+          WebkitBackdropFilter: 'blur(28px)',
+          border: '1px solid var(--color-border)',
+          whiteSpace: 'nowrap',
+          pointerEvents: isVisible ? 'all' : 'none',
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible
+            ? 'translateX(-50%) scale(1) translateY(0px)'
+            : 'translateX(-50%) scale(0.88) translateY(-10px)',
+          transition: isVisible ? enterT : exitT,
         }}
       >
-        {/* Float wrapper — only animates in idle */}
-        <div style={{ animation: state === 'idle' ? 'va-float 3.5s ease-in-out infinite' : 'none' }}>
+        {/* Blue status dot */}
+        <span style={{
+          width: '7px',
+          height: '7px',
+          borderRadius: '50%',
+          background: 'var(--color-blue)',
+          flexShrink: 0,
+          opacity: state === 'connecting' ? 0.45 : 1,
+          transition: 'opacity 300ms var(--ease-ui)',
+        }} />
 
-          {/* 3D tilt wrapper */}
-          <div
-            ref={cardRef}
-            onMouseMove={handleMouseMove}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={handleMouseLeave}
-            style={{
-              transformStyle: 'preserve-3d',
-              transform: `perspective(700px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateY(${hovered ? '-3px' : '0px'})`,
-              transition: isResetting
-                ? 'transform 500ms cubic-bezier(0.23, 1, 0.32, 1)'
-                : 'transform 90ms ease-out',
-            }}
-          >
-            <button
-              className="va-card"
-              onClick={handleClick}
-              aria-label={ariaLabel[state]}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '11px',
-                padding: '0 20px',
-                height: '48px',
-                borderRadius: '28px',
-                backgroundColor: '#111113',
-                boxShadow: shadow,
-                border: 'none',
-                color: '#EDEDED',
-                cursor: state === 'connecting' ? 'default' : 'pointer',
-                fontFamily: 'inherit',
-                outline: 'none',
-                transition: 'box-shadow 250ms ease',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {/* Icon */}
-              <span style={{
-                display: 'flex',
-                alignItems: 'center',
-                flexShrink: 0,
-                animation: state === 'listening' ? 'va-mic-pulse 1.4s ease-in-out infinite' : 'none',
-              }}>
-                {state === 'connecting' ? <Spinner /> : state === 'speaking' ? <Waveform /> : <MicIcon />}
-              </span>
+        {/* State label */}
+        <span style={{
+          fontFamily: "'Inter', sans-serif",
+          fontSize: '0.8125rem',
+          fontWeight: 500,
+          color: 'var(--color-primary)',
+          letterSpacing: '0.01em',
+        }}>
+          {stateLabel}
+        </span>
 
-              {/* Divider */}
-              <span style={{ width: '1px', height: '16px', backgroundColor: '#2c2c31', flexShrink: 0 }} />
+        {/* Waveform — only when active and motion allowed */}
+        {isActive && !reducedMotion && <Waveform />}
 
-              {/* Label */}
-              <span style={{
-                fontSize: '11px',
-                fontWeight: 500,
-                letterSpacing: '0.08em',
-                color: labelColor,
-                transition: 'color 200ms ease',
-              }}>
-                {labelText[state]}
-              </span>
-            </button>
-          </div>
+        {/* Call timer */}
+        {isActive && (
+          <span style={{
+            fontFamily: "'Inter', sans-serif",
+            fontSize: '0.75rem',
+            color: 'var(--color-secondary)',
+            fontVariantNumeric: 'tabular-nums',
+          }}>
+            {formatTime(seconds)}
+          </span>
+        )}
 
-        </div>
+        {/* End button */}
+        {isVisible && (
+          <button className="di-end" onClick={handleEnd} aria-label="End call">
+            End
+          </button>
+        )}
       </div>
     </>
   );

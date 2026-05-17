@@ -1,0 +1,213 @@
+<script>
+(function () {
+  // Remove any previous canvas from HMR reloads
+  const old = document.getElementById('bg-canvas');
+  if (old) old.remove();
+
+  const canvas = document.createElement('canvas');
+  canvas.id = 'bg-canvas';
+  canvas.setAttribute('aria-hidden', 'true');
+  Object.assign(canvas.style, {
+    position: 'fixed',
+    inset: '0',
+    width: '100%',
+    height: '100%',
+    zIndex: '0',
+    pointerEvents: 'none',
+    display: 'block',
+  });
+  document.body.insertBefore(canvas, document.body.firstChild);
+
+  let gl = canvas.getContext('webgl2');
+  const isGL2 = !!gl;
+  if (!gl) gl = canvas.getContext('webgl');
+  if (!gl) {
+    console.warn('[BG] WebGL unavailable');
+    return;
+  }
+
+  // Vertex: full-screen triangle
+  const vertSrc = isGL2
+    ? ['#version 300 es',
+       'void main() {',
+       '  vec2 p[3];',
+       '  p[0] = vec2(-1.0,-1.0);',
+       '  p[1] = vec2( 3.0,-1.0);',
+       '  p[2] = vec2(-1.0, 3.0);',
+       '  gl_Position = vec4(p[gl_VertexID], 0.0, 1.0);',
+       '}'].join('\n')
+    : ['attribute vec2 a_pos;',
+       'void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }'].join('\n');
+
+  // Fragment: domain-warp fbm (ASCII-only source)
+  const fragPre = isGL2
+    ? '#version 300 es\nprecision mediump float;\nout vec4 outColor;\n'
+    : 'precision mediump float;\n';
+  const fragOut = isGL2 ? 'outColor' : 'gl_FragColor';
+
+  const fragBody = [
+    'uniform float u_time;',
+    'uniform vec2  u_res;',
+    'uniform vec3  u_ca;',
+    'uniform vec3  u_cb;',
+    'uniform vec3  u_cc;',
+    'uniform float u_speed;',
+    'uniform float u_scale;',
+    '',
+    'float h(vec2 p) {',
+    '  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);',
+    '}',
+    'float n(vec2 p) {',
+    '  vec2 i = floor(p); vec2 f = fract(p);',
+    '  vec2 s = f * f * (3.0 - 2.0 * f);',
+    '  return mix(',
+    '    mix(h(i), h(i + vec2(1.0, 0.0)), s.x),',
+    '    mix(h(i + vec2(0.0, 1.0)), h(i + vec2(1.0, 1.0)), s.x),',
+    '    s.y',
+    '  );',
+    '}',
+    'float fbm(vec2 p) {',
+    '  float v = 0.0; float a = 0.5;',
+    '  mat2 r = mat2(0.866, 0.5, -0.5, 0.866);',
+    '  for (int i = 0; i < 5; i++) {',
+    '    v += a * n(p);',
+    '    p = r * p * 2.1 + vec2(100.0);',
+    '    a *= 0.5;',
+    '  }',
+    '  return v;',
+    '}',
+    'void main() {',
+    '  vec2 uv = gl_FragCoord.xy / u_res;',
+    '  float t = u_time * u_speed;',
+    '  vec2 q = vec2(',
+    '    fbm(uv * u_scale + vec2(0.0, 0.0) + t * 0.10),',
+    '    fbm(uv * u_scale + vec2(5.2, 1.3) + t * 0.10)',
+    '  );',
+    '  vec2 rr = vec2(',
+    '    fbm(uv * u_scale + 4.0 * q + vec2(1.7, 9.2) + t * 0.15),',
+    '    fbm(uv * u_scale + 4.0 * q + vec2(8.3, 2.8) + t * 0.15)',
+    '  );',
+    '  float f = fbm(uv * u_scale + 4.0 * rr);',
+    '  float blend = smoothstep(0.48, 0.80, f);',
+    '  vec3 col = mix(u_ca, u_cb, blend);',
+    '  col = mix(col, u_cc, clamp(length(q) - 0.40, 0.0, 0.6));',
+    '  ' + fragOut + ' = vec4(col, 1.0);',
+    '}',
+  ].join('\n');
+
+  const fragSrc = fragPre + fragBody;
+
+  function compile(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      console.warn('[BG] shader error:', gl.getShaderInfoLog(s));
+      return null;
+    }
+    return s;
+  }
+
+  const vs = compile(gl.VERTEX_SHADER, vertSrc);
+  const fs = compile(gl.FRAGMENT_SHADER, fragSrc);
+  if (!vs || !fs) return;
+
+  const prog = gl.createProgram();
+  gl.attachShader(prog, vs);
+  gl.attachShader(prog, fs);
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+    console.warn('[BG] link error:', gl.getProgramInfoLog(prog));
+    return;
+  }
+  gl.useProgram(prog);
+
+  if (!isGL2) {
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER,
+      new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, 'a_pos');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  }
+
+  const uTime  = gl.getUniformLocation(prog, 'u_time');
+  const uRes   = gl.getUniformLocation(prog, 'u_res');
+  const uCa    = gl.getUniformLocation(prog, 'u_ca');
+  const uCb    = gl.getUniformLocation(prog, 'u_cb');
+  const uCc    = gl.getUniformLocation(prog, 'u_cc');
+  const uSpeed = gl.getUniformLocation(prog, 'u_speed');
+  const uScale = gl.getUniformLocation(prog, 'u_scale');
+
+  const DARK = {
+    ca: [0.047, 0.039, 0.035],  // #0C0A09  site dark bg
+    cb: [0.030, 0.180, 0.930],  // electric blue vivid
+    cc: [0.020, 0.080, 0.450],  // deep blue shadow
+    speed: 0.14,
+  };
+  const LIGHT = {
+    ca: [0.957, 0.941, 0.910],  // #F4F0E8  site light bg
+    cb: [0.220, 0.260, 0.820],  // #3842D1  indigo — bridges warm bg and cool
+    cc: [0.720, 0.730, 0.940],  // #B8BAF0  pale lavender shadow
+    speed: 0.10,
+  };
+
+  function isDark() { return document.documentElement.classList.contains('dark'); }
+
+  function setPalette() {
+    const p = isDark() ? DARK : LIGHT;
+    gl.uniform3fv(uCa, p.ca);
+    gl.uniform3fv(uCb, p.cb);
+    gl.uniform3fv(uCc, p.cc);
+    gl.uniform1f(uSpeed, p.speed);
+  }
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = Math.floor(window.innerWidth  * dpr);
+    const h = Math.floor(window.innerHeight * dpr);
+    canvas.width = w; canvas.height = h;
+    gl.viewport(0, 0, w, h);
+    gl.uniform2f(uRes, w, h);
+  }
+
+  gl.uniform1f(uScale, 1.0);
+  setPalette();
+  resize();
+
+  document.documentElement.classList.add('bg-canvas-ready');
+  console.log('[BG] canvas ready, WebGL' + (isGL2 ? '2' : '1'));
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let rafId = null, running = false, startTs = null;
+
+  function render(now) {
+    if (startTs === null) startTs = now;
+    gl.uniform1f(uTime, (now - startTs) / 1000);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    if (!reduced) rafId = requestAnimationFrame(render);
+  }
+
+  function start() {
+    if (running) return;
+    running = true;
+    rafId = requestAnimationFrame(render);
+  }
+  function stop() {
+    running = false;
+    if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
+  }
+
+  start();
+
+  document.addEventListener('visibilitychange', () => {
+    document.hidden ? stop() : start();
+  });
+  window.addEventListener('resize', resize, { passive: true });
+  new MutationObserver(setPalette).observe(
+    document.documentElement,
+    { attributes: true, attributeFilter: ['class'] }
+  );
+})();
+</script>

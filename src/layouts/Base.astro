@@ -5,6 +5,7 @@ import '../styles/global.css';
 import PostHog from '../components/posthog.astro';
 import BouquetEgg from '../components/BouquetEgg.astro';
 import VoiceAssistant from '../components/VoiceAssistant';
+import AnimatedBackground from '../components/AnimatedBackground.astro';
 
 interface Props {
   title: string;
@@ -94,6 +95,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
     </script>
   </head>
   <body class="bg-background text-primary font-body">
+    <AnimatedBackground />
     <Nav />
     <main>
       <slot />

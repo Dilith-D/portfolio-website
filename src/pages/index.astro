@@ -135,10 +135,15 @@ const marqueeItems = [
       <div class="hero-anim hero-buttons" style="animation-delay: 0.6s">
         <a href="/work" class="hero-btn-primary">See my work →</a>
         <a href="/writing" class="hero-btn-ghost">Read my thinking</a>
-        <button id="heroCta" class="hero-voice-trigger" aria-label="Talk to Dilith">Talk to me</button>
       </div>
 
-      <div class="hero-anim" style="animation-delay: 0.6s; margin-top: 1.25rem;">
+      <div class="hero-anim" style="animation-delay: 0.72s; margin-top: 1.25rem;">
+        <button id="heroCta" class="hero-moon-btn" aria-label="Talk to my AI agent">
+          Talk to my AI
+        </button>
+      </div>
+
+      <div class="hero-anim" style="animation-delay: 0.84s; margin-top: 1.25rem;">
         <a
           href="https://linkedin.com/in/dilithdinesh"
           target="_blank"
@@ -452,24 +457,73 @@ const marqueeItems = [
     transform 120ms var(--ease-ui);
 }
 
-.hero-voice-trigger {
+/* ── Moon Button ─────────────────────────────────────────── */
+.hero-moon-btn {
+  position: relative;
   font-family: 'Inter', sans-serif;
-  font-size: 0.875rem;
-  color: var(--color-secondary);
-  background: none;
-  border: none;
-  padding: 0;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  background: rgba(12, 10, 9, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
   cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  transition: color 150ms var(--ease-ui);
+  isolation: isolate;
+  transition:
+    border-color 150ms var(--ease-ui),
+    transform 120ms var(--ease-ui);
+}
+
+.hero-moon-btn::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: 9999px;
+  background: radial-gradient(
+    ellipse at 50% 55%,
+    rgba(230, 210, 160, 0.20) 0%,
+    rgba(200, 170, 100, 0.08) 45%,
+    transparent 68%
+  );
+  filter: blur(16px);
+  z-index: -1;
+  pointer-events: none;
+  animation: moonAura 4s ease-in-out infinite;
+}
+
+@keyframes moonAura {
+  0%, 100% { opacity: 0.65; transform: scale(1); }
+  50%       { opacity: 1.0;  transform: scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-moon-btn::before { animation: none; }
+}
+
+/* Light mode: tone down the aura */
+html:not(.dark) .hero-moon-btn {
+  background: rgba(28, 24, 20, 0.06);
+  border-color: rgba(28, 24, 20, 0.15);
+}
+
+html:not(.dark) .hero-moon-btn::before {
+  background: radial-gradient(
+    ellipse at 50% 55%,
+    rgba(80, 60, 20, 0.10) 0%,
+    transparent 65%
+  );
 }
 
 @media (hover: hover) and (pointer: fine) {
   .hero-btn-primary:hover { opacity: 0.88; }
   .hero-btn-ghost:hover   { background: var(--color-surface); }
-  .hero-voice-trigger:hover { color: var(--color-primary); }
+  .hero-moon-btn:hover    { border-color: rgba(255, 255, 255, 0.24); }
   .hero-linkedin:hover    { color: var(--color-primary); }
+}
+
+.hero-moon-btn:active {
+  transform: scale(0.97);
 }
 
 .hero-btn-primary:active,

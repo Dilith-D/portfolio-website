@@ -41,7 +41,7 @@ Single accent (blue) appears in functional roles only. The dark surface carries 
 | `--color-border` | `rgba(255,255,255,0.07)` | Dividers, subtle separators |
 | `--color-border-card` | `rgba(255,255,255,0.09)` | Card outer-wrap gradient stop |
 | `--color-primary` | `#E8E5DF` | Primary text — warm off-white |
-| `--color-secondary` | `#6E6B65` | Metadata, dates, tags, labels, captions |
+| `--color-secondary` | `#B8B2AA` | Metadata, dates, tags, labels, captions |
 | `--color-blue` | `#4A7CF0` | Functional only — see Blue Rule below |
 | `--color-card-bg` | `#141210` | Solid card body (no blur — see Glass Rule) |
 | `--color-card-sheen` | `inset 0 1px 0 rgba(255,255,255,0.05)` | Subtle top-edge highlight on cards |
@@ -57,7 +57,7 @@ Single accent (blue) appears in functional roles only. The dark surface carries 
 | `--color-border` | `rgba(0,0,0,0.07)` | Dividers |
 | `--color-border-card` | `rgba(0,0,0,0.08)` | Card outer-wrap gradient stop |
 | `--color-primary` | `#1C1814` | Primary text |
-| `--color-secondary` | `#7A7268` | Metadata, secondary text |
+| `--color-secondary` | `#5C5650` | Metadata, secondary text |
 | `--color-blue` | `#2D5BE3` | Functional only — see Blue Rule below |
 | `--color-card-bg` | `#FFFFFF` | Card body — white on warm linen for real separation |
 | `--color-card-sheen` | `inset 0 1px 0 rgba(255,255,255,1), 0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)` | Card top edge + soft lift |

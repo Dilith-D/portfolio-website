@@ -50,7 +50,7 @@
   --color-border:      rgba(0,0,0,0.07);
   --color-border-card: rgba(0,0,0,0.08);
   --color-primary:     #1C1814;
-  --color-secondary:   #7A7268;
+  --color-secondary:   #5C5650;
   --color-blue:        #2D5BE3;
   --color-card-bg:     #FFFFFF;
   --color-card-sheen:  inset 0 1px 0 rgba(255,255,255,1), 0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
@@ -145,7 +145,7 @@ html.dark {
   --color-border:      rgba(255,255,255,0.07);
   --color-border-card: rgba(255,255,255,0.09);
   --color-primary:     #F0EDE7;
-  --color-secondary:   #A8A49E;
+  --color-secondary:   #B8B2AA;
   --color-blue:        #4A7CF0;
   --color-card-bg:     #141210;
   --color-card-sheen:  inset 0 1px 0 rgba(255,255,255,0.05);

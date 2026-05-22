@@ -43,14 +43,18 @@ export default function VoiceAssistant() {
   const isVisible = state !== 'idle';
   const isActive = state === 'listening' || state === 'speaking';
 
-  // Vapi init — do NOT change key or assistant ID
+  // Vapi init — use pre-initialized instance from Base.astro script if available
   useEffect(() => {
-    // Pre-warm mic permission so WebRTC starts instantly on first call
-    navigator.mediaDevices?.getUserMedia({ audio: true })
-      .then(stream => stream.getTracks().forEach(t => t.stop()))
-      .catch(() => {});
+    const w = window as unknown as Record<string, unknown>;
+    vapiRef.current = (w.__vapi as Vapi) ?? new Vapi(VAPI_KEY);
 
-    vapiRef.current = new Vapi(VAPI_KEY);
+    // Mic pre-warm only if Base.astro script didn't already do it
+    if (!w.__vapi) {
+      navigator.mediaDevices?.getUserMedia({ audio: true })
+        .then(stream => stream.getTracks().forEach(t => t.stop()))
+        .catch(() => {});
+    }
+
     vapiRef.current.on('call-start', () => {
       if (stateRef.current !== 'idle') setState('listening');
     });

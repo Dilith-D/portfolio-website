@@ -417,6 +417,16 @@ const ogImageURL = new URL(ogImage, Astro.site);
   <BouquetEgg />
   <VoiceAssistant client:only="react" />
 
+  <!-- Vapi early init: runs before React hydrates so the SDK is ready on first click -->
+  <script>
+    import Vapi from '@vapi-ai/web';
+    const _v = new Vapi('ec84568a-9bfa-4c93-91cc-a3b7447abc96');
+    navigator.mediaDevices?.getUserMedia({ audio: true })
+      .then((s: MediaStream) => s.getTracks().forEach((t: MediaStreamTrack) => t.stop()))
+      .catch(() => {});
+    (window as unknown as Record<string, unknown>).__vapi = _v;
+  </script>
+
   <!-- Canvas grain texture -->
   <script>
     setTimeout(() => {

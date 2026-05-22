@@ -45,11 +45,22 @@ export default function VoiceAssistant() {
 
   // Vapi init — do NOT change key or assistant ID
   useEffect(() => {
+    // Pre-warm mic permission so WebRTC starts instantly on first call
+    navigator.mediaDevices?.getUserMedia({ audio: true })
+      .then(stream => stream.getTracks().forEach(t => t.stop()))
+      .catch(() => {});
+
     vapiRef.current = new Vapi(VAPI_KEY);
-    vapiRef.current.on('call-start', () => setState('listening'));
+    vapiRef.current.on('call-start', () => {
+      if (stateRef.current !== 'idle') setState('listening');
+    });
     vapiRef.current.on('call-end', () => { setState('idle'); setSeconds(0); });
-    vapiRef.current.on('speech-start', () => setState('speaking'));
-    vapiRef.current.on('speech-end', () => setState('listening'));
+    vapiRef.current.on('speech-start', () => {
+      if (stateRef.current !== 'idle') setState('speaking');
+    });
+    vapiRef.current.on('speech-end', () => {
+      if (stateRef.current !== 'idle') setState('listening');
+    });
     vapiRef.current.on('error', (err: unknown) => {
       console.error('[VoiceAssistant]', err);
       setState('idle');

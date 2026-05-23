@@ -149,14 +149,13 @@ Card 1:
   Link:         /projects/iris
 
 Card 2:
-  Year/Stack:   2025  ·  LOVABLE  ·  SUPABASE  ·  AI-ASSISTED
-  Title:        Pulseboard
-  Description:  A colleague asked what I'd been working on lately.
-                I blanked. Not because I hadn't done enough —
-                but because scattered work doesn't accumulate
-                into a narrative on its own. So I built one.
+  Year/Stack:   2026  ·  REACT  ·  TANSTACK  ·  CLAUDE SONNET  ·  DEEPGRAM
+  Title:        SuperPilot
+  Description:  B2B sales reps lose 2 hours a day across 6 deal
+                handoffs. The data to fix it exists. I built the
+                AI layer that synthesizes it into memory.
   CTA:          See how I built it →
-  Link:         /projects/pulseboard
+  Link:         /projects/superpilot
 
 Card 3:
   Year/Stack:   2026  ·  VAPI  ·  DEEPGRAM  ·  ELEVENLABS  ·  GPT-4O MINI

@@ -1,0 +1,107 @@
+---
+layout: ../../layouts/Prose.astro
+title: "SuperPilot"
+description: "How Dilith Dinesh designed and prototyped an AI memory layer for B2B CRM — pre-call briefs, post-call intelligence, deal monitoring, and handoff briefs — and the specific decisions behind each."
+summary: "B2B sales reps lose 2 hours a day to context reconstruction across six deal handoffs. The data to fix it already exists. I built the layer that synthesizes it."
+tags: ["B2B SaaS", "AI Systems", "CRM"]
+date: "2026"
+slug: "superpilot"
+schema:
+  "@context": "https://schema.org"
+  "@type": "SoftwareApplication"
+  name: "SuperPilot"
+  applicationCategory: "BusinessApplication"
+  description: "An AI memory layer for B2B CRM that synthesizes deal context at three critical moments: pre-call, post-call, and between calls. Designed and prototyped by Dilith Dinesh."
+  author:
+    "@type": "Person"
+    name: "Dilith Dinesh"
+    url: "https://dilithdinesh.com"
+  datePublished: "2026"
+  url: "https://dilithdinesh.com/projects/superpilot"
+---
+
+## Why I Built This
+
+Most AI-in-CRM conversations start in the wrong place. They ask: which feature should we add AI to? The better question is: where does the most time actually go — and is that a place where AI earns its cost?
+
+In B2B sales, the answer isn't the pipeline view or the dashboard. It's the invisible work around conversations. Pre-call preparation. Post-call notes. The context that lives in someone's head and disappears when the deal changes hands. A single enterprise deal moves through six distinct handoffs — SDR to AE to solutions engineer to legal to implementation to CSM. At each transition, the new owner starts from near-zero. They piece together context from scattered emails and call transcripts. The customer has to re-explain themselves. Commitments made three conversations ago are forgotten.
+
+The data to fix this already exists. Every company doing B2B sales has it: Gmail threads, VoIP transcripts, Google Meet recordings, Fathom notes, CRM activity logs. The problem isn't data — it's synthesis. No system assembles it into the right context at the right moment.
+
+So I designed and prototyped the layer that would.
+
+---
+
+## What I Built vs. What the Infrastructure Handles
+
+This distinction matters, so I want to be direct about it.
+
+I didn't build the transcription engine, the email API, or the CRM data layer. Those run on Deepgram, Gmail, and whatever CRM the company uses. The prototype uses dummy data — no live LLM calls, no real transcription pipeline in production yet.
+
+What I built is the intelligence layer: the decisions about which moments matter, what the memory schema looks like, how cost is controlled at scale, and where the system draws the line between rule-based logic and LLM reasoning.
+
+**The three moments.** A B2B sales rep's day has three places where context either helps or costs time. Before a call: you need to know what was said last time, what you promised, who's still not engaged. After a call: 15 minutes of notes collapse to 90 seconds of review if the system extracts and structures it for you. Between calls: deals go cold not because reps forget to follow up — they get alerts — but because the alerts don't carry judgment. "5 days since last activity" tells you nothing. "Proposal opened four times, no response in four days, CFO hasn't joined a single call, day nine at proposal stage against an average of five" tells you something actionable.
+
+**The fourth moment.** Handoffs. When a deal moves to a new owner, the system generates a complete context brief: why the prospect said yes to this conversation, what was committed and when, who's engaged and who isn't, what to watch for, what success looks like to them. The new owner doesn't reconstruct — they inherit.
+
+---
+
+## Architecture Decisions That Weren't Obvious
+
+**01. Threshold gates before the LLM**
+
+The naive implementation runs every deal through the LLM every monitoring cycle. At scale — say, 30 reps with 6 active deals each — that's 180 LLM calls every 6 hours for monitoring alone. Expensive, and mostly wasted: most deals don't need attention right now.
+
+The threshold gate runs cheap rule-based signal checks first. Days since last contact, proposal opens, meeting attendance gaps, stage age versus pipeline average. If no signals are tripped, no LLM call. If signals trip, the LLM interprets why and what to do. At the numbers above: 36 calls instead of 180. Cost scales with actual risk, not deal count.
+
+**02. Incremental delta summarization**
+
+Deal memory can't grow without bound. But reprocessing the full interaction history on every update is token-expensive and slow.
+
+The architecture uses delta summarization instead: when a new interaction arrives, the system fetches the current stored summary and feeds it to the LLM alongside only the new event. The prompt is: "Given this existing context and this new interaction, produce an updated summary while preserving all commitments and flagging any contradictions." The result replaces the old summary; the previous version is archived. History grows; token cost stays flat. One event processed, not hundreds.
+
+**03. Parallel fetches with graceful degradation**
+
+The pre-call brief pulls from five sources simultaneously — calendar, email, CRM, call transcripts, notes. If any source is slow, the default approach blocks the entire brief. Under a three-second target, that's unacceptable.
+
+The system hits all five in parallel with a three-second timeout. If a source doesn't respond in time, the brief renders without it and surfaces a note: "Email context unavailable — try again in a moment." The rep gets something useful immediately rather than a spinner for six seconds.
+
+**04. Source attribution on every insight**
+
+Every concern, commitment, and stakeholder signal in the pre-call brief links back to the specific transcript, email, or meeting it came from. The rep can verify in one click.
+
+This isn't just a UX nicety. In a system where the LLM is summarizing and interpreting, attribution is the mechanism that prevents hallucination from becoming a trust-breaking error. If a "commitment" surfaces that the rep doesn't recognize, they check the source. If the source doesn't support the claim, the system has failed — and the rep knows it. Without attribution, they'd just act on bad information.
+
+**05. Rules first, LLM when justified**
+
+The most important architectural decision isn't about AI — it's about when not to use it.
+
+"Proposal opened four times" is a webhook event from the document platform. Deterministic, instant, cheap. "Task due date suggestion" is pattern matching on stage and deal type. No LLM needed. "Five days since last activity" is a timestamp comparison.
+
+The LLM enters when multi-signal interpretation is required: combining the proposal opens, the non-response, the CFO's absence, and the stage age into a coherent risk assessment with a specific recommended action. That's where language reasoning earns its cost — not in detecting individual signals, most of which are just arithmetic.
+
+---
+
+## What This Is Evidence Of
+
+Building the prototype wasn't hard. React, TanStack, dummy data, four hero screens — that part runs in a weekend.
+
+The interesting part is knowing what to build. Which three moments in a sales rep's day are actually worth instrumenting. Why threshold gates exist before the LLM. What makes delta summarization the right memory strategy. Why source attribution is non-negotiable on a system that interprets language.
+
+None of that comes from picking a framework. It comes from thinking clearly about what the user actually needs, where the cost is, and where AI earns its place versus where it adds latency and expense for no reason.
+
+That's the job. Not deploying models. Deciding when to call them.
+
+---
+
+## What I'd Do Differently
+
+The architecture assumes "2 hours per day on context reconstruction and admin" is the real pain. That's a category-level statistic — true in aggregate, but not necessarily true for any specific sales motion or team structure.
+
+Before committing to the memory layer design, I'd run two weeks of session recordings with AEs at one target company. I want to know where the time actually goes. Is it pre-call prep? Post-call notes? Handoff documentation? Or is it something else entirely — like finding the right contact when a deal goes quiet? The system could be right about the problem space and wrong about which moment matters most for this specific user.
+
+The other thing I'd revisit: the monitoring feed surfaces risk but doesn't help the rep act. The brief says "call Priya today." It doesn't say what to say, given everything the system knows. That's a second layer — context-aware suggested talking points — and it's probably where the most time is actually saved. I'd validate that assumption before building it, not after.
+
+---
+
+*The prototype is a working React application with four hero screens: the deal intelligence feed, pre-call brief, post-call action panel, and handoff brief modal. It runs on dummy data — Zephyr Technologies, AE Arjun Sharma, six active deals including Acme Corp at proposal stage.*

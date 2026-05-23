@@ -92,10 +92,15 @@ Card 2:
   CTA:          Read the case study →
   Link:         /work/booking-stopgap
 
-Section CTA:    View all work →   (links to /work)
+Card 3:
+  Tags:         E-COMMERCE  ·  AI SYSTEMS
+  Title:        The AI Shopping Buddy
+  Description:  Personal friction became a weekend build plan:
+                an AI shopping layer any e-commerce can embed.
+  CTA:          Read the case study →
+  Link:         /work/ai-shopping-buddy
 
-NOTE: Third case study (The Deposit Spec — spec writing / translator skill)
-      reserved for post-launch. Add when ready.
+Section CTA:    View all work →   (links to /work)
 ```
 
 ### Writing Preview Section
@@ -152,6 +157,16 @@ Card 2:
                 into a narrative on its own. So I built one.
   CTA:          See how I built it →
   Link:         /projects/pulseboard
+
+Card 3:
+  Year/Stack:   2026  ·  VAPI  ·  DEEPGRAM  ·  ELEVENLABS  ·  GPT-4O MINI
+  Title:        The Voice Agent
+  Description:  A contact form would tell you I'm interested in
+                AI product work. A voice agent shows you how I
+                think about it. So I built one — and documented
+                every decision behind it.
+  CTA:          See how I built it →
+  Link:         /projects/voice-agent
 
 Section CTA:    See all projects →   (links to /projects)
 ```
@@ -379,7 +394,7 @@ Every roofing contractor has a website. And on every roofing contractor's websit
 
 Zuper had a way to handle this. Sort of. The platform supported custom booking pages — a form that lived at a hosted URL, captured customer information, and created the right record in Zuper on submission. It worked. But every single one was built by hand. Custom code, custom hosting, one engineer and one DevOps person, roughly a full day of work per contractor.
 
-When we were onboarding a handful of roofing customers a quarter, that was manageable. As the vertical grew, it became a tax that compounded with every new account. And it broke the golden account model entirely — the whole point of cloning was that a contractor logged in on day zero and found a system that already worked. A booking widget that had to be hand-built and manually hosted after the fact wasn't part of that. It was a gap in the foundation.
+When we were onboarding a handful of roofing customers a quarter, that was manageable. As the vertical grew, it became a tax that compounded with every new account. And it broke the golden account model entirely — the whole point of cloning was that a contractor logged in on day zero and found a system that already worked. A booking widget that had to be hand-built and manually hosted after the fact wasn't part of that. It was a gap in the foundation I had built.
 
 ---
 
@@ -395,7 +410,7 @@ The second layer was compliance. Zuper had a telephony service that allowed cont
 
 The third layer was fragmentation. Contractors didn't all want the same thing. Some wanted customers to book and schedule an inspection directly. Some wanted to capture the lead but handle scheduling internally. Some wanted to store everything a customer said in a lead qualification job without creating an inspection at all. Some only wanted a contact record, because they ran their lead qualification in a separate CRM that synced with Zuper. One generic widget couldn't serve all of these. And nobody had mapped the variation yet.
 
-The real problem wasn't that widgets were slow to build. It was that the entire approach — custom, manual, non-cloneable — was structurally incompatible with what we were trying to build.
+The real problem wasn't that widgets were slow to build. It was that the entire approach — custom, manual, non-cloneable — was structurally incompatible with the vertical architecture I had built.
 
 ---
 
@@ -463,23 +478,21 @@ The custom pages approach continues for current customers while the native featu
 
 ## 07 Outcome
 
-The feature is on the roadmap and being built with requirements shaped by the prototype and the PRD I wrote.
+The native feature is in development. That's the outcome that matters.
 
-But the more meaningful outcome was a shift in how I thought about what I was building. Halfway through the PRD, the complexity started surfacing — edge cases in territory matching, the isolation requirements for multi-tenancy, the compliance logic that had to be handled at the backend level. What had felt like a medium-complexity feature started revealing itself as a genuinely hard engineering problem.
+Before the prototype, the feature was deprioritized and not spec'd. After it, the feature had a clear scope, a PM who understood what it needed to do, and a development timeline. The prototype didn't ship — but it changed the trajectory of a product decision that affects every roofing customer the platform will ever onboard.
 
-That experience changed how I estimate. When I pushed for this feature, I thought the ask was reasonable and the lift was moderate. Building the prototype taught me that the lift was substantial — and that a PM who hasn't tried to build the thing they're asking for has a systematically optimistic view of what "reasonable" means.
-
-The feedback loop compression was the real output. What used to take weeks of uncertainty — is this worth building, how complex is it, what does it actually need to do — took hours. We didn't ship the feature this quarter. But the decision to deprioritize it was made with full information, not incomplete assumptions.
+That's the version of "outcome" I find most interesting. Not lines of code shipped. The moment a decision moved from "this is someone's problem" to "this is something we're building."
 
 ---
 
 ## 08 What I'd Do Differently
 
-I waited too long to push for this.
+I'd have built the prototype sooner.
 
-For the first month, the volume felt manageable. Custom builds were slow but the team was handling it. I kept telling myself the load wasn't high enough to justify the escalation. Then the 10DLC issue surfaced and changed everything — suddenly this wasn't just an efficiency problem, it was a compliance blocker for a service customers were actively paying for.
+I spent several months trying to move the feature through the standard process — documenting the problem, making the case to product, waiting for prioritization. When that didn't work, I built the prototype. The prototype moved things faster in three hours than the documentation had in three months.
 
-If I had been more rigorous about tracking demand from the start — not just noticing the pattern but quantifying it immediately — I would have had the data to make the case earlier. The compliance angle was always there. I just didn't know to look for it until a customer pointed me toward it.
+I defaulted to the process because building a prototype felt presumptuous — like I was stepping outside my lane. It wasn't. It was the most effective tool I had. I'd use it earlier next time.
 
 The other thing I'd change: I started the PRD assuming simplicity and discovered complexity midway through. That's a recoverable mistake, but it meant the scope conversation with the PM happened after I had already framed it as a lighter lift. A more thorough upfront architecture review — even an informal one — would have set more accurate expectations from the start.
 
@@ -802,22 +815,6 @@ When building identity-based features, optimize for resonance over precision. A 
 
 Spotify Wrapped didn't just ride social media trends. It aligned with Gen Z's relationship to identity: identity is performative, self-expression is social currency, stories are how personality travels.
 
-Wrapped turns "who I am" into a ready-to-post artifact. It makes taste visible and rankable — "top 1% listener" is social proof, obscure artists are cultural capital. It creates conversation starters: "What's your Wrapped personality? Compare yours to mine."
-
-Modern marketing isn't persuasion. It's self-projection. Spotify doesn't ask users to promote the product. It gives them a mirror they want to share.
-
----
-
-## What B2B Products Are Missing
-
-Many B2B products now ship year-end summaries. But most stop at data presentation. They answer "here's what happened." They rarely answer "here's what this says about you."
-
-Example: what if Linear did this?
-
-Instead of: "Your team completed 247 issues. Average cycle time: 3.2 days. Sprint completion rate: 78%."
-
-What if it said: "You're a rapid response team. Your average cycle time was 3.2 days — faster than 75% of engineering teams. You don't let issues linger. You ship, learn, and iterate." Followed by a shareable card: "Rapid Response Team — Top 25%."
-
 Same data. Different framing. Added interpretation. Emotional resonance.
 
 The open question worth sitting with: what is the B2B equivalent of a Gen Z Instagram story?
@@ -1025,6 +1022,105 @@ Small thing: the name. Pulseboard captures the "reflection system" idea reasonab
 
 ---
 
+## Project 3 — The Voice Agent
+
+**File:** `src/pages/projects/voice-agent.md`
+
+```yaml
+---
+title: "The Voice Agent"
+problem: "A contact form would tell you I'm interested in AI product work. A voice agent shows you how I think about it."
+stack: ["VAPI", "Deepgram", "ElevenLabs", "GPT-4o Mini"]
+year: "2026"
+slug: "voice-agent"
+---
+```
+
+**Build log post (also published to writing section):**
+
+**File:** `src/pages/writing/voice-agent-build-log.md`
+
+```yaml
+---
+title: "I Built a Voice Agent for My Portfolio. Here's What I Actually Decided."
+date: 2026-05-18
+tags: ["AI", "voice", "product", "build-log"]
+description: "Most portfolio sites have a contact form. I built a voice agent instead. Not because it's clever — because it's the clearest way I know to show how I think about AI systems."
+slug: "voice-agent-build-log"
+featured: false
+---
+```
+
+**Body (project page):**
+
+## Why I Built This
+
+Most portfolio sites have a contact form. Mine has a voice agent.
+
+If I'm positioning myself for AI product work, the most credible signal I can offer isn't a case study about AI — it's an AI system I built, running live, that someone can talk to right now.
+
+Voice changes the interaction in a way text doesn't. It's faster, warmer, and harder to fake. If the agent sounds coherent and handles real questions without falling apart, that's a more honest signal than anything I could write about it. And if someone asks how it works, there's a natural conversation about how I think about AI systems.
+
+So the question was never whether to build it. It was how to build it so it actually worked.
+
+---
+
+## What I Built vs What the Infrastructure Handles
+
+This distinction matters, so I want to be direct about it.
+
+I didn't build the speech-to-text engine, the voice synthesis model, or the real-time audio streaming layer. Those run on Deepgram, ElevenLabs, and VAPI respectively. Assembling off-the-shelf components isn't the work — the work is the decisions you make about how to connect them, what logic governs the system, and what the experience feels like when it all runs together.
+
+What I built is the intelligence layer.
+
+**The knowledge architecture.** A voice agent is only as good as what it has to say. The default approach is a single system prompt with everything the agent might need — background, instructions, examples, edge cases, all in one block. The cost is real: every cold start loads that full context before the agent speaks its first word. I split the knowledge into two layers. A lean system prompt (~280 tokens) handles identity, tone, and behavior rules. The actual knowledge about my work — projects, decisions, career arc — lives in a separate knowledge base the agent retrieves from on demand. Basic RAG applied to a voice context. It cut cold-start latency significantly.
+
+**The first message.** VAPI generates the opening line via an LLM call by default. That's 3–5 seconds before the user hears anything. I hardcoded a static first message instead — it fires instantly, costs nothing, and the conversation starts before the user has time to wonder if it's working.
+
+**Audience detection.** The system prompt routes conversations by who the agent is talking to. It opens with a question that identifies whether it's speaking to a recruiter, a hiring manager, or someone just curious. The answer changes how deep and technical the rest of the conversation gets. A recruiter gets a sharp three-sentence summary. A founder gets the architecture decisions. Same agent, different routing.
+
+**The pronunciation fix.** ElevenLabs reads "Dilith" and hears "delete." TTS engines pattern-match on visual form, not intent. I created a pronunciation dictionary via the VAPI API — an alias rule that maps "Dilith" to "Dil-ith" before the text ever reaches the voice model. A small fix, but the kind of thing that breaks trust immediately if you miss it.
+
+**STT tuning.** Deepgram runs transcription at ~100ms latency. I added keyterms — "Dilith," "Zuper," "VAPI" — so the transcriber is primed for the vocabulary of the conversation. Smart Endpointing detects when a user has actually finished speaking rather than cutting them off mid-sentence.
+
+---
+
+## Architecture Decisions That Weren't Obvious
+
+**System prompt versus knowledge base.** The instinct is to put everything in the system prompt because it's simpler. But voice has a different latency profile than text — every token in that initial context is time the user spends waiting. The split forces a useful discipline: what does the agent need to know *always* versus what does it need to retrieve *on demand*? Instructions and persona belong in the system prompt. My project details belong in the knowledge base.
+
+**Model choice.** I'm running GPT-4o Mini. For a conversational agent pulling from a structured knowledge base, the smaller model is fast enough — and the latency difference against GPT-4o is real and audible in voice. The reasoning ceiling on this task isn't high: retrieval plus coherent speech, not complex inference. Reaching for the most capable model available would have been the wrong call.
+
+**What the agent says about itself.** If someone asks how it works, it answers: designed by me, using STT, an LLM reasoning layer, and TTS orchestrated via VAPI. I made a deliberate choice not to obscure the infrastructure. Owning the architecture is more interesting than pretending the agent appeared from nowhere.
+
+---
+
+## What This Is Evidence Of
+
+Building a voice agent isn't hard. The components are accessible, the APIs are well-documented, and VAPI abstracts enough of the complexity that something basic runs in an afternoon.
+
+The interesting part is the decision-making under real constraints. Cold-start latency is a real user experience problem. A pronunciation error breaks trust in three syllables. Audience detection changes what a good response even means. None of those are solved by picking the right platform. They're solved by thinking clearly about what the system needs to do and making specific choices to get there.
+
+That's the job. Not building models. Deciding how to connect them, what logic to put between them, and what the person on the other end actually needs.
+
+---
+
+## What I'd Do Differently
+
+The knowledge base structure was designed for breadth — cover anything someone might ask — rather than precision. The agent handles most questions well, but when someone asks about a specific decision inside a specific project, retrieval sometimes surfaces adjacent content rather than the exact thing. The fix is more granular chunking: organizing the knowledge base by decision rather than by project.
+
+The fallback behavior also needs work. When the agent doesn't know something, it deflects politely but evasively. A cleaner design would have it acknowledge the gap directly and route to email. I'd rebuild that path.
+
+Audience detection works, but the routing question is blunt — it gets most people into the right mode, but edge cases feel awkward. A simpler detection approach, or one that just asks directly, would handle them better.
+
+*[Review this section before publishing — adjust based on what actually broke during real usage.]*
+
+---
+
+*The agent is live on the homepage. Talk to it.*
+
+---
+
 ## Now Page
 
 ```
@@ -1032,7 +1128,7 @@ Page title:     Now
 Subtitle:       What I'm working on, reading, and
                 thinking about — updated regularly.
 
-Last updated:   March 2026
+Last updated:   May 2026
 
 Currently Building:
 
@@ -1042,6 +1138,10 @@ At Zuper: Scaling the roofing vertical architecture across trade
 
 Side:     Iris — the web app is fully built. Now extending it
           to mobile. The mobile MVP exists; the real build is underway.
+
+Side:     Voice agent live on the homepage — built as a proof-of-thinking
+          for AI product work. Iterating on retrieval precision
+          and fallback routing.
 
 Currently Reading:
 
@@ -1318,10 +1418,11 @@ Before Session 5 (Writing):
 Before Session 6 (Projects):
   ✓ Iris build log written (full arc — D-Chat origin → Iris rebuild)
   ✓ Pulseboard build log written
+  ✓ Voice Agent build log written
 
 Before Session 7 (Now + About):
-  ✓ Now page "Last updated" date filled in (March 2026)
-  ✓ Currently Building section filled in (both items)
+  ✓ Now page "Last updated" date filled in (May 2026)
+  ✓ Currently Building section filled in (all three items)
   ✓ Currently Reading section filled in
   ✓ Third "Currently Thinking About" question filled in
   ✓ About page reviewed — does every sentence sound like you?
@@ -1337,6 +1438,8 @@ Before Session 9 (SEO):
 Post-Launch (Month 1–2):
   □ Deposit Spec case study drafted via Q&A
   □ Add third work card to home page and work index
+  □ Review "What I'd Do Differently" in voice agent page — update
+    based on real usage before it's been live 30 days
 ```
 
 ---

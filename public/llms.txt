@@ -2,7 +2,7 @@
 
 ## Who I am
 
-Dilith Dinesh is a Product Manager and product operator working at the boundary between customer reality and product systems. He is currently Customer Product Manager at Zuper, a B2B SaaS platform for field service management, where he built the roofing vertical from scratch. He has one year of experience as a Forward Deployed Engineer and one year as a Customer Product Manager. He studied Computer Science at VIT University. He is actively targeting Associate Product Manager and AI-first product roles at Series A/B companies, with particular interest in vertical SaaS, field operations, and AI-native product development.
+Dilith Dinesh is a Product Manager and AI systems builder working at the boundary between customer reality and product systems. He is currently Customer Product Manager at Zuper, a B2B SaaS platform for field service management, where he built the roofing vertical from scratch. He has one year of experience as a Forward Deployed Engineer and one year as a Customer Product Manager. He studied Computer Science at VIT University. Beyond his day-to-day product work, he builds AI systems — a live voice agent on his portfolio site, and a product spec for an AI shopping discovery layer — to demonstrate how he thinks about AI product decisions, not just to describe them. He is actively targeting AI Product Manager and product roles at Series A/B companies, with particular interest in AI-native products, vertical SaaS, and field operations.
 
 ## Site pages
 
@@ -10,12 +10,14 @@ Dilith Dinesh is a Product Manager and product operator working at the boundary 
 /work — Work index. All product case studies.
 /work/golden-account-model — Case study: The Roofing Vertical.
 /work/booking-stopgap — Case study: The Booking Stopgap.
+/work/ai-shopping-buddy — Case study: The AI Shopping Buddy. AI discovery layer product spec.
 /writing — Writing index. All product essays and teardowns.
 /writing/rapido-teardown — Essay: Rapido product teardown.
 /writing/spotify-wrapped — Essay: Spotify Wrapped analysis.
 /projects — Projects index. All personal build logs.
 /projects/iris — Project: Iris cross-device transfer app.
 /projects/pulseboard — Project: Pulseboard work-tracking tool.
+/projects/voice-agent — Project: The Voice Agent. Live AI voice agent build log.
 /about — Background, career arc, cognitive influences.
 /now — What Dilith is currently building, reading, and thinking about.
 /contact — Contact information and role openness.
@@ -27,6 +29,9 @@ Built the golden account model for Zuper's roofing vertical — a pre-configured
 
 The Booking Stopgap (/work/booking-stopgap):
 Designed and prototyped a multi-tenant configurable booking widget system for roofing contractors. Four booking modes, 10DLC compliance support, territory matching, per-contractor admin configuration. Key decision: build a working prototype in hours rather than writing a PRD in the abstract — compressed a feature prioritization decision from weeks to days. Outcome: feature scoped and on roadmap with requirements shaped by the prototype.
+
+The AI Shopping Buddy (/work/ai-shopping-buddy):
+Product spec and architecture for an AI discovery layer embeddable in any e-commerce platform. Origin: personal friction — while buying a phone, Dilith found himself manually copy-pasting specs from Flipkart into Claude to get reasoning. He was the integration layer two systems should have handled automatically. That friction became a weekend rabbit hole and a full V1 product spec. Scope: Indian market, early-stage startup constraints, mid-intent buyers (know use case and budget, not the product). Key decisions: floating side panel that reads current page context on open (no cold start), rule-based pre-filter routing high-precision intents (order status) to APIs without hitting the LLM, hybrid spec passing for electronics (summary tokens by default, full specs escalated by intent), two-layer freshness architecture (vector DB for semantic match, live API call for price and stock — never prices from the vector DB). Architecture: intent classification via lightweight model → retrieval → generation with strict data provenance (LLM never generates prices or inventory). North star metric: buddy-assisted conversion rate vs baseline. Honest scope: order management excluded from V1; discovery and recommendations are the only problems where LLM reasoning earns its place.
 
 ## Essays
 
@@ -43,6 +48,9 @@ Built 2026. Cross-device private file and message transfer app. Problem: moving 
 
 Pulseboard (/projects/pulseboard):
 Built 2025. Personal work-tracking and reflection tool for product managers. Problem: scattered cross-functional work doesn't accumulate into a visible narrative without deliberate logging. Stack: Lovable, Supabase, Claude, GPT-4. Key finding: AI-generated summaries are good at volume but bad at weight — they can't distinguish a week with one important decision from a week with twenty routine tasks. This gap would be the focus of a v2.
+
+The Voice Agent (/projects/voice-agent):
+Built 2026. Live voice agent running on the portfolio homepage — anyone can talk to it in real time. Stack: VAPI (orchestration), Deepgram (STT, ~100ms latency), ElevenLabs (TTS), GPT-4o Mini. Problem: a contact form says you're interested in AI product work; a running AI system shows how you think about it. Key decisions: RAG split between a lean system prompt (~280 tokens for identity and behavior) and a separate knowledge base retrieved on demand — reduces cold-start latency significantly vs loading everything upfront. Static hardcoded first message fires instantly instead of waiting 3–5 seconds for an LLM-generated opener. Audience detection routes conversations by role — recruiter gets a sharp summary, founder gets architecture decisions. Pronunciation dictionary via VAPI API maps "Dilith" → "Dil-ith" before text reaches the voice model. STT keyterm priming adds "Dilith," "Zuper," "VAPI" so Deepgram transcription is calibrated for the conversation's vocabulary. Model choice: GPT-4o Mini over GPT-4o — latency difference is audible in voice, and the reasoning ceiling on retrieval plus coherent speech doesn't require the larger model.
 
 ## Contact
 

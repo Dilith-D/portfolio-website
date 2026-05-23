@@ -765,6 +765,8 @@ These features were added during the build and are live in the codebase:
 - **11 SVG diagram components** — in `src/components/diagrams/`, used in MDX content
 - **JSON-LD structured data** — Person, TechArticle, Article, SoftwareApplication schemas
 - **`public/llms.txt`** — custom LLM crawler rules
+- **ToolOrbitArc component** — `src/components/ToolOrbitArc.astro`, rotating solar-system orbit of 12 AI/PM tool logos (pure CSS, no JS framework). Used in homepage "Stack" section. OpenAI and Lovable use inline SVG paths (`type: 'svg'`); others use SimpleIcons CDN (`type: 'img'`). Claude uses `cdn.simpleicons.org/claude` slug.
+- **Headshot photo** — `public/my_photo.png`, displayed on About page opening section as a 2-column grid (text left, portrait right, 220px wide, `object-position: top center`, sticky on scroll). Mobile stacks photo above text.
 
 ---
 

@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import CaseStudyCard from '../components/CaseStudyCard.astro';
 import EssayCard from '../components/EssayCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import ToolOrbitArc from '../components/ToolOrbitArc.astro';
 
 const personSchema = {
   "@context": "https://schema.org",
@@ -198,6 +199,18 @@ const marqueeItems = [
           That's the kind of product thinking I'm building toward.
         </p>
       </div>
+    </div>
+  </section>
+
+  <!-- ─── AI Toolkit ───────────────────────────────────────────── -->
+  <section class="toolkit-section">
+    <div class="max-w-[1100px] mx-auto px-6 py-[80px] flex flex-col items-center text-center">
+      <p class="eyebrow">Stack</p>
+      <h2 class="section-title" style="margin-bottom: 1.5rem;">The AI PM toolkit.</h2>
+      <p class="font-body text-sm text-secondary mb-12" style="max-width: 420px; line-height: 1.75;">
+        Models, automation platforms, and product tools I reach for every week.
+      </p>
+      <ToolOrbitArc />
     </div>
   </section>
 

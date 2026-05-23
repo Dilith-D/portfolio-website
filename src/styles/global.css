@@ -277,7 +277,7 @@ main {
   --cone-spread: 22;
   --glow-padding: 28px;
   --edge-sensitivity: 22;
-  transition: background 400ms var(--ease-ui);
+  transition: background 180ms var(--ease-ui);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -394,7 +394,7 @@ main {
   position: relative;
   z-index: 1;
   transition:
-    box-shadow 400ms var(--ease-ui),
+    box-shadow 220ms var(--ease-ui),
     background 220ms var(--ease-ui);
 }
 
@@ -524,11 +524,7 @@ main {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .essay-row:hover .essay-title {
-    font-style: italic;
-    font-family: 'Instrument Serif', serif;
-    letter-spacing: -0.01em;
-  }
+  .essay-row:hover .essay-title { color: var(--color-secondary); }
   .essay-row:hover .essay-cta   { color: var(--color-primary); }
 }
 
@@ -569,8 +565,8 @@ main {
 /* ─── Scroll reveal ────────────────────────────────────────────── */
 .reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.7s var(--ease-ui), transform 0.7s var(--ease-ui);
+  transform: translateY(12px);
+  transition: opacity 0.45s var(--ease-ui), transform 0.45s var(--ease-ui);
 }
 .reveal.is-visible {
   opacity: 1;
@@ -581,8 +577,8 @@ main {
   transition:
     border-color 220ms var(--ease-ui),
     color 220ms var(--ease-ui),
-    opacity 0.7s var(--ease-ui),
-    transform 0.7s var(--ease-ui);
+    opacity 0.45s var(--ease-ui),
+    transform 0.45s var(--ease-ui);
 }
 
 /* Clip-path wipe-in — for headings */

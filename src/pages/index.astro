@@ -423,7 +423,7 @@ const marqueeItems = [
 .hero-anim {
   opacity: 0;
   transform: translateY(18px);
-  animation: fadeUp 0.85s var(--ease-ui) both;
+  animation: fadeUp 0.55s var(--ease-ui) both;
 }
 
 @keyframes fadeUp {
@@ -475,6 +475,16 @@ const marqueeItems = [
   transition:
     background 150ms var(--ease-ui),
     transform 120ms var(--ease-ui);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-btn-primary:hover { opacity: 0.88; }
+  .hero-btn-ghost:hover   { background: var(--color-surface); }
+}
+
+.hero-btn-primary:active,
+.hero-btn-ghost:active {
+  transform: scale(0.97);
 }
 
 /* ── Moon / Sun Button ───────────────────────────────────── */

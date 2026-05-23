@@ -604,6 +604,18 @@ html:not(.dark) .hero-moon-wrap::before {
     transform  150ms var(--ease-ui);
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .hero-moon-btn:hover {
+    box-shadow:
+      0 0 0 1px rgba(220, 220, 215, 0.70),
+      0 0 32px rgba(200, 200, 195, 0.28);
+  }
+}
+
+.hero-moon-btn:active {
+  transform: scale(0.95);
+}
+
 /* Dark mode: off-axis highlight — moonlight from upper-left */
 .hero-moon-btn::after {
   content: '';

@@ -509,6 +509,23 @@ const schema = {
     --paper-3:     #E5E1DB;
   }
 
+  :global(html.dark) .apis-page {
+    --ink:     #F0EDE7;
+    --ink-3:   #A8A49E;
+    --paper-3: rgba(255,255,255,0.08);
+  }
+
+  /* meta-label is hardcoded (not using --ink-3), override directly */
+  :global(html.dark) .meta-label { color: #A8A49E; }
+
+  /* Dark blocks use background:var(--ink) — now light in dark mode, restore dark */
+  :global(html.dark) .arch-block        { background: #141210; }
+  :global(html.dark) .metric-north-star { background: #141210; }
+
+  /* Keep white text on those preserved dark blocks */
+  :global(html.dark) .arch-label      { color: #F0EDE7; }
+  :global(html.dark) .metric-ns-value { color: #F0EDE7; }
+
   .section-block {
     margin-bottom: 80px;
   }

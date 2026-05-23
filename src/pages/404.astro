@@ -7,7 +7,7 @@ import Base from '../layouts/Base.astro';
   description="Page not found."
 >
   <div class="min-h-screen flex flex-col items-center justify-center px-6 text-center">
-    <p class="font-display text-[160px] font-semibold leading-none" style="color: #E5E1DB;">
+    <p class="font-display text-[160px] font-semibold leading-none text-border">
       404
     </p>
     <p class="font-display text-2xl text-primary mt-4">
@@ -20,10 +20,10 @@ import Base from '../layouts/Base.astro';
       ← Back home
     </a>
 
-    <p id="riddle-q" style="margin-top:32px; font-family:'Inter',sans-serif; font-size:14px; color:#6B6B6B; cursor:pointer;">
+    <p id="riddle-q" style="margin-top:32px; font-family:'Inter',sans-serif; font-size:14px; color:var(--color-secondary); cursor:pointer;">
       Or: what has inputs, outputs, and gets ignored until it breaks? <span style="opacity:0.5;">(click to reveal)</span>
     </p>
-    <p id="riddle-answer" style="margin-top:8px; font-family:'Inter',sans-serif; font-size:14px; color:#6B6B6B; opacity:0; transition:opacity 300ms ease;">
+    <p id="riddle-answer" style="margin-top:8px; font-family:'Inter',sans-serif; font-size:14px; color:var(--color-secondary); opacity:0; transition:opacity 300ms ease;">
       A system. Also, most PRDs.
     </p>
   </div>

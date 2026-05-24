@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import SpotifyNowPlaying from '../components/SpotifyNowPlaying.astro';
 ---
 
 <Base
@@ -27,6 +28,8 @@ import Base from '../layouts/Base.astro';
         window.markEggFound?.('now-date-reveal');
       });
     </script>
+
+    <SpotifyNowPlaying />
 
     <hr class="border-t border-border my-[80px]" />
 

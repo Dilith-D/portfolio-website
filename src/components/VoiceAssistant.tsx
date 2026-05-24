@@ -36,6 +36,8 @@ export default function VoiceAssistant() {
   const vapiRef = useRef<Vapi | null>(null);
   const stateRef = useRef<CallState>('idle');
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const triggerRef = useRef<string>('unknown');
+  const callStartRef = useRef<number | null>(null);
 
   // Mirror state to ref so event handlers always see current value
   useEffect(() => { stateRef.current = state; }, [state]);
@@ -57,8 +59,20 @@ export default function VoiceAssistant() {
 
     vapiRef.current.on('call-start', () => {
       if (stateRef.current !== 'idle') setState('listening');
+      callStartRef.current = Date.now();
+      const w = window as Record<string, unknown>;
+      (w.posthog as { capture?: (...a: unknown[]) => void })?.capture?.('voice_agent_started', { trigger: triggerRef.current });
+      (w.gtag as ((...a: unknown[]) => void) | undefined)?.('event', 'voice_agent_started', { trigger: triggerRef.current });
     });
-    vapiRef.current.on('call-end', () => { setState('idle'); setSeconds(0); });
+    vapiRef.current.on('call-end', () => {
+      const duration_seconds = callStartRef.current ? Math.round((Date.now() - callStartRef.current) / 1000) : null;
+      callStartRef.current = null;
+      const w = window as Record<string, unknown>;
+      (w.posthog as { capture?: (...a: unknown[]) => void })?.capture?.('voice_agent_ended', { trigger: triggerRef.current, duration_seconds });
+      (w.gtag as ((...a: unknown[]) => void) | undefined)?.('event', 'voice_agent_ended', { trigger: triggerRef.current, duration_seconds });
+      setState('idle');
+      setSeconds(0);
+    });
     vapiRef.current.on('speech-start', () => {
       if (stateRef.current !== 'idle') setState('speaking');
     });
@@ -67,6 +81,10 @@ export default function VoiceAssistant() {
     });
     vapiRef.current.on('error', (err: unknown) => {
       console.error('[VoiceAssistant]', err);
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      const w = window as Record<string, unknown>;
+      (w.posthog as { capture?: (...a: unknown[]) => void })?.capture?.('voice_agent_error', { trigger: triggerRef.current, error: errorMsg });
+      (w.gtag as ((...a: unknown[]) => void) | undefined)?.('event', 'voice_agent_error', { trigger: triggerRef.current, error: errorMsg });
       setState('idle');
       setSeconds(0);
     });
@@ -75,7 +93,9 @@ export default function VoiceAssistant() {
 
   // voice:toggle custom event — dispatched by nav mic + hero link
   useEffect(() => {
-    const handleToggle = () => {
+    const handleToggle = (e: Event) => {
+      const detail = (e as CustomEvent).detail as { trigger?: string } | undefined;
+      triggerRef.current = detail?.trigger ?? 'unknown';
       if (stateRef.current === 'idle') {
         setState('connecting');
         vapiRef.current?.start(ASSISTANT_ID);

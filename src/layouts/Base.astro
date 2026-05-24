@@ -239,6 +239,27 @@ const ogImageURL = new URL(ogImage, Astro.site);
           window.posthog?.capture('contact_intent')
         })
       })
+
+      // Track project card clicks (auto-tracks all future /projects/ content)
+      document.addEventListener('click', (e) => {
+        const a = e.target.closest('a[href^="/projects/"]')
+        if (a) {
+          const slug = a.getAttribute('href')
+          window.posthog?.capture('project_clicked', { slug })
+          window.gtag?.('event', 'project_clicked', { slug })
+        }
+      })
+
+      // Track "Try it live" external project links
+      document.addEventListener('click', (e) => {
+        const a = e.target.closest('a[data-track="project_live"]')
+        if (a) {
+          const slug = a.dataset.slug
+          const url = a.href
+          window.posthog?.capture('project_live_clicked', { slug, url })
+          window.gtag?.('event', 'project_live_clicked', { slug, url })
+        }
+      })
     })
   </script>
 

@@ -538,12 +538,12 @@ html.dark #nav-pill.scrolled {
 
     // ── Voice toggle dispatch ──────────────────────────────────────
     navMic?.addEventListener('click', () => {
-      document.dispatchEvent(new CustomEvent('voice:toggle', { bubbles: true }));
+      document.dispatchEvent(new CustomEvent('voice:toggle', { bubbles: true, detail: { trigger: 'nav_desktop' } }));
     });
 
     navMicMob?.addEventListener('click', () => {
       closeMobileMenu();
-      document.dispatchEvent(new CustomEvent('voice:toggle', { bubbles: true }));
+      document.dispatchEvent(new CustomEvent('voice:toggle', { bubbles: true, detail: { trigger: 'nav_mobile' } }));
     });
 
     // ── Dark mode toggle ───────────────────────────────────────────

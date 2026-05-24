@@ -203,7 +203,7 @@ const marqueeItems = [
   </section>
 
   <!-- ─── AI Toolkit ───────────────────────────────────────────── -->
-  <section class="toolkit-section">
+  <section class="toolkit-section" id="ai-stack-section">
     <div class="max-w-[1100px] mx-auto px-6 py-[80px] flex flex-col items-center text-center">
       <p class="eyebrow">Stack</p>
       <h2 class="section-title" style="margin-bottom: 1.5rem;">The AI PM toolkit.</h2>
@@ -383,8 +383,23 @@ const marqueeItems = [
   <!-- Voice trigger -->
   <script>
     document.getElementById('heroCta')?.addEventListener('click', () => {
-      document.dispatchEvent(new CustomEvent('voice:toggle', { bubbles: true }));
+      document.dispatchEvent(new CustomEvent('voice:toggle', { bubbles: true, detail: { trigger: 'hero_cta' } }));
     });
+  </script>
+
+  <!-- AI stack viewport tracking -->
+  <script>
+    const _stackSection = document.getElementById('ai-stack-section');
+    if (_stackSection) {
+      const _stackObserver = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          window.posthog?.capture('ai_stack_viewed');
+          window.gtag?.('event', 'ai_stack_viewed');
+          _stackObserver.disconnect();
+        }
+      }, { threshold: 0.3 });
+      _stackObserver.observe(_stackSection);
+    }
   </script>
 
 

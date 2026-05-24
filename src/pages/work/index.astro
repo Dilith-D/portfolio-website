@@ -26,26 +26,133 @@ import CaseStudyCard from '../../components/CaseStudyCard.astro';
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <CaseStudyCard
-        title="The Roofing Vertical"
-        tags={["ZUPER", "FIELD SERVICE", "VERTICAL BUILD"]}
-        description="The roofing vertical at Zuper didn't exist. No architecture, no repeatable process, no foundation for the product to grow on. I built it — from first discovery call to cloneable system."
-        slug="golden-account-model"
-      />
-      <CaseStudyCard
-        title="The Stopgap That Knew Its Place"
-        tags={["ZUPER", "FIELD SERVICE", "PRODUCT JUDGMENT"]}
-        description="Roofing customers needed booking before the product roadmap was ready. I built the interim solution — and designed it to be replaced."
-        slug="booking-stopgap"
-      />
-      <CaseStudyCard
-        title="The AI Shopping Buddy"
-        tags={["E-COMMERCE", "AI SYSTEMS", "PRODUCT SPEC"]}
-        description="I was copy-pasting specs from Flipkart into Claude just to answer 'does this phone fit my needs?' That friction became a weekend build plan: an AI shopping layer that any e-commerce can embed."
-        slug="ai-shopping-buddy"
-      />
+    <div class="work-list">
+      <a href="/work/golden-account-model" class="work-list-item reveal">
+        <div class="work-list-num">01</div>
+        <div class="work-list-body">
+          <p class="work-list-tags">ZUPER  ·  FIELD SERVICE  ·  VERTICAL BUILD</p>
+          <h2 class="work-list-title">The Roofing Vertical</h2>
+          <p class="work-list-desc">The roofing vertical at Zuper didn't exist. No architecture, no repeatable process, no foundation for the product to grow on. I built it — from first discovery call to cloneable system.</p>
+        </div>
+        <span class="work-list-cta">Read the case study →</span>
+      </a>
+
+      <a href="/work/booking-stopgap" class="work-list-item reveal" style="transition-delay: 90ms">
+        <div class="work-list-num">02</div>
+        <div class="work-list-body">
+          <p class="work-list-tags">ZUPER  ·  FIELD SERVICE  ·  PRODUCT JUDGMENT</p>
+          <h2 class="work-list-title">The Stopgap That Knew Its Place</h2>
+          <p class="work-list-desc">Roofing customers needed booking before the product roadmap was ready. I built the interim solution — and designed it to be replaced.</p>
+        </div>
+        <span class="work-list-cta">Read the case study →</span>
+      </a>
+
+      <a href="/work/ai-shopping-buddy" class="work-list-item reveal" style="transition-delay: 180ms">
+        <div class="work-list-num">03</div>
+        <div class="work-list-body">
+          <p class="work-list-tags">E-COMMERCE  ·  AI SYSTEMS  ·  PRODUCT SPEC</p>
+          <h2 class="work-list-title">The AI Shopping Buddy</h2>
+          <p class="work-list-desc">Personal friction became a weekend build plan: an AI shopping layer any e-commerce can embed — so you never have to paste a spec sheet into Claude again.</p>
+        </div>
+        <span class="work-list-cta">Read the case study →</span>
+      </a>
     </div>
+
+<style>
+  .work-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work-list-item {
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    align-items: start;
+    gap: 0 32px;
+    padding: 40px 0;
+    border-top: 1px solid var(--color-border);
+    text-decoration: none;
+    transition: border-color 180ms var(--ease-ui);
+  }
+  .work-list-item:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .work-list-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--color-secondary);
+    padding-top: 5px;
+    flex-shrink: 0;
+  }
+
+  .work-list-tags {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-secondary);
+    margin-bottom: 12px;
+    transition: color 180ms var(--ease-ui);
+  }
+
+  .work-list-title {
+    font-family: 'Instrument Serif', 'Cabinet Grotesk', serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--color-primary);
+    margin-bottom: 12px;
+    transition: color 180ms var(--ease-ui);
+  }
+
+  .work-list-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-secondary);
+    max-width: 580px;
+  }
+
+  .work-list-cta {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-secondary);
+    white-space: nowrap;
+    padding-top: 6px;
+    transition: color 180ms var(--ease-ui), transform 150ms var(--ease-ui);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .work-list-item:hover .work-list-title { color: var(--color-primary); }
+    .work-list-item:hover .work-list-cta {
+      color: var(--color-primary);
+      transform: translateX(4px);
+    }
+  }
+  .work-list-item:active { opacity: 0.75; }
+
+  @media (max-width: 640px) {
+    .work-list-item {
+      grid-template-columns: 32px 1fr;
+      grid-template-rows: auto auto;
+      gap: 0 16px;
+      padding: 28px 0;
+    }
+    .work-list-cta {
+      grid-column: 2;
+      margin-top: 12px;
+    }
+    .work-list-title { font-size: 1.4rem; }
+  }
+</style>
 
   </div>
 </Base>

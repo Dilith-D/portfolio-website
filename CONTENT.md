@@ -214,8 +214,7 @@ what made it hard, what I chose, and what I'd
 do differently.
 
 Sub-header:
-Two case studies from two years inside field service operations.
-More coming soon.
+Three case studies — two from field service operations, one from an AI product build.
 ```
 
 *(Uses same two cards as home page work preview)*
@@ -1121,6 +1120,11 @@ Audience detection works, but the routing question is blunt — it gets most peo
 ---
 
 ## Now Page
+
+Note: The Now page includes a live Spotify Now Playing widget (`SpotifyNowPlaying.astro`)
+positioned between the page header and the first section divider. It shows the currently
+playing track (with animated equalizer bars) or last played track. No copy needed — it's
+live data from the Spotify API via Netlify function.
 
 ```
 Page title:     Now

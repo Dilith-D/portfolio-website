@@ -57,6 +57,9 @@ dilithdinesh/
 │   │   ├── ReadingProgress.astro
 │   │   ├── MetricsSummary.astro
 │   │   ├── posthog.astro
+│   │   ├── BouquetEgg.astro
+│   │   ├── ToolOrbitArc.astro
+│   │   ├── SpotifyNowPlaying.astro
 │   │   └── diagrams/
 │   │       ├── BookingFlow.astro
 │   │       ├── CPQDecision.astro
@@ -76,6 +79,11 @@ dilithdinesh/
 │   │   └── CaseStudy.astro
 │   └── styles/
 │       └── global.css
+├── netlify/
+│   └── functions/
+│       └── now-playing.js          ← Spotify Now Playing serverless function
+├── scripts/
+│   └── get-spotify-token.mjs       ← one-time OAuth helper (run once, never again)
 ├── public/
 │   ├── fonts/
 │   │   ├── CabinetGrotesk-Variable.woff2
@@ -88,9 +96,14 @@ dilithdinesh/
 │   ├── favicon.svg
 │   ├── favicon.ico
 │   ├── easter-eggs.json
-│   └── llms.txt
+│   ├── llms.txt
+│   ├── my_photo.png
+│   └── sun.png                     ← real sun photo used in light-mode Moon/Sun button
 ├── CLAUDE.md
 ├── CONTENT.md
+├── PRODUCT.md
+├── DESIGN.md
+├── netlify.toml
 ├── astro.config.mjs
 ├── tailwind.config.mjs
 └── package.json
@@ -739,34 +752,48 @@ Sitemap: https://dilithdinesh.com/sitemap.xml
 
 ## Build Status
 
-All 9 sessions complete. Site is production-ready.
+All 9 original sessions complete + ongoing post-launch work. Site is live at dilithdinesh.com.
 
 ```
-Session 1:  ✓ Project scaffold + design system + Base/Prose/CaseStudy layouts + Nav + Footer
-Session 2:  ✓ Home page (index.astro)
-Session 3:  ✓ Work index + CaseStudyCard + first case study page
-Session 4:  ✓ Remaining case study pages
-Session 5:  ✓ Writing index + EssayCard + both essay pages
-Session 6:  ✓ Projects index + ProjectCard + both project pages
-Session 7:  ✓ Now page + About page
-Session 8:  ✓ Contact page + 404 page
-Session 9:  ✓ SEO pass + OG image + sitemap verification
+Session 1:   ✓ Project scaffold + design system + Base/Prose/CaseStudy layouts + Nav + Footer
+Session 2:   ✓ Home page (index.astro)
+Session 3:   ✓ Work index + CaseStudyCard + first case study page
+Session 4:   ✓ Remaining case study pages
+Session 5:   ✓ Writing index + EssayCard + both essay pages
+Session 6:   ✓ Projects index + ProjectCard + both project pages
+Session 7:   ✓ Now page + About page
+Session 8:   ✓ Contact page + 404 page
+Session 9:   ✓ SEO pass + OG image + sitemap verification
+Post-launch: ✓ Dark mode default + Easter egg system (20+) + GA4 + PostHog + GEO
+             ✓ Diagram components (12) + MetricsSummary + APM targeting
+             ✓ Voice agent (VAPI) + Moon/Sun button + WebGL background
+             ✓ AI PM reframe + ToolOrbitArc + headshot + SuperPilot project
+             ✓ Third case study (AI Shopping Buddy)
+             ✓ Spotify Now Playing widget on Now page
+             ✓ Real sun photo in light mode button
 ```
 
 ## Features Beyond Original Spec (Implemented)
 
 These features were added during the build and are live in the codebase:
 
-- **Dark mode** — localStorage-based theme persistence, full token set, toggle in Nav
-- **Easter egg system** — 20+ eggs tracked via `public/easter-eggs.json` and localStorage
-- **Secret page** (`/secret`) — easter egg dashboard showing progress
-- **PostHog analytics** — `posthog.astro` component, tracks case study/essay/contact clicks
-- **MetricsSummary component** — data visualization for case studies
-- **11 SVG diagram components** — in `src/components/diagrams/`, used in MDX content
-- **JSON-LD structured data** — Person, TechArticle, Article, SoftwareApplication schemas
-- **`public/llms.txt`** — custom LLM crawler rules
+- **Dark mode** — localStorage-based theme persistence, full token set, toggle in Nav. Dark is the default; light only if explicitly saved to localStorage (`theme: 'light'`).
+- **Easter egg system** — 20+ eggs tracked via `public/easter-eggs.json` and localStorage. BouquetEgg fires after deep scroll across all 6 content pages.
+- **Secret page** (`/secret`) — easter egg progress dashboard showing how many eggs found.
+- **PostHog analytics** — `posthog.astro` component, tracks case study/essay/contact/project/voice agent clicks. Key: `PUBLIC_POSTHOG_KEY` env var.
+- **Google Analytics 4** — GA4 measurement ID `G-X4C4BFY2PZ` in Base.astro.
+- **GEO implementation** — JSON-LD structured data (Person, TechArticle, Article, SoftwareApplication) + robots directives for AI search engines (Google AI Overviews, Perplexity, ChatGPT).
+- **MetricsSummary component** — data visualization for case studies.
+- **12 SVG diagram components** — in `src/components/diagrams/`, used in MDX content.
+- **`public/llms.txt`** — custom LLM crawler rules for AI indexing.
 - **ToolOrbitArc component** — `src/components/ToolOrbitArc.astro`, rotating solar-system orbit of 12 AI/PM tool logos (pure CSS, no JS framework). Used in homepage "Stack" section. OpenAI and Lovable use inline SVG paths (`type: 'svg'`); others use SimpleIcons CDN (`type: 'img'`). Claude uses `cdn.simpleicons.org/claude` slug.
 - **Headshot photo** — `public/my_photo.png`, displayed on About page opening section as a 2-column grid (text left, portrait right, 220px wide, `object-position: top center`, sticky on scroll). Mobile stacks photo above text.
+- **Voice agent** — VAPI-powered live voice AI on the homepage. Visitor clicks the Moon/Sun button → floating card UI opens → real-time voice conversation. SDK initialized at module-eval time to eliminate cold-start delay.
+- **Moon/Sun button** — `src/pages/index.astro`. Dark mode: white/silver moon orb with indigo atmospheric glow. Light mode: real sun photograph (`public/sun.png`) with amber glow. Positioned absolutely in hero right half, hidden on screens < 900px.
+- **WebGL animated background** — on the homepage hero. Pure canvas, no JS framework.
+- **Third case study** — `src/pages/work/ai-shopping-buddy.mdx` — The AI Shopping Buddy. Third work page alongside The Roofing Vertical and The Stopgap.
+- **SuperPilot project page** — `src/pages/projects/superpilot.mdx`. Third project alongside Iris and Pulseboard.
+- **Spotify Now Playing widget** — `src/components/SpotifyNowPlaying.astro` on the Now page. Polls `/.netlify/functions/now-playing` every 30s. Shows currently playing track with animated equalizer bars; falls back to last played when nothing is on. Requires 3 Netlify env vars: `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN`. One-time token setup via `scripts/get-spotify-token.mjs`.
 
 ---
 

@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Map — dilithdinesh.com</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #080810;
+    overflow: hidden;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    color: #e2dfd9;
+    user-select: none;
+  }
+
+  #canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ── HEADER ─────────────────────────────────────── */
+  #hdr {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 28px;
+    background: rgba(8,8,16,0.72);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .hdr-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(226,223,217,0.45);
+  }
+  .hdr-title span { color: rgba(226,223,217,0.9); }
+
+  .hdr-stats {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: rgba(107,107,126,0.8);
+  }
+  .hdr-stats strong { color: rgba(226,223,217,0.85); }
+  .hdr-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(107,107,126,0.4); }
+
+  /* ── LABELS ──────────────────────────────────────── */
+  #labels {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 30;
+  }
+
+  .plabel {
+    position: absolute;
+    transform: translate(-50%, 28px);
+    text-align: center;
+    pointer-events: all;
+    cursor: pointer;
+  }
+
+  .plabel-name {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: opacity 150ms;
+  }
+
+  .plabel-sub {
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    color: rgba(107,107,126,0.7);
+    margin-top: 2px;
+    white-space: nowrap;
+  }
+
+  /* ── DETAIL PANEL ────────────────────────────────── */
+  #detail {
+    position: fixed;
+    z-index: 90;
+    background: rgba(10,10,18,0.96);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 18px 20px;
+    width: 296px;
+    backdrop-filter: blur(24px);
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.94) translateY(6px);
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+  #detail.show {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  .det-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .det-icon { font-size: 16px; }
+
+  .det-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .det-date {
+    font-size: 9px;
+    color: rgba(107,107,126,0.8);
+    margin-top: 1px;
+    letter-spacing: 0.06em;
+  }
+
+  .det-commits { display: flex; flex-direction: column; gap: 1px; }
+
+  .det-commit {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 11px;
+    color: rgba(226,223,217,0.82);
+    line-height: 1.45;
+  }
+  .det-commit:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .det-hash {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 9.5px;
+    color: rgba(107,107,126,0.7);
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+
+  /* ── LEGEND ──────────────────────────────────────── */
+  #legend {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 80;
+    background: rgba(10,10,18,0.82);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 14px 16px;
+    backdrop-filter: blur(12px);
+  }
+
+  .leg-title {
+    font-size: 8.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(107,107,126,0.7);
+    margin-bottom: 10px;
+  }
+
+  .leg-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    color: rgba(226,223,217,0.6);
+    margin-bottom: 6px;
+  }
+  .leg-row:last-child { margin-bottom: 0; }
+
+  .leg-orbit { position: relative; width: 20px; height: 20px; flex-shrink: 0; }
+  .leg-ring {
+    position: absolute;
+    inset: 2px;
+    border-radius: 50%;
+    border: 1px dashed rgba(150,150,180,0.4);
+  }
+  .leg-core {
+    position: absolute;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(180,160,255,0.6);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .leg-dot-row { display: flex; gap: 3px; align-items: center; flex-shrink: 0; }
+  .leg-dot { width: 5px; height: 5px; border-radius: 50%; background: #6366f1; }
+  .leg-dot:nth-child(2) { background: #2D5BE3; opacity: 0.7; }
+  .leg-dot:nth-child(3) { background: #a855f7; opacity: 0.5; }
+  .leg-line {
+    width: 20px; height: 1px;
+    background: repeating-linear-gradient(90deg, rgba(200,200,255,0.5) 0, rgba(200,200,255,0.5) 4px, transparent 4px, transparent 8px);
+    flex-shrink: 0;
+  }
+  .leg-traveler { width: 8px; height: 8px; border-radius: 50%; background: white; box-shadow: 0 0 6px white; flex-shrink: 0; }
+
+  /* ── HINT ─────────────────────────────────────────── */
+  #hint {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(107,107,126,0.5);
+    z-index: 80;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="hdr-title">Build Map — <span>dilithdinesh.com</span></div>
+  <div class="hdr-stats">
+    <strong>78</strong> commits
+    <div class="hdr-dot"></div>
+    <strong>13</strong> phases
+    <div class="hdr-dot"></div>
+    <strong>79</strong> days
+    <div class="hdr-dot"></div>
+    Mar 8 – May 25, 2026
+  </div>
+</header>
+
+<canvas id="canvas"></canvas>
+<div id="labels"></div>
+
+<div id="detail">
+  <div class="det-header">
+    <span class="det-icon" id="det-icon"></span>
+    <div>
+      <div class="det-title" id="det-title"></div>
+      <div class="det-date" id="det-date"></div>
+    </div>
+  </div>
+  <div class="det-commits" id="det-commits"></div>
+</div>
+
+<div id="legend">
+  <div class="leg-title">Legend</div>
+  <div class="leg-row">
+    <div class="leg-orbit"><div class="leg-ring"></div><div class="leg-core"></div></div>
+    Phase node
+  </div>
+  <div class="leg-row">
+    <div class="leg-dot-row">
+      <div class="leg-dot"></div>
+      <div class="leg-dot"></div>
+      <div class="leg-dot"></div>
+    </div>
+    Commits (orbiting)
+  </div>
+  <div class="leg-row">
+    <div class="leg-line"></div>
+    Build progression
+  </div>
+  <div class="leg-row">
+    <div class="leg-traveler"></div>
+    Traveling cursor
+  </div>
+</div>
+
+<div id="hint">hover a node to see commits</div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────
+
+const PHASES = [
+  {
+    icon: '🏗️', name: 'Genesis', short: 'Genesis', date: 'Mar 8, 2026',
+    color: '#3b6ef5', px: 0.09, py: 0.22,
+    commits: [
+      { h: '6af2307', msg: 'Initial commit from Astro' },
+      { h: '1c72efc', msg: 'Initial build — 14 pages, full content, zero errors' },
+      { h: '5b91456', msg: 'Add Netlify config' },
+    ]
+  },
+  {
+    icon: '🚀', name: 'Launch Day', short: 'Launch', date: 'Mar 9, 2026',
+    color: '#22c55e', px: 0.26, py: 0.14,
+    commits: [
+      { h: '4c4ae58', msg: 'Fix CSS: migrate Tailwind v4 → v3' },
+      { h: '5e3d152', msg: 'Add D-Chat live link to Iris page' },
+      { h: '1b74830', msg: 'Add favicon, OG image, dark mode toggle' },
+      { h: 'b4e1600', msg: 'Add live project CTAs for Iris and Pulseboard' },
+    ]
+  },
+  {
+    icon: '🥚', name: 'Egg Season', short: 'Eggs', date: 'Mar 9, 2026',
+    color: '#f59e0b', px: 0.44, py: 0.23,
+    commits: [
+      { h: 'c7643ac', msg: 'Add easter eggs: console, 404 riddle, football footnote, triple click' },
+      { h: '9af4b4f', msg: 'Add easter eggs: idle timer, fast reader, print, right-click, tab title' },
+      { h: 'c3a2699', msg: 'Fix fast reader easter egg' },
+      { h: '2a6784f', msg: 'Fix fast reader toast logic' },
+      { h: '33f2e2c', msg: 'Add easter eggs: return visitor, time-based, all-pages, scroll bottom' },
+      { h: '4beaa6a', msg: 'Easter egg count reads dynamically from JSON' },
+      { h: 'a119a12', msg: 'Selection-based Chamber of Secrets toast' },
+      { h: 'b917ca3', msg: 'Triple-click navigates to /secret' },
+    ]
+  },
+  {
+    icon: '📊', name: 'Analytics', short: 'Analytics', date: 'Mar 9–10, 2026',
+    color: '#8b5cf6', px: 0.62, py: 0.15,
+    commits: [
+      { h: '7e0b3ca', msg: 'Add Google Analytics 4' },
+      { h: 'd0b1ac3', msg: 'Add GA4 measurement ID' },
+      { h: 'c094051', msg: 'Fix mobile nav: close button, dark toggle' },
+      { h: '58dc510', msg: 'Add easter egg intro framing toast' },
+      { h: '8ec6369', msg: 'Add APM targeting: meta descriptions, JSON-LD' },
+      { h: '7ddb414', msg: 'Fix text selection egg guard' },
+      { h: '976b85e', msg: 'Fix easter egg UX: right-click, clipboard, emoji' },
+    ]
+  },
+  {
+    icon: '📐', name: 'Diagrams', short: 'Diagrams', date: 'Mar 10–11, 2026',
+    color: '#06b6d4', px: 0.81, py: 0.25,
+    commits: [
+      { h: 'adf38d9', msg: 'Add real metrics to both case studies' },
+      { h: '1f060c0', msg: 'Add How I work section to About page' },
+      { h: 'a504b9c', msg: 'Add 12 diagram components across all pages' },
+      { h: '91488bd', msg: 'Rewrite IrisArchitecture: compact nodes, fork connectors' },
+      { h: '205a446', msg: 'Fix Iris diagram: pill tag colors' },
+      { h: '3d8fc2b', msg: 'Refine remaining 3 diagram components' },
+    ]
+  },
+  {
+    icon: '🔍', name: 'SEO & GEO', short: 'SEO/GEO', date: 'Mar 12–16, 2026',
+    color: '#ec4899', px: 0.90, py: 0.46,
+    commits: [
+      { h: 'c2f7a9e', msg: 'Add llms.txt for AI crawlers' },
+      { h: 'c4a82e8', msg: 'Add MetricsSummary component' },
+      { h: 'e1ab655', msg: 'Add PostHog analytics with click tracking' },
+      { h: '20589c2', msg: 'Fix undefined meta titles on MDX pages' },
+      { h: '5766bc5', msg: 'Move PostHog key to env variable' },
+      { h: 'a314157', msg: 'Fix OG and Twitter meta tags on MDX' },
+      { h: '737c4e4', msg: 'Add full GEO for AI search engine citation' },
+    ]
+  },
+  {
+    icon: '🌸', name: 'The Bouquet', short: 'Bouquet', date: 'Mar 31 – Apr 1',
+    color: '#f97316', px: 0.80, py: 0.63,
+    commits: [
+      { h: 'c03aa32', msg: 'Add BouquetEgg: scroll-depth tracking across 6 pages' },
+      { h: 'a8603e1', msg: 'Tune BouquetEgg: threshold, delay, message field' },
+      { h: '86a5dd8', msg: 'Reframe roofing vertical as 0-to-1 build' },
+    ]
+  },
+  {
+    icon: '✨', name: 'Micro-UX', short: 'Micro-UX', date: 'Apr 17–20, 2026',
+    color: '#10b981', px: 0.63, py: 0.73,
+    commits: [
+      { h: 'd16e1b2', msg: 'Add polish layer: micro-interactions, focus states' },
+      { h: 'cd1c02a', msg: 'Increase section number indicator opacity' },
+      { h: '4c331e2', msg: 'Section number full opacity when in view' },
+      { h: 'ab06cdb', msg: 'Update "Where I\'m going" section on About' },
+      { h: 'd55a621', msg: 'Update "Looking For" copy on Now page' },
+    ]
+  },
+  {
+    icon: '🛍️', name: 'Third Case Study', short: '3rd Case Study', date: 'May 3, 2026',
+    color: '#ef4444', px: 0.44, py: 0.67,
+    commits: [
+      { h: '0c23670', msg: 'Add case study: APIs Are Truth. LLMs Are Formatting.' },
+      { h: 'ffc83da', msg: 'Rewrite case study 3: The AI Shopping Buddy' },
+      { h: '2537090', msg: 'Acknowledge Amazon Rufus in origin story' },
+    ]
+  },
+  {
+    icon: '🎤', name: 'Voice Agent', short: 'Voice Agent', date: 'May 15–22, 2026',
+    color: '#6366f1', px: 0.24, py: 0.74,
+    commits: [
+      { h: '6a9f7d0', msg: 'Add Vapi voice assistant with 3D floating card UI' },
+      { h: '6e99926', msg: 'Add WebGL animated background' },
+      { h: '57c3192', msg: 'Restore full v2 redesign + animated background' },
+      { h: '833f2cd', msg: 'Add Voice Agent as third project entry' },
+      { h: '00eb2b8', msg: 'Set dark mode as default' },
+      { h: '9b845c5', msg: 'Replace hero trigger with Moon Button' },
+      { h: '77a61c3', msg: 'Rebuild Moon Button as circle orb with indigo glow' },
+      { h: '1553324', msg: 'Fix voice popup double-click and connect delay' },
+      { h: '595397d', msg: 'Vapi: initialize SDK at module-eval time' },
+    ]
+  },
+  {
+    icon: '🤖', name: 'AI PM Reframe', short: 'AI PM Reframe', date: 'May 23–24, 2026',
+    color: '#a855f7', px: 0.11, py: 0.56,
+    commits: [
+      { h: '1ebb687', msg: 'Add voice agent + AI shopping buddy, reposition as AI PM' },
+      { h: '646bb80', msg: 'Dark mode: fix all hardcoded text colors' },
+      { h: '7e04aba', msg: 'Add SuperPilot project page' },
+      { h: 'f220d08', msg: 'Add ToolOrbitArc, fix logos, add headshot to About' },
+      { h: '4a22d77', msg: 'Fix section headers hidden by broken animation' },
+      { h: '210ac0d', msg: 'Fix animation timing, hover states, interaction feedback' },
+      { h: '3570598', msg: 'Fix essay hover, orb active state, remove outer glows' },
+      { h: 'b9b7fe7', msg: 'Work/writing index: editorial list + featured hierarchy' },
+    ]
+  },
+  {
+    icon: '📚', name: 'Knowledge Base', short: 'Knowledge Base', date: 'May 24–25, 2026',
+    color: '#14b8a6', px: 0.09, py: 0.84,
+    commits: [
+      { h: '7ef3227', msg: 'Add AI agent knowledge base for VAPI/ElevenLabs' },
+      { h: '49becd7', msg: 'KB: rewrite as clean ASCII for VAPI ingestion' },
+      { h: '953987d', msg: 'Analytics: add PostHog + GA4 tracking for projects' },
+      { h: '0da9182', msg: 'Config: update Claude Code local settings' },
+    ]
+  },
+  {
+    icon: '☀️', name: 'Real Sun', short: 'Real Sun', date: 'May 25, 2026',
+    color: '#fb923c', px: 0.28, py: 0.90,
+    commits: [
+      { h: 'c2345d3', msg: 'Sun button: replace CSS gradient with real sun photo in light mode' },
+    ]
+  },
+];
+
+// ── CANVAS ───────────────────────────────────────────────────────
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let W, H;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  buildLabels();
+}
+window.addEventListener('resize', resize);
+
+// ── STARS ────────────────────────────────────────────────────────
+
+const STARS = Array.from({ length: 220 }, () => ({
+  x: Math.random(), y: Math.random(),
+  r: Math.random() * 1.3 + 0.2,
+  a: Math.random() * 0.55 + 0.15,
+  tw: Math.random() * Math.PI * 2,
+  sp: Math.random() * 0.6 + 0.4,
+}));
+
+// ── ORBIT SETUP ──────────────────────────────────────────────────
+
+function buildOrbits() {
+  PHASES.forEach(p => {
+    p.particles = p.commits.map((_, i) => ({
+      angle: (i / p.commits.length) * Math.PI * 2,
+      speed: 0.0028 + Math.random() * 0.0018,
+      r: 46 + (i % 3) * 5,
+      size: 2.8 + Math.random() * 1.4,
+    }));
+  });
+}
+
+// ── BEZIER CONTROL POINTS ────────────────────────────────────────
+
+function ctrl(a, b, idx) {
+  const ax = a.px * W, ay = a.py * H;
+  const bx = b.px * W, by = b.py * H;
+  const mx = (ax + bx) / 2, my = (ay + by) / 2;
+  const dx = bx - ax, dy = by - ay;
+  const len = Math.sqrt(dx * dx + dy * dy) || 1;
+  const bend = len * 0.20 * (idx % 2 === 0 ? 1 : -1);
+  return { cpx: mx + (-dy / len) * bend, cpy: my + (dx / len) * bend };
+}
+
+// ── TRAVELER ─────────────────────────────────────────────────────
+
+let travT = 0;
+
+function travPoint(tv) {
+  const total = PHASES.length - 1;
+  const seg = Math.min(Math.floor(tv * total), total - 1);
+  const st = tv * total - seg;
+  const a = PHASES[seg], b = PHASES[seg + 1];
+  const { cpx, cpy } = ctrl(a, b, seg);
+  const ax = a.px * W, ay = a.py * H;
+  const bx = b.px * W, by = b.py * H;
+  return {
+    x: (1-st)*(1-st)*ax + 2*(1-st)*st*cpx + st*st*bx,
+    y: (1-st)*(1-st)*ay + 2*(1-st)*st*cpy + st*st*by,
+  };
+}
+
+// ── LABELS ───────────────────────────────────────────────────────
+
+function buildLabels() {
+  const layer = document.getElementById('labels');
+  layer.innerHTML = '';
+  PHASES.forEach((p, i) => {
+    const el = document.createElement('div');
+    el.className = 'plabel';
+    el.style.cssText = `left:${p.px*100}%;top:${p.py*100}%`;
+    el.innerHTML = `
+      <div class="plabel-name" style="color:${p.color}">${p.short}</div>
+      <div class="plabel-sub">${p.commits.length} commits</div>`;
+    el.addEventListener('mouseenter', () => showDetail(i, el));
+    el.addEventListener('mouseleave', hideDetail);
+    layer.appendChild(el);
+    p._el = el;
+  });
+}
+
+// ── DETAIL PANEL ─────────────────────────────────────────────────
+
+const detPanel = document.getElementById('detail');
+const detIcon  = document.getElementById('det-icon');
+const detTitle = document.getElementById('det-title');
+const detDate  = document.getElementById('det-date');
+const detCommits = document.getElementById('det-commits');
+let hideTimer = null;
+
+function showDetail(idx, anchor) {
+  clearTimeout(hideTimer);
+  const p = PHASES[idx];
+  PHASES.forEach(q => q._hovered = false);
+  p._hovered = true;
+
+  detIcon.textContent = p.icon;
+  detTitle.textContent = p.name;
+  detTitle.style.color = p.color;
+  detDate.textContent = p.date;
+  detCommits.innerHTML = p.commits.map(c =>
+    `<div class="det-commit"><span class="det-hash">${c.h}</span>${c.msg}</div>`
+  ).join('');
+
+  // Position panel
+  const nx = p.px * W, ny = p.py * H;
+  const pw = 296, ph = Math.min(p.commits.length * 38 + 70, 440);
+  const margin = 20;
+  let left = nx + 58;
+  let top  = ny - 30;
+  if (left + pw > W - margin) left = nx - pw - 30;
+  if (left < margin) left = margin;
+  if (top + ph > H - margin) top = H - ph - margin;
+  if (top < 60) top = 60;
+
+  detPanel.style.left = `${left}px`;
+  detPanel.style.top  = `${top}px`;
+  detPanel.classList.add('show');
+}
+
+function hideDetail() {
+  hideTimer = setTimeout(() => {
+    detPanel.classList.remove('show');
+    PHASES.forEach(p => p._hovered = false);
+  }, 140);
+}
+
+detPanel.addEventListener('mouseenter', () => clearTimeout(hideTimer));
+detPanel.addEventListener('mouseleave', hideDetail);
+
+// ── DRAW LOOP ─────────────────────────────────────────────────────
+
+let tick = 0;
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+
+  // Background
+  ctx.fillStyle = '#080810';
+  ctx.fillRect(0, 0, W, H);
+
+  // Stars
+  ctx.save();
+  STARS.forEach(s => {
+    const tw = Math.sin(tick * 0.007 * s.sp + s.tw) * 0.28 + 0.72;
+    ctx.globalAlpha = s.a * tw;
+    ctx.fillStyle = '#fff';
+    ctx.beginPath();
+    ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  ctx.restore();
+
+  // Phase nebula glow
+  PHASES.forEach(p => {
+    const x = p.px * W, y = p.py * H;
+    const hov = p._hovered;
+    const r = hov ? 100 : 72;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, p.color + (hov ? '4a' : '28'));
+    g.addColorStop(0.5, p.color + (hov ? '18' : '0c'));
+    g.addColorStop(1, p.color + '00');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Connections
+  ctx.save();
+  ctx.setLineDash([5, 10]);
+  ctx.lineDashOffset = -tick * 0.38;
+  for (let i = 0; i < PHASES.length - 1; i++) {
+    const a = PHASES[i], b = PHASES[i + 1];
+    const { cpx, cpy } = ctrl(a, b, i);
+    const ax = a.px * W, ay = a.py * H;
+    const bx = b.px * W, by = b.py * H;
+    const gr = ctx.createLinearGradient(ax, ay, bx, by);
+    gr.addColorStop(0, a.color + '80');
+    gr.addColorStop(1, b.color + '80');
+    ctx.strokeStyle = gr;
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    ctx.moveTo(ax, ay);
+    ctx.quadraticCurveTo(cpx, cpy, bx, by);
+    ctx.stroke();
+  }
+  ctx.setLineDash([]);
+  ctx.restore();
+
+  // Orbit rings
+  PHASES.forEach(p => {
+    const x = p.px * W, y = p.py * H;
+    ctx.save();
+    ctx.strokeStyle = p.color + '1e';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([2, 5]);
+    ctx.beginPath();
+    ctx.arc(x, y, 50, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  });
+
+  // Phase circles
+  PHASES.forEach((p, idx) => {
+    const x = p.px * W, y = p.py * H;
+    const hov = p._hovered;
+    const r = hov ? 25 : 21;
+
+    // Outer glow ring when hovered
+    if (hov) {
+      ctx.save();
+      ctx.strokeStyle = p.color + '55';
+      ctx.lineWidth = 8;
+      ctx.beginPath();
+      ctx.arc(x, y, r + 8, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // Circle fill
+    ctx.fillStyle = p.color + '22';
+    ctx.strokeStyle = p.color + (hov ? 'ff' : 'cc');
+    ctx.lineWidth = hov ? 2.5 : 1.8;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    // Phase number ring inner
+    ctx.fillStyle = p.color + '35';
+    ctx.beginPath();
+    ctx.arc(x, y, r * 0.48, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Phase number
+    ctx.fillStyle = p.color + 'cc';
+    ctx.font = `bold 9px system-ui`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(idx + 1).padStart(2, '0'), x, y);
+  });
+
+  // Orbit particles (commits)
+  PHASES.forEach(p => {
+    const x = p.px * W, y = p.py * H;
+    const hov = p._hovered;
+    p.particles.forEach(pt => {
+      pt.angle += pt.speed * (hov ? 3 : 1);
+      const px = x + Math.cos(pt.angle) * pt.r;
+      const py = y + Math.sin(pt.angle) * pt.r;
+
+      // Glow
+      const g = ctx.createRadialGradient(px, py, 0, px, py, pt.size * 2.5);
+      g.addColorStop(0, p.color + 'dd');
+      g.addColorStop(1, p.color + '00');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(px, py, pt.size * 2.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Core dot
+      ctx.fillStyle = hov ? '#fff' : p.color + 'ee';
+      ctx.beginPath();
+      ctx.arc(px, py, hov ? pt.size * 0.9 : pt.size * 0.7, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  });
+
+  // Traveling dot
+  travT = (travT + 0.00045) % 1;
+  const tp = travPoint(travT);
+
+  // Traveler trail
+  for (let t2 = 0; t2 < 6; t2++) {
+    const trailT = ((travT - t2 * 0.003) + 1) % 1;
+    const trailP = travPoint(trailT);
+    ctx.globalAlpha = (6 - t2) / 6 * 0.35;
+    ctx.fillStyle = '#fff';
+    ctx.beginPath();
+    ctx.arc(trailP.x, trailP.y, 3 - t2 * 0.3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+
+  // Traveler glow
+  const tg = ctx.createRadialGradient(tp.x, tp.y, 0, tp.x, tp.y, 16);
+  tg.addColorStop(0, 'rgba(255,255,255,0.7)');
+  tg.addColorStop(0.4, 'rgba(255,255,255,0.2)');
+  tg.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = tg;
+  ctx.beginPath();
+  ctx.arc(tp.x, tp.y, 16, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Traveler core
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(tp.x, tp.y, 3.5, 0, Math.PI * 2);
+  ctx.fill();
+
+  tick++;
+  requestAnimationFrame(draw);
+}
+
+// ── INIT ─────────────────────────────────────────────────────────
+
+buildOrbits();
+resize();
+draw();
+</script>
+</body>
+</html>

@@ -3,17 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Build Log — dilithdinesh.com</title>
+<title>Construction Log — dilithdinesh.com</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #0c0c12;
-    --surface: #13131c;
-    --border: #1e1e2e;
-    --text: #e2dfd9;
-    --muted: #6b6b7e;
-    --blue: #2D5BE3;
+    --bg:         #0c0c12;
+    --surface:    #13131c;
+    --border:     #1e1e2e;
+    --text:       #e2dfd9;
+    --muted:      #6b6b7e;
+    --blue:       #2D5BE3;
+    --yellow:     #fbbf24;
+    --orange:     #f97316;
+    --yellow-dim: rgba(251,191,36,0.10);
+    --yellow-mid: rgba(251,191,36,0.22);
     --font: system-ui, -apple-system, 'Segoe UI', sans-serif;
     --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
   }
@@ -21,43 +25,187 @@
   html { background: var(--bg); color: var(--text); font-family: var(--font); }
   body { min-height: 100vh; }
 
-  /* ── HEADER ───────────────────────────────────────────── */
+  /* ── BUILDING SIDEBAR ─────────────────────────────────── */
+  .building-sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 168px;
+    background: #0a0a10;
+    border-right: 1px solid var(--border);
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 12px 24px;
+    overflow: hidden;
+  }
+
+  .sidebar-label {
+    font-size: 8px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: var(--mono);
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .building-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  }
+
+  .building-roof {
+    width: 80%;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-bottom: 16px solid var(--border);
+    transition: border-bottom-color 200ms;
+    margin-bottom: -1px;
+  }
+  .building-roof.active { border-bottom-color: var(--yellow); }
+
+  .building {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-top: none;
+    border-bottom: none;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .floor {
+    border-top: 1px solid var(--border);
+    padding: 7px 10px 6px;
+    cursor: pointer;
+    transition: background 150ms ease, border-left-color 150ms ease;
+    position: relative;
+    min-height: 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    border-left: 2px solid transparent;
+  }
+
+  .floor:hover { background: rgba(255,255,255,0.03); }
+
+  .floor.active {
+    background: var(--yellow-dim);
+    border-left-color: var(--yellow);
+  }
+
+  .floor-label {
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: var(--mono);
+    transition: color 150ms;
+  }
+  .floor.active .floor-label { color: var(--yellow); }
+
+  .floor-icons { font-size: 11px; line-height: 1; }
+
+  .floor-foundation { border-bottom: 3px solid var(--border); }
+  .floor-foundation.active { border-bottom-color: var(--yellow-mid); }
+
+  .ground-slab {
+    width: 100%;
+    height: 6px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--yellow) 0px, var(--yellow) 5px,
+      transparent   5px, transparent  10px
+    );
+    opacity: 0.45;
+    margin-top: 1px;
+  }
+
+  .ground-label {
+    font-size: 7px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: var(--mono);
+    margin-top: 6px;
+    opacity: 0.45;
+  }
+
+  /* ── MAIN LAYOUT ──────────────────────────────────────── */
+  .main-content { margin-left: 168px; }
+
+  /* ── STICKY HEADER ────────────────────────────────────── */
   .site-header {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(12,12,18,0.85);
+    background: rgba(12,12,18,0.88);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
-    padding: 16px 40px;
+    padding: 14px 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
   }
 
-  .site-header h1 {
-    font-size: 13px;
+  .header-title {
+    font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
   }
+  .header-title span { color: var(--text); }
 
-  .site-header h1 span { color: var(--text); }
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--yellow-dim);
+    border: 1px solid rgba(251,191,36,0.25);
+    border-radius: 4px;
+    padding: 3px 10px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    font-family: var(--mono);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .header-badge::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--yellow);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.25; }
+  }
 
   .stats-row {
     display: flex;
-    gap: 32px;
+    gap: 24px;
     align-items: center;
   }
 
-  .stat {
-    text-align: center;
-  }
+  .stat { text-align: center; }
 
   .stat-num {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
     color: var(--text);
     font-variant-numeric: tabular-nums;
@@ -65,291 +213,389 @@
   }
 
   .stat-label {
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
     margin-top: 3px;
+    font-family: var(--mono);
   }
 
   .stat-divider {
     width: 1px;
-    height: 32px;
+    height: 26px;
     background: var(--border);
   }
 
   /* ── HERO ─────────────────────────────────────────────── */
   .hero {
-    padding: 80px 40px 60px;
-    max-width: 900px;
-    margin: 0 auto;
+    padding: 72px 40px 52px;
+    max-width: 860px;
     animation: fadeUp 0.5s ease both;
   }
 
-  .hero-label {
-    font-size: 11px;
-    letter-spacing: 0.2em;
+  .hero-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--blue);
+    color: var(--yellow);
     margin-bottom: 16px;
-    font-weight: 500;
+    font-weight: 600;
+    font-family: var(--mono);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 22px;
+    height: 2px;
+    background: var(--yellow);
+    flex-shrink: 0;
   }
 
   .hero h2 {
-    font-size: clamp(32px, 5vw, 52px);
+    font-size: clamp(30px, 4.5vw, 50px);
     font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
     color: var(--text);
-    margin-bottom: 16px;
+    margin-bottom: 18px;
   }
 
   .hero p {
-    font-size: 16px;
+    font-size: 15px;
     color: var(--muted);
     line-height: 1.7;
-    max-width: 560px;
+    max-width: 500px;
+  }
+
+  /* Construction tape stripe */
+  .tape-stripe {
+    height: 3px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--yellow)          0px,
+      var(--yellow)          28px,
+      rgba(251,191,36,0.07) 28px,
+      rgba(251,191,36,0.07) 56px
+    );
   }
 
   /* ── TIMELINE ─────────────────────────────────────────── */
   .timeline {
-    max-width: 900px;
-    margin: 0 auto;
+    max-width: 860px;
     padding: 0 40px 120px;
   }
 
   /* ── PHASE ────────────────────────────────────────────── */
   .phase {
-    margin-bottom: 56px;
     animation: fadeUp 0.4s ease both;
+    scroll-margin-top: 80px;
   }
 
-  .phase:nth-child(1)  { animation-delay: 0.05s; }
-  .phase:nth-child(2)  { animation-delay: 0.10s; }
-  .phase:nth-child(3)  { animation-delay: 0.15s; }
-  .phase:nth-child(4)  { animation-delay: 0.20s; }
-  .phase:nth-child(5)  { animation-delay: 0.25s; }
-  .phase:nth-child(6)  { animation-delay: 0.30s; }
-  .phase:nth-child(7)  { animation-delay: 0.35s; }
-  .phase:nth-child(8)  { animation-delay: 0.40s; }
-  .phase:nth-child(9)  { animation-delay: 0.45s; }
-  .phase:nth-child(10) { animation-delay: 0.50s; }
-  .phase:nth-child(11) { animation-delay: 0.55s; }
-  .phase:nth-child(12) { animation-delay: 0.60s; }
+  .phase:nth-child(1)  { animation-delay: 0.04s; }
+  .phase:nth-child(2)  { animation-delay: 0.08s; }
+  .phase:nth-child(3)  { animation-delay: 0.12s; }
+  .phase:nth-child(4)  { animation-delay: 0.16s; }
+  .phase:nth-child(5)  { animation-delay: 0.20s; }
+  .phase:nth-child(6)  { animation-delay: 0.24s; }
+  .phase:nth-child(7)  { animation-delay: 0.28s; }
+  .phase:nth-child(8)  { animation-delay: 0.32s; }
+  .phase:nth-child(9)  { animation-delay: 0.36s; }
+  .phase:nth-child(10) { animation-delay: 0.40s; }
+  .phase:nth-child(11) { animation-delay: 0.44s; }
+  .phase:nth-child(12) { animation-delay: 0.48s; }
+  .phase:nth-child(13) { animation-delay: 0.52s; }
+  .phase:nth-child(14) { animation-delay: 0.56s; }
+  .phase:nth-child(15) { animation-delay: 0.60s; }
+
+  /* Yellow/black tape divider between phases */
+  .phase-divider {
+    height: 2px;
+    margin: 36px 0;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(251,191,36,0.28) 0px,
+      rgba(251,191,36,0.28) 16px,
+      transparent           16px,
+      transparent           32px
+    );
+  }
+
+  .phase-card {
+    border-left: 3px solid var(--yellow);
+    padding: 26px 28px 22px;
+    background: var(--surface);
+    border-radius: 0 6px 6px 0;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--yellow);
+  }
+
+  .phase-stage {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    font-family: var(--mono);
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.85;
+  }
+  .phase-stage-num { opacity: 0.55; }
 
   .phase-header {
     display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 4px;
+  }
+
+  .phase-name-row {
+    display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
+    gap: 10px;
   }
 
-  .phase-icon {
-    font-size: 20px;
-    line-height: 1;
-    flex-shrink: 0;
-  }
-
-  .phase-meta {
-    flex: 1;
-  }
+  .phase-icon { font-size: 18px; line-height: 1; flex-shrink: 0; }
 
   .phase-name {
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+    font-size: 17px;
     font-weight: 600;
     color: var(--text);
+    letter-spacing: -0.01em;
   }
 
   .phase-date {
     font-size: 11px;
     color: var(--muted);
-    margin-top: 2px;
+    margin-top: 6px;
     font-family: var(--mono);
+    margin-left: 28px;
   }
 
   .phase-count {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.08em;
-    padding: 3px 8px;
+    padding: 4px 10px;
     border-radius: 20px;
-    background: var(--border);
-    color: var(--muted);
+    background: var(--yellow-dim);
+    border: 1px solid rgba(251,191,36,0.18);
+    color: var(--yellow);
+    font-family: var(--mono);
+    white-space: nowrap;
     flex-shrink: 0;
-  }
-
-  .phase-accent {
-    width: 3px;
-    height: 40px;
-    border-radius: 2px;
-    flex-shrink: 0;
+    margin-top: 2px;
   }
 
   /* ── COMMITS ──────────────────────────────────────────── */
   .commits {
+    margin-top: 18px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
   }
 
   .commit {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: 10px 14px;
-    border-radius: 8px;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 5px;
     border: 1px solid transparent;
     transition: background 150ms ease, border-color 150ms ease;
     cursor: default;
   }
 
   .commit:hover {
-    background: var(--surface);
+    background: rgba(255,255,255,0.03);
     border-color: var(--border);
   }
 
   .commit-hash {
     font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.04em;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--yellow);
+    background: var(--yellow-dim);
+    border: 1px solid rgba(251,191,36,0.16);
+    padding: 2px 6px;
+    border-radius: 3px;
+    min-width: 58px;
+    text-align: center;
     flex-shrink: 0;
-    padding-top: 1px;
-    min-width: 54px;
+    margin-top: 1px;
+    letter-spacing: 0.03em;
   }
 
-  .commit-body {
-    flex: 1;
-  }
+  .commit-body { flex: 1; min-width: 0; }
 
   .commit-msg {
-    font-size: 13.5px;
+    font-size: 13px;
     color: var(--text);
-    line-height: 1.4;
+    line-height: 1.45;
   }
 
   .commit-sub {
     font-size: 11px;
     color: var(--muted);
     margin-top: 3px;
+    line-height: 1.5;
   }
 
   .commit-type {
-    font-size: 10px;
-    font-weight: 600;
+    font-size: 9px;
+    font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     padding: 2px 7px;
     border-radius: 4px;
     flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  /* Type colors */
-  .type-feat    { background: rgba(45,91,227,0.15); color: #6b8ff5; }
-  .type-fix     { background: rgba(239,68,68,0.15);  color: #f87171; }
-  .type-design  { background: rgba(168,85,247,0.15); color: #c084fc; }
-  .type-content { background: rgba(16,185,129,0.15); color: #34d399; }
-  .type-config  { background: rgba(107,114,128,0.15); color: #9ca3af; }
-  .type-egg     { background: rgba(245,158,11,0.15);  color: #fbbf24; }
-  .type-analytics { background: rgba(139,92,246,0.15); color: #a78bfa; }
-
-  /* ── FOOTER ───────────────────────────────────────────── */
-  .timeline-footer {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 40px 40px 80px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .timeline-footer p {
-    font-size: 12px;
-    color: var(--muted);
+    margin-top: 2px;
     font-family: var(--mono);
   }
 
-  .timeline-footer a {
-    font-size: 12px;
-    color: var(--blue);
-    text-decoration: none;
-    letter-spacing: 0.04em;
+  .type-feat      { background: rgba(45,91,227,0.15);    color: #6b8ff5; }
+  .type-fix       { background: rgba(239,68,68,0.15);    color: #f87171; }
+  .type-design    { background: rgba(168,85,247,0.15);   color: #c084fc; }
+  .type-content   { background: rgba(16,185,129,0.15);   color: #34d399; }
+  .type-config    { background: rgba(107,114,128,0.15);  color: #9ca3af; }
+  .type-egg       { background: rgba(245,158,11,0.15);   color: #fbbf24; }
+  .type-analytics { background: rgba(139,92,246,0.15);   color: #a78bfa; }
+
+  /* ── FOOTER ───────────────────────────────────────────── */
+  .timeline-footer {
+    max-width: 860px;
+    padding: 28px 40px 64px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
   }
 
-  .timeline-footer a:hover { text-decoration: underline; }
+  .footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .footer-diary {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .footer-warning {
+    font-size: 11px;
+    color: var(--yellow);
+    font-family: var(--mono);
+    opacity: 0.65;
+  }
+
+  .timeline-footer a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 150ms;
+  }
+  .timeline-footer a:hover { color: var(--text); }
 
   /* ── ANIMATION ────────────────────────────────────────── */
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
+    from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
   /* ── SCROLLBAR ────────────────────────────────────────── */
-  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-  /* ── MOBILE ───────────────────────────────────────────── */
-  @media (max-width: 640px) {
-    .site-header { padding: 12px 20px; }
-    .stats-row { gap: 16px; }
-    .stat-num { font-size: 18px; }
-    .hero { padding: 48px 20px 40px; }
+  /* ── RESPONSIVE ───────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .building-sidebar { display: none; }
+    .main-content { margin-left: 0; }
+    .site-header { padding: 12px 20px; gap: 12px; }
+    .stats-row { gap: 14px; }
+    .stat-num { font-size: 16px; }
+    .stat-label { font-size: 8px; }
+    .hero { padding: 52px 20px 36px; }
     .timeline { padding: 0 20px 80px; }
-    .timeline-footer { padding: 32px 20px 60px; flex-direction: column; gap: 12px; }
+    .timeline-footer { padding: 24px 20px 48px; }
+  }
+
+  @media (max-width: 600px) {
     .commit-hash { display: none; }
+    .phase-card { padding: 18px 16px 16px; }
+    /* Hide 4th stat on tiny screens */
+    .stat:last-child, .stat-divider:last-of-type { display: none; }
   }
 </style>
 </head>
 <body>
 
-<!-- STICKY HEADER -->
-<header class="site-header">
-  <h1>Build Log — <span>dilithdinesh.com</span></h1>
-  <div class="stats-row">
-    <div class="stat">
-      <div class="stat-num" id="count-commits">86</div>
-      <div class="stat-label">Commits</div>
+<!-- ── BUILDING SIDEBAR ─────────────────────────────── -->
+<aside class="building-sidebar">
+  <div class="sidebar-label">Cross-section</div>
+  <div class="building-wrap" id="building-wrap"></div>
+</aside>
+
+<!-- ── MAIN ────────────────────────────────────────── -->
+<div class="main-content">
+
+  <header class="site-header">
+    <div class="header-title">🏗️ &nbsp;<span>dilithdinesh.com</span>&nbsp;/ Construction Log</div>
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-num" id="count-commits">86</div>
+        <div class="stat-label">Diary Entries</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num" id="count-phases">15</div>
+        <div class="stat-label">Build Stages</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">108</div>
+        <div class="stat-label">Days On-Site</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">20<span style="font-size:13px;color:var(--muted)">+</span></div>
+        <div class="stat-label">Hidden Details</div>
+      </div>
     </div>
-    <div class="stat-divider"></div>
-    <div class="stat">
-      <div class="stat-num" id="count-phases">15</div>
-      <div class="stat-label">Phases</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat">
-      <div class="stat-num">108</div>
-      <div class="stat-label">Days</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat">
-      <div class="stat-num">20<span style="font-size:14px;color:var(--muted)">+</span></div>
-      <div class="stat-label">Easter Eggs</div>
-    </div>
+    <div class="header-badge">Site Active</div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Construction Log &nbsp;·&nbsp; Mar 8 – Jun 24, 2026</div>
+    <h2>From empty lot<br>to live portfolio.</h2>
+    <p>86 commits. 15 build stages. 108 days on-site.<br>Every decision logged — from breaking ground to ongoing works.</p>
   </div>
-</header>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-label">Mar 8 – Jun 24, 2026</div>
-  <h2>From blank Astro scaffold<br>to AI PM portfolio.</h2>
-  <p>Every commit that built dilithdinesh.com — 86 of them, across 15 phases, in 108 days. Voice agents, easter eggs, WebGL, a Moon Button, Spotify live data, and a complete AI PM repositioning.</p>
+  <div class="tape-stripe"></div>
+
+  <div class="timeline" id="timeline"></div>
+
+  <footer class="timeline-footer">
+    <div class="footer-left">
+      <span class="footer-diary"># site diary — 86 entries, 108 days on-site</span>
+      <span class="footer-warning">⚠ Site still under active construction.</span>
+    </div>
+    <a href="https://dilithdinesh.com" target="_blank">dilithdinesh.com →</a>
+  </footer>
+
 </div>
-
-<!-- TIMELINE -->
-<div class="timeline" id="timeline"></div>
-
-<!-- FOOTER -->
-<footer class="timeline-footer">
-  <p>git log --oneline --all | wc -l → 86</p>
-  <a href="https://dilithdinesh.com" target="_blank">dilithdinesh.com →</a>
-</footer>
 
 <script>
 const PHASES = [
@@ -357,7 +603,6 @@ const PHASES = [
     icon: '🏗️',
     name: 'Genesis',
     date: 'Mar 8, 2026',
-    color: '#2D5BE3',
     commits: [
       { hash: '6af2307', msg: 'Initial commit from Astro', type: 'config' },
       { hash: '1c72efc', msg: 'Initial build — 14 pages, full content, zero errors', type: 'feat', sub: 'Index · Work · Writing · Projects · Now · About · Contact · 404 · Secret' },
@@ -368,7 +613,6 @@ const PHASES = [
     icon: '🚀',
     name: 'Launch Day',
     date: 'Mar 9, 2026',
-    color: '#22c55e',
     commits: [
       { hash: '4c4ae58', msg: 'Fix CSS: migrate Tailwind v4 → v3 with @astrojs/tailwind', type: 'fix', sub: 'v4 with @tailwindcss/vite failed to generate utility CSS — switched to v3' },
       { hash: '5e3d152', msg: 'Add D-Chat live link to Iris project page', type: 'content' },
@@ -380,7 +624,6 @@ const PHASES = [
     icon: '🥚',
     name: 'Egg Season',
     date: 'Mar 9, 2026',
-    color: '#f59e0b',
     commits: [
       { hash: 'c7643ac', msg: 'Add easter eggs: console, boundary tooltip, 404 riddle, now comment, product keypress, football footnote, triple click', type: 'egg' },
       { hash: '9af4b4f', msg: 'Add easter eggs: idle timer, fast reader, clipboard, dark console, now reveal, tooltips, viewport, print, right-click, tab title', type: 'egg' },
@@ -388,15 +631,14 @@ const PHASES = [
       { hash: '2a6784f', msg: 'Fix fast reader toast: set flag on exit, show on next page load', type: 'fix' },
       { hash: '33f2e2c', msg: 'Add easter eggs: return visitor, time-based, all-pages tracker, logo counter, keyboard nav, text selection, now page, 8min case study, scroll bottom, hard parts tracker, about over-read, contact leave, honest tooltip, difficulty tooltip', type: 'egg' },
       { hash: '4beaa6a', msg: 'Easter egg count now reads dynamically from JSON — auto-updates when new eggs added', type: 'feat' },
-      { hash: 'a119a12', msg: 'Replace easter eggs hyperlink with selection-based Chamber of Secrets toast', type: 'egg' },
-      { hash: 'b917ca3', msg: 'Triple-click \'easter eggs\' on About page navigates to /secret', type: 'egg' },
+      { hash: 'a119a12', msg: "Replace easter eggs hyperlink with selection-based Chamber of Secrets toast", type: 'egg' },
+      { hash: 'b917ca3', msg: "Triple-click 'easter eggs' on About page navigates to /secret", type: 'egg' },
     ]
   },
   {
     icon: '📊',
     name: 'Analytics',
     date: 'Mar 9–10, 2026',
-    color: '#8b5cf6',
     commits: [
       { hash: '7e0b3ca', msg: 'Add Google Analytics 4', type: 'analytics' },
       { hash: 'd0b1ac3', msg: 'Add GA4 measurement ID G-X4C4BFY2PZ', type: 'config' },
@@ -411,11 +653,10 @@ const PHASES = [
     icon: '📐',
     name: 'Diagrams',
     date: 'Mar 10–11, 2026',
-    color: '#06b6d4',
     commits: [
       { hash: 'adf38d9', msg: 'Add real metrics to both case studies', type: 'content' },
       { hash: '1f060c0', msg: 'Add How I work capabilities section to About page', type: 'content' },
-      { hash: '0fcfc87', msg: 'Add \'Built with\' line to footer', type: 'design' },
+      { hash: '0fcfc87', msg: "Add 'Built with' line to footer", type: 'design' },
       { hash: '1e09ebb', msg: 'Fix four persona routing gaps: essay end-nav, LinkedIn in hero, project descriptions, signal section order', type: 'fix' },
       { hash: 'a504b9c', msg: 'Add 12 diagram components across all case studies, essays, and project pages', type: 'feat', sub: 'BookingFlow · CPQDecision · IrisArchitecture · OutcomeMetrics · PulseboardSequence · RapidoHabitLoop · RapidoPositioning · StopgapDecision · StopgapMetrics · ThreePipelines · WrappedArc · WrappedInterpretation' },
       { hash: '5182733', msg: 'Fix IrisArchitecture diagram: remove booking widget copy', type: 'fix' },
@@ -429,7 +670,6 @@ const PHASES = [
     icon: '🔍',
     name: 'SEO & GEO',
     date: 'Mar 12–16, 2026',
-    color: '#ec4899',
     commits: [
       { hash: 'c2f7a9e', msg: 'Add llms.txt for AI crawlers and refine diagram components', type: 'feat', sub: 'Custom LLM crawler rules so AI search engines index content correctly' },
       { hash: 'c4a82e8', msg: 'Add MetricsSummary component to both case study pages', type: 'feat' },
@@ -447,7 +687,6 @@ const PHASES = [
     icon: '🌸',
     name: 'The Bouquet',
     date: 'Mar 31 – Apr 1, 2026',
-    color: '#f97316',
     commits: [
       { hash: 'c03aa32', msg: 'Add BouquetEgg easter egg with scroll-depth tracking across all 6 pages', type: 'egg', sub: 'Fires when user has scrolled deeply through all 6 content pages — bouquet emoji reward' },
       { hash: 'a8603e1', msg: 'Tune BouquetEgg: raise full threshold, delay trigger, add message field', type: 'fix' },
@@ -458,12 +697,11 @@ const PHASES = [
     icon: '✨',
     name: 'Micro-interactions',
     date: 'Apr 17–20, 2026',
-    color: '#10b981',
     commits: [
       { hash: 'd16e1b2', msg: 'Add polish layer: micro-interactions, focus states, and UI utilities', type: 'design' },
       { hash: 'cd1c02a', msg: 'Increase section number indicator opacity (0.12 default, 0.35 active)', type: 'design' },
       { hash: '4c331e2', msg: 'Section number active state: full opacity (1) when in view', type: 'design' },
-      { hash: 'ab06cdb', msg: 'Update "Where I\'m going" section on About page', type: 'content' },
+      { hash: 'ab06cdb', msg: "Update \"Where I'm going\" section on About page", type: 'content' },
       { hash: 'd55a621', msg: 'Update "Looking For" copy on Now page', type: 'content' },
     ]
   },
@@ -471,7 +709,6 @@ const PHASES = [
     icon: '🛍️',
     name: 'Third Case Study',
     date: 'May 3, 2026',
-    color: '#ef4444',
     commits: [
       { hash: '0c23670', msg: 'Add third case study: APIs Are Truth. LLMs Are Formatting.', type: 'content' },
       { hash: 'ffc83da', msg: 'Rename + rewrite case study 3: The AI Shopping Buddy', type: 'content' },
@@ -482,7 +719,6 @@ const PHASES = [
     icon: '🎤',
     name: 'Voice Agent',
     date: 'May 15–22, 2026',
-    color: '#6366f1',
     commits: [
       { hash: '6a9f7d0', msg: 'Add Vapi voice assistant with 3D floating card UI', type: 'feat', sub: 'Live voice AI — call and talk to the portfolio' },
       { hash: 'b0493cb', msg: 'Temporarily hide voice assistant pending further testing', type: 'config' },
@@ -505,7 +741,6 @@ const PHASES = [
     icon: '🤖',
     name: 'AI PM Reframe',
     date: 'May 23–24, 2026',
-    color: '#a855f7',
     commits: [
       { hash: '1ebb687', msg: 'Portfolio: add voice agent + AI shopping buddy, reposition as AI PM', type: 'feat', sub: 'Site reframed from "CPM at Zuper" → AI-native product operator' },
       { hash: '646bb80', msg: 'Dark mode: fix all hardcoded text colors across site', type: 'fix' },
@@ -521,7 +756,6 @@ const PHASES = [
     icon: '📚',
     name: 'Knowledge Base',
     date: 'May 24–25, 2026',
-    color: '#14b8a6',
     commits: [
       { hash: '7ef3227', msg: 'Add AI agent knowledge base for VAPI/ElevenLabs', type: 'feat', sub: 'Knowledge base for the voice agent — allows the AI to answer portfolio questions accurately' },
       { hash: '49becd7', msg: 'KB: rewrite as clean ASCII for VAPI ingestion', type: 'config', sub: 'Removed markdown formatting that confused the VAPI parser' },
@@ -533,7 +767,6 @@ const PHASES = [
     icon: '☀️',
     name: 'Real Sun',
     date: 'May 25, 2026',
-    color: '#f59e0b',
     commits: [
       { hash: 'c2345d3', msg: 'Sun button: replace CSS gradient with real sun photo in light mode', type: 'design', sub: 'public/sun.png — actual photograph used as the button orb in light mode' },
       { hash: '3bd157a', msg: 'Build map: add Real Sun phase, bump stats', type: 'config' },
@@ -543,23 +776,51 @@ const PHASES = [
     icon: '🎵',
     name: 'Now Playing',
     date: 'May 25 – Jun 24, 2026',
-    color: '#1DB954',
     commits: [
       { hash: '2aad3f1', msg: 'Spotify Now Playing: live widget on Now page', type: 'feat', sub: 'Polls /.netlify/functions/now-playing every 30s — animated equalizer bars, falls back to last played' },
       { hash: '6778051', msg: 'Docs: sync CLAUDE.md, CONTENT.md, and build-map with current state', type: 'config' },
       { hash: '8902067', msg: 'Now: update currently reading to A Gentleman in Moscow', type: 'content' },
     ]
-  },,
+  },
   {
     icon: '📝',
     name: 'Recent Updates',
     date: 'Jun 24, 2026',
-    color: '#94a3b8',
     commits: [
-      { hash: '886e9c3', msg: 'Build map: add Real Sun + Now Playing phases, auto-update script + pre-push hook', type: 'config' }
+      { hash: '886e9c3', msg: 'Build map: add Real Sun + Now Playing phases, auto-update script + pre-push hook', type: 'config' },
+      { hash: '8b0ef11', msg: 'Build map: move to public/, add footer link, update script path', type: 'config' },
     ]
-  }
+  },
+];
 
+const STAGE_LABELS = [
+  'Site Cleared',
+  'Foundation Poured',
+  'Ground Floor Framed',
+  'Electrical Roughed In',
+  'Structural Systems',
+  'Roof & Envelope',
+  'Windows & Doors',
+  'Interior Finishing',
+  'Third Floor Added',
+  'Comms & AV Wired',
+  'Smart Systems',
+  'Library Fitted',
+  'Solar Array Mounted',
+  'Entertainment Suite',
+  'Ongoing Works',
+];
+
+/* Sidebar floor groups — displayed bottom-up (foundation at bottom) */
+const FLOOR_GROUPS = [
+  { label: 'PENTHOUSE', emoji: '📝',     phaseIndices: [14] },
+  { label: 'FLOOR 5',   emoji: '☀️ 🎵',  phaseIndices: [12, 13] },
+  { label: 'FLOOR 4',   emoji: '🤖 📚',  phaseIndices: [10, 11] },
+  { label: 'FLOOR 3',   emoji: '🛍️ 🎤', phaseIndices: [8, 9] },
+  { label: 'FLOOR 2',   emoji: '🌸 ✨',  phaseIndices: [6, 7] },
+  { label: 'FLOOR 1',   emoji: '📐 🔍',  phaseIndices: [4, 5] },
+  { label: 'GND FLOOR', emoji: '🥚 📊',  phaseIndices: [2, 3] },
+  { label: 'FOUNDATION',emoji: '🏗️ 🚀', phaseIndices: [0, 1] },
 ];
 
 const TYPE_LABELS = {
@@ -572,39 +833,90 @@ const TYPE_LABELS = {
   analytics: 'analytics',
 };
 
+/* ── BUILD SIDEBAR ──────────────────────────────────────── */
+function buildSidebar() {
+  const wrap = document.getElementById('building-wrap');
+
+  const roof = document.createElement('div');
+  roof.className = 'building-roof';
+  roof.id = 'roof-cap';
+  wrap.appendChild(roof);
+
+  const building = document.createElement('div');
+  building.className = 'building';
+
+  FLOOR_GROUPS.forEach((group, i) => {
+    const isFoundation = i === FLOOR_GROUPS.length - 1;
+    const isPenthouse  = i === 0;
+
+    const floor = document.createElement('div');
+    floor.className = 'floor' +
+      (isPenthouse  ? ' floor-penthouse'  : '') +
+      (isFoundation ? ' floor-foundation' : '');
+    floor.id = `floor-${i}`;
+    floor.dataset.floorIndex = i;
+
+    floor.innerHTML = `<div class="floor-label">${group.label}</div><div class="floor-icons">${group.emoji}</div>`;
+
+    floor.addEventListener('click', () => {
+      const firstPhase = document.querySelector(`[data-phase-index="${group.phaseIndices[0]}"]`);
+      if (firstPhase) firstPhase.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    building.appendChild(floor);
+  });
+
+  wrap.appendChild(building);
+
+  const slab = document.createElement('div');
+  slab.className = 'ground-slab';
+  wrap.appendChild(slab);
+
+  const label = document.createElement('div');
+  label.className = 'ground-label';
+  label.textContent = 'GROUND';
+  wrap.appendChild(label);
+}
+
+/* ── RENDER TIMELINE ────────────────────────────────────── */
 function renderTimeline() {
   const container = document.getElementById('timeline');
 
-  PHASES.forEach(phase => {
+  PHASES.forEach((phase, idx) => {
+    if (idx > 0) {
+      const divider = document.createElement('div');
+      divider.className = 'phase-divider';
+      container.appendChild(divider);
+    }
+
     const phaseEl = document.createElement('div');
     phaseEl.className = 'phase';
+    phaseEl.id = `phase-${idx}`;
+    phaseEl.dataset.phaseIndex = idx;
 
-    const header = document.createElement('div');
-    header.className = 'phase-header';
+    const stageNum   = String(idx + 1).padStart(2, '0');
+    const stageLabel = STAGE_LABELS[idx] || '';
 
-    const accent = document.createElement('div');
-    accent.className = 'phase-accent';
-    accent.style.background = phase.color;
+    const card = document.createElement('div');
+    card.className = 'phase-card';
 
-    const icon = document.createElement('div');
-    icon.className = 'phase-icon';
-    icon.textContent = phase.icon;
-
-    const meta = document.createElement('div');
-    meta.className = 'phase-meta';
-    meta.innerHTML = `
-      <div class="phase-name">${phase.name.toUpperCase()}</div>
-      <div class="phase-date">${phase.date}</div>
+    card.innerHTML = `
+      <div class="phase-stage">
+        <span class="phase-stage-num">STAGE ${stageNum}</span>
+        <span style="opacity:0.4">·</span>
+        <span>${stageLabel.toUpperCase()}</span>
+      </div>
+      <div class="phase-header">
+        <div>
+          <div class="phase-name-row">
+            <span class="phase-icon">${phase.icon}</span>
+            <span class="phase-name">${phase.name}</span>
+          </div>
+          <div class="phase-date">${phase.date}</div>
+        </div>
+        <div class="phase-count">${phase.commits.length} entr${phase.commits.length !== 1 ? 'ies' : 'y'}</div>
+      </div>
     `;
-
-    const count = document.createElement('div');
-    count.className = 'phase-count';
-    count.textContent = `${phase.commits.length} commit${phase.commits.length !== 1 ? 's' : ''}`;
-
-    header.appendChild(accent);
-    header.appendChild(icon);
-    header.appendChild(meta);
-    header.appendChild(count);
 
     const commitsEl = document.createElement('div');
     commitsEl.className = 'commits';
@@ -612,44 +924,77 @@ function renderTimeline() {
     phase.commits.forEach(commit => {
       const c = document.createElement('div');
       c.className = 'commit';
-
       c.innerHTML = `
         <span class="commit-hash">${commit.hash}</span>
         <div class="commit-body">
           <div class="commit-msg">${commit.msg}</div>
           ${commit.sub ? `<div class="commit-sub">${commit.sub}</div>` : ''}
         </div>
-        <span class="commit-type type-${commit.type}">${TYPE_LABELS[commit.type]}</span>
+        <span class="commit-type type-${commit.type}">${TYPE_LABELS[commit.type] || commit.type}</span>
       `;
-
       commitsEl.appendChild(c);
     });
 
-    phaseEl.appendChild(header);
-    phaseEl.appendChild(commitsEl);
+    card.appendChild(commitsEl);
+    phaseEl.appendChild(card);
     container.appendChild(phaseEl);
   });
 }
 
-// Animate stat numbers counting up
-function animateStat(el, target, duration = 800) {
-  const start = performance.now();
-  const update = (time) => {
-    const elapsed = time - start;
-    const progress = Math.min(elapsed / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    el.textContent = Math.round(eased * target);
-    if (progress < 1) requestAnimationFrame(update);
-  };
-  requestAnimationFrame(update);
+/* ── FLOOR OBSERVER ─────────────────────────────────────── */
+function initFloorObserver() {
+  const phaseToFloor = {};
+  FLOOR_GROUPS.forEach((group, fi) => {
+    group.phaseIndices.forEach(pi => { phaseToFloor[pi] = fi; });
+  });
+
+  let activeFloor = -1;
+
+  function setActiveFloor(fi) {
+    if (fi === activeFloor) return;
+    activeFloor = fi;
+    document.querySelectorAll('.floor').forEach(el => el.classList.remove('active'));
+    document.getElementById('roof-cap')?.classList.remove('active');
+    const target = document.getElementById(`floor-${fi}`);
+    if (target) target.classList.add('active');
+    if (fi === 0) document.getElementById('roof-cap')?.classList.add('active');
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const pi = parseInt(entry.target.dataset.phaseIndex, 10);
+        const fi = phaseToFloor[pi];
+        if (fi !== undefined) setActiveFloor(fi);
+      }
+    });
+  }, { rootMargin: '-15% 0px -65% 0px', threshold: 0 });
+
+  document.querySelectorAll('.phase').forEach(el => observer.observe(el));
 }
 
-renderTimeline();
+/* ── STAT ANIMATION ─────────────────────────────────────── */
+function animateStat(el, target, duration = 900) {
+  const start = performance.now();
+  const tick  = (now) => {
+    const p    = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(ease * target);
+    if (p < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
 
-// Count up the commit number on load
+/* ── INIT ───────────────────────────────────────────────── */
+buildSidebar();
+renderTimeline();
+initFloorObserver();
+
 window.addEventListener('load', () => {
-  const el = document.getElementById('count-commits');
-  animateStat(el, 77, 1000);
+  const commitsEl = document.getElementById('count-commits');
+  const phasesEl  = document.getElementById('count-phases');
+  if (commitsEl) animateStat(commitsEl, 86);
+  if (phasesEl)  animateStat(phasesEl,  15);
 });
 </script>
 </body>

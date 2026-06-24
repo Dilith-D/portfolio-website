@@ -12,6 +12,8 @@ export default {
         primary:    '#1C1814',
         secondary:  '#7A7268',
         blue:       '#2D5BE3',
+        electric:   '#0066FF',
+        red:        '#FF2D2D',
       },
       fontFamily: {
         display: ['Cabinet Grotesk', 'sans-serif'],

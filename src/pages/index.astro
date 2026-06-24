@@ -90,17 +90,6 @@ const faqSchema = {
     }
   ]
 };
-
-const marqueeItems = [
-  "Zuper",
-  "Field Service Management",
-  "B2B SaaS",
-  "Built the roofing vertical from 0 to 1",
-  "AI Product Manager",
-  "Voice Agents · AI Systems",
-  "Chennai",
-  "Forward Deployed Engineer → Product Manager",
-];
 ---
 
 <Base
@@ -109,162 +98,151 @@ const marqueeItems = [
   schema={[personSchema, faqSchema]}
 >
 
-  <!-- ─── Hero ──────────────────────────────────────────────────── -->
-  <section class="hero-section">
-    <div class="hero-inner">
+  <div class="max-w-[1100px] mx-auto px-6">
 
-      <p class="hero-anim font-body text-[11px] font-medium tracking-[0.18em] uppercase text-secondary mb-7" style="animation-delay: 0.05s">
-        Customer Product Manager · Zuper
-      </p>
+    <!-- ─── Hero ─────────────────────────────────────────────── -->
+    <section class="pt-[120px] pb-[120px] border-b border-border">
+      <div class="max-w-[740px]">
 
-      <h1 class="hero-name hero-anim leading-none text-primary" style="animation-delay: 0.15s; font-family: 'Instrument Serif', serif; font-weight: 400; letter-spacing: -0.035em;">
-        <span id="hero-name" style="cursor:default;">Dilith Dinesh</span>
-      </h1>
+        <h1 class="font-display text-[64px] font-semibold leading-none text-primary">
+          <span id="hero-name" style="cursor:default;">Dilith Dinesh</span>
+        </h1>
 
-      <p id="triple-click-msg" class="font-body text-sm text-secondary italic mt-3" style="opacity:0; transition:opacity 300ms ease;">
-        Three clicks. You're either very bored or very thorough. Either way — hello.
-      </p>
+        <p id="triple-click-msg" class="font-body text-sm text-secondary italic mt-3" style="opacity:0; transition:opacity 300ms ease;">
+          Three clicks. You're either very bored or very thorough. Either way — hello.
+        </p>
 
-      <p class="hero-anim hero-tagline font-display italic text-secondary" style="animation-delay: 0.3s; max-width: 580px;">
-        Product operator at the <span class="boundary-egg" style="position:relative; cursor:help; text-decoration-line:underline; text-underline-offset:3px; text-decoration-style:dotted;">boundary<span class="boundary-tip" style="display:none; position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:var(--color-primary); color:var(--color-background); font-size:13px; font-family:'Inter',sans-serif; white-space:nowrap; padding:6px 12px; border-radius:4px; pointer-events:none; z-index:100;">This is where the interesting problems live.</span></span> between
-        customer reality and product systems.
-      </p>
+        <p class="font-display text-[32px] font-medium leading-snug text-primary mt-6">
+          Product operator at the <span class="boundary-egg" style="position:relative; cursor:help; text-decoration-line:underline; text-underline-offset:3px; text-decoration-style:dotted;">boundary<span class="boundary-tip" style="display:none; position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:var(--color-primary); color:var(--color-background); font-size:13px; font-family:'Inter',sans-serif; white-space:nowrap; padding:6px 12px; border-radius:4px; pointer-events:none; z-index:100;">This is where the interesting problems live.</span></span> between<br />
+          customer reality and product systems.
+        </p>
 
-      <p class="hero-anim font-body text-base text-secondary mt-6" style="animation-delay: 0.45s; max-width: 460px;">
-        I translate what breaks in the field into capabilities that scale —
-        and build AI systems to show how I think about them.
-      </p>
+        <p class="font-body text-base leading-relaxed text-secondary mt-6">
+          I translate what breaks in the field into<br />
+          capabilities that scale.
+        </p>
 
-      <div class="hero-anim hero-buttons" style="animation-delay: 0.6s">
-        <a href="/work" class="hero-btn-primary">See my work →</a>
-        <a href="/writing" class="hero-btn-ghost">Read my thinking</a>
-      </div>
+        <p class="font-body text-sm text-secondary mt-4">
+          Currently: Customer Product Manager at Zuper —<br />
+          built the roofing vertical from zero.
+        </p>
 
-      <div class="hero-anim" style="animation-delay: 0.72s; margin-top: 1.25rem;">
-        <a
-          href="https://linkedin.com/in/dilithdinesh"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="hero-linkedin font-body text-sm text-secondary"
-        >
-          → LinkedIn
-        </a>
-      </div>
+        <div class="flex flex-wrap gap-3 mt-10">
+          <a
+            href="/work"
+            class="font-body text-[15px] font-medium text-white bg-blue px-6 py-3 rounded-md transition-opacity duration-150 hover:opacity-90"
+          >
+            See my work →
+          </a>
+          <a
+            href="/writing"
+            class="font-body text-[15px] font-medium text-primary bg-transparent border border-primary px-6 py-3 rounded-md transition-colors duration-150 hover:bg-surface"
+          >
+            Read my thinking
+          </a>
+          <button
+            id="heroCta"
+            class="font-body text-[15px] font-medium text-primary bg-transparent border border-border px-6 py-3 rounded-md transition-colors duration-150 hover:bg-surface cursor-pointer"
+          >
+            Talk to my AI →
+          </button>
+        </div>
 
-      <!-- Moon/Sun: absolutely positioned right side, out of text flow -->
-      <div class="hero-moon-positioner">
-        <div class="hero-moon-anim">
-          <div class="hero-moon-wrap">
-            <button id="heroCta" class="hero-moon-btn" aria-label="Talk to my AI agent">
-              Talk to my AI
-            </button>
-          </div>
+        <div class="mt-5">
+          <a
+            href="https://linkedin.com/in/dilithdinesh"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-body text-sm text-secondary hover:text-primary transition-colors duration-150"
+          >
+            → LinkedIn
+          </a>
         </div>
       </div>
+    </section>
 
-    </div>
-  </section>
+    <!-- ─── Proof Strip ───────────────────────────────────────── -->
+    <section class="proof-strip py-6 border-b border-border">
+      <p class="font-body text-sm text-secondary tracking-wide">
+        Zuper&nbsp;&nbsp;·&nbsp;&nbsp;Field Service Management&nbsp;&nbsp;·&nbsp;&nbsp;B2B SaaS&nbsp;&nbsp;·&nbsp;&nbsp;Built the roofing vertical from 0 to 1&nbsp;&nbsp;·&nbsp;&nbsp;Chennai
+      </p>
+    </section>
 
-  <!-- ─── Animated Marquee ──────────────────────────────────────── -->
-  <div class="marquee-wrap" aria-hidden="true">
-    <div class="marquee-track">
-      {[...marqueeItems, ...marqueeItems].map((item) => (
-        <span class="marquee-item">{item} ·</span>
-      ))}
-    </div>
-  </div>
-
-  <!-- ─── Signal Section ────────────────────────────────────────── -->
-  <section class="signal-section">
-    <div class="max-w-[1100px] mx-auto px-6 py-[80px]">
-      <div style="max-width: 660px;" class="reveal">
-        <p class="font-prose text-lg text-secondary" style="line-height: 1.88;">
+    <!-- ─── Signal Section ────────────────────────────────────── -->
+    <section class="py-[80px] border-b border-border">
+      <div class="max-w-[740px]">
+        <p class="font-prose text-lg leading-reading text-primary">
           Most product teams learn about customer problems through
           tickets, NPS scores, and quarterly reviews.
         </p>
-        <p class="font-prose text-lg text-secondary mt-6" style="line-height: 1.88;">
+        <p class="font-prose text-lg leading-reading text-primary mt-6">
           I've spent two years inside the operational layer —
           sitting with contractors, mapping how they actually
           collect money, watching where workflows break before
           anyone files a bug report.
         </p>
-        <p class="font-prose text-lg text-secondary mt-6" style="line-height: 1.88;">
+        <p class="font-prose text-lg leading-reading text-primary mt-6">
           That proximity changes how I think about product
           decisions. Not every problem needs a feature.
           Not every feature request is the actual problem.
           The real work is finding the gap between what
           people say they want and what would actually help them.
         </p>
-        <p class="font-prose text-lg text-secondary mt-6" style="line-height: 1.88;">
+        <p class="font-prose text-lg leading-reading text-primary mt-6">
           That's the kind of product thinking I'm building toward.
         </p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ─── AI Toolkit ───────────────────────────────────────────── -->
-  <section class="toolkit-section" id="ai-stack-section">
-    <div class="max-w-[1100px] mx-auto px-6 py-[80px] flex flex-col items-center text-center">
-      <p class="eyebrow">Stack</p>
-      <h2 class="section-title" style="margin-bottom: 1.5rem;">The AI PM toolkit.</h2>
-      <p class="font-body text-sm text-secondary mb-12" style="max-width: 420px; line-height: 1.75;">
-        Models, automation platforms, and product tools I reach for every week.
-      </p>
-      <ToolOrbitArc />
-    </div>
-  </section>
-
-  <!-- ─── Work / Writing / Projects / Footer CTA ───────────────── -->
-  <div class="max-w-[1100px] mx-auto px-6">
-
-    <!-- Work Preview -->
+    <!-- ─── Work Preview ─────────────────────────────────────── -->
     <section class="py-[80px]">
-      <div class="mb-10">
-        <p class="eyebrow">Work</p>
-        <h2 class="section-title">Not success stories.<br>Decision logs.</h2>
+      <div class="mb-12">
+        <h2 class="font-display text-[48px] font-medium leading-tight text-primary">Work</h2>
+        <p class="font-body text-base text-secondary mt-3">Not success stories. Decision logs.</p>
       </div>
 
-      <div class="bento-grid">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <CaseStudyCard
-          featured
           title="The Roofing Vertical"
           tags={["ZUPER", "FIELD SERVICE", "VERTICAL BUILD"]}
           description="The roofing vertical at Zuper didn't exist. No architecture, no repeatable process, no foundation for the product to grow on. I built it — from first discovery call to cloneable system."
           slug="golden-account-model"
-          stagger={0}
         />
-        <div class="bento-stack">
-          <CaseStudyCard
-            title="The Stopgap That Knew Its Place"
-            tags={["ZUPER", "PRODUCT JUDGMENT"]}
-            description="Roofing customers needed booking before the roadmap was ready. I built the interim solution — and designed it to be replaced."
-            slug="booking-stopgap"
-            stagger={1}
-          />
-          <CaseStudyCard
-            title="The AI Shopping Buddy"
-            tags={["E-COMMERCE", "AI SYSTEMS"]}
-            description="Personal friction became a weekend build plan: an AI shopping layer any e-commerce can embed."
-            slug="ai-shopping-buddy"
-            stagger={2}
-          />
-        </div>
+        <CaseStudyCard
+          title="The Stopgap That Knew Its Place"
+          tags={["ZUPER", "FIELD SERVICE", "PRODUCT JUDGMENT"]}
+          description="Roofing customers needed booking before the product roadmap was ready. I built the interim solution — and designed it to be replaced."
+          slug="booking-stopgap"
+        />
+        <CaseStudyCard
+          title="The AI Shopping Buddy"
+          tags={["E-COMMERCE", "AI SYSTEMS", "PRODUCT SPEC"]}
+          description="I was copy-pasting specs from Flipkart into Claude just to answer 'does this phone fit my needs?' That friction became a weekend build plan: an AI shopping layer that any e-commerce can embed."
+          slug="ai-shopping-buddy"
+        />
       </div>
 
-      <div class="mt-8">
-        <a href="/work" class="card-link" style="margin-top:0;">
-          View all work <span aria-hidden="true">→</span>
+      <div class="mt-10">
+        <a
+          href="/work"
+          class="group font-body text-[15px] font-medium text-primary inline-flex items-center gap-1"
+        >
+          View all work
+          <span class="inline-block transition-transform duration-150 ease-in-out group-hover:translate-x-1">→</span>
         </a>
       </div>
     </section>
 
     <hr class="border-t border-border my-0" />
 
-    <!-- Writing Preview -->
+    <!-- ─── Writing Preview ──────────────────────────────────── -->
     <section class="py-[80px]">
       <div class="mb-12">
-        <p class="eyebrow">Writing</p>
-        <h2 class="section-title">Teardowns, field notes,<br>and frameworks.</h2>
+        <h2 class="font-display text-[48px] font-medium leading-tight text-primary">Writing</h2>
+        <p class="font-body text-base text-secondary mt-3">
+          Product teardowns, field notes, and frameworks<br />
+          from the boundary between operations and product.
+        </p>
       </div>
 
       <div>
@@ -297,11 +275,14 @@ const marqueeItems = [
 
     <hr class="border-t border-border my-0" />
 
-    <!-- Projects Preview -->
+    <!-- ─── Projects Preview ──────────────────────────────────── -->
     <section class="py-[80px]">
       <div class="mb-12">
-        <p class="eyebrow">Projects</p>
-        <h2 class="section-title">Personal friction,<br>built into tools.</h2>
+        <h2 class="font-display text-[48px] font-medium leading-tight text-primary">Projects</h2>
+        <p class="font-body text-base text-secondary mt-3">
+          Personal friction,<br />
+          built into tools.
+        </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -312,7 +293,6 @@ const marqueeItems = [
           year="2026"
           slug="iris"
           liveUrl="https://d-chat.lovable.app"
-          stagger={0}
         />
         <ProjectCard
           title="SuperPilot"
@@ -320,7 +300,6 @@ const marqueeItems = [
           stack={["React", "TanStack", "Claude Sonnet", "Deepgram"]}
           year="2026"
           slug="superpilot"
-          stagger={1}
         />
         <ProjectCard
           title="The Voice Agent"
@@ -328,7 +307,6 @@ const marqueeItems = [
           stack={["VAPI", "Deepgram", "ElevenLabs", "GPT-4o Mini"]}
           year="2026"
           slug="voice-agent"
-          stagger={2}
         />
       </div>
 
@@ -343,44 +321,45 @@ const marqueeItems = [
       </div>
     </section>
 
+    <hr class="border-t border-border my-0" />
+
+    <!-- ─── AI Toolkit ────────────────────────────────────────── -->
+    <section class="py-[80px] flex flex-col items-center text-center" id="ai-stack-section">
+      <p class="font-body text-[11px] font-medium tracking-[0.18em] uppercase mb-3" style="color: var(--color-red)">Stack</p>
+      <h2 class="font-display text-[32px] font-medium leading-snug text-primary mb-3">The AI PM toolkit.</h2>
+      <p class="font-body text-sm text-secondary mb-12" style="max-width: 420px; line-height: 1.75;">
+        Models, automation platforms, and product tools I reach for every week.
+      </p>
+      <ToolOrbitArc />
+    </section>
+
 
   </div>
 
 
-  <!-- Easter Egg: "2 years" proof strip tooltip (element removed; guard kept to avoid errors) -->
-  <script>
-    const yearsEgg = document.querySelector('.years-egg');
-    const yearsTip = document.querySelector('.years-tip');
-    if (yearsEgg) {
-      yearsEgg.addEventListener('mouseenter', () => { yearsTip.style.display = 'block'; window.markEggFound?.('years-tooltip'); });
-      yearsEgg.addEventListener('mouseleave', () => yearsTip.style.display = 'none');
-    }
-  </script>
-
-  <!-- Easter Egg 2: boundary tooltip -->
+  <!-- Easter Egg: boundary tooltip -->
   <script>
     const egg = document.querySelector('.boundary-egg');
     const tip = document.querySelector('.boundary-tip');
-    egg.addEventListener('mouseenter', () => { tip.style.display = 'block'; window.markEggFound?.('boundary-hover'); });
-    egg.addEventListener('mouseleave', () => tip.style.display = 'none');
+    egg?.addEventListener('mouseenter', () => { tip.style.display = 'block'; window.markEggFound?.('boundary-hover'); });
+    egg?.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
   </script>
 
-  <!-- Easter Egg 7: triple-click hero name -->
+  <!-- Easter Egg: triple-click hero name -->
   <script>
     let clicks = 0;
-    document.getElementById('hero-name').addEventListener('click', () => {
+    document.getElementById('hero-name')?.addEventListener('click', () => {
       clicks++;
       if (clicks === 3) {
         const msg = document.getElementById('triple-click-msg');
-        msg.style.opacity = '1';
-        setTimeout(() => { msg.style.opacity = '0'; }, 3000);
+        if (msg) { msg.style.opacity = '1'; setTimeout(() => { msg.style.opacity = '0'; }, 3000); }
         window.markEggFound?.('triple-click');
         clicks = 0;
       }
     });
   </script>
 
-  <!-- Voice trigger -->
+  <!-- Voice trigger from hero button -->
   <script>
     document.getElementById('heroCta')?.addEventListener('click', () => {
       document.dispatchEvent(new CustomEvent('voice:toggle', { bubbles: true, detail: { trigger: 'hero_cta' } }));
@@ -391,390 +370,23 @@ const marqueeItems = [
   <script>
     const _stackSection = document.getElementById('ai-stack-section');
     if (_stackSection) {
-      const _stackObserver = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) {
-          window.posthog?.capture('ai_stack_viewed');
-          window.gtag?.('event', 'ai_stack_viewed');
-          _stackObserver.disconnect();
-        }
+      const _obs = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) { window.posthog?.capture('ai_stack_viewed'); _obs.disconnect(); }
       }, { threshold: 0.3 });
-      _stackObserver.observe(_stackSection);
+      _obs.observe(_stackSection);
     }
   </script>
 
-
-
-
-<style>
-/* ── Hero section ────────────────────────────────────────── */
-.hero-section {
-  display: flex;
-  justify-content: center;
-}
-
-.hero-inner {
-  position: relative;
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 9rem 3rem 7rem;
-  max-width: 1100px;
-  width: 100%;
-}
-
-.hero-name {
-  font-size: clamp(72px, 9vw, 112px);
-  letter-spacing: -0.04em;
-  margin-top: 0;
-}
-
-.hero-tagline {
-  font-size: clamp(20px, 2.2vw, 30px);
-  margin-top: 1.5rem;
-}
-
-/* ── Hero stagger entry ──────────────────────────────────── */
-.hero-anim {
-  opacity: 0;
-  transform: translateY(18px);
-  animation: fadeUp 0.55s var(--ease-ui) both;
-}
-
-@keyframes fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-anim {
-    animation-duration: 0.01ms !important;
-  }
-}
-
-/* ── Hero buttons ────────────────────────────────────────── */
-.hero-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: 2.5rem;
-}
-
-.hero-btn-primary {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: var(--color-cta-fg);
-  background: var(--color-cta-bg);
-  padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
-  text-decoration: none;
-  transition:
-    opacity 150ms var(--ease-ui),
-    transform 120ms var(--ease-ui);
-}
-
-.hero-btn-ghost {
-  font-family: 'Inter', sans-serif;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: var(--color-primary);
-  background: transparent;
-  padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
-  border: 1px solid var(--color-border);
-  text-decoration: none;
-  transition:
-    background 150ms var(--ease-ui),
-    transform 120ms var(--ease-ui);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .hero-btn-primary:hover { opacity: 0.88; }
-  .hero-btn-ghost:hover   { background: var(--color-surface); }
-}
-
-.hero-btn-primary:active,
-.hero-btn-ghost:active {
-  transform: scale(0.97);
-}
-
-/* ── Moon / Sun Button ───────────────────────────────────── */
-
-/* Absolute positioner — pulls out of text flow into right half */
-.hero-moon-positioner {
-  position: absolute;
-  right: 60px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-/* Opacity-only fade — no translateY (would conflict with centering) */
-.hero-moon-anim {
-  opacity: 0;
-  animation: moonFadeIn 1s var(--ease-ui) 0.72s forwards;
-}
-
-@keyframes moonFadeIn {
-  to { opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-moon-anim { animation-duration: 0.01ms !important; }
-}
-
-/* Hide on screens too narrow for a right-side orb */
-@media (max-width: 900px) {
-  .hero-moon-positioner { display: none; }
-}
-
-/* Wrapper holds the glow (correct stacking context) */
-.hero-moon-wrap {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Dark mode: deep indigo/blue night-sky atmospheric glow */
-.hero-moon-wrap::before {
-  content: '';
-  position: absolute;
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at center,
-    rgba(52, 32, 190, 0.65)  0%,
-    rgba(34, 18, 148, 0.46) 20%,
-    rgba(18,  9,  88, 0.25) 42%,
-    rgba( 8,  4,  40, 0.08) 62%,
-    transparent 75%
-  );
-  pointer-events: none;
-  animation: moonAura 4s ease-in-out infinite;
-}
-
-/* Light mode: warm amber/orange sun glow */
-html:not(.dark) .hero-moon-wrap::before {
-  background: radial-gradient(
-    circle at center,
-    rgba(255, 165,   0, 0.58)  0%,
-    rgba(255, 100,   0, 0.30) 28%,
-    rgba(200,  60,   0, 0.11) 52%,
-    transparent 72%
-  );
-}
-
-@keyframes moonAura {
-  0%, 100% { opacity: 0.72; transform: scale(1);    }
-  50%       { opacity: 1.0;  transform: scale(1.08); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-moon-wrap::before { animation: none; }
-}
-
-/* ── The orb itself ──────────────────────────────────────── */
-.hero-moon-btn {
-  position: relative;
-  z-index: 1;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-
-  /* Dark mode: white/silver moon surface */
-  background: radial-gradient(
-    circle at 38% 32%,
-    rgba(255, 255, 255, 1)  0%,
-    rgba(238, 238, 234, 1) 35%,
-    rgba(210, 210, 205, 1) 70%,
-    rgba(188, 188, 183, 1) 100%
-  );
-  border: none;
-  cursor: pointer;
-
-  color: #1A1614;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  line-height: 1.35;
-  letter-spacing: 0.01em;
-  text-align: center;
-  padding: 0 14px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  box-shadow:
-    0 0 0 1px rgba(220, 220, 215, 0.50),
-    0 0 22px rgba(200, 200, 195, 0.18);
-
-  transition:
-    box-shadow 200ms var(--ease-ui),
-    transform  150ms var(--ease-ui);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .hero-moon-btn:hover {
-    box-shadow:
-      0 0 0 1px rgba(220, 220, 215, 0.70),
-      0 0 32px rgba(200, 200, 195, 0.28);
-  }
-}
-
-.hero-moon-btn:active {
-  transform: scale(0.95);
-}
-
-/* Dark mode: off-axis highlight — moonlight from upper-left */
-.hero-moon-btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 34% 28%,
-    rgba(255, 255, 255, 0.55) 0%,
-    transparent 50%
-  );
-  pointer-events: none;
-}
-
-/* Light mode: real sun photo */
-html:not(.dark) .hero-moon-btn {
-  background: url('/sun.png') center / cover no-repeat;
-  color: white;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65), 0 0 8px rgba(0, 0, 0, 0.4);
-  box-shadow:
-    0 0 0 2px rgba(255, 205, 0, 0.40),
-    0 0 28px rgba(255, 175, 0, 0.25);
-}
-
-/* Light mode: no fake highlight — real photo handles it */
-html:not(.dark) .hero-moon-btn::after {
-  background: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .hero-btn-primary:hover { opacity: 0.88; }
-  .hero-btn-ghost:hover   { background: var(--color-surface); }
-  .hero-moon-wrap:hover .hero-moon-btn {
-    box-shadow:
-      0 0 0 1px rgba(230, 230, 225, 0.75),
-      0 0 32px rgba(210, 210, 205, 0.28);
-  }
-  html:not(.dark) .hero-moon-wrap:hover .hero-moon-btn {
-    box-shadow:
-      0 0 0 2px rgba(255, 210, 0, 0.60),
-      0 0 36px rgba(255, 175, 0, 0.35);
-  }
-  .hero-linkedin:hover { color: var(--color-primary); }
-}
-
-.hero-moon-btn:active {
-  transform: scale(0.97);
-}
-
-.hero-btn-primary:active,
-.hero-btn-ghost:active {
-  transform: scale(0.97);
-}
-
-.hero-linkedin {
-  text-decoration: none;
-  transition: color 150ms var(--ease-ui);
-}
-
-/* ── Animated marquee ────────────────────────────────────── */
-.marquee-wrap {
-  position: relative;
-  overflow: hidden;
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-  padding: 0.875rem 0;
-}
-
-.marquee-wrap::before,
-.marquee-wrap::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100px;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.marquee-wrap::before {
-  left: 0;
-  background: linear-gradient(to right, var(--color-background), transparent);
-}
-
-.marquee-wrap::after {
-  right: 0;
-  background: linear-gradient(to left, var(--color-background), transparent);
-}
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marqueeScroll 34s linear infinite;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .marquee-track:hover {
-    animation-play-state: paused;
-  }
-}
-
-.marquee-item {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-secondary);
-  padding: 0 2rem;
-  white-space: nowrap;
-}
-
-@keyframes marqueeScroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track { animation: none; }
-}
-
-/* ── Signal section ──────────────────────────────────────── */
-.signal-section {
-  border-bottom: 1px solid var(--color-border);
-}
-
-/* ── Mobile: hero padding ───────────────────────────────── */
-@media (max-width: 767px) {
-  .hero-inner {
-    padding: 7rem 1.5rem 5rem;
-  }
-
-  .hero-name {
-    font-size: clamp(52px, 13vw, 72px);
-  }
-
-  .hero-tagline {
-    font-size: clamp(18px, 5vw, 24px);
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-</style>
+  <style>
+    @media (prefers-reduced-motion: no-preference) {
+      @keyframes proofFadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+      .proof-strip {
+        animation: proofFadeIn 400ms ease 350ms both;
+      }
+    }
+  </style>
 
 </Base>

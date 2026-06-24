@@ -314,12 +314,12 @@
   <h1>Build Log — <span>dilithdinesh.com</span></h1>
   <div class="stats-row">
     <div class="stat">
-      <div class="stat-num" id="count-commits">85</div>
+      <div class="stat-num" id="count-commits">86</div>
       <div class="stat-label">Commits</div>
     </div>
     <div class="stat-divider"></div>
     <div class="stat">
-      <div class="stat-num" id="count-phases">14</div>
+      <div class="stat-num" id="count-phases">15</div>
       <div class="stat-label">Phases</div>
     </div>
     <div class="stat-divider"></div>
@@ -339,7 +339,7 @@
 <div class="hero">
   <div class="hero-label">Mar 8 – Jun 24, 2026</div>
   <h2>From blank Astro scaffold<br>to AI PM portfolio.</h2>
-  <p>Every commit that built dilithdinesh.com — 85 of them, across 14 phases, in 108 days. Voice agents, easter eggs, WebGL, a Moon Button, Spotify live data, and a complete AI PM repositioning.</p>
+  <p>Every commit that built dilithdinesh.com — 86 of them, across 15 phases, in 108 days. Voice agents, easter eggs, WebGL, a Moon Button, Spotify live data, and a complete AI PM repositioning.</p>
 </div>
 
 <!-- TIMELINE -->
@@ -347,7 +347,7 @@
 
 <!-- FOOTER -->
 <footer class="timeline-footer">
-  <p>git log --oneline --all | wc -l → 85</p>
+  <p>git log --oneline --all | wc -l → 86</p>
   <a href="https://dilithdinesh.com" target="_blank">dilithdinesh.com →</a>
 </footer>
 
@@ -549,7 +549,17 @@ const PHASES = [
       { hash: '6778051', msg: 'Docs: sync CLAUDE.md, CONTENT.md, and build-map with current state', type: 'config' },
       { hash: '8902067', msg: 'Now: update currently reading to A Gentleman in Moscow', type: 'content' },
     ]
-  },
+  },,
+  {
+    icon: '📝',
+    name: 'Recent Updates',
+    date: 'Jun 24, 2026',
+    color: '#94a3b8',
+    commits: [
+      { hash: '886e9c3', msg: 'Build map: add Real Sun + Now Playing phases, auto-update script + pre-push hook', type: 'config' }
+    ]
+  }
+
 ];
 
 const TYPE_LABELS = {

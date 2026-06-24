@@ -13,7 +13,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const HTML_PATH = join(ROOT, 'commit-timeline.html');
+const HTML_PATH = join(ROOT, 'public', 'build-map.html');
 
 let html = readFileSync(HTML_PATH, 'utf-8');
 

@@ -33,6 +33,11 @@ const year = new Date().getFullYear();
         LinkedIn →
       </a>
     </div>
+    <div class="max-w-[1100px] mx-auto footer-footnote-row">
+      <a href="/build-map.html" class="footer-footnote-link">
+        How this site was built →
+      </a>
+    </div>
   </div>
 
 </footer>
@@ -114,8 +119,31 @@ const year = new Date().getFullYear();
   .footer-bar-link:hover { color: var(--color-primary); }
 }
 
+.footer-footnote-row {
+  padding: 0 3rem 1.25rem;
+  text-align: center;
+}
+
+.footer-footnote-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--color-secondary);
+  text-decoration: none;
+  opacity: 0.5;
+  transition: opacity 150ms ease, color 150ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-footnote-link:hover {
+    opacity: 1;
+    color: var(--color-primary);
+  }
+}
+
 @media (max-width: 767px) {
-  .footer-top-inner  { padding: 3.5rem 1.5rem; }
-  .footer-bar-inner  { flex-direction: column; gap: 0.75rem; text-align: center; padding: 1.5rem; }
+  .footer-top-inner    { padding: 3.5rem 1.5rem; }
+  .footer-bar-inner    { flex-direction: column; gap: 0.75rem; text-align: center; padding: 1.5rem; }
+  .footer-footnote-row { padding: 0 1.5rem 1.25rem; }
 }
 </style>

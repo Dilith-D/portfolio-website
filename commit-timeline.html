@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Log — dilithdinesh.com</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0c0c12;
+    --surface: #13131c;
+    --border: #1e1e2e;
+    --text: #e2dfd9;
+    --muted: #6b6b7e;
+    --blue: #2D5BE3;
+    --font: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  }
+
+  html { background: var(--bg); color: var(--text); font-family: var(--font); }
+  body { min-height: 100vh; }
+
+  /* ── HEADER ───────────────────────────────────────────── */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(12,12,18,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .site-header h1 {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .site-header h1 span { color: var(--text); }
+
+  .stats-row {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 32px;
+    background: var(--border);
+  }
+
+  /* ── HERO ─────────────────────────────────────────────── */
+  .hero {
+    padding: 80px 40px 60px;
+    max-width: 900px;
+    margin: 0 auto;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .hero h2 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .hero p {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 560px;
+  }
+
+  /* ── TIMELINE ─────────────────────────────────────────── */
+  .timeline {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px 120px;
+  }
+
+  /* ── PHASE ────────────────────────────────────────────── */
+  .phase {
+    margin-bottom: 56px;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .phase:nth-child(1)  { animation-delay: 0.05s; }
+  .phase:nth-child(2)  { animation-delay: 0.10s; }
+  .phase:nth-child(3)  { animation-delay: 0.15s; }
+  .phase:nth-child(4)  { animation-delay: 0.20s; }
+  .phase:nth-child(5)  { animation-delay: 0.25s; }
+  .phase:nth-child(6)  { animation-delay: 0.30s; }
+  .phase:nth-child(7)  { animation-delay: 0.35s; }
+  .phase:nth-child(8)  { animation-delay: 0.40s; }
+  .phase:nth-child(9)  { animation-delay: 0.45s; }
+  .phase:nth-child(10) { animation-delay: 0.50s; }
+  .phase:nth-child(11) { animation-delay: 0.55s; }
+  .phase:nth-child(12) { animation-delay: 0.60s; }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .phase-icon {
+    font-size: 20px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .phase-meta {
+    flex: 1;
+  }
+
+  .phase-name {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .phase-date {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+    font-family: var(--mono);
+  }
+
+  .phase-count {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    border-radius: 20px;
+    background: var(--border);
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  .phase-accent {
+    width: 3px;
+    height: 40px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── COMMITS ──────────────────────────────────────────── */
+  .commits {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .commit {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: background 150ms ease, border-color 150ms ease;
+    cursor: default;
+  }
+
+  .commit:hover {
+    background: var(--surface);
+    border-color: var(--border);
+  }
+
+  .commit-hash {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    padding-top: 1px;
+    min-width: 54px;
+  }
+
+  .commit-body {
+    flex: 1;
+  }
+
+  .commit-msg {
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .commit-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  .commit-type {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* Type colors */
+  .type-feat    { background: rgba(45,91,227,0.15); color: #6b8ff5; }
+  .type-fix     { background: rgba(239,68,68,0.15);  color: #f87171; }
+  .type-design  { background: rgba(168,85,247,0.15); color: #c084fc; }
+  .type-content { background: rgba(16,185,129,0.15); color: #34d399; }
+  .type-config  { background: rgba(107,114,128,0.15); color: #9ca3af; }
+  .type-egg     { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+  .type-analytics { background: rgba(139,92,246,0.15); color: #a78bfa; }
+
+  /* ── FOOTER ───────────────────────────────────────────── */
+  .timeline-footer {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 40px 80px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .timeline-footer p {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  .timeline-footer a {
+    font-size: 12px;
+    color: var(--blue);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+  }
+
+  .timeline-footer a:hover { text-decoration: underline; }
+
+  /* ── ANIMATION ────────────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SCROLLBAR ────────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── MOBILE ───────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .site-header { padding: 12px 20px; }
+    .stats-row { gap: 16px; }
+    .stat-num { font-size: 18px; }
+    .hero { padding: 48px 20px 40px; }
+    .timeline { padding: 0 20px 80px; }
+    .timeline-footer { padding: 32px 20px 60px; flex-direction: column; gap: 12px; }
+    .commit-hash { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- STICKY HEADER -->
+<header class="site-header">
+  <h1>Build Log — <span>dilithdinesh.com</span></h1>
+  <div class="stats-row">
+    <div class="stat">
+      <div class="stat-num" id="count-commits">85</div>
+      <div class="stat-label">Commits</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num" id="count-phases">14</div>
+      <div class="stat-label">Phases</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">108</div>
+      <div class="stat-label">Days</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">20<span style="font-size:14px;color:var(--muted)">+</span></div>
+      <div class="stat-label">Easter Eggs</div>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Mar 8 – Jun 24, 2026</div>
+  <h2>From blank Astro scaffold<br>to AI PM portfolio.</h2>
+  <p>Every commit that built dilithdinesh.com — 85 of them, across 14 phases, in 108 days. Voice agents, easter eggs, WebGL, a Moon Button, Spotify live data, and a complete AI PM repositioning.</p>
+</div>
+
+<!-- TIMELINE -->
+<div class="timeline" id="timeline"></div>
+
+<!-- FOOTER -->
+<footer class="timeline-footer">
+  <p>git log --oneline --all | wc -l → 85</p>
+  <a href="https://dilithdinesh.com" target="_blank">dilithdinesh.com →</a>
+</footer>
+
+<script>
+const PHASES = [
+  {
+    icon: '🏗️',
+    name: 'Genesis',
+    date: 'Mar 8, 2026',
+    color: '#2D5BE3',
+    commits: [
+      { hash: '6af2307', msg: 'Initial commit from Astro', type: 'config' },
+      { hash: '1c72efc', msg: 'Initial build — 14 pages, full content, zero errors', type: 'feat', sub: 'Index · Work · Writing · Projects · Now · About · Contact · 404 · Secret' },
+      { hash: '5b91456', msg: 'Add Netlify config', type: 'config' },
+    ]
+  },
+  {
+    icon: '🚀',
+    name: 'Launch Day',
+    date: 'Mar 9, 2026',
+    color: '#22c55e',
+    commits: [
+      { hash: '4c4ae58', msg: 'Fix CSS: migrate Tailwind v4 → v3 with @astrojs/tailwind', type: 'fix', sub: 'v4 with @tailwindcss/vite failed to generate utility CSS — switched to v3' },
+      { hash: '5e3d152', msg: 'Add D-Chat live link to Iris project page', type: 'content' },
+      { hash: '1b74830', msg: 'Add favicon, OG image meta tags, and dark mode toggle', type: 'feat' },
+      { hash: 'b4e1600', msg: 'Add live project CTAs for Iris and Pulseboard', type: 'feat' },
+    ]
+  },
+  {
+    icon: '🥚',
+    name: 'Egg Season',
+    date: 'Mar 9, 2026',
+    color: '#f59e0b',
+    commits: [
+      { hash: 'c7643ac', msg: 'Add easter eggs: console, boundary tooltip, 404 riddle, now comment, product keypress, football footnote, triple click', type: 'egg' },
+      { hash: '9af4b4f', msg: 'Add easter eggs: idle timer, fast reader, clipboard, dark console, now reveal, tooltips, viewport, print, right-click, tab title', type: 'egg' },
+      { hash: 'c3a2699', msg: 'Fix fast reader easter egg: use define:vars instead of conditional script tag', type: 'fix' },
+      { hash: '2a6784f', msg: 'Fix fast reader toast: set flag on exit, show on next page load', type: 'fix' },
+      { hash: '33f2e2c', msg: 'Add easter eggs: return visitor, time-based, all-pages tracker, logo counter, keyboard nav, text selection, now page, 8min case study, scroll bottom, hard parts tracker, about over-read, contact leave, honest tooltip, difficulty tooltip', type: 'egg' },
+      { hash: '4beaa6a', msg: 'Easter egg count now reads dynamically from JSON — auto-updates when new eggs added', type: 'feat' },
+      { hash: 'a119a12', msg: 'Replace easter eggs hyperlink with selection-based Chamber of Secrets toast', type: 'egg' },
+      { hash: 'b917ca3', msg: 'Triple-click \'easter eggs\' on About page navigates to /secret', type: 'egg' },
+    ]
+  },
+  {
+    icon: '📊',
+    name: 'Analytics',
+    date: 'Mar 9–10, 2026',
+    color: '#8b5cf6',
+    commits: [
+      { hash: '7e0b3ca', msg: 'Add Google Analytics 4', type: 'analytics' },
+      { hash: 'd0b1ac3', msg: 'Add GA4 measurement ID G-X4C4BFY2PZ', type: 'config' },
+      { hash: 'c094051', msg: 'Fix mobile nav: remove duplicate dark toggle, fix close button, fix subpage close behavior', type: 'fix' },
+      { hash: '58dc510', msg: 'Add easter egg intro framing toast — context shown on first discovery only', type: 'egg' },
+      { hash: '8ec6369', msg: 'Add APM targeting: meta descriptions, JSON-LD, about page, now page, contact page', type: 'feat', sub: 'Structured data — Person, TechArticle, Article, SoftwareApplication schemas' },
+      { hash: '7ddb414', msg: 'Fix text selection egg: move sessionStorage guard inside listener', type: 'fix' },
+      { hash: '976b85e', msg: 'Fix easter egg UX issues: restore right-click menu, remove clipboard hijack, fix emoji, guard keydown in inputs', type: 'fix' },
+    ]
+  },
+  {
+    icon: '📐',
+    name: 'Diagrams',
+    date: 'Mar 10–11, 2026',
+    color: '#06b6d4',
+    commits: [
+      { hash: 'adf38d9', msg: 'Add real metrics to both case studies', type: 'content' },
+      { hash: '1f060c0', msg: 'Add How I work capabilities section to About page', type: 'content' },
+      { hash: '0fcfc87', msg: 'Add \'Built with\' line to footer', type: 'design' },
+      { hash: '1e09ebb', msg: 'Fix four persona routing gaps: essay end-nav, LinkedIn in hero, project descriptions, signal section order', type: 'fix' },
+      { hash: 'a504b9c', msg: 'Add 12 diagram components across all case studies, essays, and project pages', type: 'feat', sub: 'BookingFlow · CPQDecision · IrisArchitecture · OutcomeMetrics · PulseboardSequence · RapidoHabitLoop · RapidoPositioning · StopgapDecision · StopgapMetrics · ThreePipelines · WrappedArc · WrappedInterpretation' },
+      { hash: '5182733', msg: 'Fix IrisArchitecture diagram: remove booking widget copy', type: 'fix' },
+      { hash: 'b7ca98e', msg: 'Remove 7-day auto-expiry sessions from Iris — feature was removed from the app', type: 'content' },
+      { hash: '91488bd', msg: 'Rewrite IrisArchitecture diagram: compact nodes, fork connectors, tag pills', type: 'design' },
+      { hash: '205a446', msg: 'Fix Iris diagram: pill tag text color and correct pill labels', type: 'fix' },
+      { hash: '3d8fc2b', msg: 'Refine remaining 3 diagram components for tighter compact styling', type: 'design' },
+    ]
+  },
+  {
+    icon: '🔍',
+    name: 'SEO & GEO',
+    date: 'Mar 12–16, 2026',
+    color: '#ec4899',
+    commits: [
+      { hash: 'c2f7a9e', msg: 'Add llms.txt for AI crawlers and refine diagram components', type: 'feat', sub: 'Custom LLM crawler rules so AI search engines index content correctly' },
+      { hash: 'c4a82e8', msg: 'Add MetricsSummary component to both case study pages', type: 'feat' },
+      { hash: 'b310a26', msg: 'Fix back navigation placement on case study and prose pages', type: 'fix' },
+      { hash: 'e1ab655', msg: 'Add PostHog analytics with click event tracking', type: 'analytics' },
+      { hash: '2ed5621', msg: 'Fix deployment platform: Vercel → Netlify in CLAUDE.md', type: 'config' },
+      { hash: '20589c2', msg: 'Fix undefined meta titles on MDX pages and update MetricsSummary', type: 'fix' },
+      { hash: '5766bc5', msg: 'Move PostHog API key to PUBLIC_POSTHOG_KEY environment variable', type: 'config' },
+      { hash: 'a314157', msg: 'Fix OG and Twitter meta tags on MDX pages using frontmatter fallback', type: 'fix' },
+      { hash: '737c4e4', msg: 'Add full GEO implementation for AI search engine citation', type: 'feat', sub: 'JSON-LD structured data + robots directives for Google AI Overviews, Perplexity, ChatGPT' },
+      { hash: '1f7cc34', msg: 'Update CLAUDE.md to reflect actual built state of site', type: 'config' },
+    ]
+  },
+  {
+    icon: '🌸',
+    name: 'The Bouquet',
+    date: 'Mar 31 – Apr 1, 2026',
+    color: '#f97316',
+    commits: [
+      { hash: 'c03aa32', msg: 'Add BouquetEgg easter egg with scroll-depth tracking across all 6 pages', type: 'egg', sub: 'Fires when user has scrolled deeply through all 6 content pages — bouquet emoji reward' },
+      { hash: 'a8603e1', msg: 'Tune BouquetEgg: raise full threshold, delay trigger, add message field', type: 'fix' },
+      { hash: '86a5dd8', msg: 'Reframe roofing vertical as a 0-to-1 build across all touchpoints', type: 'content', sub: 'Rewrote the Golden Account Model case study positioning' },
+    ]
+  },
+  {
+    icon: '✨',
+    name: 'Micro-interactions',
+    date: 'Apr 17–20, 2026',
+    color: '#10b981',
+    commits: [
+      { hash: 'd16e1b2', msg: 'Add polish layer: micro-interactions, focus states, and UI utilities', type: 'design' },
+      { hash: 'cd1c02a', msg: 'Increase section number indicator opacity (0.12 default, 0.35 active)', type: 'design' },
+      { hash: '4c331e2', msg: 'Section number active state: full opacity (1) when in view', type: 'design' },
+      { hash: 'ab06cdb', msg: 'Update "Where I\'m going" section on About page', type: 'content' },
+      { hash: 'd55a621', msg: 'Update "Looking For" copy on Now page', type: 'content' },
+    ]
+  },
+  {
+    icon: '🛍️',
+    name: 'Third Case Study',
+    date: 'May 3, 2026',
+    color: '#ef4444',
+    commits: [
+      { hash: '0c23670', msg: 'Add third case study: APIs Are Truth. LLMs Are Formatting.', type: 'content' },
+      { hash: 'ffc83da', msg: 'Rename + rewrite case study 3: The AI Shopping Buddy', type: 'content' },
+      { hash: '2537090', msg: 'Acknowledge Amazon Rufus in AI Shopping Buddy origin story', type: 'content' },
+    ]
+  },
+  {
+    icon: '🎤',
+    name: 'Voice Agent',
+    date: 'May 15–22, 2026',
+    color: '#6366f1',
+    commits: [
+      { hash: '6a9f7d0', msg: 'Add Vapi voice assistant with 3D floating card UI', type: 'feat', sub: 'Live voice AI — call and talk to the portfolio' },
+      { hash: 'b0493cb', msg: 'Temporarily hide voice assistant pending further testing', type: 'config' },
+      { hash: '556710b', msg: 'Re-enable voice assistant after local testing', type: 'feat' },
+      { hash: '6e99926', msg: 'Add WebGL animated background, fix voice end-call button, improve dark mode contrast', type: 'design' },
+      { hash: '57c3192', msg: 'Restore full v2 redesign + animated background + dark mode contrast fix', type: 'design' },
+      { hash: 'eea908d', msg: 'Add versioning + staging/prod workflow to CONTEXT.md', type: 'config' },
+      { hash: 'e66f14d', msg: 'Update CONTEXT.md with actual staging URL', type: 'config' },
+      { hash: '833f2cd', msg: 'Add Voice Agent as third project entry', type: 'content' },
+      { hash: '00eb2b8', msg: 'Set dark mode as default + improve secondary text contrast', type: 'design', sub: 'Dark is now the default — users opt in to light' },
+      { hash: '9b845c5', msg: 'Replace hero voice trigger with Moon Button, rename to "Talk to my AI"', type: 'design' },
+      { hash: '77a61c3', msg: 'Rebuild Moon Button as actual circle orb with indigo atmospheric glow', type: 'design' },
+      { hash: 'ab97e94', msg: 'Moon/Sun button: float right, white moon, golden sun in light mode', type: 'design' },
+      { hash: '5ecf221', msg: 'Moon button: Inter 500 to match site button typography', type: 'fix' },
+      { hash: '1553324', msg: 'VoiceAssistant: fix popup double-click and reduce connect delay', type: 'fix' },
+      { hash: '595397d', msg: 'Vapi: initialize SDK at module-eval time, not in React useEffect', type: 'fix', sub: 'Eliminated 400ms cold-start latency on first call' },
+    ]
+  },
+  {
+    icon: '🤖',
+    name: 'AI PM Reframe',
+    date: 'May 23–24, 2026',
+    color: '#a855f7',
+    commits: [
+      { hash: '1ebb687', msg: 'Portfolio: add voice agent + AI shopping buddy, reposition as AI PM', type: 'feat', sub: 'Site reframed from "CPM at Zuper" → AI-native product operator' },
+      { hash: '646bb80', msg: 'Dark mode: fix all hardcoded text colors across site', type: 'fix' },
+      { hash: '7e04aba', msg: 'Add SuperPilot project page and update site references', type: 'content' },
+      { hash: 'f220d08', msg: 'Portfolio: add ToolOrbitArc, fix logos, add headshot to About', type: 'feat', sub: 'ToolOrbitArc — rotating solar-system orbit of 12 AI/PM tools. Pure CSS, no JS.' },
+      { hash: '4a22d77', msg: 'Homepage: fix section headers hidden by broken reveal-clip animation', type: 'fix' },
+      { hash: '210ac0d', msg: 'Design: fix animation timing, hover states, and interaction feedback', type: 'design' },
+      { hash: '3570598', msg: 'Design: fix essay hover, orb active state, remove outer card glows', type: 'design' },
+      { hash: 'b9b7fe7', msg: 'Work/writing index: editorial list + featured essay hierarchy', type: 'design' },
+    ]
+  },
+  {
+    icon: '📚',
+    name: 'Knowledge Base',
+    date: 'May 24–25, 2026',
+    color: '#14b8a6',
+    commits: [
+      { hash: '7ef3227', msg: 'Add AI agent knowledge base for VAPI/ElevenLabs', type: 'feat', sub: 'Knowledge base for the voice agent — allows the AI to answer portfolio questions accurately' },
+      { hash: '49becd7', msg: 'KB: rewrite as clean ASCII for VAPI ingestion', type: 'config', sub: 'Removed markdown formatting that confused the VAPI parser' },
+      { hash: '953987d', msg: 'Analytics: add PostHog + GA4 tracking for projects, voice agent, and AI stack', type: 'analytics' },
+      { hash: '0da9182', msg: 'Config: update Claude Code local settings', type: 'config' },
+    ]
+  },
+  {
+    icon: '☀️',
+    name: 'Real Sun',
+    date: 'May 25, 2026',
+    color: '#f59e0b',
+    commits: [
+      { hash: 'c2345d3', msg: 'Sun button: replace CSS gradient with real sun photo in light mode', type: 'design', sub: 'public/sun.png — actual photograph used as the button orb in light mode' },
+      { hash: '3bd157a', msg: 'Build map: add Real Sun phase, bump stats', type: 'config' },
+    ]
+  },
+  {
+    icon: '🎵',
+    name: 'Now Playing',
+    date: 'May 25 – Jun 24, 2026',
+    color: '#1DB954',
+    commits: [
+      { hash: '2aad3f1', msg: 'Spotify Now Playing: live widget on Now page', type: 'feat', sub: 'Polls /.netlify/functions/now-playing every 30s — animated equalizer bars, falls back to last played' },
+      { hash: '6778051', msg: 'Docs: sync CLAUDE.md, CONTENT.md, and build-map with current state', type: 'config' },
+      { hash: '8902067', msg: 'Now: update currently reading to A Gentleman in Moscow', type: 'content' },
+    ]
+  },
+];
+
+const TYPE_LABELS = {
+  feat:      'feat',
+  fix:       'fix',
+  design:    'design',
+  content:   'content',
+  config:    'config',
+  egg:       'egg',
+  analytics: 'analytics',
+};
+
+function renderTimeline() {
+  const container = document.getElementById('timeline');
+
+  PHASES.forEach(phase => {
+    const phaseEl = document.createElement('div');
+    phaseEl.className = 'phase';
+
+    const header = document.createElement('div');
+    header.className = 'phase-header';
+
+    const accent = document.createElement('div');
+    accent.className = 'phase-accent';
+    accent.style.background = phase.color;
+
+    const icon = document.createElement('div');
+    icon.className = 'phase-icon';
+    icon.textContent = phase.icon;
+
+    const meta = document.createElement('div');
+    meta.className = 'phase-meta';
+    meta.innerHTML = `
+      <div class="phase-name">${phase.name.toUpperCase()}</div>
+      <div class="phase-date">${phase.date}</div>
+    `;
+
+    const count = document.createElement('div');
+    count.className = 'phase-count';
+    count.textContent = `${phase.commits.length} commit${phase.commits.length !== 1 ? 's' : ''}`;
+
+    header.appendChild(accent);
+    header.appendChild(icon);
+    header.appendChild(meta);
+    header.appendChild(count);
+
+    const commitsEl = document.createElement('div');
+    commitsEl.className = 'commits';
+
+    phase.commits.forEach(commit => {
+      const c = document.createElement('div');
+      c.className = 'commit';
+
+      c.innerHTML = `
+        <span class="commit-hash">${commit.hash}</span>
+        <div class="commit-body">
+          <div class="commit-msg">${commit.msg}</div>
+          ${commit.sub ? `<div class="commit-sub">${commit.sub}</div>` : ''}
+        </div>
+        <span class="commit-type type-${commit.type}">${TYPE_LABELS[commit.type]}</span>
+      `;
+
+      commitsEl.appendChild(c);
+    });
+
+    phaseEl.appendChild(header);
+    phaseEl.appendChild(commitsEl);
+    container.appendChild(phaseEl);
+  });
+}
+
+// Animate stat numbers counting up
+function animateStat(el, target, duration = 800) {
+  const start = performance.now();
+  const update = (time) => {
+    const elapsed = time - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(eased * target);
+    if (progress < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+renderTimeline();
+
+// Count up the commit number on load
+window.addEventListener('load', () => {
+  const el = document.getElementById('count-commits');
+  animateStat(el, 77, 1000);
+});
+</script>
+</body>
+</html>

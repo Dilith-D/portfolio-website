@@ -52,6 +52,8 @@
   --color-primary:     #1C1814;
   --color-secondary:   #5C5650;
   --color-blue:        #2D5BE3;
+  --color-electric:    #0066FF;
+  --color-red:         #FF2D2D;
   --color-card-bg:     #FFFFFF;
   --color-card-sheen:  inset 0 1px 0 rgba(255,255,255,1), 0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
   --color-cta-bg:      #1C1814;
@@ -416,7 +418,7 @@ main {
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-secondary);
+  color: var(--color-red);
   margin-bottom: 0.875rem;
 }
 
@@ -457,7 +459,7 @@ main {
 
 @media (hover: hover) and (pointer: fine) {
   .card-wrap:hover .card-link {
-    color: var(--color-primary);
+    color: var(--color-electric);
     gap: 0.625rem;
   }
 }
@@ -485,7 +487,7 @@ main {
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-secondary);
+  color: var(--color-red);
   margin-bottom: 0.45rem;
 }
 
@@ -535,7 +537,7 @@ main {
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-secondary);
+  color: var(--color-red);
   margin-bottom: 0.875rem;
   transition: color 220ms var(--ease-ui);
 }

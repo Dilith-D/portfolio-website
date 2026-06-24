@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,22 +7,50 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  /* ── LIGHT THEME (default — matches dilithdinesh.com) ─── */
   :root {
-    --bg:         #0c0c12;
-    --surface:    #13131c;
-    --border:     #1e1e2e;
-    --text:       #e2dfd9;
-    --muted:      #6b6b7e;
-    --blue:       #2D5BE3;
-    --yellow:     #fbbf24;
-    --orange:     #f97316;
-    --yellow-dim: rgba(251,191,36,0.10);
-    --yellow-mid: rgba(251,191,36,0.22);
+    --bg:          #F9F7F4;
+    --surface:     #F0EDE8;
+    --border:      #E5E1DB;
+    --text:        #1A1A1A;
+    --muted:       #6B6B6B;
+    --blue:        #2D5BE3;
+    --yellow:      #ca8a04;
+    --yellow-dim:  rgba(202,138,4,0.08);
+    --yellow-mid:  rgba(202,138,4,0.18);
+    --sidebar-bg:  #EDEAE5;
+    --header-bg:   rgba(249,247,244,0.92);
+    --badge-bg:    rgba(202,138,4,0.10);
+    --badge-bdr:   rgba(202,138,4,0.28);
+    --roof-bdr:    #1A1A1A;
     --font: system-ui, -apple-system, 'Segoe UI', sans-serif;
     --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
   }
 
-  html { background: var(--bg); color: var(--text); font-family: var(--font); }
+  /* ── DARK THEME ───────────────────────────────────────── */
+  [data-theme="dark"] {
+    --bg:          #0c0c12;
+    --surface:     #13131c;
+    --border:      #1e1e2e;
+    --text:        #e2dfd9;
+    --muted:       #6b6b7e;
+    --yellow:      #fbbf24;
+    --yellow-dim:  rgba(251,191,36,0.10);
+    --yellow-mid:  rgba(251,191,36,0.22);
+    --sidebar-bg:  #0a0a10;
+    --header-bg:   rgba(12,12,18,0.92);
+    --badge-bg:    rgba(251,191,36,0.10);
+    --badge-bdr:   rgba(251,191,36,0.28);
+    --roof-bdr:    #1e1e2e;
+  }
+
+  /* ── BASE ─────────────────────────────────────────────── */
+  html {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    transition: background 250ms ease, color 250ms ease;
+  }
   body { min-height: 100vh; }
 
   /* ── BUILDING SIDEBAR ─────────────────────────────────── */
@@ -30,7 +58,7 @@
     position: fixed;
     left: 0; top: 0; bottom: 0;
     width: 168px;
-    background: #0a0a10;
+    background: var(--sidebar-bg);
     border-right: 1px solid var(--border);
     z-index: 40;
     display: flex;
@@ -38,6 +66,7 @@
     align-items: center;
     padding: 80px 12px 24px;
     overflow: hidden;
+    transition: background 250ms ease, border-color 250ms ease;
   }
 
   .sidebar-label {
@@ -92,7 +121,7 @@
     border-left: 2px solid transparent;
   }
 
-  .floor:hover { background: rgba(255,255,255,0.03); }
+  .floor:hover { background: var(--surface); }
 
   .floor.active {
     background: var(--yellow-dim);
@@ -144,35 +173,67 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(12,12,18,0.88);
+    background: var(--header-bg);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     padding: 14px 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    gap: 16px;
+    transition: background 250ms ease, border-color 250ms ease;
   }
 
   .header-title {
     font-size: 12px;
     font-weight: 500;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.10em;
     text-transform: uppercase;
     color: var(--muted);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     white-space: nowrap;
+    flex-shrink: 0;
   }
   .header-title span { color: var(--text); }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  /* ── THEME TOGGLE ─────────────────────────────────────── */
+  .theme-toggle {
+    width: 34px;
+    height: 34px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    transition: background 150ms ease, border-color 150ms ease, transform 100ms ease;
+    flex-shrink: 0;
+  }
+  .theme-toggle:hover {
+    background: var(--border);
+    transform: scale(1.05);
+  }
+  .theme-toggle:active { transform: scale(0.96); }
 
   .header-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: var(--yellow-dim);
-    border: 1px solid rgba(251,191,36,0.25);
+    background: var(--badge-bg);
+    border: 1px solid var(--badge-bdr);
     border-radius: 4px;
     padding: 3px 10px;
     font-size: 9px;
@@ -182,7 +243,6 @@
     color: var(--yellow);
     font-family: var(--mono);
     white-space: nowrap;
-    flex-shrink: 0;
   }
   .header-badge::before {
     content: '';
@@ -196,9 +256,10 @@
     50%       { opacity: 0.25; }
   }
 
+  /* ── STATS ────────────────────────────────────────────── */
   .stats-row {
     display: flex;
-    gap: 24px;
+    gap: 22px;
     align-items: center;
   }
 
@@ -278,16 +339,22 @@
       90deg,
       var(--yellow)          0px,
       var(--yellow)          28px,
+      rgba(202,138,4,0.07)  28px,
+      rgba(202,138,4,0.07)  56px
+    );
+  }
+  [data-theme="dark"] .tape-stripe {
+    background: repeating-linear-gradient(
+      90deg,
+      var(--yellow)          0px,
+      var(--yellow)          28px,
       rgba(251,191,36,0.07) 28px,
       rgba(251,191,36,0.07) 56px
     );
   }
 
   /* ── TIMELINE ─────────────────────────────────────────── */
-  .timeline {
-    max-width: 860px;
-    padding: 0 40px 120px;
-  }
+  .timeline { max-width: 860px; padding: 0 40px 120px; }
 
   /* ── PHASE ────────────────────────────────────────────── */
   .phase {
@@ -311,26 +378,25 @@
   .phase:nth-child(14) { animation-delay: 0.56s; }
   .phase:nth-child(15) { animation-delay: 0.60s; }
 
-  /* Yellow/black tape divider between phases */
   .phase-divider {
     height: 2px;
     margin: 36px 0;
     background: repeating-linear-gradient(
       90deg,
-      rgba(251,191,36,0.28) 0px,
-      rgba(251,191,36,0.28) 16px,
-      transparent           16px,
-      transparent           32px
+      var(--yellow-mid) 0px,
+      var(--yellow-mid) 16px,
+      transparent       16px,
+      transparent       32px
     );
   }
 
   .phase-card {
-    border-left: 3px solid var(--yellow);
     padding: 26px 28px 22px;
     background: var(--surface);
     border-radius: 0 6px 6px 0;
     border: 1px solid var(--border);
     border-left: 3px solid var(--yellow);
+    transition: background 250ms ease, border-color 250ms ease;
   }
 
   .phase-stage {
@@ -356,12 +422,7 @@
     margin-bottom: 4px;
   }
 
-  .phase-name-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
+  .phase-name-row { display: flex; align-items: center; gap: 10px; }
   .phase-icon { font-size: 18px; line-height: 1; flex-shrink: 0; }
 
   .phase-name {
@@ -386,7 +447,7 @@
     padding: 4px 10px;
     border-radius: 20px;
     background: var(--yellow-dim);
-    border: 1px solid rgba(251,191,36,0.18);
+    border: 1px solid var(--yellow-mid);
     color: var(--yellow);
     font-family: var(--mono);
     white-space: nowrap;
@@ -414,7 +475,7 @@
   }
 
   .commit:hover {
-    background: rgba(255,255,255,0.03);
+    background: var(--bg);
     border-color: var(--border);
   }
 
@@ -424,7 +485,7 @@
     font-weight: 600;
     color: var(--yellow);
     background: var(--yellow-dim);
-    border: 1px solid rgba(251,191,36,0.16);
+    border: 1px solid var(--yellow-mid);
     padding: 2px 6px;
     border-radius: 3px;
     min-width: 58px;
@@ -435,19 +496,8 @@
   }
 
   .commit-body { flex: 1; min-width: 0; }
-
-  .commit-msg {
-    font-size: 13px;
-    color: var(--text);
-    line-height: 1.45;
-  }
-
-  .commit-sub {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 3px;
-    line-height: 1.5;
-  }
+  .commit-msg  { font-size: 13px; color: var(--text); line-height: 1.45; }
+  .commit-sub  { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
 
   .commit-type {
     font-size: 9px;
@@ -461,13 +511,23 @@
     font-family: var(--mono);
   }
 
-  .type-feat      { background: rgba(45,91,227,0.15);    color: #6b8ff5; }
-  .type-fix       { background: rgba(239,68,68,0.15);    color: #f87171; }
-  .type-design    { background: rgba(168,85,247,0.15);   color: #c084fc; }
-  .type-content   { background: rgba(16,185,129,0.15);   color: #34d399; }
-  .type-config    { background: rgba(107,114,128,0.15);  color: #9ca3af; }
-  .type-egg       { background: rgba(245,158,11,0.15);   color: #fbbf24; }
-  .type-analytics { background: rgba(139,92,246,0.15);   color: #a78bfa; }
+  /* Dark type badge colours */
+  .type-feat      { background: rgba(45,91,227,0.15);   color: #6b8ff5; }
+  .type-fix       { background: rgba(239,68,68,0.15);   color: #f87171; }
+  .type-design    { background: rgba(168,85,247,0.15);  color: #c084fc; }
+  .type-content   { background: rgba(16,185,129,0.15);  color: #34d399; }
+  .type-config    { background: rgba(107,114,128,0.15); color: #9ca3af; }
+  .type-egg       { background: rgba(245,158,11,0.15);  color: #d97706; }
+  .type-analytics { background: rgba(139,92,246,0.15);  color: #a78bfa; }
+
+  /* Light mode — darker text on transparent badge for contrast */
+  :root .type-feat      { color: #1d4ed8; }
+  :root .type-fix       { color: #dc2626; }
+  :root .type-design    { color: #7c3aed; }
+  :root .type-content   { color: #059669; }
+  :root .type-config    { color: #374151; }
+  :root .type-egg       { color: #b45309; }
+  :root .type-analytics { color: #6d28d9; }
 
   /* ── FOOTER ───────────────────────────────────────────── */
   .timeline-footer {
@@ -481,11 +541,7 @@
     flex-wrap: wrap;
   }
 
-  .footer-left {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
+  .footer-left { display: flex; flex-direction: column; gap: 5px; }
 
   .footer-diary {
     font-family: var(--mono);
@@ -497,7 +553,7 @@
     font-size: 11px;
     color: var(--yellow);
     font-family: var(--mono);
-    opacity: 0.65;
+    opacity: 0.7;
   }
 
   .timeline-footer a {
@@ -523,7 +579,7 @@
   @media (max-width: 900px) {
     .building-sidebar { display: none; }
     .main-content { margin-left: 0; }
-    .site-header { padding: 12px 20px; gap: 12px; }
+    .site-header { padding: 12px 20px; gap: 10px; }
     .stats-row { gap: 14px; }
     .stat-num { font-size: 16px; }
     .stat-label { font-size: 8px; }
@@ -535,7 +591,6 @@
   @media (max-width: 600px) {
     .commit-hash { display: none; }
     .phase-card { padding: 18px 16px 16px; }
-    /* Hide 4th stat on tiny screens */
     .stat:last-child, .stat-divider:last-of-type { display: none; }
   }
 </style>
@@ -552,7 +607,8 @@
 <div class="main-content">
 
   <header class="site-header">
-    <div class="header-title">🏗️ &nbsp;<span>dilithdinesh.com</span>&nbsp;/ Construction Log</div>
+    <div class="header-title">🏗️&nbsp;<span>dilithdinesh.com</span>&nbsp;/ Construction Log</div>
+
     <div class="stats-row">
       <div class="stat">
         <div class="stat-num" id="count-commits">86</div>
@@ -574,7 +630,13 @@
         <div class="stat-label">Hidden Details</div>
       </div>
     </div>
-    <div class="header-badge">Site Active</div>
+
+    <div class="header-right">
+      <button class="theme-toggle" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+        <span id="theme-icon">🌙</span>
+      </button>
+      <div class="header-badge">Site Active</div>
+    </div>
   </header>
 
   <div class="hero">
@@ -598,6 +660,28 @@
 </div>
 
 <script>
+/* ── THEME ──────────────────────────────────────────────── */
+const THEME_KEY = 'build-map-theme';
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  document.getElementById('theme-icon').textContent = theme === 'dark' ? '☀️' : '🌙';
+}
+
+function savedTheme() {
+  return localStorage.getItem(THEME_KEY) || 'light';
+}
+
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+});
+
+/* Apply before render to avoid flash */
+applyTheme(savedTheme());
+
+/* ── DATA ───────────────────────────────────────────────── */
 const PHASES = [
   {
     icon: '🏗️',
@@ -789,6 +873,7 @@ const PHASES = [
     commits: [
       { hash: '886e9c3', msg: 'Build map: add Real Sun + Now Playing phases, auto-update script + pre-push hook', type: 'config' },
       { hash: '8b0ef11', msg: 'Build map: move to public/, add footer link, update script path', type: 'config' },
+      { hash: 'cc74cae', msg: 'Build map: redesign as construction site timeline', type: 'design', sub: 'Building sidebar, floor observer, stage labels, construction tape dividers, yellow hash pills' },
     ]
   },
 ];
@@ -811,7 +896,6 @@ const STAGE_LABELS = [
   'Ongoing Works',
 ];
 
-/* Sidebar floor groups — displayed bottom-up (foundation at bottom) */
 const FLOOR_GROUPS = [
   { label: 'PENTHOUSE', emoji: '📝',     phaseIndices: [14] },
   { label: 'FLOOR 5',   emoji: '☀️ 🎵',  phaseIndices: [12, 13] },
@@ -824,16 +908,11 @@ const FLOOR_GROUPS = [
 ];
 
 const TYPE_LABELS = {
-  feat:      'feat',
-  fix:       'fix',
-  design:    'design',
-  content:   'content',
-  config:    'config',
-  egg:       'egg',
-  analytics: 'analytics',
+  feat: 'feat', fix: 'fix', design: 'design', content: 'content',
+  config: 'config', egg: 'egg', analytics: 'analytics',
 };
 
-/* ── BUILD SIDEBAR ──────────────────────────────────────── */
+/* ── SIDEBAR ────────────────────────────────────────────── */
 function buildSidebar() {
   const wrap = document.getElementById('building-wrap');
 
@@ -846,47 +925,39 @@ function buildSidebar() {
   building.className = 'building';
 
   FLOOR_GROUPS.forEach((group, i) => {
-    const isFoundation = i === FLOOR_GROUPS.length - 1;
-    const isPenthouse  = i === 0;
-
     const floor = document.createElement('div');
     floor.className = 'floor' +
-      (isPenthouse  ? ' floor-penthouse'  : '') +
-      (isFoundation ? ' floor-foundation' : '');
+      (i === 0                        ? ' floor-penthouse'  : '') +
+      (i === FLOOR_GROUPS.length - 1  ? ' floor-foundation' : '');
     floor.id = `floor-${i}`;
     floor.dataset.floorIndex = i;
-
     floor.innerHTML = `<div class="floor-label">${group.label}</div><div class="floor-icons">${group.emoji}</div>`;
-
     floor.addEventListener('click', () => {
-      const firstPhase = document.querySelector(`[data-phase-index="${group.phaseIndices[0]}"]`);
-      if (firstPhase) firstPhase.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelector(`[data-phase-index="${group.phaseIndices[0]}"]`)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
-
     building.appendChild(floor);
   });
 
   wrap.appendChild(building);
-
   const slab = document.createElement('div');
   slab.className = 'ground-slab';
   wrap.appendChild(slab);
-
-  const label = document.createElement('div');
-  label.className = 'ground-label';
-  label.textContent = 'GROUND';
-  wrap.appendChild(label);
+  const lbl = document.createElement('div');
+  lbl.className = 'ground-label';
+  lbl.textContent = 'GROUND';
+  wrap.appendChild(lbl);
 }
 
-/* ── RENDER TIMELINE ────────────────────────────────────── */
+/* ── TIMELINE ───────────────────────────────────────────── */
 function renderTimeline() {
   const container = document.getElementById('timeline');
 
   PHASES.forEach((phase, idx) => {
     if (idx > 0) {
-      const divider = document.createElement('div');
-      divider.className = 'phase-divider';
-      container.appendChild(divider);
+      const div = document.createElement('div');
+      div.className = 'phase-divider';
+      container.appendChild(div);
     }
 
     const phaseEl = document.createElement('div');
@@ -894,17 +965,13 @@ function renderTimeline() {
     phaseEl.id = `phase-${idx}`;
     phaseEl.dataset.phaseIndex = idx;
 
-    const stageNum   = String(idx + 1).padStart(2, '0');
-    const stageLabel = STAGE_LABELS[idx] || '';
-
     const card = document.createElement('div');
     card.className = 'phase-card';
-
     card.innerHTML = `
       <div class="phase-stage">
-        <span class="phase-stage-num">STAGE ${stageNum}</span>
+        <span class="phase-stage-num">STAGE ${String(idx + 1).padStart(2,'0')}</span>
         <span style="opacity:0.4">·</span>
-        <span>${stageLabel.toUpperCase()}</span>
+        <span>${(STAGE_LABELS[idx] || '').toUpperCase()}</span>
       </div>
       <div class="phase-header">
         <div>
@@ -918,24 +985,23 @@ function renderTimeline() {
       </div>
     `;
 
-    const commitsEl = document.createElement('div');
-    commitsEl.className = 'commits';
-
-    phase.commits.forEach(commit => {
-      const c = document.createElement('div');
-      c.className = 'commit';
-      c.innerHTML = `
-        <span class="commit-hash">${commit.hash}</span>
+    const commits = document.createElement('div');
+    commits.className = 'commits';
+    phase.commits.forEach(c => {
+      const row = document.createElement('div');
+      row.className = 'commit';
+      row.innerHTML = `
+        <span class="commit-hash">${c.hash}</span>
         <div class="commit-body">
-          <div class="commit-msg">${commit.msg}</div>
-          ${commit.sub ? `<div class="commit-sub">${commit.sub}</div>` : ''}
+          <div class="commit-msg">${c.msg}</div>
+          ${c.sub ? `<div class="commit-sub">${c.sub}</div>` : ''}
         </div>
-        <span class="commit-type type-${commit.type}">${TYPE_LABELS[commit.type] || commit.type}</span>
+        <span class="commit-type type-${c.type}">${TYPE_LABELS[c.type] || c.type}</span>
       `;
-      commitsEl.appendChild(c);
+      commits.appendChild(row);
     });
 
-    card.appendChild(commitsEl);
+    card.appendChild(commits);
     phaseEl.appendChild(card);
     container.appendChild(phaseEl);
   });
@@ -943,43 +1009,48 @@ function renderTimeline() {
 
 /* ── FLOOR OBSERVER ─────────────────────────────────────── */
 function initFloorObserver() {
-  const phaseToFloor = {};
-  FLOOR_GROUPS.forEach((group, fi) => {
-    group.phaseIndices.forEach(pi => { phaseToFloor[pi] = fi; });
-  });
+  const map = {};
+  FLOOR_GROUPS.forEach((g, fi) => g.phaseIndices.forEach(pi => { map[pi] = fi; }));
+  let active = -1;
 
-  let activeFloor = -1;
-
-  function setActiveFloor(fi) {
-    if (fi === activeFloor) return;
-    activeFloor = fi;
+  function activate(fi) {
+    if (fi === active) return;
+    active = fi;
     document.querySelectorAll('.floor').forEach(el => el.classList.remove('active'));
     document.getElementById('roof-cap')?.classList.remove('active');
-    const target = document.getElementById(`floor-${fi}`);
-    if (target) target.classList.add('active');
+    document.getElementById(`floor-${fi}`)?.classList.add('active');
     if (fi === 0) document.getElementById('roof-cap')?.classList.add('active');
   }
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const pi = parseInt(entry.target.dataset.phaseIndex, 10);
-        const fi = phaseToFloor[pi];
-        if (fi !== undefined) setActiveFloor(fi);
+  new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const fi = map[parseInt(e.target.dataset.phaseIndex, 10)];
+        if (fi !== undefined) activate(fi);
       }
     });
-  }, { rootMargin: '-15% 0px -65% 0px', threshold: 0 });
-
-  document.querySelectorAll('.phase').forEach(el => observer.observe(el));
+  }, { rootMargin: '-15% 0px -65% 0px', threshold: 0 })
+    .observe
+    ? (() => {
+        const obs = new IntersectionObserver(entries => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              const fi = map[parseInt(e.target.dataset.phaseIndex, 10)];
+              if (fi !== undefined) activate(fi);
+            }
+          });
+        }, { rootMargin: '-15% 0px -65% 0px', threshold: 0 });
+        document.querySelectorAll('.phase').forEach(el => obs.observe(el));
+      })()
+    : null;
 }
 
 /* ── STAT ANIMATION ─────────────────────────────────────── */
-function animateStat(el, target, duration = 900) {
+function animateStat(el, target) {
   const start = performance.now();
-  const tick  = (now) => {
-    const p    = Math.min((now - start) / duration, 1);
-    const ease = 1 - Math.pow(1 - p, 3);
-    el.textContent = Math.round(ease * target);
+  const tick = now => {
+    const p = Math.min((now - start) / 900, 1);
+    el.textContent = Math.round((1 - Math.pow(1 - p, 3)) * target);
     if (p < 1) requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
@@ -988,13 +1059,36 @@ function animateStat(el, target, duration = 900) {
 /* ── INIT ───────────────────────────────────────────────── */
 buildSidebar();
 renderTimeline();
-initFloorObserver();
+
+/* Floor observer — inline to avoid double-declaration bug */
+(function() {
+  const map = {};
+  FLOOR_GROUPS.forEach((g, fi) => g.phaseIndices.forEach(pi => { map[pi] = fi; }));
+  let active = -1;
+  function activate(fi) {
+    if (fi === active) return;
+    active = fi;
+    document.querySelectorAll('.floor').forEach(el => el.classList.remove('active'));
+    document.getElementById('roof-cap')?.classList.remove('active');
+    document.getElementById(`floor-${fi}`)?.classList.add('active');
+    if (fi === 0) document.getElementById('roof-cap')?.classList.add('active');
+  }
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const fi = map[parseInt(e.target.dataset.phaseIndex, 10)];
+        if (fi !== undefined) activate(fi);
+      }
+    });
+  }, { rootMargin: '-15% 0px -65% 0px', threshold: 0 });
+  document.querySelectorAll('.phase').forEach(el => obs.observe(el));
+})();
 
 window.addEventListener('load', () => {
-  const commitsEl = document.getElementById('count-commits');
-  const phasesEl  = document.getElementById('count-phases');
-  if (commitsEl) animateStat(commitsEl, 86);
-  if (phasesEl)  animateStat(phasesEl,  15);
+  const ce = document.getElementById('count-commits');
+  const pe = document.getElementById('count-phases');
+  if (ce) animateStat(ce, 86);
+  if (pe) animateStat(pe, 15);
 });
 </script>
 </body>

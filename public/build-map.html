@@ -611,7 +611,7 @@
 
     <div class="stats-row">
       <div class="stat">
-        <div class="stat-num" id="count-commits">100</div>
+        <div class="stat-num" id="count-commits">102</div>
         <div class="stat-label">Diary Entries</div>
       </div>
       <div class="stat-divider"></div>
@@ -871,6 +871,8 @@ const PHASES = [
     name: 'Recent Updates',
     date: 'Jun 24, 2026',
     commits: [
+      { hash: '68af9fe', msg: 'Build map: auto-update commit log', type: 'config' },
+      { hash: 'd1419eb', msg: 'Perf: lazy-load PostHog via requestIdleCallback to reduce TBT', type: 'analytics' },
       { hash: 'd85723a', msg: 'Build map: auto-update commit log', type: 'config' },
       { hash: 'eea8ab9', msg: 'Perf: move VAPI+VoiceAssistant to homepage only, async-load Google Fonts', type: 'content' },
       { hash: '6362875', msg: 'Build map: auto-update commit log', type: 'config' },

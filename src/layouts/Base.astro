@@ -4,7 +4,6 @@ import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import PostHog from '../components/posthog.astro';
 import BouquetEgg from '../components/BouquetEgg.astro';
-import VoiceAssistant from '../components/VoiceAssistant';
 
 interface Props {
   title: string;
@@ -61,10 +60,11 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <!-- Favicon -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
-    <!-- Google Fonts: Caveat (easter egg) + Instrument Serif (display) -->
+    <!-- Google Fonts: Caveat (easter egg) + Instrument Serif (display) — loaded async to avoid render blocking -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Instrument+Serif:ital@0;1&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Instrument+Serif:ital@0;1&display=swap"></noscript>
 
     <!-- JSON-LD Structured Data -->
     {schema && (
@@ -434,17 +434,6 @@ const ogImageURL = new URL(ogImage, Astro.site);
   </script>
 
   <BouquetEgg />
-  <VoiceAssistant client:only="react" />
-
-  <!-- Vapi early init: runs before React hydrates so the SDK is ready on first click -->
-  <script>
-    import Vapi from '@vapi-ai/web';
-    const _v = new Vapi('ec84568a-9bfa-4c93-91cc-a3b7447abc96');
-    navigator.mediaDevices?.getUserMedia({ audio: true })
-      .then((s: MediaStream) => s.getTracks().forEach((t: MediaStreamTrack) => t.stop()))
-      .catch(() => {});
-    (window as unknown as Record<string, unknown>).__vapi = _v;
-  </script>
 
   <!-- Canvas grain texture -->
   <script>

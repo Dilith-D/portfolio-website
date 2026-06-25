@@ -4,6 +4,7 @@ import CaseStudyCard from '../components/CaseStudyCard.astro';
 import EssayCard from '../components/EssayCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ToolOrbitArc from '../components/ToolOrbitArc.astro';
+import VoiceAssistant from '../components/VoiceAssistant';
 
 const personSchema = {
   "@context": "https://schema.org",
@@ -388,5 +389,17 @@ const faqSchema = {
       }
     }
   </style>
+
+  <VoiceAssistant client:only="react" />
+
+  <!-- Vapi early init: warms up SDK before React hydrates to eliminate cold-start delay -->
+  <script>
+    import Vapi from '@vapi-ai/web';
+    const _v = new Vapi('ec84568a-9bfa-4c93-91cc-a3b7447abc96');
+    navigator.mediaDevices?.getUserMedia({ audio: true })
+      .then((s: MediaStream) => s.getTracks().forEach((t: MediaStreamTrack) => t.stop()))
+      .catch(() => {});
+    (window as unknown as Record<string, unknown>).__vapi = _v;
+  </script>
 
 </Base>

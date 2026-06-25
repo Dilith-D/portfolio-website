@@ -98,59 +98,6 @@ const { ...props } = fm;
     })();
   </script>
 
-  <!-- Section number reading indicator -->
-  <style is:global>
-    .section-num {
-      opacity: 0.15;
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      .section-num {
-        transition: opacity 400ms ease-out;
-      }
-    }
-
-    .section-num.section-active {
-      opacity: 1;
-    }
-  </style>
-
-  <script>
-    (function () {
-      const headings = document.querySelectorAll<HTMLHeadingElement>('.prose h2');
-      const numSpans: Element[] = [];
-
-      headings.forEach((h2) => {
-        const text = h2.textContent ?? '';
-        if (!/^\d{2}\s/.test(text)) return;
-
-        h2.innerHTML = h2.innerHTML.replace(
-          /^(\d{2})/,
-          '<span class="section-num">$1</span>'
-        );
-
-        const span = h2.querySelector('.section-num');
-        if (span) numSpans.push(span);
-      });
-
-      if (numSpans.length === 0) return;
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            entry.target.classList.toggle('section-active', entry.isIntersecting);
-          });
-        },
-        {
-          rootMargin: '-40% 0px -40% 0px',
-          threshold: 0,
-        }
-      );
-
-      numSpans.forEach((span) => observer.observe(span));
-    })();
-  </script>
-
   <span slot="endnav"></span>
 
   <!-- "What I'd do differently" heading tooltip -->

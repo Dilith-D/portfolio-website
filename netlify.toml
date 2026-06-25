@@ -7,3 +7,29 @@
 
 [functions]
   directory = "netlify/functions"
+
+# ── Canonical domain redirects ──────────────────────────────────────────────
+[[redirects]]
+  from = "https://www.dilithdinesh.com/*"
+  to = "https://dilithdinesh.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.dilithdinesh.com/*"
+  to = "https://dilithdinesh.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://dilithdinesh.com/*"
+  to = "https://dilithdinesh.com/:splat"
+  status = 301
+  force = true
+
+# ── Sitemap alias (legacy /sitemap.xml → canonical sitemap-index.xml) ───────
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap-index.xml"
+  status = 301
+  force = true

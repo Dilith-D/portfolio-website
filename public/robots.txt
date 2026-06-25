@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Sitemap: https://dilithdinesh.com/sitemap-index.xml
+LLMs-txt: https://dilithdinesh.com/llms.txt
 
 User-agent: GPTBot
 Allow: /

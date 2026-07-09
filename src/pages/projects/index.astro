@@ -5,7 +5,7 @@ import ProjectCard from '../../components/ProjectCard.astro';
 
 <Base
   title="Projects — Dilith Dinesh"
-  description="Four personal builds by Dilith Dinesh: Iris (cross-device file transfer), Pulseboard (PM work-tracking), SuperPilot (AI CRM memory layer), and a live voice agent. Build logs documenting the decisions and lessons."
+  description="Five personal builds by Dilith Dinesh: Iris (cross-device file transfer), Pulseboard (PM work-tracking), SuperPilot (AI CRM memory layer), Delphi (tax filing intelligence for foreign founders), and a live voice agent. Build logs documenting the decisions and lessons."
 >
   <div class="max-w-[1100px] mx-auto px-6 pt-[120px] pb-[80px]">
 
@@ -60,6 +60,14 @@ import ProjectCard from '../../components/ProjectCard.astro';
         stack={["React", "TanStack", "Claude Sonnet", "Deepgram"]}
         year="2026"
         slug="superpilot"
+      />
+      <ProjectCard
+        title="Delphi"
+        problem="Foreign founders with Delaware C-Corps face a $25,000 penalty for missing Form 5472. Most don't know it exists. I built the tool that tells them exactly what they owe — before they talk to a CPA."
+        stack={["Claude API", "Vanilla JS", "Vercel"]}
+        year="2026"
+        slug="delphi"
+        liveUrl="https://delphi-tax.vercel.app"
       />
     </div>
 

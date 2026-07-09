@@ -167,6 +167,17 @@ Card 3:
   CTA:          See how I built it →
   Link:         /projects/voice-agent
 
+Card 4:
+  Year/Stack:   2026  ·  CLAUDE API  ·  VANILLA JS  ·  VERCEL
+  Title:        Delphi
+  Description:  Foreign founders with Delaware C-Corps face a
+                $25,000 penalty for missing Form 5472. Most don't
+                know it exists. I built the tool that tells them
+                exactly what they owe — before they talk to a CPA.
+  CTA:          See how I built it →  /  Try it live →
+  Link:         /projects/delphi
+  Live:         https://delphi-tax.vercel.app
+
 Section CTA:    See all projects →   (links to /projects)
 ```
 

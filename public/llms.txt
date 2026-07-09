@@ -1,0 +1,36 @@
+# Dilith Dinesh — dilithdinesh.com
+
+> Customer Product Manager at Zuper. Product operator at the boundary between customer reality and product systems. Building toward AI-first product roles at Series A/B companies.
+
+Dilith Dinesh is a Customer Product Manager with a Computer Science background from VIT University. He spent one year as a Forward Deployed Engineer at Zuper before moving into product. His work focuses on translating field service operations into scalable product capabilities — specifically in vertical SaaS, AI-native product development, and B2B tools built for people doing physical work.
+
+## Work
+
+Case studies from two years inside field service operations at Zuper.
+
+- [The Roofing Vertical](https://dilithdinesh.com/work/golden-account-model): How Dilith built a fully cloneable roofing account architecture at Zuper — a golden account that cut onboarding time by over half and became the product's primary discovery vehicle for the roofing vertical.
+- [The Stopgap That Knew Its Place](https://dilithdinesh.com/work/booking-stopgap): How Dilith built a multi-tenant booking widget prototype in a few hours to unblock roofing customers — and how it moved a deprioritized feature onto the product roadmap.
+- [The AI Shopping Buddy](https://dilithdinesh.com/work/ai-shopping-buddy): How Dilith designed an AI shopping intelligence layer — a personal friction point turned into a weekend build that became a third case study in AI product thinking.
+
+## Writing
+
+Product teardowns, frameworks, and field notes.
+
+- [What B2B SaaS Can Learn From India's Fastest-Growing Mobility App](https://dilithdinesh.com/writing/rapido-teardown): A teardown of Rapido's product strategy — how they built a habit loop before expanding, and what B2B SaaS can steal from it.
+- [How Spotify Turned Usage Data Into an Annual Identity Ritual](https://dilithdinesh.com/writing/spotify-wrapped): Why Spotify Wrapped dominates while every imitator fades — the emotional architecture, not the data, is the product.
+
+## Projects
+
+Personal builds documenting real decisions and lessons.
+
+- [Iris](https://dilithdinesh.com/projects/iris): A private cross-device file transfer and messaging app — built because using WhatsApp as a file transfer hack was the wrong solution to a real problem. Live at d-chat.lovable.app.
+- [Pulseboard](https://dilithdinesh.com/projects/pulseboard): A personal work-tracking and reflection system for PMs doing scattered cross-functional work. Built in a weekend using Lovable, Supabase, Claude, and GPT-4.
+- [The Voice Agent](https://dilithdinesh.com/projects/voice-agent): A VAPI-powered live voice AI on the portfolio homepage. Built to show AI product thinking in action, not describe it. Uses Deepgram STT, ElevenLabs TTS, GPT-4o Mini.
+- [SuperPilot](https://dilithdinesh.com/projects/superpilot): An AI memory layer for B2B CRM — pre-call briefs, post-call intelligence, deal monitoring, and handoff briefs. Designed and prototyped with React, TanStack, Claude Sonnet, and Deepgram.
+- [Delphi](https://dilithdinesh.com/projects/delphi): A pre-filing tax intelligence layer for foreign-owned Delaware C-Corps. A deterministic rule engine computes required filings, deadlines, and penalties (including the $25,000 Form 5472 risk); Claude Sonnet narrates the output. Rules decide — LLM explains. Live at delphi-tax.vercel.app.
+
+## About
+
+- [About](https://dilithdinesh.com/about): Background, how Dilith thinks, and where he is going — CS graduate, one year as a Forward Deployed Engineer, one year as a Customer Product Manager, building toward AI-first product work.
+- [Now](https://dilithdinesh.com/now): What Dilith is currently building, reading, and thinking about.
+- [Contact](https://dilithdinesh.com/contact): Open to APM and product roles at Series A/B product-led companies. dilithdinesh007@gmail.com

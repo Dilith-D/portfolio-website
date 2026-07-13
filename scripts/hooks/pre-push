@@ -1,7 +1,46 @@
 #!/bin/sh
-# Auto-update commit-timeline.html before every push.
-# Skips if the HEAD commit is already a build-map update (prevents loops).
+# Pre-push hook (canonical copy — enable with: git config core.hooksPath scripts/hooks)
+# 1. Syncs local-only working files to the private backup repo (../private-portfolio).
+# 2. Auto-updates public/build-map.html from the git log.
 
+# ── 1. Private backup sync (best-effort — never blocks the push) ──────────
+PRIV="../private-portfolio"
+if [ -d "$PRIV/.git" ]; then
+  echo "[pre-push] Syncing private backup..."
+  cp -f agent-knowledge-base.txt          "$PRIV/voice-agent/"                  2>/dev/null
+  cp -f claude-code-prompt-voice-agent.md "$PRIV/voice-agent/"                  2>/dev/null
+  cp -f REDESIGN_PLAN.md                  "$PRIV/planning/"                     2>/dev/null
+  cp -f ai_copilot_architecture_dataflow.html "$PRIV/planning/"                 2>/dev/null
+  cp -f preview-redesign.html             "$PRIV/planning/"                     2>/dev/null
+  cp -f my_photo.png                      "$PRIV/assets/my_photo_original.png"  2>/dev/null
+  cp -f .env                              "$PRIV/portfolio.env"                 2>/dev/null
+  cp -f scripts/hooks/pre-push            "$PRIV/reference/pre-push-hook.sh"    2>/dev/null
+  cp -f skills-lock.json                  "$PRIV/claude-tooling/"               2>/dev/null
+  if [ -d .agents ]; then
+    rm -rf "$PRIV/claude-tooling/agents" && cp -r .agents "$PRIV/claude-tooling/agents"
+  fi
+  if [ -d .claude/skills ]; then
+    rm -rf "$PRIV/claude-tooling/claude-skills" && cp -r .claude/skills "$PRIV/claude-tooling/claude-skills"
+  fi
+  if [ -d taste-skill ]; then
+    rm -rf "$PRIV/claude-tooling/taste-skill" && cp -r taste-skill "$PRIV/claude-tooling/taste-skill"
+  fi
+  if [ -n "$(git -C "$PRIV" status --porcelain)" ]; then
+    git -C "$PRIV" add -A >/dev/null 2>&1
+    git -C "$PRIV" commit -m "Auto-sync from portfolio push ($(date +%Y-%m-%d))" >/dev/null 2>&1
+    if git -C "$PRIV" push >/dev/null 2>&1; then
+      echo "[pre-push] Private backup synced and pushed."
+    else
+      echo "[pre-push] WARNING: private backup push failed — sync it manually. Continuing."
+    fi
+  else
+    echo "[pre-push] Private backup already up to date."
+  fi
+else
+  echo "[pre-push] Note: ../private-portfolio not found — skipping backup sync."
+fi
+
+# ── 2. Build map update (skips if HEAD is already a build-map commit) ──────
 LAST_MSG=$(git log -1 --format="%s")
 case "$LAST_MSG" in
   "Build map: "*)

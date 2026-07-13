@@ -143,7 +143,7 @@ const faqSchema = {
           </a>
           <button
             id="heroCta"
-            class="font-body text-[15px] font-medium text-white bg-blue px-6 py-3 rounded-md transition-opacity duration-150 hover:opacity-90 cursor-pointer"
+            class="font-body text-[15px] font-medium text-primary bg-transparent border border-primary px-6 py-3 rounded-md transition-colors duration-150 hover:bg-surface cursor-pointer"
           >
             Talk to my AI →
           </button>
@@ -200,6 +200,9 @@ const faqSchema = {
       <div class="mb-12">
         <h2 class="font-display text-[48px] font-medium leading-tight text-primary">Work</h2>
         <p class="font-body text-base text-secondary mt-3">Not success stories. Decision logs.</p>
+        <p class="font-body text-sm text-secondary tracking-wide mt-6">
+          Onboarding: 12–16 weeks → 15 days&nbsp;&nbsp;·&nbsp;&nbsp;30+ accounts on the golden account template&nbsp;&nbsp;·&nbsp;&nbsp;6 hours from problem to roadmap decision
+        </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -217,7 +220,7 @@ const faqSchema = {
         />
         <CaseStudyCard
           title="The AI Shopping Buddy"
-          tags={["E-COMMERCE", "AI SYSTEMS", "PRODUCT SPEC"]}
+          tags={["PERSONAL SPEC", "E-COMMERCE", "AI SYSTEMS"]}
           description="I was copy-pasting specs from Flipkart into Claude just to answer 'does this phone fit my needs?' That friction became a weekend build plan: an AI shopping layer that any e-commerce can embed."
           slug="ai-shopping-buddy"
         />
@@ -400,13 +403,11 @@ const faqSchema = {
 
   <VoiceAssistant client:only="react" />
 
-  <!-- Vapi early init: warms up SDK before React hydrates to eliminate cold-start delay -->
+  <!-- Vapi early init: warms up SDK before React hydrates to eliminate cold-start delay.
+       Mic permission is requested only when the user starts a call — never on page load. -->
   <script>
     import Vapi from '@vapi-ai/web';
     const _v = new Vapi('ec84568a-9bfa-4c93-91cc-a3b7447abc96');
-    navigator.mediaDevices?.getUserMedia({ audio: true })
-      .then((s: MediaStream) => s.getTracks().forEach((t: MediaStreamTrack) => t.stop()))
-      .catch(() => {});
     (window as unknown as Record<string, unknown>).__vapi = _v;
   </script>
 

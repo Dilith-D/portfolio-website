@@ -3,7 +3,6 @@
   {"id":"console-dark","hint":"Try the console with the lights off.","message":"Dark mode AND the console open."},
   {"id":"console-mobile","hint":"Console. Mobile. Really.","message":"You opened the console on mobile."},
   {"id":"clipboard","hint":"Copy something worth keeping.","message":"Copied text gets a postscript — dilithdinesh.com"},
-  {"id":"tab-blur","hint":"Look away for a moment.","message":"Come back when you're ready 👋"},
   {"id":"print-page","hint":"Ctrl+P. Just try it.","message":"You're printing a website in 2026."},
   {"id":"right-click","hint":"The browser's menu isn't the only one.","message":"Looking for the source? github.com/Dilith-D/portfolio-website"},
   {"id":"viewport-420","hint":"Some people measure their windows precisely.","message":"Nice. You resize browser windows too."},

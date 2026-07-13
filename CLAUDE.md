@@ -96,9 +96,8 @@ dilithdinesh/
 │   ├── favicon.svg
 │   ├── favicon.ico
 │   ├── easter-eggs.json
-│   ├── llms.txt
-│   ├── my_photo.png
-│   └── sun.png                     ← real sun photo used in light-mode Moon/Sun button
+│   └── my_photo.webp               ← About page headshot (440px WebP; llms.txt is generated
+│                                      at build time by src/pages/llms.txt.ts — no static file)
 ├── CLAUDE.md
 ├── CONTENT.md
 ├── PRODUCT.md
@@ -363,31 +362,23 @@ html {
 ### Nav.astro
 
 ```
-Desktop:
-  Position: fixed, top 0, full width, z-index 50
-  Height: 64px
-  Initial background: transparent
-  On scroll: background #F9F7F4, border-bottom 1px solid #E5E1DB
-  Transition: 200ms ease
+Implemented as a floating glass pill (differs from the original fixed-bar spec):
+  Fixed header wrapper (pointer-events: none) containing a centered pill
+  with backdrop blur, border, and rounded-full corners.
 
-  Left: "Dilith Dinesh" — font-display text-lg font-medium text-primary
-  Right: Work · Writing · Projects · Now · About · Contact
-         font-body text-sm text-secondary
-         Active state: text-primary + 2px underline underline-offset-4
-         Hover: text-primary, 150ms transition
+  Left:  "Dilith Dinesh" logo link
+  Center: Work · Writing · Projects · Now · About (active state via URL match)
+  Right: mic button (voice agent trigger, dispatches 'voice:toggle')
+         → theme toggle (moon/sun icon) → Contact CTA
 
 Mobile:
-  Hamburger icon right side
-  Full-screen overlay, bg-background
-  Links: font-display text-4xl, centered, stacked
-  Close button top-right
-  Animate: slide in from right OR fade in
+  Hamburger with three bars, mobile menu overlay
+  Mobile mic button id: navMicMobile
 
-JavaScript required:
-  - Scroll listener → toggle nav background
+JavaScript:
+  - Theme toggle (localStorage 'theme')
   - Mobile hamburger toggle
   - Active page detection from current URL
-  - Close mobile menu on link click
 ```
 
 ### Footer.astro
@@ -764,32 +755,30 @@ Session 6:   ✓ Projects index + ProjectCard + both project pages
 Session 7:   ✓ Now page + About page
 Session 8:   ✓ Contact page + 404 page
 Session 9:   ✓ SEO pass + OG image + sitemap verification
-Post-launch: ✓ Dark mode default + Easter egg system (20+) + GA4 + PostHog + GEO
-             ✓ Diagram components (12) + MetricsSummary + APM targeting
-             ✓ Voice agent (VAPI) + Moon/Sun button + WebGL background
+Post-launch: ✓ Dark mode toggle + Easter egg system (20+) + GA4 + PostHog + GEO
+             ✓ Diagram components (13) + MetricsSummary + APM targeting
+             ✓ Voice agent (VAPI) + WebGL background
              ✓ AI PM reframe + ToolOrbitArc + headshot + SuperPilot project
              ✓ Third case study (AI Shopping Buddy)
              ✓ Spotify Now Playing widget on Now page
-             ✓ Real sun photo in light mode button
 ```
 
 ## Features Beyond Original Spec (Implemented)
 
 These features were added during the build and are live in the codebase:
 
-- **Dark mode** — localStorage-based theme persistence, full token set, toggle in Nav. Dark is the default; light only if explicitly saved to localStorage (`theme: 'light'`).
-- **Easter egg system** — 20+ eggs tracked via `public/easter-eggs.json` and localStorage. BouquetEgg fires after deep scroll across all 6 content pages.
+- **Dark mode** — localStorage-based theme persistence, full token set, toggle in Nav. **Light is the default**; dark only if explicitly saved to localStorage (`theme: 'dark'`). See the inline script in Base.astro `<head>`.
+- **Easter egg system** — 20+ eggs tracked via `public/easter-eggs.json` (mirrored in `src/data/easter-eggs.json` for /secret) and localStorage. All ambient egg logic lives in `src/scripts/eggs.ts`, initialized once from Base.astro. Newly found eggs with a message show a bottom-center toast (`window.showToast` / `window.markEggFound(id, message?)`). BouquetEgg fires after deep scroll across all 6 content pages.
 - **Secret page** (`/secret`) — easter egg progress dashboard showing how many eggs found.
 - **PostHog analytics** — `posthog.astro` component, tracks case study/essay/contact/project/voice agent clicks. Key: `PUBLIC_POSTHOG_KEY` env var.
 - **Google Analytics 4** — GA4 measurement ID `G-X4C4BFY2PZ` in Base.astro.
 - **GEO implementation** — JSON-LD structured data (Person, TechArticle, Article, SoftwareApplication) + robots directives for AI search engines (Google AI Overviews, Perplexity, ChatGPT).
 - **MetricsSummary component** — data visualization for case studies.
 - **12 SVG diagram components** — in `src/components/diagrams/`, used in MDX content.
-- **`public/llms.txt`** — custom LLM crawler rules for AI indexing.
+- **`/llms.txt`** — generated at build time by `src/pages/llms.txt.ts` from MDX frontmatter. Do NOT create a static `public/llms.txt` (it conflicts with the generator). Add an editorial summary to the SUMMARIES dict for each new slug.
 - **ToolOrbitArc component** — `src/components/ToolOrbitArc.astro`, rotating solar-system orbit of 12 AI/PM tool logos (pure CSS, no JS framework). Used in homepage "Stack" section. OpenAI and Lovable use inline SVG paths (`type: 'svg'`); others use SimpleIcons CDN (`type: 'img'`). Claude uses `cdn.simpleicons.org/claude` slug.
-- **Headshot photo** — `public/my_photo.png`, displayed on About page opening section as a 2-column grid (text left, portrait right, 220px wide, `object-position: top center`, sticky on scroll). Mobile stacks photo above text.
-- **Voice agent** — VAPI-powered live voice AI on the homepage. Visitor clicks the Moon/Sun button → floating card UI opens → real-time voice conversation. SDK initialized at module-eval time to eliminate cold-start delay.
-- **Moon/Sun button** — `src/pages/index.astro`. Dark mode: white/silver moon orb with indigo atmospheric glow. Light mode: real sun photograph (`public/sun.png`) with amber glow. Positioned absolutely in hero right half, hidden on screens < 900px.
+- **Headshot photo** — `public/my_photo.webp` (440×660, ~59KB), displayed on About page opening section as a 2-column grid (text left, portrait right, 220px wide, `object-position: top center`, sticky on scroll). Mobile stacks photo above text.
+- **Voice agent** — VAPI-powered live voice AI, triggered from the nav mic button or the hero "Talk to my AI" button (both dispatch a `voice:toggle` custom event; `VoiceAssistant.tsx` renders a dynamic-island status pill). SDK initialized at module-eval time to eliminate cold-start delay. **Microphone permission is requested only when a call starts — never on page load.**
 - **WebGL animated background** — on the homepage hero. Pure canvas, no JS framework.
 - **Third case study** — `src/pages/work/ai-shopping-buddy.mdx` — The AI Shopping Buddy. Third work page alongside The Roofing Vertical and The Stopgap.
 - **SuperPilot project page** — `src/pages/projects/superpilot.mdx`. Third project alongside Iris and Pulseboard.
@@ -807,7 +796,9 @@ These features were added during the build and are live in the codebase:
 - Tags are always UPPERCASE with · separators
 - Dates format: "Jan 2025" or "2024" (not "January 2025, 14th")
 - No bullet-pointed skill lists anywhere on the site
-- About page: prose only — zero bullet points
+  (One deliberate exception: the About page "How I work" section uses three
+  arrow-prefixed columns — What I do / What I know / What I use.)
+- About page: prose everywhere else — no other bullet points
 
 ---
 

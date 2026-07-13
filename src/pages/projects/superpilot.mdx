@@ -20,6 +20,8 @@ schema:
   url: "https://dilithdinesh.com/projects/superpilot"
 ---
 
+import SuperPilotGate from '../../components/diagrams/SuperPilotGate.astro';
+
 ## Why I Built This
 
 Most AI-in-CRM conversations start in the wrong place. They ask: which feature should we add AI to? The better question is: where does the most time actually go — and is that a place where AI earns its cost?
@@ -53,6 +55,8 @@ What I built is the intelligence layer: the decisions about which moments matter
 The naive implementation runs every deal through the LLM every monitoring cycle. At scale — say, 30 reps with 6 active deals each — that's 180 LLM calls every 6 hours for monitoring alone. Expensive, and mostly wasted: most deals don't need attention right now.
 
 The threshold gate runs cheap rule-based signal checks first. Days since last contact, proposal opens, meeting attendance gaps, stage age versus pipeline average. If no signals are tripped, no LLM call. If signals trip, the LLM interprets why and what to do. At the numbers above: 36 calls instead of 180. Cost scales with actual risk, not deal count.
+
+<SuperPilotGate />
 
 **02. Incremental delta summarization**
 

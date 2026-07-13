@@ -21,6 +21,8 @@ const {
 } = Astro.props;
 
 const title = directTitle ?? frontmatter?.title ?? 'Dilith Dinesh';
+// Pages may pass titles that already carry the name suffix — never append it twice.
+const fullTitle = title.includes('Dilith Dinesh') ? title : `${title} — Dilith Dinesh`;
 const description = directDescription ?? frontmatter?.description ?? frontmatter?.summary ?? frontmatter?.hook ?? '';
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site);
@@ -33,7 +35,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
 
-    <title>{title} — Dilith Dinesh</title>
+    <title>{fullTitle}</title>
     <meta name="description" content={description} />
 
     <!-- Canonical -->
@@ -45,7 +47,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={`${title} — Dilith Dinesh`} />
+    <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageURL} />
     <meta property="og:image:width" content="1200" />
@@ -53,7 +55,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`${title} — Dilith Dinesh`} />
+    <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
 
@@ -101,117 +103,10 @@ const ogImageURL = new URL(ogImage, Astro.site);
     </main>
     <Footer />
 
-  <!-- ── Toast helper — no-op, toasts disabled ── -->
+  <!-- ── Easter egg system: toast + markEggFound + all ambient eggs (src/scripts/eggs.ts) ── -->
   <script>
-    window.showToast = function() {};
-  </script>
-
-  <!-- ── markEggFound — tracks discovered eggs in localStorage ── -->
-  <script>
-    window.markEggFound = function(id) {
-      const found = JSON.parse(localStorage.getItem('dd-found-eggs') || '[]');
-      if (!found.includes(id)) {
-        found.push(id);
-        localStorage.setItem('dd-found-eggs', JSON.stringify(found));
-      }
-    };
-  </script>
-
-  <!-- Fast reader toast (flag set by Prose on exit, shown here on next page load) -->
-  <script>
-    if (sessionStorage.getItem('fast-read-pending')) {
-      sessionStorage.removeItem('fast-read-pending');
-      window.addEventListener('DOMContentLoaded', () => {
-        setTimeout(() => {
-          window.markEggFound?.('fast-reader', 'That was fast. Some of this deserved more time.');
-        }, 800);
-      });
-    }
-  </script>
-
-  <!-- Console message (mobile-aware, dark mode-aware) -->
-  <script>
-    const isDark = document.documentElement.classList.contains('dark') ||
-      localStorage.getItem('theme') === 'dark';
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-    if (isMobile) {
-      console.log("%cYou opened the console on mobile.", "font-size: 18px; font-weight: bold; color: #2D5BE3;");
-      console.log("%cI don't know whether to be impressed or concerned.", "font-size: 14px; color: #6B6B6B;");
-      console.log("%cdilithdinesh007@gmail.com", "font-size: 14px; font-weight: bold;");
-    } else if (isDark) {
-      console.log("%cDark mode AND the console open.", "font-size: 20px; font-weight: bold; color: #2D5BE3;");
-      console.log("%cYou're exactly the kind of person I want to work with.", "font-size: 14px; color: #9A9A9A;");
-      console.log("%cdilithdinesh007@gmail.com", "font-size: 14px; color: #F9F7F4; font-weight: bold;");
-    } else {
-      console.log("%cHey.", "font-size: 24px; font-weight: bold; color: #2D5BE3;");
-      console.log("%cYou opened the console. That's exactly the kind of thing I'd do too.", "font-size: 14px; color: #6B6B6B;");
-      console.log("%cdilithdinesh007@gmail.com", "font-size: 14px; color: #1A1A1A; font-weight: bold;");
-    }
-  </script>
-
-  <!-- Type "product" to pulse hero tagline -->
-  <script>
-    let typed = '';
-    document.addEventListener('keydown', (e) => {
-      const tag = document.activeElement?.tagName;
-      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
-      typed += e.key.toLowerCase();
-      if (typed.length > 7) typed = typed.slice(-7);
-      if (typed.includes('product')) {
-        const hero = document.querySelector('.hero-tagline');
-        if (hero) {
-          hero.style.transition = 'color 200ms ease';
-          hero.style.color = '#2D5BE3';
-          setTimeout(() => { hero.style.color = ''; }, 2000);
-        }
-        window.markEggFound?.('product-type');
-        typed = '';
-      }
-    });
-  </script>
-
-  <!-- Idle timer (5 minutes) -->
-  <script>
-    (function() {
-      if (sessionStorage.getItem('idle-shown')) return;
-      let timer;
-      function fireIdle() {
-        if (sessionStorage.getItem('idle-shown')) return;
-        sessionStorage.setItem('idle-shown', 'true');
-        window.markEggFound?.('idle-5min', "Still reading? Good. Most people don't get this far.");
-      }
-      function resetTimer() {
-        clearTimeout(timer);
-        timer = setTimeout(fireIdle, 5 * 60 * 1000);
-      }
-      ['scroll','click','keypress','mousemove','touchstart'].forEach(e =>
-        document.addEventListener(e, resetTimer, { passive: true })
-      );
-      resetTimer();
-    })();
-  </script>
-
-  <!-- Clipboard easter egg (tracks copy, does not modify clipboard) -->
-  <script>
-    document.addEventListener('copy', () => {
-      const selection = window.getSelection()?.toString();
-      if (!selection || selection.length < 10) return;
-      window.markEggFound?.('clipboard');
-    });
-  </script>
-
-  <!-- Viewport 420px -->
-  <script>
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        if (window.innerWidth === 420) {
-          window.markEggFound?.('viewport-420', 'Nice. You resize browser windows too.');
-        }
-      }, 200);
-    });
+    import { initEggs } from '../scripts/eggs';
+    initEggs();
   </script>
 
   <!-- PostHog event tracking -->
@@ -259,178 +154,6 @@ const ogImageURL = new URL(ogImage, Astro.site);
         }
       })
     })
-  </script>
-
-  <!-- Right-click easter egg (native menu still works) -->
-  <script>
-    document.addEventListener('contextmenu', () => {
-      window.markEggFound?.('right-click', 'Looking for the source? github.com/Dilith-D/portfolio-website');
-    });
-  </script>
-
-  <!-- Tab title change on blur -->
-  <script>
-    const originalTitle = document.title;
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') {
-        document.title = 'Come back when you\'re ready —';
-        window.markEggFound?.('tab-blur');
-      } else {
-        document.title = originalTitle;
-      }
-    });
-  </script>
-
-  <!-- First visit deep reader — must run before return visitor sets dd-visited -->
-  <script>
-    (function() {
-      const isHome = window.location.pathname === '/';
-      const alreadyVisited = localStorage.getItem('dd-visited');
-      if (!isHome || alreadyVisited) return;
-      const arrival = Date.now();
-      let shown = false;
-      function check() {
-        if (shown) return;
-        if (Date.now() - arrival >= 4 * 60 * 1000) {
-          shown = true;
-          window.markEggFound?.('deep-reader', "Four minutes on a first visit. You're a deep reader. I write for people like you.");
-        }
-      }
-      setInterval(check, 10000);
-    })();
-  </script>
-
-  <!-- Return visitor -->
-  <script>
-    (function() {
-      const isHome = window.location.pathname === '/';
-      const visited = localStorage.getItem('dd-visited');
-      if (isHome && visited) {
-        setTimeout(() => {
-          window.markEggFound?.('return-visitor', "You came back. Something must have stuck.");
-        }, 3000);
-      }
-      if (isHome) localStorage.setItem('dd-visited', 'true');
-    })();
-  </script>
-
-  <!-- Time-based toasts -->
-  <script>
-    (function() {
-      const hour = new Date().getHours();
-      const day = new Date().getDay();
-      const isHome = window.location.pathname === '/';
-
-      if (hour >= 0 && hour < 5 && !sessionStorage.getItem('dd-night')) {
-        sessionStorage.setItem('dd-night', 'true');
-        setTimeout(() => { window.markEggFound?.('night-owl', "It's late. Whatever you're working on — good luck."); }, 2000);
-        return;
-      }
-      if (day === 1 && hour >= 8 && hour < 10 && isHome && !sessionStorage.getItem('dd-monday')) {
-        sessionStorage.setItem('dd-monday', 'true');
-        setTimeout(() => { window.markEggFound?.('monday-morning', "Monday morning. Evaluating options? So am I."); }, 2000);
-        return;
-      }
-      if (day === 5 && hour >= 17 && hour < 21 && isHome && !sessionStorage.getItem('dd-friday')) {
-        sessionStorage.setItem('dd-friday', 'true');
-        setTimeout(() => { window.markEggFound?.('friday-evening', "Hiring decisions on a Friday? Respect the dedication."); }, 2000);
-        return;
-      }
-    })();
-  </script>
-
-  <!-- Visit every page tracker -->
-  <script>
-    (function() {
-      if (sessionStorage.getItem('dd-all-pages')) return;
-      const pages = ['/', '/work', '/writing', '/projects', '/about'];
-      const current = window.location.pathname.replace(/\/$/, '') || '/';
-      let seen = JSON.parse(sessionStorage.getItem('dd-pages-seen') || '[]');
-      const match = pages.find(p => current === p || current.startsWith(p + '/'));
-      if (match && !seen.includes(match)) {
-        seen.push(match);
-        sessionStorage.setItem('dd-pages-seen', JSON.stringify(seen));
-      }
-      if (pages.every(p => seen.includes(p))) {
-        sessionStorage.setItem('dd-all-pages', 'true');
-        setTimeout(() => { window.markEggFound?.('all-pages', "You've seen everything. Most people don't. I hope something was worth it."); }, 1500);
-      }
-    })();
-  </script>
-
-  <!-- Logo click counter -->
-  <script>
-    (function() {
-      let logoClicks = 0;
-      const logo = document.querySelector('a[href="/"]');
-      if (!logo) return;
-      logo.addEventListener('click', () => {
-        logoClicks++;
-        if (logoClicks === 3) {
-          logoClicks = 0;
-          window.markEggFound?.('logo-clicks', "Three times home. Looking for something specific? dilithdinesh007@gmail.com");
-        }
-      });
-    })();
-  </script>
-
-  <!-- Keyboard navigation detector -->
-  <script>
-    (function() {
-      if (sessionStorage.getItem('dd-keyboard')) return;
-      let tabCount = 0;
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Tab') {
-          tabCount++;
-          if (tabCount === 3) {
-            sessionStorage.setItem('dd-keyboard', 'true');
-            window.markEggFound?.('keyboard-nav', "Keyboard navigation. Accessibility-first thinking. Respect.");
-          }
-        }
-      });
-    })();
-  </script>
-
-  <!-- Text selection toast -->
-  <script>
-    (function() {
-      document.addEventListener('mouseup', () => {
-        if (sessionStorage.getItem('dd-selection')) return;
-        const selection = window.getSelection()?.toString().trim();
-        if (selection && selection.length >= 80) {
-          sessionStorage.setItem('dd-selection', 'true');
-          window.markEggFound?.('text-selection', "Found something worth keeping? I'd love to know what. dilithdinesh007@gmail.com");
-        }
-      });
-    })();
-  </script>
-
-  <!-- "honest" word tooltip -->
-  <script>
-    (function() {
-      function wrapHonest(node) {
-        if (node.nodeType === 3) {
-          const text = node.textContent;
-          if (/\bhonest\b/i.test(text)) {
-            const span = document.createElement('span');
-            span.innerHTML = text.replace(/\b(honest)\b/gi,
-              `<span class="honest-egg" style="position:relative;cursor:help;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;">$1<span class="honest-tip" style="display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1A1A1A;color:#F9F7F4;font-size:13px;font-family:'Inter',sans-serif;white-space:nowrap;padding:6px 12px;border-radius:4px;pointer-events:none;z-index:100;">This word does a lot of work on this site.</span></span>`
-            );
-            node.parentNode.replaceChild(span, node);
-          }
-        } else if (node.nodeType === 1 && !['SCRIPT','STYLE','CODE','PRE'].includes(node.tagName)) {
-          Array.from(node.childNodes).forEach(wrapHonest);
-        }
-      }
-      document.addEventListener('DOMContentLoaded', () => {
-        wrapHonest(document.body);
-        document.querySelectorAll('.honest-egg').forEach(egg => {
-          const tip = egg.querySelector('.honest-tip');
-          egg.addEventListener('mouseenter', () => { tip.style.display = 'block'; window.markEggFound?.('honest-hover'); });
-          egg.addEventListener('mouseleave', () => tip.style.display = 'none');
-        });
-      });
-    })();
   </script>
 
   <BouquetEgg />

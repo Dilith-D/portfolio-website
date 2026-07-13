@@ -1,0 +1,21 @@
+#!/bin/sh
+# Auto-update commit-timeline.html before every push.
+# Skips if the HEAD commit is already a build-map update (prevents loops).
+
+LAST_MSG=$(git log -1 --format="%s")
+case "$LAST_MSG" in
+  "Build map: "*)
+    exit 0
+    ;;
+esac
+
+echo "[pre-push] Updating build map..."
+node scripts/update-build-map.mjs
+
+if ! git diff --quiet public/build-map.html; then
+  git add public/build-map.html
+  git commit -m "Build map: auto-update commit log"
+  echo "[pre-push] Build map committed — it will be included in this push."
+fi
+
+exit 0

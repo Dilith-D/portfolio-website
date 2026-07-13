@@ -1,43 +1,36 @@
-# Astro Starter Kit: Minimal
+# dilithdinesh.com
+
+Personal portfolio — product case studies, teardowns, and build logs.
+Live at [dilithdinesh.com](https://dilithdinesh.com), deployed on Netlify from `master`.
+
+Built with Astro 5 + Tailwind CSS 3 + MDX. No CMS — all content is MDX/Astro files in `src/pages/`.
+
+## Setup (new machine)
 
 ```sh
-npm create astro@latest -- --template minimal
+git clone https://github.com/Dilith-D/portfolio-website.git portfolio
+cd portfolio
+npm install
+
+# Enable the build-map pre-push hook (git hooks don't clone):
+git config core.hooksPath scripts/hooks
+
+npm run dev       # local dev server
+npm run build     # production build to dist/
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Optional: create `.env` with `PUBLIC_POSTHOG_KEY=<key>` for local analytics builds
+(production gets it from Netlify env vars).
 
-## 🚀 Project Structure
+Secrets and service state live outside this repo: Netlify (env vars, deploys),
+VAPI (voice agent config + knowledge base), GA4/PostHog (analytics).
 
-Inside of your Astro project, you'll see the following folders and files:
+## Where things are
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- `CLAUDE.md` — the authoritative design system + technical spec. Read it first.
+- `CONTENT.md` — page content source.
+- `src/pages/` — all routes; case studies and essays are MDX.
+- `src/components/diagrams/` — hand-built SVG diagram components used in MDX.
+- `src/scripts/eggs.ts` — the easter egg system.
+- `scripts/hooks/pre-push` — auto-updates `public/build-map.html` from git log on push.
+- `netlify/functions/now-playing.js` — Spotify Now Playing endpoint.

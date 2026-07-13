@@ -22,3 +22,18 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Local Netlify folder
+.netlify
+
+# Local-only working files — backed up in github.com/Dilith-D/private-portfolio
+agent-knowledge-base.txt
+claude-code-prompt-voice-agent.md
+REDESIGN_PLAN.md
+ai_copilot_architecture_dataflow.html
+preview-redesign.html
+my_photo.png
+.agents/
+.claude/skills/
+taste-skill/
+skills-lock.json

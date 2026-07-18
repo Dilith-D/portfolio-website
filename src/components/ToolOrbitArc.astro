@@ -113,11 +113,13 @@ const STEP = 360 / TOOLS.length;
     --chip:   72px;   /* planet chip diameter */
     --chip-h: 36px;   /* half chip            */
     --sun:    92px;   /* sun diameter         */
+    /* single accent for glow, spokes, and particles */
+    --orb-accent: var(--color-electric);
     /* glow intensities — overridden in dark mode so bloom doesn't wash out */
     --orb-nebula-a: 32%;
     --orb-bloom-a:  16%;
     --spoke-rest:   var(--color-border-card);
-    --spoke-hot:    color-mix(in srgb, var(--color-blue) 60%, transparent);
+    --spoke-hot:    color-mix(in srgb, var(--orb-accent) 60%, transparent);
 
     position: relative;
     /* big enough to contain chips at all four sides */
@@ -158,7 +160,7 @@ const STEP = 360 / TOOLS.length;
     border-radius: 50%;
     background: radial-gradient(
       circle,
-      color-mix(in srgb, var(--color-blue) var(--orb-bloom-a), transparent) 0%,
+      color-mix(in srgb, var(--orb-accent) var(--orb-bloom-a), transparent) 0%,
       transparent 70%
     );
     filter: blur(20px);
@@ -175,8 +177,8 @@ const STEP = 360 / TOOLS.length;
     border-radius: 50%;
     background: radial-gradient(
       circle,
-      color-mix(in srgb, var(--color-blue) var(--orb-nebula-a), transparent) 0%,
-      color-mix(in srgb, var(--color-blue) calc(var(--orb-nebula-a) / 3), transparent) 45%,
+      color-mix(in srgb, var(--orb-accent) var(--orb-nebula-a), transparent) 0%,
+      color-mix(in srgb, var(--orb-accent) calc(var(--orb-nebula-a) / 3), transparent) 45%,
       transparent 72%
     );
     pointer-events: none;
@@ -296,8 +298,8 @@ const STEP = 360 / TOOLS.length;
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background: var(--color-blue);
-    box-shadow: 0 0 6px 1px color-mix(in srgb, var(--color-blue) 55%, transparent);
+    background: var(--orb-accent);
+    box-shadow: 0 0 6px 1px color-mix(in srgb, var(--orb-accent) 55%, transparent);
     opacity: 0.7;
     animation: particle-travel var(--pd, 5s) ease-in-out infinite;
     animation-delay: var(--pdel, 0s);
@@ -317,7 +319,7 @@ const STEP = 360 / TOOLS.length;
   .orbit-item:hover .orbit-particle {
     animation-duration: 1.5s;
     opacity: 1;
-    box-shadow: 0 0 10px 2px color-mix(in srgb, var(--color-blue) 80%, transparent);
+    box-shadow: 0 0 10px 2px color-mix(in srgb, var(--orb-accent) 80%, transparent);
   }
 
   .orbit-chip {
@@ -379,8 +381,9 @@ const STEP = 360 / TOOLS.length;
 
   /* ── Dark mode ───────────────────────────────────── */
   :global(html.dark) .orbit-system {
-    /* --color-blue is lighter in dark mode (#4A7CF0); boost glow so it
-       doesn't disappear against the near-black background */
+    /* lighten electric blue and boost glow so it doesn't disappear
+       against the near-black background */
+    --orb-accent: color-mix(in srgb, var(--color-electric) 72%, white);
     --orb-nebula-a: 44%;
     --orb-bloom-a:  24%;
     --spoke-rest:   rgba(255, 255, 255, 0.14);

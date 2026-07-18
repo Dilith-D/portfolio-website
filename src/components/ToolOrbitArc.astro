@@ -3,18 +3,18 @@ const OPENAI_PATH = 'M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0
 const LOVABLE_PATH = 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z';
 
 const TOOLS = [
-  { type: 'img', src: 'https://cdn.simpleicons.org/claude',     name: 'Claude',      fallback: 'A'   },
-  { type: 'svg', svgPath: OPENAI_PATH, fill: '#000000',         name: 'GPT-4'                       },
-  { type: 'img', src: 'https://cdn.simpleicons.org/figma',      name: 'Figma',       fallback: 'Fg'  },
-  { type: 'img', src: 'https://cdn.simpleicons.org/notion',     name: 'Notion',      fallback: 'N'   },
-  { type: 'img', src: 'https://cdn.simpleicons.org/linear',     name: 'Linear',      fallback: 'Li'  },
-  { type: 'img', src: 'https://cdn.simpleicons.org/supabase',   name: 'Supabase',    fallback: 'SB'  },
-  { type: 'img', src: 'https://cdn.simpleicons.org/n8n',        name: 'n8n',         fallback: 'n8n' },
-  { type: 'img', src: 'https://cdn.simpleicons.org/elevenlabs', name: 'ElevenLabs',  fallback: 'EL'  },
-  { type: 'img', src: 'https://cdn.simpleicons.org/deepgram',   name: 'Deepgram',    fallback: 'DG'  },
-  { type: 'img', src: 'https://cdn.simpleicons.org/postman',    name: 'Postman',     fallback: 'PM'  },
-  { type: 'text', abbr: 'VAPI',                                 name: 'VAPI'                        },
-  { type: 'svg', svgPath: LOVABLE_PATH, fill: '#FF4D6D',        name: 'Lovable'                     },
+  { type: 'img', src: 'https://cdn.simpleicons.org/claude',     name: 'Claude',      fallback: 'A',   category: 'Reasoning'  },
+  { type: 'svg', svgPath: OPENAI_PATH, fill: '#000000',         name: 'GPT-4',                        category: 'Chat'       },
+  { type: 'img', src: 'https://cdn.simpleicons.org/figma',      name: 'Figma',       fallback: 'Fg',  category: 'Design'     },
+  { type: 'img', src: 'https://cdn.simpleicons.org/notion',     name: 'Notion',      fallback: 'N',   category: 'Writing'    },
+  { type: 'img', src: 'https://cdn.simpleicons.org/linear',     name: 'Linear',      fallback: 'Li',  category: 'Planning'   },
+  { type: 'img', src: 'https://cdn.simpleicons.org/supabase',   name: 'Supabase',    fallback: 'SB',  category: 'Backend'    },
+  { type: 'img', src: 'https://cdn.simpleicons.org/n8n',        name: 'n8n',         fallback: 'n8n', category: 'Automation' },
+  { type: 'img', src: 'https://cdn.simpleicons.org/elevenlabs', name: 'ElevenLabs',  fallback: 'EL',  category: 'Audio'      },
+  { type: 'img', src: 'https://cdn.simpleicons.org/deepgram',   name: 'Deepgram',    fallback: 'DG',  category: 'Speech'     },
+  { type: 'img', src: 'https://cdn.simpleicons.org/postman',    name: 'Postman',     fallback: 'PM',  category: 'APIs'       },
+  { type: 'text', abbr: 'VAPI',                                 name: 'VAPI',                         category: 'Voice'      },
+  { type: 'svg', svgPath: LOVABLE_PATH, fill: '#FF4D6D',        name: 'Lovable',                      category: 'Prototype'  },
 ];
 const STEP = 360 / TOOLS.length;
 ---
@@ -23,8 +23,10 @@ const STEP = 360 / TOOLS.length;
 
   <!-- Sun — the fixed center element everything orbits -->
   <div class="orbit-sun">
+    <div class="orbit-sun-bloom"></div>
+    <div class="orbit-sun-nebula"></div>
     <div class="orbit-sun-core">
-      <span class="orbit-sun-label">AI PM</span>
+      <span class="orbit-sun-label" id="orbitSunLabel">AI PM</span>
     </div>
   </div>
 
@@ -36,9 +38,13 @@ const STEP = 360 / TOOLS.length;
     {TOOLS.map((tool, i) => (
       <div
         class="orbit-item"
-        style={`--orbit-angle: ${(i * STEP).toFixed(3)};`}
+        style={`--orbit-angle: ${(i * STEP).toFixed(3)}; --pd: ${(4 + (i % 5) * 0.5).toFixed(1)}s; --pdel: ${(-(i * 0.7)).toFixed(1)}s;`}
         title={tool.name}
+        data-category={tool.category}
       >
+        <div class="orbit-spoke">
+          <div class="orbit-particle"></div>
+        </div>
         <div class="orbit-chip">
           {tool.type === 'img' ? (
             <>
@@ -73,6 +79,33 @@ const STEP = 360 / TOOLS.length;
   {TOOLS.map(t => <li class="orbit-pill">{t.name}</li>)}
 </ul>
 
+<script>
+  const system = document.querySelector('.orbit-system');
+  const sunLabel = document.getElementById('orbitSunLabel');
+  if (system && sunLabel) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let swapTimer;
+
+    const setLabel = (text) => {
+      if (sunLabel.textContent === text) return;
+      clearTimeout(swapTimer);
+      const apply = () => {
+        sunLabel.textContent = text;
+        sunLabel.classList.toggle('is-category', text !== 'AI PM');
+        sunLabel.style.opacity = '1';
+      };
+      if (reduced.matches) { apply(); return; }
+      sunLabel.style.opacity = '0';
+      swapTimer = setTimeout(apply, 120);
+    };
+
+    system.querySelectorAll('.orbit-item').forEach((item) => {
+      item.addEventListener('mouseenter', () => setLabel(item.dataset.category || 'AI PM'));
+      item.addEventListener('mouseleave', () => setLabel('AI PM'));
+    });
+  }
+</script>
+
 <style>
   /* ── System container — full circle, no clipping ─── */
   .orbit-system {
@@ -80,6 +113,11 @@ const STEP = 360 / TOOLS.length;
     --chip:   72px;   /* planet chip diameter */
     --chip-h: 36px;   /* half chip            */
     --sun:    92px;   /* sun diameter         */
+    /* glow intensities — overridden in dark mode so bloom doesn't wash out */
+    --orb-nebula-a: 32%;
+    --orb-bloom-a:  16%;
+    --spoke-rest:   var(--color-border-card);
+    --spoke-hot:    color-mix(in srgb, var(--color-blue) 60%, transparent);
 
     position: relative;
     /* big enough to contain chips at all four sides */
@@ -110,7 +148,42 @@ const STEP = 360 / TOOLS.length;
       0 0 0 19px var(--color-border);
   }
 
+  /* Soft outer bloom — wide, heavily blurred accent glow */
+  .orbit-sun-bloom {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width:  140px;
+    height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--color-blue) var(--orb-bloom-a), transparent) 0%,
+      transparent 70%
+    );
+    filter: blur(20px);
+    pointer-events: none;
+  }
+
+  /* Nebula halo — tighter accent gradient peeking out around the core */
+  .orbit-sun-nebula {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width:  118px;
+    height: 118px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--color-blue) var(--orb-nebula-a), transparent) 0%,
+      color-mix(in srgb, var(--color-blue) calc(var(--orb-nebula-a) / 3), transparent) 45%,
+      transparent 72%
+    );
+    pointer-events: none;
+  }
+
   .orbit-sun-core {
+    position: relative;
     width:  var(--sun);
     height: var(--sun);
     border-radius: 50%;
@@ -123,12 +196,18 @@ const STEP = 360 / TOOLS.length;
     box-shadow:
       0 8px 32px rgba(0, 0, 0, 0.22),
       0 2px 8px  rgba(0, 0, 0, 0.14);
-    animation: sun-breathe 4s ease-in-out infinite;
   }
 
-  @keyframes sun-breathe {
-    0%, 100% { box-shadow: 0 8px 32px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.14); }
-    50%       { box-shadow: 0 10px 40px rgba(0,0,0,0.32), 0 2px 8px rgba(0,0,0,0.14); }
+  /* Breathing — core, nebula, and bloom scale together */
+  .orbit-sun-core,
+  .orbit-sun-nebula,
+  .orbit-sun-bloom {
+    animation: orb-breathe 3.5s ease-in-out infinite;
+  }
+
+  @keyframes orb-breathe {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.04); }
   }
 
   .orbit-sun-label {
@@ -139,6 +218,15 @@ const STEP = 360 / TOOLS.length;
     text-transform: uppercase;
     color: var(--color-background);
     line-height: 1;
+    width: 100%;
+    text-align: center;
+    transition: opacity 120ms ease;
+  }
+
+  /* Category labels can be longer than "AI PM" — tighten so they fit the core */
+  .orbit-sun-label.is-category {
+    font-size: 10px;
+    letter-spacing: 0.07em;
   }
 
   /* ── Decorative orbit ring ──────────────────────── */
@@ -168,6 +256,12 @@ const STEP = 360 / TOOLS.length;
     to { transform: rotate(360deg); }
   }
 
+  /* Pause the orbit while a chip is hovered — keeps the icon under the cursor */
+  .orbit-system:has(.orbit-item:hover) .orbit-pivot,
+  .orbit-system:has(.orbit-item:hover) .orbit-chip {
+    animation-play-state: paused;
+  }
+
   /* ── Planet chips ────────────────────────────────── */
   .orbit-item {
     position: absolute;
@@ -180,7 +274,55 @@ const STEP = 360 / TOOLS.length;
       translateY(calc(-1 * var(--r)));
   }
 
+  /* ── Connector spoke — chip center back toward the sun ──
+     The item's local +y axis points at the orb center, so the
+     spoke needs no rotation of its own and travels with the orbit. */
+  .orbit-spoke {
+    position: absolute;
+    top:  50%;
+    left: calc(50% - 0.5px);
+    width: 0;
+    height: calc(var(--r) - var(--sun) / 2 - 10px);
+    border-left: 1px dotted var(--spoke-rest);
+    z-index: 0;
+    transition: border-color 200ms ease;
+  }
+
+  /* ── Traveling particle — orb → icon → orb, staggered per line ── */
+  .orbit-particle {
+    position: absolute;
+    top: 0;
+    left: -2.5px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--color-blue);
+    box-shadow: 0 0 6px 1px color-mix(in srgb, var(--color-blue) 55%, transparent);
+    opacity: 0.7;
+    animation: particle-travel var(--pd, 5s) ease-in-out infinite;
+    animation-delay: var(--pdel, 0s);
+    transition: opacity 200ms ease, box-shadow 200ms ease;
+  }
+
+  @keyframes particle-travel {
+    0%, 100% { transform: translateY(calc(var(--r) - var(--sun) / 2 - 16px)); }
+    50%      { transform: translateY(calc(var(--chip-h) + 4px)); }
+  }
+
+  /* ── Hover: line brightens, particle energizes ───── */
+  .orbit-item:hover .orbit-spoke {
+    border-left-color: var(--spoke-hot);
+  }
+
+  .orbit-item:hover .orbit-particle {
+    animation-duration: 1.5s;
+    opacity: 1;
+    box-shadow: 0 0 10px 2px color-mix(in srgb, var(--color-blue) 80%, transparent);
+  }
+
   .orbit-chip {
+    position: relative;
+    z-index: 1;
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -236,6 +378,14 @@ const STEP = 360 / TOOLS.length;
   }
 
   /* ── Dark mode ───────────────────────────────────── */
+  :global(html.dark) .orbit-system {
+    /* --color-blue is lighter in dark mode (#4A7CF0); boost glow so it
+       doesn't disappear against the near-black background */
+    --orb-nebula-a: 44%;
+    --orb-bloom-a:  24%;
+    --spoke-rest:   rgba(255, 255, 255, 0.14);
+  }
+
   :global(html.dark) .orbit-sun {
     box-shadow:
       0 0 0 1px rgba(255,255,255,0.1),
@@ -251,10 +401,14 @@ const STEP = 360 / TOOLS.length;
       inset 0 1px 0 rgba(255,255,255,0.9);
   }
 
-  /* ── Reduced motion ──────────────────────────────── */
+  /* ── Reduced motion — no motion at all ───────────── */
   @media (prefers-reduced-motion: reduce) {
     .orbit-pivot,
-    .orbit-sun-core { animation: none; }
+    .orbit-sun-core,
+    .orbit-sun-nebula,
+    .orbit-sun-bloom { animation: none; }
+    .orbit-particle  { display: none; }
+    .orbit-sun-label { transition: none; }
     .orbit-chip {
       animation: none;
       transform: rotate(calc(var(--orbit-angle) * -1deg));

@@ -1,12 +1,12 @@
 ---
 ---
 <div class="diagram-wrap">
-  <p class="diagram-label">Deal Monitoring — Where the LLM Enters</p>
+  <p class="diagram-label">Deal Monitoring: Where the LLM Enters</p>
 
   <div class="node-wrap">
     <div class="node node-dark node-lg">
       <div>30 reps × 6 active deals = 180 deals per monitoring cycle.</div>
-      <div class="node-sub">Naive approach: 180 LLM calls every 6 hours — expensive, mostly wasted.</div>
+      <div class="node-sub">Naive approach: 180 LLM calls every 6 hours, expensive, mostly wasted.</div>
     </div>
   </div>
 
@@ -14,7 +14,7 @@
 
   <div class="node-wrap">
     <div class="node node-gate">
-      <div class="gate-title">Threshold gate — cheap rule-based signal checks first</div>
+      <div class="gate-title">Threshold gate: cheap rule-based signal checks first</div>
       <div class="gate-signals">Days since contact · proposal opens · meeting attendance gaps · stage age vs. pipeline average</div>
     </div>
   </div>
@@ -27,7 +27,7 @@
       <div class="option-card">
         <div class="option-letter">No signals tripped</div>
         <div class="option-title">No LLM call</div>
-        <div class="option-desc">Most deals, most cycles. Deterministic checks are arithmetic — instant and free.</div>
+        <div class="option-desc">Most deals, most cycles. Deterministic checks are arithmetic, instant and free.</div>
       </div>
       <div class="v-rise"></div>
     </div>

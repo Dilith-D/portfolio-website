@@ -1,8 +1,8 @@
 ---
 layout: ../../layouts/Prose.astro
 title: "Delphi"
-description: "How Dilith Dinesh designed and built a tax filing intelligence layer for foreign-owned Delaware C-Corps — a deterministic rule engine paired with AI narration that tells founders exactly what they owe before they talk to a CPA."
-summary: "Foreign-owned Delaware C-Corps face a $25,000 annual penalty for missing Form 5472. Most founders don't know the form exists. I built the tool that tells them exactly what they owe — and why."
+description: "How Dilith Dinesh designed and built a tax filing intelligence layer for foreign-owned Delaware C-Corps, a deterministic rule engine paired with AI narration that tells founders exactly what they owe before they talk to a CPA."
+summary: "Foreign-owned Delaware C-Corps face a $25,000 annual penalty for missing Form 5472. Most founders don't know the form exists. I built the tool that tells them exactly what they owe, and why."
 tags: ["Fintech", "AI Systems", "Compliance"]
 date: "2026"
 slug: "delphi"
@@ -22,13 +22,13 @@ schema:
 
 ## Why I Built This
 
-There's a form called Form 5472. It's required for any Delaware C-Corp with 25% or more foreign ownership — which describes almost every non-US founder who incorporates in Delaware to raise US venture capital. The penalty for not filing it is $25,000 per year, per form. The IRS does not waive it easily.
+There's a form called Form 5472. It's required for any Delaware C-Corp with 25% or more foreign ownership, which describes almost every non-US founder who incorporates in Delaware to raise US venture capital. The penalty for not filing it is $25,000 per year, per form. The IRS does not waive it easily.
 
-Most founders with this exact structure have never heard of Form 5472. The tools they use — TurboTax, Keeper, even most accountants they find through search — assume you already know which forms apply to you. They optimize the filing. They don't help you figure out what to file.
+Most founders with this exact structure have never heard of Form 5472. The tools they use (TurboTax, Keeper, even most accountants they find through search) assume you already know which forms apply to you. They optimize the filing. They don't help you figure out what to file.
 
-That gap is what Delphi addresses. Ten questions about your company — foreign ownership percentage, revenue, employees, state of operations, whether you hold foreign bank accounts — and the tool tells you exactly which forms are required, in what order, with what deadlines, and what the penalty exposure is if you miss them. Before you talk to anyone.
+That gap is what Delphi addresses. Ten questions about your company, foreign ownership percentage, revenue, employees, state of operations, whether you hold foreign bank accounts, and the tool tells you exactly which forms are required, in what order, with what deadlines, and what the penalty exposure is if you miss them. Before you talk to anyone.
 
-The target user is a first-time founder. Non-US. Delaware C-Corp. Probably raised pre-seed or is about to. Working with a US accounting firm they found through their VC's network. They know they owe something — they don't know what.
+The target user is a first-time founder. Non-US. Delaware C-Corp. Probably raised pre-seed or is about to. Working with a US accounting firm they found through their VC's network. They know they owe something. They don't know what.
 
 ---
 
@@ -36,15 +36,15 @@ The target user is a first-time founder. Non-US. Delaware C-Corp. Probably raise
 
 The naive version of this product is an AI chatbot. You describe your situation, it tells you what to file. It's intuitive to build. It's also wrong.
 
-Tax law is deterministic. Form 5472 either applies or it doesn't — it applies if foreign ownership is 25% or higher and the corp had any reportable transactions. The deadline is either April 15 or September 15 depending on whether you filed an extension. The penalty is $25,000, not approximately $25,000.
+Tax law is deterministic. Form 5472 either applies or it doesn't. It applies if foreign ownership is 25% or higher and the corp had any reportable transactions. The deadline is either April 15 or September 15 depending on whether you filed an extension. The penalty is $25,000, not approximately $25,000.
 
 An LLM that gets these facts mostly right isn't a compliance tool. It's a liability.
 
-The architecture separates these two concerns entirely. A pure JavaScript rule engine — no npm packages, no external dependencies — implements every rule from a reference document I wrote called RULES.md. It fires deterministic IF-THEN logic against the founder's inputs and produces structured JSON: which forms are required, which are suppressed and why, every deadline, every penalty, a tax estimate, and a confidence score based on data completeness. The LLM never touches these decisions.
+The architecture separates these two concerns entirely. A pure JavaScript rule engine (no npm packages, no external dependencies) implements every rule from a reference document I wrote called RULES.md. It fires deterministic IF-THEN logic against the founder's inputs and produces structured JSON: which forms are required, which are suppressed and why, every deadline, every penalty, a tax estimate, and a confidence score based on data completeness. The LLM never touches these decisions.
 
-Claude enters after the rule engine is done. Its job is narration — explaining the output, contextualizing the risk, describing what each form means in plain language. The prompts are explicit: use only facts from the rule engine JSON. Do not invent filing requirements. Do not guess at deadlines. If a fact isn't in the JSON, don't say it.
+Claude enters after the rule engine is done. Its job is narration, explaining the output, contextualizing the risk, describing what each form means in plain language. The prompts are explicit: use only facts from the rule engine JSON. Do not invent filing requirements. Do not guess at deadlines. If a fact isn't in the JSON, don't say it.
 
-This distinction matters for reasons beyond accuracy. It makes the system auditable. Every output has an audit trail showing exactly which rules fired and why. If the diagnosis is wrong, the failure is in the rule engine — a deterministic bug with a deterministic fix — not somewhere inside a model's inference path.
+This distinction matters for reasons beyond accuracy. It makes the system auditable. Every output has an audit trail showing exactly which rules fired and why. If the diagnosis is wrong, the failure is in the rule engine (a deterministic bug with a deterministic fix) not somewhere inside a model's inference path.
 
 ---
 
@@ -52,37 +52,37 @@ This distinction matters for reasons beyond accuracy. It makes the system audita
 
 **01. Progressive reveal on the intake form**
 
-The intake form has ten fields. Founders doing compliance research are already in a mild state of panic — they've realized they might owe something they don't understand. A ten-field form presented at once looks like the problem they're trying to escape from.
+The intake form has ten fields. Founders doing compliance research are already in a mild state of panic. They've realized they might owe something they don't understand. A ten-field form presented at once looks like the problem they're trying to escape from.
 
-The form reveals one field at a time. You can't see field three until you've answered field two. Each field unlocks the next. A few fields are conditional — contractor payment details only appear if you say you have contractors.
+The form reveals one field at a time. You can't see field three until you've answered field two. Each field unlocks the next. A few fields are conditional, contractor payment details only appear if you say you have contractors.
 
 The effect is a form that feels like a conversation. You answer one thing, the next question appears. The cognitive load stays low even though the total information collected is substantial. The whole intake takes under three minutes.
 
 **02. Dev mode with scenario switching**
 
-A compliance tool is hard to demo. The interesting outputs — imminent deadlines, overdue penalties, large exposure — only appear for companies at specific stages of their filing history. No one wants to fill out a fake intake form three times to show all three states.
+A compliance tool is hard to demo. The interesting outputs (imminent deadlines, overdue penalties, large exposure) only appear for companies at specific stages of their filing history. No one wants to fill out a fake intake form three times to show all three states.
 
 The diagnosis screen has a dev mode, accessible at `?dev=true`. In dev mode, a scenario switcher in the corner swaps the underlying data between three states: all deadlines upcoming, one deadline 11 days away, and a situation two years overdue with accumulated penalties. The rule engine reruns. The AI narration updates. The entire diagnosis screen re-renders.
 
-The fallback — if you navigate directly to the diagnosis URL without going through intake — loads Scenario B automatically. This means the product works as a portfolio demo from any URL without additional setup.
+The fallback (if you navigate directly to the diagnosis URL without going through intake) loads Scenario B automatically. This means the product works as a portfolio demo from any URL without additional setup.
 
 **03. Zero npm, zero build step**
 
 I chose this as a constraint early. No framework, no package manager, no bundler. The product opens by double-clicking `index.html`. The Vercel deployment is a static file serve plus one serverless function for the Claude proxy.
 
-The constraint was productive in ways I didn't anticipate. There's no dependency tree to audit. The rules engine is a single vanilla JavaScript file. The styles are modular CSS, one file per screen. The entire codebase — 25 files, including HTML, JS, CSS, and the serverless function — is readable in a single sitting.
+The constraint was productive in ways I didn't anticipate. There's no dependency tree to audit. The rules engine is a single vanilla JavaScript file. The styles are modular CSS, one file per screen. The entire codebase (25 files, including HTML, JS, CSS, and the serverless function) is readable in a single sitting.
 
-It also forced clarity. Every architectural decision had to be justified in plain logic, not in framework conventions. The progressive reveal form, the scenario switcher, the confidence score computation — all of it is explicit, readable code. No abstraction hiding the mechanism.
+It also forced clarity. Every architectural decision had to be justified in plain logic, not in framework conventions. The progressive reveal form, the scenario switcher, the confidence score computation, all of it is explicit, readable code. No abstraction hiding the mechanism.
 
 ---
 
 ## What I'd Do Differently
 
-The rule engine is only as accurate as RULES.md — a reference document I wrote by reading IRS publications, Delaware Division of Corporations guidance, and California/New York/Texas state filings. I verified it against multiple sources. It's directionally correct. It should not be used for actual filing decisions without a licensed CPA reviewing every rule.
+The rule engine is only as accurate as RULES.md, a reference document I wrote by reading IRS publications, Delaware Division of Corporations guidance, and California/New York/Texas state filings. I verified it against multiple sources. It's directionally correct. It should not be used for actual filing decisions without a licensed CPA reviewing every rule.
 
-The right process before any real user touched this would be a rules review with an enrolled agent or CPA specializing in cross-border structures. Not a general review — a line-by-line audit of RULES.md against current IRS and state guidance. That review would probably change a dozen rules and catch edge cases the current version gets wrong.
+The right process before any real user touched this would be a rules review with an enrolled agent or CPA specializing in cross-border structures. Not a general review, a line-by-line audit of RULES.md against current IRS and state guidance. That review would probably change a dozen rules and catch edge cases the current version gets wrong.
 
-The other thing I'd revisit: the handoff screen. It assumes Inkle as the downstream filing partner — "Proceed to filing with Inkle →" is the primary CTA. I chose Inkle because they're the most visible tool for foreign-founder US tax filing. But I don't have any agreement with them, and the actual handoff — passing structured data into their workflow — is unvalidated. Designing the handoff before confirming what data Inkle can actually receive would have been the right sequence.
+The other thing I'd revisit: the handoff screen. It assumes Inkle as the downstream filing partner, "Proceed to filing with Inkle →" is the primary CTA. I chose Inkle because they're the most visible tool for foreign-founder US tax filing. But I don't have any agreement with them, and the actual handoff (passing structured data into their workflow) is unvalidated. Designing the handoff before confirming what data Inkle can actually receive would have been the right sequence.
 
 ---
 

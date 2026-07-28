@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Prose.astro
 title: "The Voice Agent"
-description: "How Dilith Dinesh built a live voice agent for his portfolio using VAPI, Deepgram, ElevenLabs, and GPT-4o Mini — and the specific decisions behind latency, audience routing, and pronunciation."
+description: "How Dilith Dinesh built a live voice agent for his portfolio using VAPI, Deepgram, ElevenLabs, and GPT-4o Mini, and the specific decisions behind latency, audience routing, and pronunciation."
 summary: "A contact form would tell you I'm interested in AI product work. A voice agent shows you how I think about it."
 tags: ["VAPI", "Deepgram", "ElevenLabs", "GPT-4o Mini"]
 date: "2026"
@@ -24,7 +24,7 @@ schema:
 
 Most portfolio sites have a contact form. Mine has a voice agent.
 
-If I'm positioning myself for AI product work, the most credible signal I can offer isn't a case study about AI — it's an AI system I built, running live, that someone can talk to right now.
+If I'm positioning myself for AI product work, the most credible signal I can offer isn't a case study about AI. It's an AI system I built, running live, that someone can talk to right now.
 
 Voice changes the interaction in a way text doesn't. It's faster, warmer, and harder to fake. If the agent sounds coherent and handles real questions without falling apart, that's a more honest signal than anything I could write about it. And if someone asks how it works, there's a natural conversation about how I think about AI systems.
 
@@ -36,27 +36,27 @@ So the question was never whether to build it. It was how to build it so it actu
 
 This distinction matters, so I want to be direct about it.
 
-I didn't build the speech-to-text engine, the voice synthesis model, or the real-time audio streaming layer. Those run on Deepgram, ElevenLabs, and VAPI respectively. Assembling off-the-shelf components isn't the work — the work is the decisions you make about how to connect them, what logic governs the system, and what the experience feels like when it all runs together.
+I didn't build the speech-to-text engine, the voice synthesis model, or the real-time audio streaming layer. Those run on Deepgram, ElevenLabs, and VAPI respectively. Assembling off-the-shelf components isn't the work, the work is the decisions you make about how to connect them, what logic governs the system, and what the experience feels like when it all runs together.
 
 What I built is the intelligence layer.
 
-**The knowledge architecture.** A voice agent is only as good as what it has to say. The default approach is a single system prompt with everything the agent might need — background, instructions, examples, edge cases, all in one block. The cost is real: every cold start loads that full context before the agent speaks its first word. I split the knowledge into two layers. A lean system prompt (~280 tokens) handles identity, tone, and behavior rules. The actual knowledge about my work — projects, decisions, career arc — lives in a separate knowledge base the agent retrieves from on demand. Basic RAG applied to a voice context. It cut cold-start latency significantly.
+**The knowledge architecture.** A voice agent is only as good as what it has to say. The default approach is a single system prompt with everything the agent might need, background, instructions, examples, edge cases, all in one block. The cost is real: every cold start loads that full context before the agent speaks its first word. I split the knowledge into two layers. A lean system prompt (~280 tokens) handles identity, tone, and behavior rules. The actual knowledge about my work (projects, decisions, career arc) lives in a separate knowledge base the agent retrieves from on demand. Basic RAG applied to a voice context. It cut cold-start latency significantly.
 
-**The first message.** VAPI generates the opening line via an LLM call by default. That's 3–5 seconds before the user hears anything. I hardcoded a static first message instead — it fires instantly, costs nothing, and the conversation starts before the user has time to wonder if it's working.
+**The first message.** VAPI generates the opening line via an LLM call by default. That's 3–5 seconds before the user hears anything. I hardcoded a static first message instead. It fires instantly, costs nothing, and the conversation starts before the user has time to wonder if it's working.
 
 **Audience detection.** The system prompt routes conversations by who the agent is talking to. It opens with a question that identifies whether it's speaking to a recruiter, a hiring manager, or someone just curious. The answer changes how deep and technical the rest of the conversation gets. A recruiter gets a sharp three-sentence summary. A founder gets the architecture decisions. Same agent, different routing.
 
-**The pronunciation fix.** ElevenLabs reads "Dilith" and hears "delete." TTS engines pattern-match on visual form, not intent. I created a pronunciation dictionary via the VAPI API — an alias rule that maps "Dilith" to "Dil-ith" before the text ever reaches the voice model. A small fix, but the kind of thing that breaks trust immediately if you miss it.
+**The pronunciation fix.** ElevenLabs reads "Dilith" and hears "delete." TTS engines pattern-match on visual form, not intent. I created a pronunciation dictionary via the VAPI API, an alias rule that maps "Dilith" to "Dil-ith" before the text ever reaches the voice model. A small fix, but the kind of thing that breaks trust immediately if you miss it.
 
-**STT tuning.** Deepgram runs transcription at ~100ms latency. I added keyterms — "Dilith," "Zuper," "VAPI" — so the transcriber is primed for the vocabulary of the conversation. Smart Endpointing detects when a user has actually finished speaking rather than cutting them off mid-sentence.
+**STT tuning.** Deepgram runs transcription at ~100ms latency. I added keyterms ("Dilith," "Zuper," "VAPI") so the transcriber is primed for the vocabulary of the conversation. Smart Endpointing detects when a user has actually finished speaking rather than cutting them off mid-sentence.
 
 ---
 
 ## Architecture Decisions That Weren't Obvious
 
-**System prompt versus knowledge base.** The instinct is to put everything in the system prompt because it's simpler. But voice has a different latency profile than text — every token in that initial context is time the user spends waiting. The split forces a useful discipline: what does the agent need to know *always* versus what does it need to retrieve *on demand*? Instructions and persona belong in the system prompt. My project details belong in the knowledge base.
+**System prompt versus knowledge base.** The instinct is to put everything in the system prompt because it's simpler. But voice has a different latency profile than text. Every token in that initial context is time the user spends waiting. The split forces a useful discipline: what does the agent need to know *always* versus what does it need to retrieve *on demand*? Instructions and persona belong in the system prompt. My project details belong in the knowledge base.
 
-**Model choice.** I'm running GPT-4o Mini. For a conversational agent pulling from a structured knowledge base, the smaller model is fast enough — and the latency difference against GPT-4o is real and audible in voice. The reasoning ceiling on this task isn't high: retrieval plus coherent speech, not complex inference. Reaching for the most capable model available would have been the wrong call.
+**Model choice.** I'm running GPT-4o Mini. For a conversational agent pulling from a structured knowledge base, the smaller model is fast enough, and the latency difference against GPT-4o is real and audible in voice. The reasoning ceiling on this task isn't high: retrieval plus coherent speech, not complex inference. Reaching for the most capable model available would have been the wrong call.
 
 **What the agent says about itself.** If someone asks how it works, it answers: designed by me, using STT, an LLM reasoning layer, and TTS orchestrated via VAPI. I made a deliberate choice not to obscure the infrastructure. Owning the architecture is more interesting than pretending the agent appeared from nowhere.
 
@@ -74,11 +74,11 @@ That's the job. Not building models. Deciding how to connect them, what logic to
 
 ## What I'd Do Differently
 
-The knowledge base structure was designed for breadth — cover anything someone might ask — rather than precision. The agent handles most questions well, but when someone asks about a specific decision inside a specific project, retrieval sometimes surfaces adjacent content rather than the exact thing. The fix is more granular chunking: organizing the knowledge base by decision rather than by project.
+The knowledge base structure was designed for breadth (cover anything someone might ask) rather than precision. The agent handles most questions well, but when someone asks about a specific decision inside a specific project, retrieval sometimes surfaces adjacent content rather than the exact thing. The fix is more granular chunking: organizing the knowledge base by decision rather than by project.
 
 The fallback behavior also needs work. When the agent doesn't know something, it deflects politely but evasively. A cleaner design would have it acknowledge the gap directly and route to email. I'd rebuild that path.
 
-Audience detection works, but the routing question is blunt — it gets most people into the right mode, but edge cases feel awkward. A simpler detection approach, or one that just asks directly, would handle them better.
+Audience detection works, but the routing question is blunt. It gets most people into the right mode, but edge cases feel awkward. A simpler detection approach, or one that just asks directly, would handle them better.
 
 ---
 

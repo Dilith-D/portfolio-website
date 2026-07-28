@@ -14,14 +14,14 @@ const schema = {
   },
   "datePublished": "2025",
   "url": "https://dilithdinesh.com/work/ai-shopping-buddy",
-  "description": "A build plan for an AI layer that sits on top of any e-commerce — designed from a real frustration of copy-pasting specs between Flipkart and Claude just to answer 'does this phone fit my needs?'",
+  "description": "A build plan for an AI layer that sits on top of any e-commerce, designed from a real frustration of copy-pasting specs between Flipkart and Claude just to answer 'does this phone fit my needs?'",
   "about": "AI Systems, E-commerce, Product Management"
 };
 ---
 
 <Base
   title="The AI Shopping Buddy"
-  description="A build plan for an AI layer that sits on top of any e-commerce — designed from a real frustration of copy-pasting specs between Flipkart and Claude just to answer 'does this phone fit my needs?'"
+  description="A build plan for an AI layer that sits on top of any e-commerce, designed from a real frustration of copy-pasting specs between Flipkart and Claude just to answer 'does this phone fit my needs?'"
   schema={schema}
 >
   <ReadingProgress />
@@ -83,20 +83,20 @@ const schema = {
 
         <p class="font-prose text-lg leading-reading text-primary">
           I needed a new phone. Budget was clear. Use case was clear. Which
-          phone to buy — not clear at all.
+          phone to buy. Not clear at all.
         </p>
         <p class="font-prose text-lg leading-reading text-primary mt-5">
           So I did what most people do now. I opened ChatGPT and described
           my situation: daily driver, camera-heavy, under ₹50,000, prefer
           stock Android. Got a shortlist. Clicked through to Flipkart. Opened
-          the first option. Loaded the spec sheet — 6.7" AMOLED, 50MP main
+          the first option. Loaded the spec sheet, 6.7" AMOLED, 50MP main
           camera, Snapdragon 7 Gen 3, 5000mAh. Looked reasonable. Went back
           to the LLM. Copy-pasted the entire spec block. Asked: "Given what
           I told you about my needs, does this one fit?"
         </p>
         <p class="font-prose text-lg leading-reading text-primary mt-5">
           Then did the same for the next phone. And the next. ChatGPT for
-          reasoning, Perplexity for research, Claude for deeper dives —
+          reasoning, Perplexity for research, Claude for deeper dives,
           and Flipkart as the spec sheet I kept copying out of.
         </p>
         <p class="font-prose text-lg leading-reading text-primary mt-5">
@@ -106,34 +106,34 @@ const schema = {
         <p class="font-prose text-lg leading-reading text-primary mt-5">
           The LLM had the reasoning capability. The e-commerce site had the
           inventory data. Neither knew the other existed. Every time I moved
-          between them — copy-pasting specs, re-explaining my context,
-          reformatting — I was doing integration work that the product should
+          between them, copy-pasting specs, re-explaining my context,
+          reformatting. I was doing integration work that the product should
           have done for me.
         </p>
         <p class="font-prose text-lg leading-reading text-primary mt-5">
           At some point mid-session I stopped and thought: I've spent 40
           minutes on a decision I should have made in five. And as someone
           who builds product systems for a living, I couldn't let the question
-          go — why does no e-commerce site have this built in? The reasoning
+          go, why does no e-commerce site have this built in? The reasoning
           exists. The inventory data is already there. The user's context is
           already being tracked. What would it actually take to close that loop?
         </p>
         <p class="font-prose text-lg leading-reading text-primary mt-5">
           Some do, of course. Amazon has Rufus. A few others are building
           toward it. This isn't a claim that nobody has thought of it. It's
-          my version — what I'd actually decide if I were the PM on this,
+          my version, what I'd actually decide if I were the PM on this,
           designed from a real frustration and the constraints I'd actually
           face.
         </p>
         <p class="font-prose text-lg leading-reading text-primary mt-5">
           That question became a weekend rabbit hole. This is what came out
-          of it — a build plan for an AI shopping layer that can be embedded
+          of it, a build plan for an AI shopping layer that can be embedded
           into any e-commerce.
         </p>
 
         <blockquote class="pull-quote">
           "I was the bridge between two systems that should have been talking
-          to each other — copy-pasting specs from Flipkart into Claude and
+          to each other, copy-pasting specs from Flipkart into Claude and
           asking 'does this fit my needs?'"
         </blockquote>
       </section>
@@ -146,10 +146,10 @@ const schema = {
         </h2>
 
         <p class="font-prose text-lg leading-reading text-primary mb-8">
-          My starting point wasn't a product brief — it was a shopping
+          My starting point wasn't a product brief. It was a shopping
           session that felt more broken than it should have. Before making
           any design decisions, I named the assumptions I was building on
-          — because every architectural call downstream is contingent on
+, because every architectural call downstream is contingent on
           these being true.
         </p>
 
@@ -166,7 +166,7 @@ const schema = {
             </li>
             <li>
               <span class="amber-arrow">→</span>
-              <span><strong>User persona: mid-intent buyers.</strong> They know their use case and budget, not the specific product. "Gaming laptop under 60k" — not "Dell XPS 15 16GB".</span>
+              <span><strong>User persona: mid-intent buyers.</strong> They know their use case and budget, not the specific product. "Gaming laptop under 60k". Not "Dell XPS 15 16GB".</span>
             </li>
             <li>
               <span class="amber-arrow">→</span>
@@ -188,7 +188,7 @@ const schema = {
       <section class="section-block">
         <p class="section-label">Scope decision</p>
         <h2 class="font-display text-[28px] font-medium text-primary mt-2 mb-6 leading-snug">
-          What this builds — and what it deliberately doesn't
+          What this builds, and what it deliberately doesn't
         </h2>
 
         <p class="font-prose text-lg leading-reading text-primary">
@@ -200,13 +200,13 @@ const schema = {
         </p>
         <p class="font-prose text-lg leading-reading text-primary mt-5">
           More importantly, order management doesn't need AI. The user already
-          knows what they want — their order, their status, their cancellation.
+          knows what they want, their order, their status, their cancellation.
           There's no ambiguity to resolve. Direct API call, direct response.
         </p>
         <p class="font-prose text-lg leading-reading text-primary mt-5">
           Discovery and recommendations are the opposite. The user knows their
           budget and use case but not the product. This is exactly the problem
-          I was living — the gap between "I know what I need" and "I don't know
+          I was living, the gap between "I know what I need" and "I don't know
           what to buy." That's the <em>I don't know what I don't know</em>
           problem, and that's exactly where an LLM earns its place in the UX.
         </p>
@@ -223,12 +223,12 @@ const schema = {
           <div class="decision-card">
             <p class="decision-num">01</p>
             <h3 class="decision-title">Floating side panel, not a dedicated page</h3>
-            <p class="decision-body">Reads current page context on open. User on the HP Omen product page — copilot infers gaming laptop intent, mid-to-high budget, performance focus. No cold start. User never explains where they are. Context is pre-loaded before the first message.</p>
+            <p class="decision-body">Reads current page context on open. User on the HP Omen product page, copilot infers gaming laptop intent, mid-to-high budget, performance focus. No cold start. User never explains where they are. Context is pre-loaded before the first message.</p>
           </div>
           <div class="decision-card">
             <p class="decision-num">02</p>
             <h3 class="decision-title">Two modes: authenticated vs guest</h3>
-            <p class="decision-body">Authenticated users get purchase history, wishlist, cart, inferred budget and ecosystem. User bought an iPhone and Sony earbuds — ecosystem compatibility is weighted in earbud recommendations without asking. Guest users get session-only context. Same interface, different context depth.</p>
+            <p class="decision-body">Authenticated users get purchase history, wishlist, cart, inferred budget and ecosystem. User bought an iPhone and Sony earbuds, ecosystem compatibility is weighted in earbud recommendations without asking. Guest users get session-only context. Same interface, different context depth.</p>
           </div>
           <div class="decision-card">
             <p class="decision-num">03</p>
@@ -243,12 +243,12 @@ const schema = {
           <div class="decision-card">
             <p class="decision-num">05</p>
             <h3 class="decision-title">Hybrid spec passing for electronics</h3>
-            <p class="decision-body">Electronics is spec-heavy — a single laptop spec block is ~500 tokens. Default path passes summary specs (top 4 attributes, use case tags, ~150 tokens). Comparison and deep technical queries escalate to full specs. Tiered by intent, not by default.</p>
+            <p class="decision-body">Electronics is spec-heavy: a single laptop spec block is ~500 tokens. Default path passes summary specs (top 4 attributes, use case tags, ~150 tokens). Comparison and deep technical queries escalate to full specs. Tiered by intent, not by default.</p>
           </div>
           <div class="decision-card" style="border-bottom: none;">
             <p class="decision-num">06</p>
             <h3 class="decision-title">Two-layer freshness: vector DB for relevance, live API for truth</h3>
-            <p class="decision-body">Price and stock change constantly in electronics. Vector DB handles semantic match only — it never serves prices. A live API call at retrieval time fetches current price and stock. Eliminates the scenario where the buddy quotes ₹78,990 and the cart shows ₹82,499.</p>
+            <p class="decision-body">Price and stock change constantly in electronics. Vector DB handles semantic match only. It never serves prices. A live API call at retrieval time fetches current price and stock. Eliminates the scenario where the buddy quotes ₹78,990 and the cart shows ₹82,499.</p>
           </div>
         </div>
       </section>
@@ -261,7 +261,7 @@ const schema = {
         </h2>
 
         <div class="arch-block">
-          <p class="block-header amber-header">Query flow — end to end</p>
+          <p class="block-header amber-header">Query flow: end to end</p>
           <div class="arch-rows">
             <div class="arch-row">
               <span class="arch-label">User input</span>
@@ -271,7 +271,7 @@ const schema = {
               <span class="arch-label">Pre-filter</span>
               <span class="arch-desc">
                 Rule-based check for high-precision intents.
-                <strong class="arch-hi">Order queries bypass LLM entirely — direct to order API.</strong>
+                <strong class="arch-hi">Order queries bypass LLM entirely, direct to order API.</strong>
                 <span class="arch-note">Fast, cheap, zero hallucination risk.</span>
               </span>
             </div>
@@ -293,7 +293,7 @@ const schema = {
               <span class="arch-label">Retrieval</span>
               <span class="arch-desc">
                 Vector DB returns semantically similar products.
-                <strong class="arch-hi">Live API call fetches price + stock — never from the vector DB.</strong>
+                <strong class="arch-hi">Live API call fetches price + stock, never from the vector DB.</strong>
                 Hard filters applied post-retrieval.
               </span>
             </div>
@@ -310,7 +310,7 @@ const schema = {
               <span class="arch-desc">
                 Cart and wishlist actions require
                 <strong class="arch-hi">explicit confirmation against a resolved product ID.</strong>
-                Revalidate price + stock at action time. If validation fails, surface alternatives — never a dead end.
+                Revalidate price + stock at action time. If validation fails, surface alternatives, never a dead end.
               </span>
             </div>
           </div>
@@ -326,7 +326,7 @@ const schema = {
 
         <p class="font-prose text-lg leading-reading text-primary mb-8">
           Evals aren't dashboards you build after launch. They're the safety
-          net you build before changing anything — prompts, models, retrieval
+          net you build before changing anything, prompts, models, retrieval
           logic. A golden dataset of 100 queries with expected outputs runs on
           every change. Accuracy drop blocks the ship.
         </p>
@@ -355,7 +355,7 @@ const schema = {
           <div class="metric-card">
             <p class="metric-num">100%</p>
             <p class="metric-name">Spec accuracy</p>
-            <p class="metric-desc">Zero tolerance. A wrong spec causes a wrong purchase — that's a return, a ticket, and a broken trust moment.</p>
+            <p class="metric-desc">Zero tolerance. A wrong spec causes a wrong purchase. That's a return, a ticket, and a broken trust moment.</p>
           </div>
           <div class="metric-card">
             <p class="metric-num">&lt; 2s</p>
@@ -383,16 +383,16 @@ const schema = {
         </p>
 
         <ul class="v2-list">
-          <li>— Order management (status, cancellation, returns) with full transactional guardrails</li>
-          <li>— Voice input</li>
-          <li>— Summarisation layer for sessions exceeding 8 messages — added only when p95 session length data justifies it</li>
-          <li>— Embedding-based recommendation engine replacing popularity heuristics when behavioural data exists</li>
-          <li>— Collaborative filtering for authenticated users</li>
-          <li>— Personalised retrieval re-ranking based on purchase history</li>
-          <li>— Multi-modal search (search by image)</li>
-          <li>— A/B testing framework for prompt variants on live traffic</li>
-          <li>— LLM-as-judge for automated response quality evaluation</li>
-          <li>— Opus-class model evaluation when cost-per-order data makes the case</li>
+          <li>Order management (status, cancellation, returns) with full transactional guardrails</li>
+          <li>Voice input</li>
+          <li>Summarisation layer for sessions exceeding 8 messages, added only when p95 session length data justifies it</li>
+          <li>Embedding-based recommendation engine replacing popularity heuristics when behavioural data exists</li>
+          <li>Collaborative filtering for authenticated users</li>
+          <li>Personalised retrieval re-ranking based on purchase history</li>
+          <li>Multi-modal search (search by image)</li>
+          <li>A/B testing framework for prompt variants on live traffic</li>
+          <li>LLM-as-judge for automated response quality evaluation</li>
+          <li>Opus-class model evaluation when cost-per-order data makes the case</li>
         </ul>
       </section>
 
@@ -409,7 +409,7 @@ const schema = {
             My own frustration is a data point of one. Before committing to a
             single sprint of engineering, the first thing I'd validate is
             whether the discovery gap is real for this specific store's users.
-            Are they arriving without knowing what they want — or are they
+            Are they arriving without knowing what they want, or are they
             arriving with a specific product already in mind? The entire product
             thesis rests on that assumption. I'd run a two-week session
             recording analysis on the existing store before touching the

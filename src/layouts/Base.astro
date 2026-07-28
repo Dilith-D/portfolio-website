@@ -22,7 +22,7 @@ const {
 
 const title = directTitle ?? frontmatter?.title ?? 'Dilith Dinesh';
 // Pages may pass titles that already carry the name suffix — never append it twice.
-const fullTitle = title.includes('Dilith Dinesh') ? title : `${title} — Dilith Dinesh`;
+const fullTitle = title.includes('Dilith Dinesh') ? title : `${title} · Dilith Dinesh`;
 const description = directDescription ?? frontmatter?.description ?? frontmatter?.summary ?? frontmatter?.hook ?? '';
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site);

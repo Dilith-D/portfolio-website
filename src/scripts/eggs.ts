@@ -194,7 +194,7 @@ function initTimeBased() {
 
   if (hour >= 0 && hour < 5 && !sessionStorage.getItem('dd-night')) {
     sessionStorage.setItem('dd-night', 'true');
-    setTimeout(() => { window.markEggFound?.('night-owl', "It's late. Whatever you're working on — good luck."); }, 2000);
+    setTimeout(() => { window.markEggFound?.('night-owl', "It's late. Whatever you're working on, good luck."); }, 2000);
     return;
   }
   if (day === 1 && hour >= 8 && hour < 10 && isHome && !sessionStorage.getItem('dd-monday')) {

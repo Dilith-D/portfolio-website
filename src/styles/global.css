@@ -634,7 +634,7 @@ html:not(.dark) #grain { mix-blend-mode: multiply; opacity: 0.06; }
 /* ─── Easter Egg: Print stylesheet ─────────────────────────────── */
 @media print {
   body::before {
-    content: "You're printing a website in 2026. I respect the commitment. — dilithdinesh.com";
+    content: "You're printing a website in 2026. I respect the commitment. dilithdinesh.com";
     display: block;
     text-align: center;
     font-family: 'Inter', sans-serif;

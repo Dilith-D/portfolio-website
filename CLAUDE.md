@@ -829,7 +829,10 @@ These features were added during the build and are live in the codebase:
 - Never write "I am passionate about..."
 - Never use exclamation marks anywhere
 - Never use startup buzzwords
-- Use em dashes (—) not hyphens (-) for pauses
+- **NO em dashes (—) anywhere in user-visible content.** Reversed Jul 2026: the site had
+  372 of them and it read as a tic. Use a comma, a full stop, a colon, or parentheses
+  instead. Rewrite the sentence rather than swapping in a hyphen. En dashes (–) are still
+  fine in numeric ranges ("12–16 weeks", "3–5 seconds").
 - Show publish dates on all writing
 - Tags are always UPPERCASE with · separators
 - Dates format: "Jan 2025" or "2024" (not "January 2025, 14th")

@@ -675,7 +675,7 @@ slug: string
 ```
 Home:
   title:       "Dilith Dinesh — Product Operator"
-  description: "Customer Product Manager at Zuper. Translating field operations into product capabilities. Case studies, writing, and build logs."
+  description: "Associate Product Manager at VoiceStack. Voice AI for dental practices. Previously built the roofing vertical at Zuper. Case studies, writing, and build logs."
 
 Work:
   title:       "Work — Dilith Dinesh"
@@ -699,7 +699,7 @@ Now:
 
 Contact:
   title:       "Contact — Dilith Dinesh"
-  description: "Open to APM and product roles at Series A/B product-led companies."
+  description: "Open to conversations about vertical SaaS, voice AI, and product work in the operational layer. Not seeking roles."
 ```
 
 ---
@@ -761,7 +761,45 @@ Post-launch: ✓ Dark mode toggle + Easter egg system (20+) + GA4 + PostHog + GE
              ✓ AI PM reframe + ToolOrbitArc + headshot + SuperPilot project
              ✓ Third case study (AI Shopping Buddy)
              ✓ Spotify Now Playing widget on Now page
+             ✓ VoiceStack repositioning (Jul 2026) — see below
 ```
+
+## Current Positioning (Jul 2026) — READ BEFORE EDITING COPY
+
+Dilith left **Zuper** in July 2026 and joined **VoiceStack** in August 2026 as an
+**Associate Product Manager**. VoiceStack builds an AI-powered phone platform for
+dental practices and DSOs (VoIP + conversational AI + call scoring + opportunity
+detection + marketing attribution; integrates with Dentrix, Eaglesoft, Open Dental,
+CareStack). Founded 2023.
+
+**Career timeline** (shown as a strip on /about under "How I got here"):
+```
+2024 — 2025   Forward Deployed Engineer      Zuper · Field service
+2025 — 2026   Customer Product Manager       Zuper · Roofing vertical 0→1
+2026 —        Associate Product Manager      VoiceStack · Healthcare voice AI
+```
+
+**The positioning through-line — do not drift from this:**
+> Two years learning one vertical from the inside taught him the leverage in vertical
+> software is never in the feature list — it's in the operational moment nobody has
+> instrumented. In field service that moment is dispatch. In dental it's the inbound
+> phone call. Same problem shape, harder domain, AI at the center.
+
+**Copy rules specific to this transition:**
+- Zuper work stays on the site and stays in **past tense**. It is the *proof*, not the
+  claim. Never delete the roofing case studies.
+- Never claim healthcare/dental expertise. He is new. The honest line is "I know the
+  shape of the problem and very little else yet." Understating here is the whole point.
+- Never publish internal VoiceStack information — roadmap, customers, metrics, decisions.
+  Public sources only, and say when something is outside-in analysis.
+- He is **not job hunting**. No "open to APM roles" language anywhere.
+- Industry stats mostly come from vendor marketing blogs with an interest in big numbers.
+  Cite sources; prefer the Peerlogic call study over vendor claims.
+
+**Voice agent knowledge base:** canonical file is `agent-knowledge-base.txt` at repo root
+(gitignored, backed up to private-portfolio). The old `agent-knowledge-base.md` is now a
+pointer stub — do not recreate a second copy. Editing the file does NOT update the live
+agent; it must be re-uploaded in the Vapi dashboard.
 
 ## Features Beyond Original Spec (Implemented)
 

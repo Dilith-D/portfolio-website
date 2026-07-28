@@ -10,19 +10,21 @@ const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Dilith Dinesh",
-  "jobTitle": "Customer Product Manager",
-  "description": "Product Manager and product operator at the boundary between customer reality and product systems. Specializes in translating field service operations into scalable product capabilities at Zuper, a B2B SaaS platform for field service management. One year of experience as a Forward Deployed Engineer followed by one year as a Customer Product Manager. Building toward Associate Product Manager and AI-first product roles at Series A/B companies.",
+  "jobTitle": "Associate Product Manager",
+  "description": "Product operator at the boundary between customer reality and product systems. Associate Product Manager at VoiceStack, an AI-powered phone platform for dental practices and DSOs. Previously spent two years at Zuper, a B2B SaaS field service management platform — one year as a Forward Deployed Engineer, then as a Customer Product Manager where he built the roofing vertical from zero. Works on vertical SaaS, voice AI, and the operational layer where revenue quietly leaks.",
   "url": "https://dilithdinesh.com",
   "sameAs": ["https://linkedin.com/in/dilithdinesh"],
   "knowsAbout": [
     "Product Management",
     "Associate Product Management",
+    "Vertical SaaS",
+    "Voice AI",
+    "Conversational AI",
+    "Healthcare Technology",
     "Field Service Management",
     "B2B SaaS",
     "AI-native product development",
-    "Vertical SaaS",
     "Product Operations",
-    "Customer Success",
     "Generative AI",
     "Product Strategy"
   ],
@@ -32,8 +34,8 @@ const personSchema = {
   },
   "worksFor": {
     "@type": "Organization",
-    "name": "Zuper",
-    "url": "https://zuper.co"
+    "name": "VoiceStack",
+    "url": "https://voicestack.com"
   }
 };
 
@@ -46,7 +48,7 @@ const faqSchema = {
       "name": "Who is Dilith Dinesh?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Dilith Dinesh is a Customer Product Manager at Zuper, a B2B SaaS platform for field service management. He works at the intersection of customer operations and product systems, translating what breaks in the field into scalable product capabilities. He has one year of experience as a Forward Deployed Engineer and one year as a product manager, with a Computer Science background from VIT University."
+        "text": "Dilith Dinesh is an Associate Product Manager at VoiceStack, an AI-powered phone platform for dental practices and DSOs. He previously spent two years at Zuper, a B2B SaaS field service management platform — first as a Forward Deployed Engineer, then as a Customer Product Manager where he built the roofing vertical from zero. He works at the intersection of customer operations and product systems, and has a Computer Science background from VIT University."
       }
     },
     {
@@ -54,15 +56,31 @@ const faqSchema = {
       "name": "What does Dilith Dinesh specialize in?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Dilith Dinesh specializes in translating operational reality into product decisions — specifically vertical SaaS for field service industries, customer-facing product management, and building the connective tissue between what customers experience and what product teams build."
+        "text": "Dilith Dinesh specializes in translating operational reality into product decisions — vertical SaaS, AI-native products, and the operational layer where revenue quietly leaks. In field service that layer was dispatch and the job itself. In healthcare it is the inbound patient call. He builds the connective tissue between what customers experience and what product teams build."
       }
     },
     {
       "@type": "Question",
-      "name": "What is Zuper and what has Dilith Dinesh built there?",
+      "name": "Where does Dilith Dinesh work now?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Zuper is a field service management platform for contractors and service businesses. Dilith built the roofing vertical from scratch — including the golden account architecture that reduced onboarding time by more than 50%, and a configurable multi-tenant booking system that compressed a feature prioritization decision from weeks to hours."
+        "text": "Dilith Dinesh joined VoiceStack as an Associate Product Manager in August 2026. VoiceStack builds an AI-powered phone platform for dental practices and DSOs, combining enterprise VoIP, conversational AI, call scoring, opportunity detection, and marketing attribution, with integrations into practice management systems including Dentrix, Eaglesoft, Open Dental, and CareStack."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why did Dilith Dinesh move from field service to healthcare?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Two years inside one vertical taught him that the leverage in vertical SaaS is rarely in the feature list — it is in the operational layer nobody has instrumented yet. In field service, the job is won or lost at dispatch. In dental, the patient is won or lost on the inbound call, where practices miss a large share of calls and most callers never leave a voicemail. Same structural problem, harder domain, with AI at the center rather than at the edges."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is Zuper and what did Dilith Dinesh build there?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Zuper is a field service management platform for contractors and service businesses, where Dilith worked from 2024 to 2026. He built the roofing vertical from scratch — including the golden account architecture that reduced onboarding time by more than 50%, and a configurable multi-tenant booking system that compressed a feature prioritization decision from weeks to hours."
       }
     },
     {
@@ -95,7 +113,7 @@ const faqSchema = {
 
 <Base
   title="Dilith Dinesh — Product Manager"
-  description="Product Manager at Zuper building the roofing vertical in field service management. Case studies in B2B SaaS product operations, product teardowns, and build logs."
+  description="Associate Product Manager at VoiceStack, building voice AI for dental practices. Previously built the roofing vertical at Zuper. Case studies in vertical SaaS and product operations, teardowns, and build logs."
   schema={[personSchema, faqSchema]}
 >
 
@@ -119,13 +137,18 @@ const faqSchema = {
         </p>
 
         <p class="font-body text-base leading-relaxed text-secondary mt-6">
-          I translate what breaks in the field into<br />
-          capabilities that scale.
+          I translate what breaks in the operational layer<br />
+          into capabilities that scale.
         </p>
 
         <p class="font-body text-sm text-secondary mt-4">
-          Currently: Customer Product Manager at Zuper —<br />
-          built the roofing vertical from zero.
+          Currently: Associate Product Manager at VoiceStack —<br />
+          voice AI for dental practices.
+        </p>
+
+        <p class="font-body text-sm text-secondary mt-2">
+          Before that: two years at Zuper, where I built<br />
+          the roofing vertical from zero.
         </p>
 
         <div class="flex flex-wrap gap-3 mt-10">
@@ -165,7 +188,7 @@ const faqSchema = {
     <!-- ─── Proof Strip ───────────────────────────────────────── -->
     <section class="proof-strip py-6 border-b border-border">
       <p class="font-body text-sm text-secondary tracking-wide">
-        Zuper&nbsp;&nbsp;·&nbsp;&nbsp;Field Service Management&nbsp;&nbsp;·&nbsp;&nbsp;B2B SaaS&nbsp;&nbsp;·&nbsp;&nbsp;Built the roofing vertical from 0 to 1&nbsp;&nbsp;·&nbsp;&nbsp;Chennai
+VoiceStack&nbsp;&nbsp;·&nbsp;&nbsp;Healthcare Voice AI&nbsp;&nbsp;·&nbsp;&nbsp;Previously Zuper, field service&nbsp;&nbsp;·&nbsp;&nbsp;Built the roofing vertical from 0 to 1&nbsp;&nbsp;·&nbsp;&nbsp;Chennai
       </p>
     </section>
 
@@ -177,20 +200,30 @@ const faqSchema = {
           tickets, NPS scores, and quarterly reviews.
         </p>
         <p class="font-prose text-lg leading-reading text-primary mt-6">
-          I've spent two years inside the operational layer —
-          sitting with contractors, mapping how they actually
-          collect money, watching where workflows break before
-          anyone files a bug report.
+          I spent two years inside the operational layer of one
+          vertical — sitting with contractors, mapping how they
+          actually collect money, watching where workflows break
+          before anyone files a bug report.
         </p>
         <p class="font-prose text-lg leading-reading text-primary mt-6">
-          That proximity changes how I think about product
-          decisions. Not every problem needs a feature.
-          Not every feature request is the actual problem.
-          The real work is finding the gap between what
-          people say they want and what would actually help them.
+          What that taught me wasn't roofing. It was that the
+          leverage in vertical software is almost never in the
+          feature list. It's in the operational moment nobody
+          has instrumented yet — the one where a stretched human
+          decides whether the business makes money that day.
         </p>
         <p class="font-prose text-lg leading-reading text-primary mt-6">
-          That's the kind of product thinking I'm building toward.
+          In field service, that moment is dispatch. In dental,
+          it's a phone ringing at a front desk that's already
+          short-staffed. I'm at VoiceStack now, doing the same
+          work in a harder domain — where the caller is often in
+          pain, the compliance surface is real, and an AI that
+          loops instead of helping is worse than no AI at all.
+        </p>
+        <p class="font-prose text-lg leading-reading text-primary mt-6">
+          It took two years to learn the first vertical. I expect
+          the second to take just as long — and I'd rather say that
+          than pretend otherwise.
         </p>
       </div>
     </section>
@@ -291,12 +324,11 @@ const faqSchema = {
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <ProjectCard
-          title="Iris"
-          problem="I work across four devices. Every day I need to move something between them — a screenshot, a file, a link. Every existing solution added friction I didn't want. So I built one."
-          stack={["React 18", "TypeScript", "Supabase"]}
+          title="The Voice Agent"
+          problem="Live on this site — you can talk to it. Latency you feel rather than measure, speech recognition that mangles proper nouns, knowing when the agent should stop talking and get a human. I built it before I had a professional reason to. It's why I had opinions about voice AI before I had experience in it."
+          stack={["VAPI", "Deepgram", "ElevenLabs", "GPT-4o Mini"]}
           year="2026"
-          slug="iris"
-          liveUrl="https://d-chat.lovable.app"
+          slug="voice-agent"
         />
         <ProjectCard
           title="SuperPilot"
@@ -306,11 +338,12 @@ const faqSchema = {
           slug="superpilot"
         />
         <ProjectCard
-          title="The Voice Agent"
-          problem="A contact form would tell you I'm interested in AI product work. A voice agent shows you how I think about it. So I built one — and documented every decision behind it."
-          stack={["VAPI", "Deepgram", "ElevenLabs", "GPT-4o Mini"]}
+          title="Iris"
+          problem="I work across four devices. Every day I need to move something between them — a screenshot, a file, a link. Every existing solution added friction I didn't want. So I built one."
+          stack={["React 18", "TypeScript", "Supabase"]}
           year="2026"
-          slug="voice-agent"
+          slug="iris"
+          liveUrl="https://d-chat.lovable.app"
         />
         <ProjectCard
           title="Delphi"

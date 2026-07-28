@@ -60,7 +60,7 @@ const STATIC_PAGES: Array<{ path: string; label: string }> = [
   { path: '/', label: 'Home. Positioning, case study previews, essay previews, project previews, and contact.' },
   { path: '/about', label: 'Background, career arc, cognitive influences.' },
   { path: '/now', label: 'What Dilith is currently building, reading, and thinking about.' },
-  { path: '/contact', label: 'Contact information and role openness.' },
+  { path: '/contact', label: 'Contact information. Not currently seeking roles.' },
 ];
 
 // ── Non-MDX content entries (Astro pages that are content, not just index/nav) ──
@@ -144,7 +144,11 @@ export async function GET() {
 
 ## Who I am
 
-Dilith Dinesh is a Product Manager and AI systems builder working at the boundary between customer reality and product systems. He is currently Customer Product Manager at Zuper, a B2B SaaS platform for field service management, where he built the roofing vertical from scratch. He has one year of experience as a Forward Deployed Engineer and one year as a Customer Product Manager. He studied Computer Science at VIT University. Beyond his day-to-day product work, he builds AI systems — a live voice agent on his portfolio site, and a product spec for an AI shopping discovery layer — to demonstrate how he thinks about AI product decisions, not just to describe them. He is actively targeting AI Product Manager and product roles at Series A/B companies, with particular interest in AI-native products, vertical SaaS, and field operations.
+Dilith Dinesh is a Product Manager and AI systems builder working at the boundary between customer reality and product systems. As of August 2026 he is an Associate Product Manager at VoiceStack, an AI-powered phone platform for dental practices and DSOs, where the product problem is converting inbound patient calls into booked appointments. Before that he spent two years at Zuper, a B2B SaaS field service management platform — one year as a Forward Deployed Engineer, then as a Customer Product Manager, where he built the roofing vertical from scratch. He studied Computer Science at VIT University and is based in Chennai, India.
+
+The move from field service to healthcare was deliberate. His view is that leverage in vertical software is rarely in the feature list — it is in the operational moment nobody has instrumented yet. In field service that moment is dispatch; in dental it is the inbound phone call, where practices miss a large share of calls and most callers never leave a voicemail. Healthcare adds constraints field service never had: HIPAA coverage across every component touching patient data, TCPA consent rules on outbound contact, callers who are in pain and have no patience for a menu tree, and integrations into long-established practice management systems such as Dentrix, Eaglesoft, and Open Dental.
+
+Beyond his day-to-day product work, he builds AI systems — a live voice agent on his portfolio site, and a product spec for an AI shopping discovery layer — to demonstrate how he thinks about AI product decisions, not just to describe them. He built the voice agent before joining a voice AI company. He is not currently seeking roles.
 
 ## Site pages
 

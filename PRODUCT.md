@@ -6,11 +6,25 @@ brand
 
 ## Users
 
-**Primary visitor: hiring managers and founders** at Series A/B product-led companies — evaluating Dilith for APM or product roles. They arrive from LinkedIn, referrals, or Twitter/X links. They are busy, skeptical of polished portfolio sites, and specifically looking for evidence of how someone thinks — not a resume repackaged as HTML.
+**Note (Jul 2026): the audience shifted when Dilith joined VoiceStack.** The site is no
+longer a job-search asset. It is a credibility and conversation asset.
 
-**Secondary visitor: other PMs and builders** — curious about the teardowns, build logs, or the voice agent. They self-select from writing shares and may not be in a hiring context at all.
+**Primary visitor: peers and practitioners** — other PMs, founders, and builders working
+on vertical SaaS, voice AI, or products for operationally-stretched users. They arrive
+from writing shares, LinkedIn, and referrals. They are not hiring him; they are deciding
+whether he's worth talking to.
 
-The common thread: both audiences are high-signal readers who can tell the difference between someone performing expertise and someone who actually has it.
+**Secondary visitor: future hiring managers and founders** — not for now, but the site
+should stay legible to someone evaluating him years out. This audience is served by the
+same thing that serves the first: evidence of how he thinks, not a resume in HTML.
+
+**Tertiary: colleagues and the dental/DSO industry** — people who may encounter the site
+because of where he works. This is new, and it constrains what gets published: nothing
+internal, nothing that overclaims domain expertise he hasn't earned yet.
+
+The common thread: all three are high-signal readers who can tell the difference between
+someone performing expertise and someone who actually has it. The new risk is not looking
+unimpressive — it's looking like he's claiming a domain he just arrived in.
 
 ## Product Purpose
 

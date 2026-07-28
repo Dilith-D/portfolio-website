@@ -5,7 +5,7 @@ import EmailCopy from '../components/EmailCopy.astro';
 
 <Base
   title="About — Dilith Dinesh"
-  description="How Dilith Dinesh went from CS graduate to Forward Deployed Engineer to Customer Product Manager at Zuper — two years inside field service operations before the product title."
+  description="How Dilith Dinesh went from CS graduate to Forward Deployed Engineer to Customer Product Manager at Zuper — and then from field service into healthcare voice AI at VoiceStack."
 >
   <div class="max-w-[740px] mx-auto px-6 pt-[120px] pb-[80px]">
 
@@ -85,8 +85,50 @@ import EmailCopy from '../components/EmailCopy.astro';
       </p>
 
       <p class="font-prose text-lg leading-reading text-primary mt-6">
-        The most significant thing I've worked on since making that move is the roofing vertical — building it from zero, from no architecture to a cloneable system that every roofing customer now onboards into. That work taught me that the hardest part of building something new isn't the configuration. It's knowing what you don't know yet — and designing the process so that the unknowns surface before they become architectural mistakes.
+        The most significant thing I worked on after making that move was the roofing vertical — building it from zero, from no architecture to a cloneable system that every roofing customer now onboards into. That work taught me that the hardest part of building something new isn't the configuration. It's knowing what you don't know yet — and designing the process so that the unknowns surface before they become architectural mistakes.
       </p>
+
+      <p class="font-prose text-lg leading-reading text-primary mt-6">
+        I left Zuper in July 2026. In August I joined VoiceStack as an Associate Product Manager, building AI-powered phone systems for dental practices — which is a longer way of saying I went from contractors to clinics, and from dispatch to the front desk.
+      </p>
+
+      <p class="font-prose text-lg leading-reading text-primary mt-6">
+        The move looks like a bigger jump than it is. Both are vertical software sold to businesses where the software isn't the point — the work is. Both have an operational moment that quietly decides whether the business makes money: in field service it's dispatch, in dental it's the phone. And both have the same uncomfortable truth underneath, which is that the person you're building for is already overloaded and does not want another system to learn.
+      </p>
+
+      <p class="font-prose text-lg leading-reading text-primary mt-6">
+        What's genuinely new is the domain. Healthcare has compliance surfaces field service never had, callers who are in pain and have no patience for a menu tree, and integrations into practice management systems that have been running since before I was writing code. I'm early enough that the honest position is that I know the shape of the problem and very little else yet.
+      </p>
+
+      <!-- Timeline -->
+      <div class="mt-12">
+        <p class="font-body text-xs font-medium tracking-widest uppercase text-secondary mb-6">
+          Timeline
+        </p>
+        <div class="space-y-0">
+          <div class="about-timeline-row py-3 border-b border-border">
+            <span class="about-timeline-date">2024 — 2025</span>
+            <span>
+              <span class="block text-primary font-body text-sm font-medium">Forward Deployed Engineer</span>
+              <span class="block text-secondary font-body text-sm mt-1">Zuper · Field service management</span>
+            </span>
+          </div>
+          <div class="about-timeline-row py-3 border-b border-border">
+            <span class="about-timeline-date">2025 — 2026</span>
+            <span>
+              <span class="block text-primary font-body text-sm font-medium">Customer Product Manager</span>
+              <span class="block text-secondary font-body text-sm mt-1">Zuper · Built the roofing vertical 0→1</span>
+            </span>
+          </div>
+          <div class="about-timeline-row py-3">
+            <span class="about-timeline-date">2026 —</span>
+            <span>
+              <span class="block text-primary font-body text-sm font-medium">Associate Product Manager</span>
+              <span class="block text-secondary font-body text-sm mt-1">VoiceStack · Healthcare voice AI</span>
+            </span>
+          </div>
+        </div>
+      </div>
     </section>
 
     <hr class="border-t border-border mb-[80px]" />
@@ -242,11 +284,15 @@ import EmailCopy from '../components/EmailCopy.astro';
           <div class="space-y-0">
             <div class="flex items-start gap-3 py-3 border-b border-border">
               <span class="text-secondary font-body text-sm mt-0.5">→</span>
-              <span class="text-primary font-body text-sm leading-relaxed">Field service management</span>
+              <span class="text-primary font-body text-sm leading-relaxed">Vertical SaaS and B2B product operations</span>
             </div>
             <div class="flex items-start gap-3 py-3 border-b border-border">
               <span class="text-secondary font-body text-sm mt-0.5">→</span>
-              <span class="text-primary font-body text-sm leading-relaxed">Vertical SaaS and B2B product operations</span>
+              <span class="text-primary font-body text-sm leading-relaxed">Voice AI — latency, handoff, and where it breaks</span>
+            </div>
+            <div class="flex items-start gap-3 py-3 border-b border-border">
+              <span class="text-secondary font-body text-sm mt-0.5">→</span>
+              <span class="text-primary font-body text-sm leading-relaxed">Field service management</span>
             </div>
             <div class="flex items-start gap-3 py-3 border-b border-border">
               <span class="text-secondary font-body text-sm mt-0.5">→</span>
@@ -314,15 +360,19 @@ import EmailCopy from '../components/EmailCopy.astro';
       <h2 class="font-display text-[32px] font-medium leading-snug text-primary mb-6">Where I'm going</h2>
 
       <p class="font-prose text-lg leading-reading text-primary">
-        I'm currently building toward product roles at Series A or B companies where I can work directly on product decisions, move between customer problems and product systems, and be close enough to the work to actually shape it.
+        For a long time this section said I was building toward AI product work. That's no longer the right tense. VoiceStack is a voice AI company, and the work is the thing itself now rather than the thing I'm aiming at.
       </p>
 
       <p class="font-prose text-lg leading-reading text-primary mt-6">
-        I already operate as an AI-first product manager — not as an aspiration, but as a practice. The voice agent running on this site is a real AI system I designed and built: RAG architecture, audience detection routing, STT tuning, latency decisions. The AI Shopping Buddy is a full product spec for an AI discovery layer, written from a real frustration and reasoned through the constraints I'd actually face. These aren't side projects to list. They're evidence of how I think about AI product decisions — the tradeoffs, the scope calls, the places where AI earns its place in a UX and the places where it doesn't.
+        The preparation wasn't accidental. The voice agent running on this site is a real system I designed and built — RAG architecture, audience detection routing, STT tuning, latency decisions. I built it before I had any professional reason to, and the problems I hit are the same ones that decide whether production voice agents work: latency you feel rather than measure, speech recognition failing on proper nouns, knowing when the agent should stop talking and get a human. Building it is why I had opinions about the domain before I had any experience in it.
       </p>
 
       <p class="font-prose text-lg leading-reading text-primary mt-6">
-        I'm particularly interested in what AI means for products where the stakes are real and the users don't have patience for friction. The design constraints are harder. The margin for abstraction is smaller. The solutions have to actually work. That's the kind of product problem I want to spend the next decade on.
+        What I want from the next few years is narrower than it used to be. I want to get properly deep on one hard domain — deep enough that my instincts are worth something rather than borrowed. That took two years in field service. I expect healthcare to take at least as long, and I'd rather be honest about that than arrive claiming expertise I haven't earned.
+      </p>
+
+      <p class="font-prose text-lg leading-reading text-primary mt-6">
+        The through-line stays the same: products where the stakes are real and the users don't have patience for friction. The design constraints are harder. The margin for abstraction is smaller. The solutions have to actually work.
       </p>
     </section>
 
@@ -390,6 +440,31 @@ import EmailCopy from '../components/EmailCopy.astro';
 </Base>
 
 <style>
+  .about-timeline-row {
+    display: grid;
+    grid-template-columns: 116px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .about-timeline-date {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-secondary);
+    white-space: nowrap;
+    padding-top: 3px;
+  }
+
+  @media (max-width: 640px) {
+    .about-timeline-row {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+
   .about-intro-grid {
     display: grid;
     grid-template-columns: 1fr 220px;

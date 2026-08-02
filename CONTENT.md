@@ -111,7 +111,7 @@ CURRENT STATE
 ● SHIPPED                    dot: --color-blue
   Iris, cross-device file transfer            → /projects/iris
   Pulseboard, PM reflection system            → /projects/pulseboard
-  Voice assistant on this site                (no link)
+  Voice assistant on this site                → /projects/voice-agent
 
 ● IN PROGRESS                dot: --color-status-amber (#C9862F)
   First 90 days at VoiceStack                 (no link)
@@ -122,11 +122,12 @@ CURRENT STATE
   What field service taught me that transfers to healthcare
 ```
 
-**Status board content is unconfirmed.** It shipped as specified in the rebuild
-brief, which flagged it as placeholder pending Dilith's confirmation. Two things
-to settle: whether "Ask Dilith, site chatbot" is real and in progress, and whether
-"Voice assistant on this site" should link to /projects/voice-agent (that page
-exists; the brief said no link).
+**Status board content is partly unconfirmed.** It shipped as specified in the
+rebuild brief, which flagged it as placeholder pending Dilith's confirmation.
+The voice assistant item was linked to /projects/voice-agent on Dilith's
+instruction (Aug 2026), which also moves it from text-secondary to text-primary,
+since linked items are the ones that read as primary. Still open: whether
+"Ask Dilith, site chatbot" is real and in progress.
 
 Mobile stacking order below 1024px:
 

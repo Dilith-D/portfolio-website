@@ -43,6 +43,26 @@
   font-display: swap;
 }
 
+/* JetBrains Mono — labels and status board only (homepage hero).
+   Self-hosted: two static weights, not the variable file, because only
+   400 and 500 are ever used and two woff2 files are smaller than one
+   variable axis. */
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono/JetBrainsMono-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ─── Color variables + easing (light mode defaults) ───────────── */
 :root {
   --color-background:  #F4F0E8;
@@ -54,6 +74,9 @@
   --color-blue:        #2D5BE3;
   --color-electric:    #0066FF;
   --color-red:         #FF2D2D;
+  /* Status board only. Encodes "in progress" as information, not accent.
+     One value for both themes: legible on cream and on near-black. */
+  --color-status-amber: #C9862F;
   --color-card-bg:     #FFFFFF;
   --color-card-sheen:  inset 0 1px 0 rgba(255,255,255,1), 0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
   --color-cta-bg:      #1C1814;

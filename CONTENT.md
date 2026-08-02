@@ -41,31 +41,101 @@ Copyright:  © [auto year] Dilith Dinesh
 
 ### Hero
 
+Rebuilt Aug 2026 as a two-column grid. The old hero was a single left column
+with an empty right half, the name set at 64px as the largest element on the
+page, and four secondary lines all rendered identically so nothing had a
+reading order. This version fixes hierarchy and density, not the design system.
+
+Left column, in order. Nothing here is decorative; each block does a different job.
+
 ```
-Name:
+1. NAME  — JetBrains Mono 13px, uppercase, letter-spacing 0.12em, text-secondary.
+           A label, not a headline. Semantically still the <h1>.
+
 Dilith Dinesh
 
-Tagline:
-Product operator at the boundary between
-customer reality and product systems.
+2. POSITIONING LINE — Cabinet Grotesk 56px desktop / 34px mobile, semibold,
+   leading 1.05, text-primary, max-width 620px. The largest element on the page.
+   "boundary" keeps its dotted underline and hover tooltip (easter egg).
 
-Subtext:
-I translate what breaks in the field into
-capabilities that scale.
+Product operator at the boundary between customer reality and product systems.
 
-Current role:
-Currently: Customer Product Manager at Zuper —
-building the roofing vertical from the ground up.
+3. TAGLINE — Lora italic 20px, text-secondary, max-width 480px.
+   Serif italic here is the contrast the old hero was missing.
 
-CTA 1:  See my work →
-CTA 2:  Read my thinking →
+I translate what breaks in the operational layer into capabilities that scale.
+
+4. ROLE BLOCK — JetBrains Mono 13px, line-height 1.7. Label column is one step
+   quieter than the value it labels.
+
+NOW      Associate Product Manager, VoiceStack. Voice AI for dental practices.
+BEFORE   Two years at Zuper. Built the roofing vertical from zero.
+
+5. CTA ROW — one button, then text links 24px below.
+   Three equal buttons is three equal choices, which is no choice.
+
+[ See my work → ]            primary blue button
+
+Read my thinking →   ·   Talk to my AI →   ·   LinkedIn →
+                             Inter 14px text-secondary, hover text-primary.
+                             "Talk to my AI" is a <button> dispatching voice:toggle.
+
+6. PROOF STRIP — moved here from the bottom of the page. Inter 14px at
+   text-primary/75%, NOT text-secondary. It is the highest-signal line in the
+   hero and it used to whisper. Border-top 1px border token, pt-6.
+
+VoiceStack  ·  Healthcare Voice AI  ·  Previously Zuper, field service  ·
+Built the roofing vertical from 0 to 1  ·  Chennai
 ```
 
-### Proof Strip
+Right column.
 
 ```
-Zuper  ·  Field Service Management  ·  B2B SaaS  ·  Chennai  ·  2 years in the field before the title
+1. PORTRAIT — /public/portrait.webp (360x412, 57KB), rendered 180px wide
+   (140px on mobile). Cropped to the ink so 180px is 180px of drawing, not
+   drawing plus transparent margin.
+   No border, no radius, no shadow, no container. It sits on the background.
+   alt="Illustrated portrait of Dilith Dinesh", loading="eager".
+   Full-tone engraving: it has both white highlights and black hatching, so it
+   composites correctly on cream and on near-black. No dark-mode invert filter
+   needed, and adding one would break it. Source PNG is portrait.png.png at the
+   repo root (2.8MB, 1024x1536) - keep it out of the deployed build.
+
+2. STATUS BOARD — typography only. No card, no border, no background fill.
+   Header: JetBrains Mono 11px uppercase, letter-spacing 0.12em, text-secondary.
+   Group headers: same, each with a 6px dot. Items: Inter 15px, line-height 1.9.
+   Linked items are text-primary and hover blue; unlinked sit at text-secondary.
+
+CURRENT STATE
+
+● SHIPPED                    dot: --color-blue
+  Iris, cross-device file transfer            → /projects/iris
+  Pulseboard, PM reflection system            → /projects/pulseboard
+  Voice assistant on this site                (no link)
+
+● IN PROGRESS                dot: --color-status-amber (#C9862F)
+  First 90 days at VoiceStack                 (no link)
+  Ask Dilith, site chatbot                    (no link)
+
+● EXPLORING                  dot: --color-secondary
+  Why voice is the right interface for front-office work
+  What field service taught me that transfers to healthcare
 ```
+
+**Status board content is unconfirmed.** It shipped as specified in the rebuild
+brief, which flagged it as placeholder pending Dilith's confirmation. Two things
+to settle: whether "Ask Dilith, site chatbot" is real and in progress, and whether
+"Voice assistant on this site" should link to /projects/voice-agent (that page
+exists; the brief said no link).
+
+Mobile stacking order below 1024px:
+
+```
+Name → Positioning line → Portrait → Tagline → Role block → CTA → Proof strip → Status board
+```
+
+The portrait moves up on mobile so the fold is not pure text. The status board
+goes last because it is the least critical element on a phone.
 
 ### Work Preview Section
 

@@ -13,6 +13,7 @@ if [ -d "$PRIV/.git" ]; then
   cp -f ai_copilot_architecture_dataflow.html "$PRIV/planning/"                 2>/dev/null
   cp -f preview-redesign.html             "$PRIV/planning/"                     2>/dev/null
   cp -f my_photo.png                      "$PRIV/assets/my_photo_original.png"  2>/dev/null
+  cp -f portrait.png.png                  "$PRIV/assets/portrait_original.png"  2>/dev/null
   cp -f .env                              "$PRIV/portfolio.env"                 2>/dev/null
   cp -f scripts/hooks/pre-push            "$PRIV/reference/pre-push-hook.sh"    2>/dev/null
   cp -f skills-lock.json                  "$PRIV/claude-tooling/"               2>/dev/null

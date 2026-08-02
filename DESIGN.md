@@ -241,8 +241,16 @@ The glowing arc on card hover uses warm white, never blue:
 | **Display** | Cabinet Grotesk | Hero, page headers, section headers, card titles |
 | **Body / UI** | Inter | Navigation, labels, metadata, tags, buttons |
 | **Prose** | Lora | Essay body, case study body, about page, pull quotes |
+| **Mono** | JetBrains Mono | Homepage hero only: the name label, the NOW/BEFORE role block, the status board headers. Nothing else. |
 
-The font stack is **unchanged from v1**. What changes is how boldly Cabinet Grotesk is used. No new display font is introduced. Cabinet Grotesk at large scale with tight tracking achieves cinematic weight without reaching for a trendy typeface.
+JetBrains Mono was added in the Aug 2026 hero rebuild. It is not a display font
+and does not compete with Cabinet Grotesk. It exists to do one job: mark machine-
+readable label text (name, role keys, status states) as a different *class* of
+information from prose, so four secondary lines stop reading as one undifferentiated
+block. Self-hosted, two static weights (400/500), `font-mono` in Tailwind. If you
+find yourself reaching for it outside the homepage hero, the answer is no.
+
+The rest of the font stack is **unchanged from v1**. What changes is how boldly Cabinet Grotesk is used. No new display font is introduced. Cabinet Grotesk at large scale with tight tracking achieves cinematic weight without reaching for a trendy typeface.
 
 Adding Instrument Serif (or any of: Cormorant, Fraunces, Newsreader, Playfair Display, Syne) would push the site into the editorial-typographic aesthetic lane — display serif italic + tracked uppercase labels + dark monochromatic restraint. That lane is saturated. Cabinet Grotesk stays.
 
@@ -486,7 +494,6 @@ Text: `font-body text-[15px] leading-relaxed text-primary whitespace-pre-wrap`
 - Gradient text (`background-clip: text` + gradient)
 - Side-stripe accent borders (`border-left/right > 1px` colored, on cards or callouts)
 - Glassmorphism outside nav + Dynamic Island
-- Decorative icons (arrows → are functional, used sparingly)
 - Hero images or photography
 - Bullet-pointed skill lists (anywhere on the site, including about page)
 - `transition: all`
@@ -496,6 +503,19 @@ Text: `font-body text-[15px] leading-relaxed text-primary whitespace-pre-wrap`
 - Instrument Serif, Fraunces, Newsreader, Cormorant, Playfair Display, or editorial-lane display serifs
 - Blue in decorative roles (BorderGlow glows, non-functional accents)
 - Animations that delay content
+
+### Imagery Rule
+
+Imagery is permitted when it carries identity or information. Never when it
+carries mood.
+
+Allowed: one portrait treatment of Dilith (homepage only, once per site).
+Diagrams encoding real system logic. Functional arrows.
+
+Not allowed: decorative illustration, spot icons, gradient meshes, abstract
+shapes, stock photography, anything whose removal costs the page zero information.
+
+Test: delete the image. If the page loses nothing but vibe, it stays deleted.
 
 ---
 

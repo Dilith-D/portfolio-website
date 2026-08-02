@@ -19,6 +19,7 @@ export default {
         display: ['Cabinet Grotesk', 'sans-serif'],
         body:    ['Inter', 'sans-serif'],
         prose:   ['Lora', 'serif'],
+        mono:    ['JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       maxWidth: {
         reading: '740px',

@@ -121,75 +121,107 @@ const faqSchema = {
 
     <!-- ─── Hero ─────────────────────────────────────────────── -->
     <section class="pt-[120px] pb-[120px] border-b border-border">
-      <div class="max-w-[740px]">
+      <div class="hero-grid">
 
-        <h1 class="font-display text-[64px] font-semibold leading-none text-primary">
-          <span id="hero-name" style="cursor:default;">Dilith Dinesh</span>
-        </h1>
+        <!-- Left column -->
+        <div class="hero-left">
 
-        <p id="triple-click-msg" class="font-body text-sm text-secondary italic mt-3" style="opacity:0; transition:opacity 300ms ease;">
-          Three clicks. You're either very bored or very thorough. Either way, hello.
-        </p>
+          <!-- 1. Name: a label, not a headline. h1 for semantics only. -->
+          <div class="hero-name-block">
+            <h1 class="hero-eyebrow">
+              <span id="hero-name" style="cursor:default;">Dilith Dinesh</span>
+            </h1>
+            <p id="triple-click-msg" class="hero-egg-msg">
+              Three clicks. You're either very bored or very thorough. Either way, hello.
+            </p>
+          </div>
 
-        <p class="font-display text-[32px] font-medium leading-snug text-primary mt-6">
-          Product operator at the <span class="boundary-egg" style="position:relative; cursor:help; text-decoration-line:underline; text-underline-offset:3px; text-decoration-style:dotted;">boundary<span class="boundary-tip" style="display:none; position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:var(--color-primary); color:var(--color-background); font-size:13px; font-family:'Inter',sans-serif; white-space:nowrap; padding:6px 12px; border-radius:4px; pointer-events:none; z-index:100;">This is where the interesting problems live.</span></span> between<br />
-          customer reality and product systems.
-        </p>
+          <!-- 3. Positioning line: largest element on the page -->
+          <p class="hero-position">
+            Product operator at the <span class="boundary-egg" style="position:relative; cursor:help; text-decoration-line:underline; text-underline-offset:3px; text-decoration-style:dotted;">boundary<span class="boundary-tip" style="display:none; position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%); background:var(--color-primary); color:var(--color-background); font-size:13px; font-family:'Inter',sans-serif; white-space:nowrap; padding:6px 12px; border-radius:4px; pointer-events:none; z-index:100;">This is where the interesting problems live.</span></span> between customer reality and product systems.
+          </p>
 
-        <p class="font-body text-base leading-relaxed text-secondary mt-6">
-          I translate what breaks in the operational layer<br />
-          into capabilities that scale.
-        </p>
+          <!-- 5. Tagline -->
+          <p class="hero-tagline">
+            I translate what breaks in the operational layer into capabilities that scale.
+          </p>
 
-        <p class="font-body text-sm text-secondary mt-4">
-          Currently: Associate Product Manager at VoiceStack.<br />
-          Voice AI for dental practices.
-        </p>
+          <!-- 7. Role block -->
+          <dl class="hero-roles">
+            <div class="hero-role">
+              <dt>NOW</dt>
+              <dd>Associate Product Manager, VoiceStack. Voice AI for dental practices.</dd>
+            </div>
+            <div class="hero-role">
+              <dt>BEFORE</dt>
+              <dd>Two years at Zuper. Built the roofing vertical from zero.</dd>
+            </div>
+          </dl>
 
-        <p class="font-body text-sm text-secondary mt-2">
-          Before that: two years at Zuper, where I built<br />
-          the roofing vertical from zero.
-        </p>
+          <!-- 9. CTA row: one button, then text links -->
+          <div class="hero-cta">
+            <a
+              href="/work"
+              class="font-body text-[15px] font-medium text-white bg-blue px-6 py-3 rounded-md transition-opacity duration-150 hover:opacity-90"
+            >See my work →</a>
+            <p class="hero-links">
+              <a href="/writing">Read my thinking →</a>
+              <span aria-hidden="true">·</span>
+              <button id="heroCta" type="button">Talk to my AI →</button>
+              <span aria-hidden="true">·</span>
+              <a href="https://linkedin.com/in/dilithdinesh" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
+            </p>
+          </div>
 
-        <div class="flex flex-wrap gap-3 mt-10">
-          <a
-            href="/work"
-            class="font-body text-[15px] font-medium text-white bg-blue px-6 py-3 rounded-md transition-opacity duration-150 hover:opacity-90"
-          >
-            See my work →
-          </a>
-          <a
-            href="/writing"
-            class="font-body text-[15px] font-medium text-primary bg-transparent border border-primary px-6 py-3 rounded-md transition-colors duration-150 hover:bg-surface"
-          >
-            Read my thinking
-          </a>
-          <button
-            id="heroCta"
-            class="font-body text-[15px] font-medium text-primary bg-transparent border border-primary px-6 py-3 rounded-md transition-colors duration-150 hover:bg-surface cursor-pointer"
-          >
-            Talk to my AI →
-          </button>
+          <!-- 11. Proof strip -->
+          <p class="hero-proof">
+VoiceStack&nbsp;&nbsp;·&nbsp;&nbsp;Healthcare Voice AI&nbsp;&nbsp;·&nbsp;&nbsp;Previously Zuper, field service&nbsp;&nbsp;·&nbsp;&nbsp;Built the roofing vertical from 0 to 1&nbsp;&nbsp;·&nbsp;&nbsp;Chennai
+          </p>
         </div>
 
-        <div class="mt-5">
-          <a
-            href="https://linkedin.com/in/dilithdinesh"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="font-body text-sm text-secondary hover:text-primary transition-colors duration-150"
-          >
-            → LinkedIn
-          </a>
+        <!-- Right column -->
+        <div class="hero-right">
+
+          <img
+            class="hero-portrait"
+            src="/portrait.webp"
+            alt="Illustrated portrait of Dilith Dinesh"
+            width="180"
+            height="206"
+            loading="eager"
+            decoding="async"
+          />
+
+          <div class="hero-board">
+            <p class="hero-board-title">Current state</p>
+
+            <div class="hero-board-group" data-state="shipped">
+              <p class="hero-board-label">Shipped</p>
+              <ul>
+                <li><a href="/projects/iris">Iris, cross-device file transfer</a></li>
+                <li><a href="/projects/pulseboard">Pulseboard, PM reflection system</a></li>
+                <li><span>Voice assistant on this site</span></li>
+              </ul>
+            </div>
+
+            <div class="hero-board-group" data-state="progress">
+              <p class="hero-board-label">In progress</p>
+              <ul>
+                <li><span>First 90 days at VoiceStack</span></li>
+                <li><span>Ask Dilith, site chatbot</span></li>
+              </ul>
+            </div>
+
+            <div class="hero-board-group" data-state="exploring">
+              <p class="hero-board-label">Exploring</p>
+              <ul>
+                <li><span>Why voice is the right interface for front-office work</span></li>
+                <li><span>What field service taught me that transfers to healthcare</span></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
-
-    <!-- ─── Proof Strip ───────────────────────────────────────── -->
-    <section class="proof-strip py-6 border-b border-border">
-      <p class="font-body text-sm text-secondary tracking-wide">
-VoiceStack&nbsp;&nbsp;·&nbsp;&nbsp;Healthcare Voice AI&nbsp;&nbsp;·&nbsp;&nbsp;Previously Zuper, field service&nbsp;&nbsp;·&nbsp;&nbsp;Built the roofing vertical from 0 to 1&nbsp;&nbsp;·&nbsp;&nbsp;Chennai
-      </p>
     </section>
 
     <!-- ─── Signal Section ────────────────────────────────────── -->
@@ -423,14 +455,243 @@ VoiceStack&nbsp;&nbsp;·&nbsp;&nbsp;Healthcare Voice AI&nbsp;&nbsp;·&nbsp;&nbsp
   </script>
 
   <style>
-    @media (prefers-reduced-motion: no-preference) {
-      @keyframes proofFadeIn {
-        from { opacity: 0; }
-        to   { opacity: 1; }
+    /* ─── Hero ────────────────────────────────────────────────────
+       Two columns on desktop. Below 1024px everything collapses to a
+       single flex column and the portrait jumps between the positioning
+       line and the tagline, so the fold is not pure text.
+       display:contents on the two column wrappers is what lets the
+       children re-order across columns without duplicating markup. */
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    /* ── Left column ── */
+
+    .hero-name-block { position: relative; }
+
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--color-secondary);
+    }
+
+    /* Absolute so the easter egg message never shifts the layout. */
+    .hero-egg-msg {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      z-index: 3;
+      opacity: 0;
+      pointer-events: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-style: italic;
+      color: var(--color-secondary);
+      background: var(--color-background);
+      padding: 3px 8px;
+      border-radius: 4px;
+      transition: opacity 300ms var(--ease-ui);
+    }
+
+    .hero-position {
+      margin-top: 32px;
+      max-width: 620px;
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-size: 56px;
+      font-weight: 600;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--color-primary);
+    }
+
+    .hero-tagline {
+      margin-top: 24px;
+      max-width: 480px;
+      font-family: 'Lora', serif;
+      font-size: 20px;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--color-secondary);
+    }
+
+    .hero-roles {
+      margin-top: 32px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .hero-role {
+      display: grid;
+      grid-template-columns: 84px 1fr;
+    }
+
+    .hero-role dt {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      /* One step quieter than the value it labels. Derived from the token
+         so the relationship holds in both themes. */
+      color: color-mix(in srgb, var(--color-secondary) 62%, transparent);
+    }
+
+    .hero-role dd { color: var(--color-secondary); }
+
+    .hero-cta { margin-top: 40px; }
+
+    .hero-cta > a { display: inline-block; }
+
+    .hero-links {
+      margin-top: 24px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: var(--color-secondary);
+    }
+
+    .hero-links a,
+    .hero-links button {
+      color: inherit;
+      background: none;
+      border: 0;
+      padding: 0;
+      font: inherit;
+      cursor: pointer;
+      transition: color 150ms var(--ease-ui);
+    }
+
+    .hero-links > span { margin: 0 12px; opacity: 0.5; }
+
+    .hero-links a:active,
+    .hero-links button:active { transform: scale(0.96); }
+
+    @media (hover: hover) and (pointer: fine) {
+      .hero-links a:hover,
+      .hero-links button:hover { color: var(--color-primary); }
+    }
+
+    .hero-proof {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--color-border);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.7;
+      /* Highest-signal line in the hero. Deliberately not text-secondary. */
+      color: color-mix(in srgb, var(--color-primary) 75%, transparent);
+    }
+
+    /* ── Right column ── */
+
+    /* No border, radius, shadow or container. It sits on the background.
+       Full-tone engraving with both white highlights and black hatching,
+       so it composites correctly on cream and on near-black. Verified in
+       both themes: no invert filter needed. */
+    .hero-portrait {
+      display: block;
+      width: 180px;
+      height: auto;
+    }
+
+    .hero-board { margin-top: 48px; }
+
+    .hero-board-title {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--color-secondary);
+    }
+
+    .hero-board-group { margin-top: 16px; }
+
+    .hero-board-label {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--color-secondary);
+    }
+
+    .hero-board-label::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-right: 8px;
+      vertical-align: middle;
+      background: currentColor;
+    }
+
+    [data-state='shipped']   .hero-board-label::before { background: var(--color-blue); }
+    [data-state='progress']  .hero-board-label::before { background: var(--color-status-amber); }
+    [data-state='exploring'] .hero-board-label::before { background: var(--color-secondary); }
+
+    .hero-board-group li {
+      list-style: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .hero-board-group li a {
+      color: var(--color-primary);
+      text-decoration: none;
+      transition: color 150ms var(--ease-ui);
+    }
+
+    .hero-board-group li span { color: var(--color-secondary); }
+
+    @media (hover: hover) and (pointer: fine) {
+      .hero-board-group li a:hover { color: var(--color-blue); }
+    }
+
+    /* ── Below 1024px: single column, portrait moves up ── */
+    @media (max-width: 1023px) {
+      .hero-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
       }
-      .proof-strip {
-        animation: proofFadeIn 400ms ease 350ms both;
+
+      .hero-left,
+      .hero-right { display: contents; }
+
+      .hero-name-block { order: 1; }
+      .hero-position   { order: 2; }
+      .hero-portrait   { order: 3; }
+      .hero-tagline    { order: 4; }
+      .hero-roles      { order: 5; }
+      .hero-cta        { order: 6; }
+      .hero-proof      { order: 7; }
+      .hero-board      { order: 8; }
+
+      .hero-position { font-size: 34px; max-width: none; }
+
+      /* The portrait's own 32px bottom margin sets this gap. */
+      .hero-tagline  { max-width: none; margin-top: 0; }
+
+      .hero-portrait {
+        width: 140px;
+        margin: 32px 0;
       }
+
+      .hero-board { margin-top: 40px; }
+    }
+
+    @media (max-width: 420px) {
+      .hero-role { grid-template-columns: 1fr; }
+      .hero-role dd { margin-bottom: 8px; }
+      .hero-links > span { margin: 0 8px; }
     }
   </style>
 

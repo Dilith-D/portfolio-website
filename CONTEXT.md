@@ -8,7 +8,7 @@ Hand this to any AI model at the start of a session and it can pick up without r
 
 ## What This Site Is
 
-Personal portfolio for **Dilith Dinesh**, Customer Product Manager at Zuper (B2B SaaS, field service management). The site serves one primary goal: convert a hiring manager or recruiter into someone who reaches out. It is not an agency portfolio, not a startup landing page, not a resume in HTML. It should read like a well-edited journal from someone who thinks carefully and builds seriously.
+Personal portfolio for **Dilith Dinesh**, Associate Product Manager at VoiceStack (voice AI), previously Customer Product Manager at Zuper (B2B SaaS, field service). Positioned AI-PM first (Oct 2026): AI PM and SaaS PM roles, B2B is the expertise, consumer is a stated interest. From Kerala, India, open to anywhere. Not actively searching, but open to a strong opportunity. The site serves one primary goal: convert a hiring manager or recruiter into someone who reaches out. It is not an agency portfolio, not a startup landing page, not a resume in HTML. It should read like a well-edited journal from someone who thinks carefully and builds seriously.
 
 **Live at:** https://dilithdinesh.com
 **Deployed:** Netlify

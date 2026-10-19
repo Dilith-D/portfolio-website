@@ -85,7 +85,7 @@ Read my thinking →   ·   Talk to my AI →   ·   LinkedIn →
    hero and it used to whisper. Border-top 1px border token, pt-6.
 
 VoiceStack  ·  Healthcare Voice AI  ·  Previously Zuper, field service  ·
-Built the roofing vertical from 0 to 1  ·  Chennai
+Built the roofing vertical from 0 to 1  ·  From Kerala, India. Open to anywhere
 ```
 
 Right column.

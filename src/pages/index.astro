@@ -4,7 +4,6 @@ import CaseStudyCard from '../components/CaseStudyCard.astro';
 import EssayCard from '../components/EssayCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import ToolOrbitArc from '../components/ToolOrbitArc.astro';
-import VoiceAssistant from '../components/VoiceAssistant';
 
 const personSchema = {
   "@context": "https://schema.org",
@@ -167,7 +166,7 @@ const faqSchema = {
                 class="font-body text-[15px] font-medium text-white bg-blue px-6 py-3 rounded-md transition-opacity duration-150 hover:opacity-90"
               >See my work →</a>
               <button id="heroCta" type="button" class="hero-voice-btn">
-                <span class="hero-voice-dot" aria-hidden="true"></span>
+                <span class="hero-voice-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
                 Talk to my AI
               </button>
             </div>
@@ -576,9 +575,12 @@ VoiceStack&nbsp;&nbsp;·&nbsp;&nbsp;Voice AI&nbsp;&nbsp;·&nbsp;&nbsp;Previously
 
     .hero-buttons > a { display: inline-block; }
 
-    /* Secondary CTA per the button spec: transparent, 1px primary border. The
-       live dot says "this is interactive and available now". */
+    /* Secondary CTA per the button spec: transparent, 1px primary border.
+       Three layers of "this is alive": a nudge once on load, a slow halo ring,
+       and equalizer bars that speed up on hover and during a call. None of it
+       delays reading, and all of it stops under prefers-reduced-motion. */
     .hero-voice-btn {
+      position: relative;
       display: inline-flex;
       align-items: center;
       gap: 10px;
@@ -591,31 +593,88 @@ VoiceStack&nbsp;&nbsp;·&nbsp;&nbsp;Voice AI&nbsp;&nbsp;·&nbsp;&nbsp;Previously
       border: 1px solid var(--color-primary);
       border-radius: 6px;
       cursor: pointer;
-      transition: background-color 150ms var(--ease-ui), transform 150ms var(--ease-ui);
+      transition:
+        background-color 150ms var(--ease-ui),
+        border-color 150ms var(--ease-ui),
+        transform 150ms var(--ease-ui);
+      animation: hero-voice-nudge 700ms var(--ease-ui) 1400ms 1 both;
+    }
+
+    /* Halo: a ring that expands and fades, every 3.2s. */
+    .hero-voice-btn::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 6px;
+      border: 1px solid var(--color-electric);
+      opacity: 0;
+      pointer-events: none;
+      animation: hero-voice-halo 3.2s ease-out 2s infinite;
     }
 
     .hero-voice-btn:active { transform: scale(0.97); }
 
     @media (hover: hover) and (pointer: fine) {
-      .hero-voice-btn:hover { background: var(--color-surface); }
+      .hero-voice-btn:hover {
+        background: var(--color-surface);
+        border-color: var(--color-electric);
+        transform: translateY(-1px);
+      }
+      .hero-voice-btn:hover .hero-voice-bars i { animation-duration: 0.45s; }
     }
 
-    .hero-voice-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
+    .hero-voice-btn:focus-visible {
+      outline: 2px solid var(--color-electric);
+      outline-offset: 3px;
+    }
+
+    .hero-voice-bars {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      height: 14px;
+    }
+
+    .hero-voice-bars i {
+      display: block;
+      width: 2.5px;
+      height: 4px;
+      border-radius: 2px;
       background: var(--color-electric);
-      animation: hero-voice-pulse 2.4s ease-out infinite;
+      animation: hero-voice-eq 0.9s ease-in-out infinite;
+    }
+    .hero-voice-bars i:nth-child(2) { animation-delay: 150ms; }
+    .hero-voice-bars i:nth-child(3) { animation-delay: 300ms; }
+    .hero-voice-bars i:nth-child(4) { animation-delay: 450ms; }
+
+    /* While a call is live (VoiceAssistant sets html.voice-active), the button
+       stops asking for attention and reads as "on". */
+    html.voice-active .hero-voice-btn { border-color: var(--color-electric); }
+    html.voice-active .hero-voice-btn::after { animation: none; }
+    html.voice-active .hero-voice-bars i { animation-duration: 0.5s; }
+
+    @keyframes hero-voice-eq {
+      0%, 100% { height: 4px; }
+      50%      { height: 14px; }
     }
 
-    @keyframes hero-voice-pulse {
-      0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-electric) 45%, transparent); }
-      70%  { box-shadow: 0 0 0 7px transparent; }
-      100% { box-shadow: 0 0 0 0 transparent; }
+    @keyframes hero-voice-halo {
+      0%   { opacity: 0.55; transform: scale(1); }
+      70%  { opacity: 0;    transform: scale(1.14, 1.5); }
+      100% { opacity: 0;    transform: scale(1.14, 1.5); }
+    }
+
+    @keyframes hero-voice-nudge {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.06); }
+      100% { transform: scale(1); }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .hero-voice-dot { animation: none; }
+      .hero-voice-btn,
+      .hero-voice-btn::after,
+      .hero-voice-bars i { animation: none; }
+      .hero-voice-bars i { height: 9px; }
     }
 
     .hero-links {
@@ -764,8 +823,6 @@ VoiceStack&nbsp;&nbsp;·&nbsp;&nbsp;Voice AI&nbsp;&nbsp;·&nbsp;&nbsp;Previously
       .hero-links > span { margin: 0 8px; }
     }
   </style>
-
-  <VoiceAssistant client:only="react" />
 
   <!-- Vapi early init: warms up SDK before React hydrates to eliminate cold-start delay.
        Mic permission is requested only when the user starts a call, never on page load. -->

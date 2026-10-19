@@ -1,6 +1,7 @@
 ---
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import VoiceAssistant from '../components/VoiceAssistant';
 import '../styles/global.css';
 import PostHog from '../components/posthog.astro';
 import BouquetEgg from '../components/BouquetEgg.astro';
@@ -40,6 +41,9 @@ const ogImageURL = new URL(ogImage, Astro.site);
 
     <!-- Canonical -->
     <link rel="canonical" href={canonicalURL} />
+    <!-- Warm the voice agent's two origins so the first tap doesn't pay DNS + TLS on a phone. -->
+    <link rel="preconnect" href="https://api.vapi.ai" crossorigin />
+    <link rel="dns-prefetch" href="https://vapi.daily.co" />
 
     <!-- Sitemap -->
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -102,6 +106,9 @@ const ogImageURL = new URL(ogImage, Astro.site);
       <slot />
     </main>
     <Footer />
+    <!-- Mounted on every page: the nav mic (and the mobile menu mic) exist site-wide,
+         so the listener for 'voice:toggle' has to as well. Mount it once, here only. -->
+    <VoiceAssistant client:only="react" />
 
   <!-- ── Easter egg system: toast + markEggFound + all ambient eggs (src/scripts/eggs.ts) ── -->
   <script>

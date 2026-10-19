@@ -38,11 +38,31 @@ export default function VoiceAssistant() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const triggerRef = useRef<string>('unknown');
   const callStartRef = useRef<number | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+  const noticeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const t0Ref = useRef<number | null>(null);
+  const markedRef = useRef<Set<string>>(new Set());
 
   // Mirror state to ref so event handlers always see current value
   useEffect(() => { stateRef.current = state; }, [state]);
 
+  // Startup timing: logs click → call-start → first assistant speech to the console.
+  // Read it after a call to see which stage the wait is actually in.
+  const mark = (label: string) => {
+    if (t0Ref.current === null || markedRef.current.has(label)) return;
+    markedRef.current.add(label);
+    console.info(`[voice] +${Math.round(performance.now() - t0Ref.current)}ms ${label}`);
+  };
+
+  // A failed start must never be silent: show why in the pill for a few seconds.
+  const showNotice = (msg: string) => {
+    setNotice(msg);
+    if (noticeTimerRef.current) clearTimeout(noticeTimerRef.current);
+    noticeTimerRef.current = setTimeout(() => setNotice(null), 5000);
+  };
+
   const isVisible = state !== 'idle';
+  const pillVisible = isVisible || notice !== null;
   const isActive = state === 'listening' || state === 'speaking';
 
   // Vapi init — use pre-initialized instance from Base.astro script if available
@@ -51,6 +71,7 @@ export default function VoiceAssistant() {
     vapiRef.current = (w.__vapi as Vapi) ?? new Vapi(VAPI_KEY);
 
     vapiRef.current.on('call-start', () => {
+      mark('call-start (connected)');
       if (stateRef.current !== 'idle') setState('listening');
       callStartRef.current = Date.now();
       const w = window as Record<string, unknown>;
@@ -67,6 +88,7 @@ export default function VoiceAssistant() {
       setSeconds(0);
     });
     vapiRef.current.on('speech-start', () => {
+      mark('first assistant speech');
       if (stateRef.current !== 'idle') setState('speaking');
     });
     vapiRef.current.on('speech-end', () => {
@@ -78,6 +100,7 @@ export default function VoiceAssistant() {
       const w = window as Record<string, unknown>;
       (w.posthog as { capture?: (...a: unknown[]) => void })?.capture?.('voice_agent_error', { trigger: triggerRef.current, error: errorMsg });
       (w.gtag as ((...a: unknown[]) => void) | undefined)?.('event', 'voice_agent_error', { trigger: triggerRef.current, error: errorMsg });
+      if (stateRef.current !== 'idle') showNotice("Couldn't connect. Please try again");
       setState('idle');
       setSeconds(0);
     });
@@ -90,8 +113,23 @@ export default function VoiceAssistant() {
       const detail = (e as CustomEvent).detail as { trigger?: string } | undefined;
       triggerRef.current = detail?.trigger ?? 'unknown';
       if (stateRef.current === 'idle') {
+        // In-app browsers (Instagram, LinkedIn) expose no mic API; say so instead of hanging.
+        if (!navigator.mediaDevices?.getUserMedia) {
+          showNotice('Open this page in Safari or Chrome to talk');
+          return;
+        }
+        setNotice(null);
+        markedRef.current.clear();
+        t0Ref.current = performance.now();
         setState('connecting');
-        vapiRef.current?.start(ASSISTANT_ID);
+        // start() rejects on a blocked mic or a failed API call, and emits no 'error'
+        // event for that, so without this the pill sat on "Connecting" forever.
+        Promise.resolve(vapiRef.current?.start(ASSISTANT_ID)).catch((err: unknown) => {
+          console.error('[VoiceAssistant]', err);
+          setState('idle');
+          setSeconds(0);
+          showNotice("Couldn't start the call. Check microphone access");
+        });
       } else {
         vapiRef.current?.stop();
       }
@@ -146,9 +184,9 @@ export default function VoiceAssistant() {
     setSeconds(0);
   };
 
-  const stateLabel =
+  const stateLabel = notice ?? (
     state === 'connecting' ? 'Connecting' :
-    state === 'listening'  ? 'Listening'  : 'Speaking';
+    state === 'listening'  ? 'Listening'  : 'Speaking');
 
   const enterT = reducedMotion
     ? 'opacity 0.01ms, transform 0.01ms'
@@ -222,12 +260,12 @@ export default function VoiceAssistant() {
           WebkitBackdropFilter: 'blur(28px)',
           border: '1px solid var(--color-border)',
           whiteSpace: 'nowrap',
-          pointerEvents: isVisible ? 'all' : 'none',
-          opacity: isVisible ? 1 : 0,
-          transform: isVisible
+          pointerEvents: pillVisible ? 'all' : 'none',
+          opacity: pillVisible ? 1 : 0,
+          transform: pillVisible
             ? 'translateX(-50%) scale(1) translateY(0px)'
             : 'translateX(-50%) scale(0.88) translateY(-10px)',
-          transition: isVisible ? enterT : exitT,
+          transition: pillVisible ? enterT : exitT,
         }}
       >
         {/* Blue status dot */}
@@ -237,7 +275,7 @@ export default function VoiceAssistant() {
           borderRadius: '50%',
           background: 'var(--color-blue)',
           flexShrink: 0,
-          opacity: state === 'connecting' ? 0.45 : 1,
+          opacity: state === 'connecting' && !notice ? 0.45 : 1,
           transition: 'opacity 300ms var(--ease-ui)',
         }} />
 

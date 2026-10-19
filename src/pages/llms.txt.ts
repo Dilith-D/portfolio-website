@@ -63,7 +63,7 @@ const STATIC_PAGES: Array<{ path: string; label: string }> = [
   { path: '/', label: 'Home. Positioning, case study previews, essay previews, project previews, and contact.' },
   { path: '/about', label: 'Background, career arc, cognitive influences.' },
   { path: '/now', label: 'What Dilith is currently building, reading, and thinking about.' },
-  { path: '/contact', label: 'Contact information. Not currently seeking roles.' },
+  { path: '/contact', label: 'Contact information. Open to conversations about AI product management, B2B SaaS, and consumer products.' },
 ];
 
 // ── Non-MDX content entries (Astro pages that are content, not just index/nav) ──
@@ -151,7 +151,7 @@ Dilith Dinesh is a Product Manager and AI systems builder working at the boundar
 
 The move from field service to healthcare was deliberate. His view is that leverage in vertical software is rarely in the feature list. It is in the operational moment nobody has instrumented yet. In field service that moment is dispatch; in dental it is the inbound phone call, where practices miss a large share of calls and most callers never leave a voicemail. Healthcare adds constraints field service never had: HIPAA coverage across every component touching patient data, TCPA consent rules on outbound contact, callers who are in pain and have no patience for a menu tree, and integrations into long-established practice management systems such as Dentrix, Eaglesoft, and Open Dental.
 
-Beyond his day-to-day product work, he builds AI systems, a live voice agent on his portfolio site, and a product spec for an AI shopping discovery layer, to demonstrate how he thinks about AI product decisions, not just to describe them. He built the voice agent before joining a voice AI company. He is not currently seeking roles.
+Beyond his day-to-day product work, he builds AI systems, a live voice agent on his portfolio site, and a product spec for an AI shopping discovery layer, to demonstrate how he thinks about AI product decisions, not just to describe them. He built the voice agent before joining a voice AI company. He is not actively searching, but is open to a strong opportunity in AI product or SaaS product management. His experience is B2B, and he is excited about consumer products too.
 
 ## Site pages
 

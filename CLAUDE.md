@@ -699,7 +699,7 @@ Now:
 
 Contact:
   title:       "Contact — Dilith Dinesh"
-  description: "Open to conversations about vertical SaaS, voice AI, and product work in the operational layer. Not seeking roles."
+  description: "Open to conversations about vertical SaaS, voice AI, and product work in the operational layer. Happy where I am, open to a strong opportunity."
 ```
 
 ---
@@ -785,6 +785,11 @@ CareStack). Founded 2023.
 > instrumented. In field service that moment is dispatch. In dental it's the inbound
 > phone call. Same problem shape, harder domain, AI at the center.
 
+**Homepage is AI-PM first (Oct 2026).** Hero reads "AI product manager at the boundary
+between customer reality and product systems." The vertical-software through-line above
+is still the *story of how he got here*, but it is no longer the headline claim or the
+target. Keep the word "boundary" in the hero (the hover easter egg is attached to it).
+
 **Copy rules specific to this transition:**
 - Zuper work stays on the site and stays in **past tense**. It is the *proof*, not the
   claim. Never delete the roofing case studies.
@@ -792,7 +797,11 @@ CareStack). Founded 2023.
   shape of the problem and very little else yet." Understating here is the whole point.
 - Never publish internal VoiceStack information — roadmap, customers, metrics, decisions.
   Public sources only, and say when something is outside-in analysis.
-- He is **not job hunting**. No "open to APM roles" language anywhere.
+- He is **not actively job hunting, but open to a strong opportunity** (changed Oct 2026).
+  Target: **AI PM and SaaS PM roles**. B2B is the expertise, B2C is a stated excitement.
+  He is NOT targeting "vertical SaaS" specifically. Say all this plainly and once, never
+  as a pitch, and never say he is "not seeking roles" or "not taking recruiter calls".
+  Past case studies still describe vertical software, because that is what they were.
 - Industry stats mostly come from vendor marketing blogs with an interest in big numbers.
   Cite sources; prefer the Peerlogic call study over vendor claims.
 

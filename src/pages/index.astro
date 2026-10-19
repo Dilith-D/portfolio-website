@@ -161,14 +161,18 @@ const faqSchema = {
 
           <!-- 9. CTA row: one button, then text links -->
           <div class="hero-cta">
-            <a
-              href="/work"
-              class="font-body text-[15px] font-medium text-white bg-blue px-6 py-3 rounded-md transition-opacity duration-150 hover:opacity-90"
-            >See my work →</a>
+            <div class="hero-buttons">
+              <a
+                href="/work"
+                class="font-body text-[15px] font-medium text-white bg-blue px-6 py-3 rounded-md transition-opacity duration-150 hover:opacity-90"
+              >See my work →</a>
+              <button id="heroCta" type="button" class="hero-voice-btn">
+                <span class="hero-voice-dot" aria-hidden="true"></span>
+                Talk to my AI
+              </button>
+            </div>
             <p class="hero-links">
               <a href="/writing">Read my thinking →</a>
-              <span aria-hidden="true">·</span>
-              <button id="heroCta" type="button">Talk to my AI →</button>
               <span aria-hidden="true">·</span>
               <a href="https://linkedin.com/in/dilithdinesh" target="_blank" rel="noopener noreferrer">LinkedIn →</a>
             </p>
@@ -563,7 +567,56 @@ VoiceStack&nbsp;&nbsp;·&nbsp;&nbsp;Voice AI&nbsp;&nbsp;·&nbsp;&nbsp;Previously
 
     .hero-cta { margin-top: 40px; }
 
-    .hero-cta > a { display: inline-block; }
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-buttons > a { display: inline-block; }
+
+    /* Secondary CTA per the button spec: transparent, 1px primary border. The
+       live dot says "this is interactive and available now". */
+    .hero-voice-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--color-primary);
+      background: transparent;
+      border: 1px solid var(--color-primary);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 150ms var(--ease-ui), transform 150ms var(--ease-ui);
+    }
+
+    .hero-voice-btn:active { transform: scale(0.97); }
+
+    @media (hover: hover) and (pointer: fine) {
+      .hero-voice-btn:hover { background: var(--color-surface); }
+    }
+
+    .hero-voice-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-electric);
+      animation: hero-voice-pulse 2.4s ease-out infinite;
+    }
+
+    @keyframes hero-voice-pulse {
+      0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-electric) 45%, transparent); }
+      70%  { box-shadow: 0 0 0 7px transparent; }
+      100% { box-shadow: 0 0 0 0 transparent; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-voice-dot { animation: none; }
+    }
 
     .hero-links {
       margin-top: 24px;

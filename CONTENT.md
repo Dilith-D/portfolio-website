@@ -249,6 +249,17 @@ Card 4:
   Link:         /projects/delphi
   Live:         https://delphi-tax.vercel.app
 
+Card 5:
+  Year/Stack:   2026  ·  KOTLIN  ·  JETPACK COMPOSE  ·  SUPABASE
+  Title:        Reeve
+  Description:  Every Indian bank texts you when money moves, so the
+                inbox is the real ledger. I built the Android budgeting
+                app that reads it on the device, files transactions by
+                rule, and never sends the messages to a server.
+  CTA:          See how I built it →
+  Link:         /projects/reeve
+  Live:         https://reeve-dilithd.vercel.app (web client, sign-in required; Android APK is sideloaded)
+
 Section CTA:    See all projects →   (links to /projects)
 ```
 

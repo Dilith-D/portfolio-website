@@ -1,0 +1,116 @@
+---
+layout: ../../layouts/Prose.astro
+title: "Reeve"
+description: "How Dilith Dinesh designed and built Reeve, a native Android budgeting app that reads bank SMS on the device, files transactions with deterministic rules, and tells you what is safe to spend, and the decisions behind each."
+summary: "Every Indian bank already texts you each time money moves. I built the budgeting app that treats those messages as the ledger, and never sends the messages themselves to a server."
+tags: ["Fintech", "Android", "Personal Finance"]
+date: "2026"
+slug: "reeve"
+schema:
+  "@context": "https://schema.org"
+  "@type": "SoftwareApplication"
+  name: "Reeve"
+  applicationCategory: "FinanceApplication"
+  operatingSystem: "Android"
+  description: "A native Android budgeting app that parses bank SMS on the device, files transactions with deterministic rules, and computes a safe-to-spend figure from real balances. Designed and built by Dilith Dinesh."
+  author:
+    "@type": "Person"
+    name: "Dilith Dinesh"
+    url: "https://dilithdinesh.com"
+  datePublished: "2026"
+  url: "https://dilithdinesh.com/projects/reeve"
+---
+
+import ReeveSmsPipeline from '../../components/diagrams/ReeveSmsPipeline.astro';
+
+## Why I Built This
+
+I run my money on a system. A salary cycle, a monthly cap on lifestyle spending, sinking funds that carry a balance forward (rent, SIP, an EMI, an emergency fund), a tag for money I spent on behalf of family, and credit cards handled so a swipe and its bill payment are never counted twice. I kept it in a spreadsheet for years.
+
+The spreadsheet had one flaw. I had to type everything in, and the month I stopped typing was the month the system stopped telling me the truth.
+
+In India there is a source of truth that needs no typing. Every bank texts you each time money moves, and UPI means almost everything moves through a bank. The SMS inbox is the only complete record of where the money went. A budgeting app that reads it can be accurate without asking the person to be disciplined.
+
+Reeve is that app. It began in July 2026 as a web app, grew an Expo mobile client, and in October I rewrote the phone side as a native Android app in Kotlin and Jetpack Compose. Why that rewrite happened is the first decision below.
+
+---
+
+## What I Built vs. What the Infrastructure Handles
+
+Auth and the database are Supabase. Google sign-in is Google's. I did not build those, and I deliberately did not pull in the Supabase SDK either: the Android client is a small HTTP layer for sign-in and paged reads, so there are fewer moving versions to break.
+
+What I built is everything that decides what a message means. The parser, the rule engine that files a transaction, the budget maths (cycles, caps, sinking funds, family exclusions), the safe-to-spend figure, the review queue, the notifications, and both clients. Over 8,000 lines of Kotlin, with more than 120 unit tests covering the parser and the money logic.
+
+The parser began as a written spec, drawn from a corpus of 6,483 real bank messages, of which 4,941 were parseable. It defines 25 templates, one per message shape a bank actually sends. I ported it to Kotlin rather than improving it, and the original 82 regression checks came along.
+
+---
+
+## Decisions That Weren't Obvious
+
+**01. A budget that silently misses a text is worse than no budget**
+
+The Expo version worked the day I verified it with a real bank SMS. A few weeks later it missed several payments, and nothing showed an error. I connected the phone and found the cause: Android was blocking the app's network access whenever the screen was off, because the app was not exempt from battery optimisation. The text arrived, the app parsed it, and the upload to the server was refused. The code swallowed the failure by design, so the transaction simply never appeared.
+
+I fixed the setting on the phone, but that only stops it happening. It does not make the app survive it happening again. The structural fix was missing from the Expo version, and it is the reason the SMS side is now native Kotlin. A budget that is quietly missing transactions is more dangerous than none, because it still looks complete.
+
+**02. Persist the raw message before doing anything else**
+
+<ReeveSmsPipeline />
+
+Parsing needs the network for the sync, and the network is exactly what fails on a train. If the app parsed first and wrote second, every failure between those two steps would be a lost transaction.
+
+So the order is fixed. Receive, write to a local queue, then let a background worker parse and upload when it can. A message's identity is a hash of the sender, the second it arrived and its text, and the row it creates on the server takes its ID from that hash. A retry produces the same ID. A manual inbox scan produces the same ID. The live receiver and the scan can overlap and nothing is created twice.
+
+**03. The server never sees the message**
+
+This one came from a product question, not an engineering one. Partway through I started treating Reeve as something other people could use, and read my own schema as a stranger would. It stored the raw SMS text. That contradicts any honest privacy promise for an app whose whole input is people's bank messages.
+
+The fix was to move the parsing onto the device and send only structured fields: amount, direction, merchant, account, date. Messages the parser does not recognise stay on the phone for 30 days so I can write a template for them, and are never uploaded. Messages from senders that are not banks are never stored at all.
+
+It also changed the data model. The server column for raw text now stays empty by design.
+
+**04. Rules decide. Nothing guesses.**
+
+There is no model in the categorisation path. A transaction is filed automatically only when both conditions hold: the account it came from is recognised, and a categorisation rule that matches the merchant is marked auto-confirm. Everything else lands in a review queue as pending, with the category left for me to pick.
+
+The point of the queue is that it learns. When I file a merchant, a checkbox (on by default) saves a rule, and next time that merchant files itself. Salary credits are the one exception I made by hand, auto-confirmed as income because there is nothing to review in one.
+
+The failure mode I accept is a slow first month. The one I refuse is a wrong category I never see.
+
+**05. Safe to spend is about money, not the cap**
+
+The obvious number for a budget app is "what is left under the cap". It is also misleading. You can be under the cap with a bank balance that cannot cover next week's rent.
+
+Reeve takes the smaller of two figures: the cap left, and the main account balance minus the fixed and wealth allocations still unpaid this cycle. The balance is read from the bank's own message, on the device, where banks print one. Between those messages it is the last bank figure plus the transactions captured since.
+
+That derived figure had a bug I only caught on a real phone. A scan that back-filled older transactions subtracted them from a newer bank balance and the account went hugely negative. The fix was a rule: a transaction dated before the day of the last bank figure is already inside that figure, so it is ignored. The screen also shows how old the figure is, and says Stale after three days, in words rather than a colour.
+
+**06. Overspending is not an emergency colour**
+
+The web app shows overspend in red. On the phone I changed it. The home hero is a calm warm orange while you are under the cap and turns navy when you are over it. It is never red.
+
+The reasoning came from UX research I did before the redesign, not from testing: red tells someone they failed, and an app people open every day stops being opened. I have not tested that claim on anyone but myself. I also decided not to ship a dark theme. I wanted one warm look and did it well rather than two looks done adequately.
+
+---
+
+## What I'd Do Differently
+
+**It is built for one person, so most claims are unproven.** I am the only user, on one phone, with a handful of bank accounts. The parser has seen a lot of real messages, but only mine. A bank rewording a template is a normal event and it already happened once: a bank began printing a UPI reference where the payee used to be, the parser filed the reference as the merchant, and 13 rows needed repairing. I fixed it from the phone's own inbox. A second user would hit another bank's wording within days.
+
+**There is a delivery delay I have not diagnosed.** On one evening a set of payments reached the database much later than the texts arrived. The permissions, the sender matching and the parser were all correct, so the suspect is Android's background delivery on that phone, not the code. I know what to test next (send a message without opening the app and check the database within two minutes). I have not closed it, and I will not claim the pipeline is reliable until I have.
+
+**There is no real offline outbox.** If a write fails offline, the app says so and offers a retry. It does not queue the change. The SMS path is protected by the raw-first queue; the manual paths are not.
+
+**The sideload is not a product.** Google Play restricts the SMS permissions to a narrow set of apps, and a budgeting app has to argue its way in. A version for other people would need a path that does not read SMS at all, such as a notification listener or statement import, and I would build that before building any more screens.
+
+---
+
+## What This Is Evidence Of
+
+Building the screens was the smaller part of the work. The decisions were about where a trustworthy number comes from: why the first write is to disk, why the server must not see the message, why a category needs a rule and a human rather than a guess, and why "safe to spend" is a different question from "under budget".
+
+None of that came from choosing a framework. It came from asking what would make me stop trusting the number, and building so that cannot happen quietly.
+
+---
+
+*Reeve is a native Android app (Kotlin, Jetpack Compose, Room, WorkManager) with a Next.js web client, both on a shared Supabase backend. The repository is private and the Android app is sideloaded. The [web client is live](https://reeve-dilithd.vercel.app), but it needs an account to get past the sign-in page. Everything on this page about data and accuracy describes my own accounts only.*

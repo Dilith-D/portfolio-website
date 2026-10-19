@@ -5,7 +5,7 @@ import ProjectCard from '../../components/ProjectCard.astro';
 
 <Base
   title="Projects · Dilith Dinesh"
-  description="Five personal builds by Dilith Dinesh: Iris (cross-device file transfer), Pulseboard (PM work-tracking), SuperPilot (AI CRM memory layer), Delphi (tax filing intelligence for foreign founders), and a live voice agent. Build logs documenting the decisions and lessons."
+  description="Six personal builds by Dilith Dinesh: Iris (cross-device file transfer), Pulseboard (PM work-tracking), SuperPilot (AI CRM memory layer), Delphi (tax filing intelligence for foreign founders), Reeve (an Android budgeting app that reads bank SMS on the device), and a live voice agent. Build logs documenting the decisions and lessons."
 >
   <div class="max-w-[1100px] mx-auto px-6 pt-[120px] pb-[80px]">
 
@@ -68,6 +68,14 @@ import ProjectCard from '../../components/ProjectCard.astro';
         year="2026"
         slug="delphi"
         liveUrl="https://delphi-tax.vercel.app"
+      />
+      <ProjectCard
+        title="Reeve"
+        problem="Every Indian bank texts you when money moves, so the inbox is the real ledger. I built the Android budgeting app that reads it on the device, files transactions by rule, and never sends the messages to a server."
+        stack={["Kotlin", "Jetpack Compose", "Supabase"]}
+        year="2026"
+        slug="reeve"
+        liveUrl="https://reeve-dilithd.vercel.app"
       />
     </div>
 

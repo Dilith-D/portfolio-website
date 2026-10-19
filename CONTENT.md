@@ -258,7 +258,7 @@ Card 5:
                 rule, and never sends the messages to a server.
   CTA:          See how I built it →
   Link:         /projects/reeve
-  Live:         https://reeve-dilithd.vercel.app (web client, sign-in required; Android APK is sideloaded)
+  Live:         https://pfos-tracker.vercel.app/login (web client, sign-in required; Android APK is sideloaded)
 
 Section CTA:    See all projects →   (links to /projects)
 ```

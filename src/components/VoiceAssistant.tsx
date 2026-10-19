@@ -135,7 +135,22 @@ export default function VoiceAssistant() {
       }
     };
     document.addEventListener('voice:toggle', handleToggle);
-    return () => document.removeEventListener('voice:toggle', handleToggle);
+
+    // A tap that landed before this component hydrated was queued by the inline
+    // catcher in Base.astro. Take it over now so the user never has to tap twice.
+    const w = window as unknown as { __voiceReady?: boolean; __voiceQueue?: { trigger?: string } | null };
+    w.__voiceReady = true;
+    if (w.__voiceQueue) {
+      const queued = w.__voiceQueue;
+      w.__voiceQueue = null;
+      document.documentElement.classList.remove('voice-pending');
+      handleToggle(new CustomEvent('voice:toggle', { detail: queued }));
+    }
+
+    return () => {
+      w.__voiceReady = false;
+      document.removeEventListener('voice:toggle', handleToggle);
+    };
   }, []);
 
   // Call timer — runs while active

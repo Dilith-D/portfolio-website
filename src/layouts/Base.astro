@@ -44,6 +44,25 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <!-- Warm the voice agent's two origins so the first tap doesn't pay DNS + TLS on a phone. -->
     <link rel="preconnect" href="https://api.vapi.ai" crossorigin />
     <link rel="dns-prefetch" href="https://vapi.daily.co" />
+    <!-- Voice click catcher. The real handler lives in VoiceAssistant (React + the Vapi
+         SDK, ~490KB), which can take many seconds to hydrate on a phone. Until it does,
+         a tap on any mic/CTA would be silently lost. This tiny listener queues the tap
+         and shows a "Connecting" pill at once; VoiceAssistant drains the queue on mount. -->
+    <script is:inline>
+      (function () {
+        var timer;
+        document.addEventListener('voice:toggle', function (e) {
+          if (window.__voiceReady) return;
+          window.__voiceQueue = (e && e.detail) || {};
+          document.documentElement.classList.add('voice-pending');
+          clearTimeout(timer);
+          timer = setTimeout(function () {
+            window.__voiceQueue = null;
+            document.documentElement.classList.remove('voice-pending');
+          }, 30000);
+        });
+      })();
+    </script>
 
     <!-- Sitemap -->
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -109,6 +128,10 @@ const ogImageURL = new URL(ogImage, Astro.site);
     <!-- Mounted on every page: the nav mic (and the mobile menu mic) exist site-wide,
          so the listener for 'voice:toggle' has to as well. Mount it once, here only. -->
     <VoiceAssistant client:only="react" />
+    <!-- Shown only while a tap is queued and VoiceAssistant has not hydrated yet. -->
+    <div id="voice-pending-pill" role="status" aria-live="polite">
+      <span class="vpp-dot" aria-hidden="true"></span>Connecting
+    </div>
 
   <!-- ── Easter egg system: toast + markEggFound + all ambient eggs (src/scripts/eggs.ts) ── -->
   <script>
@@ -248,3 +271,48 @@ const ogImageURL = new URL(ogImage, Astro.site);
 
   </body>
 </html>
+
+<style is:global>
+  /* Instant "Connecting" feedback before VoiceAssistant has hydrated. Mirrors the
+     .di-pill look and position so the handoff to the real pill is invisible. */
+  #voice-pending-pill {
+    position: fixed;
+    top: 5.25rem;
+    left: 50%;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.45rem 1.1rem;
+    border-radius: 9999px;
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 1px solid var(--color-border);
+    background: rgba(13, 11, 10, 0.75);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--color-primary);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) scale(0.88) translateY(-10px);
+    transition: opacity 120ms ease, transform 160ms ease;
+  }
+  html:not(.dark) #voice-pending-pill { background: rgba(244, 240, 232, 0.85); }
+  html.voice-pending #voice-pending-pill {
+    opacity: 1;
+    transform: translateX(-50%) scale(1) translateY(0);
+  }
+  #voice-pending-pill .vpp-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-blue);
+    opacity: 0.45;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #voice-pending-pill { transition: none; }
+  }
+</style>

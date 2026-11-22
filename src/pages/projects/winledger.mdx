@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Prose.astro
 title: "Winledger"
-description: "How Dilith Dinesh built Pulseboard, a work log, in a weekend, then audited it like a product he had to launch and rebuilt it with Claude Code as Winledger: a private brag sheet with no AI, a spreadsheet import, and data the user owns."
+description: "How Dilith Dinesh built Pulseboard, a work log, in a weekend, then audited it like a product he had to launch and rebuilt it with Claude Code as Winledger: a private brag sheet with no AI, a spreadsheet import, data the user owns, and an Android companion with reminders built from the user's own record."
 summary: "I built a work log for myself in a weekend. A year later I audited it like a product I had to launch, cut my favourite feature, and rebuilt it as Winledger."
 tags: ["Positioning", "0 to 1", "Claude Code"]
 date: "2025, rebuilt 2026"
@@ -12,7 +12,7 @@ schema:
   name: "Winledger"
   alternateName: "Pulseboard"
   applicationCategory: "BusinessApplication"
-  description: "A private brag sheet for people with office jobs: log work wins as they happen, import an existing spreadsheet, and pull a plain-text summary of any period for a performance review or job hunt. No AI reads the user's work. Built by Dilith Dinesh, first as Pulseboard on Lovable (2025), then audited and rebuilt with Claude Code on React, Supabase and Vercel (2026)."
+  description: "A private brag sheet for people with office jobs: log work wins as they happen, import an existing spreadsheet, and pull a plain-text summary of any period for a performance review or job hunt. No AI reads the user's work. Built by Dilith Dinesh, first as Pulseboard on Lovable (2025), then audited and rebuilt with Claude Code on React, Supabase and Vercel (2026), with a native Android companion for capture and reminders."
   author:
     "@type": "Person"
     name: "Dilith Dinesh"
@@ -97,13 +97,31 @@ My job was the part an agent can't own. I made the positioning call, decided the
 
 ---
 
+## Bringing People Back
+
+A brag sheet only pays off at review time, months after the logging. So the next question was the one every consumer product has to answer: why would anyone open this again next week?
+
+**The phone is a companion, not a second app.** The people this is for work on a laptop, often a locked-down work laptop, and that is where the full log, the summary and the import stay. The phone does four things: catch a win in one line (from the home screen, a notification reply or the share sheet), remind, show a quick summary, and export the whole record. It's a native Android app in Kotlin, built with Claude Code like the rest. It saves to the phone first and syncs later, so a win typed on a train with no signal is never lost. It's on my phone, not on the Play Store yet.
+
+**A review of my own retention.** I asked an agent to review Winledger as a consumer app and answer one question: what brings someone back, and what pushes them away? The verdict was fair. Winledger was good at getting a win down fast and at welcoming someone back after a gap without blame. It was weak at everything in between. The loop was: log, watch a count go up, wait six months.
+
+**Tie the habit to the payoff.** The most motivating sentence the app can say is "your review is in four weeks", and it couldn't say it, because it didn't know when your review was. Now you can set your review date and the month your company year starts. Six weeks out, the log, the weekly email and the phone all count down, with the number of entries since your last review and a way straight into the brag sheet.
+
+**A weekly streak, built so one missed week isn't final.** The review argued against streaks, because most habit apps lose people the day a streak resets to zero. I added a weekly one with two guards. The current week doesn't count against you until it's over, and backfilling an empty week from the catch-up prompt repairs the streak, which fits a record of what you did rather than when you typed it. Next to it sit counts that only go up, such as weeks on record and how many weeks of this quarter have an entry, so a broken streak is never the only number on the screen.
+
+**Reminders built from your own record.** On the phone there are now nine kinds, all off until you turn them on except the weekly check-in: a review countdown, a quarter-close note, a catch-up after a quiet stretch, the weekly check-in, a praise prompt, one quoting what you logged a year ago this week, a monthly recap, an export reminder, and an optional end-of-day nudge. Three rules apply to all of them. At most one reminder a day. Triggers read dates and counts, never what you wrote. Nothing shows on the lock screen beyond a generic line, because these are confidential work notes on a phone that may be lying face up in a meeting.
+
+**Ask for impact while it's fresh.** A list of one-line titles makes a thin self-review. The phone now takes impact and praise when they happen, which is usually away from the laptop: a thank-you read in a chat can be pasted in word for word.
+
+---
+
 ## What I'd Do Differently
 
-**There is one user, and it's me.** Everything above is a claim about what should work. I don't yet have evidence that anyone else returns weekly, which is the only metric that matters for a log. The spreadsheet's real failure is that people stop updating it in April, and software alone doesn't fix a habit. Reminders and a weekly nudge are the obvious next step, and I haven't built them.
+**There is one user, and it's me.** Everything above is a claim about what should work. I don't yet have evidence that anyone else returns weekly, which is the only metric that matters for a log. The spreadsheet's real failure is that people stop updating it in April, and software alone doesn't fix a habit. The reminders, the streak and the review countdown are my best guess at the habit, and none of them has met a second user yet.
 
 **The signal-versus-noise flag still isn't built.** Version one's biggest lesson was that a summary should reflect significance, not volume. A way to mark the wins that matter is still on the list, two versions later.
 
-**Some edges are visible.** Google's consent screen names the backend's address instead of Winledger's, because a fix needs a paid custom domain. Sign-up emails come from Supabase's built-in mailer, which is rate limited and not meant for a real launch.
+**Some edges are visible.** Google's consent screen names the backend's address instead of Winledger's, because a fix needs a paid custom domain. Sign-up emails come from Supabase's built-in mailer, which is rate limited and not meant for a real launch. The weekly reminder email can't reach anyone but me until I verify a sending domain, and the Android app isn't on the Play Store.
 
 ---
 
@@ -115,4 +133,4 @@ It's also a working answer to a question I get asked a lot: what changes when a 
 
 ---
 
-*Winledger is a React and TypeScript web app on Supabase (Postgres, auth, storage), hosted on Vercel and built with Claude Code. Version one, Pulseboard, was built on Lovable in 2025. [Winledger is live and free](https://winledger.vercel.app): bring the spreadsheet you already keep, or log this week's wins one line at a time.*
+*Winledger is a React and TypeScript web app on Supabase (Postgres, auth, storage), hosted on Vercel, with a native Android companion in Kotlin and Jetpack Compose, all built with Claude Code. Version one, Pulseboard, was built on Lovable in 2025. [Winledger is live and free](https://winledger.vercel.app): bring the spreadsheet you already keep, or log this week's wins one line at a time.*

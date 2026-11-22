@@ -7,7 +7,8 @@
 PRIV="../private-portfolio"
 if [ -d "$PRIV/.git" ]; then
   echo "[pre-push] Syncing private backup..."
-  cp -f agent-knowledge-base.txt          "$PRIV/voice-agent/"                  2>/dev/null
+  cp -f "VAPI/watson KB.txt"             "$PRIV/voice-agent/"                  2>/dev/null
+  cp -f "VAPI/vapi prompt.txt"           "$PRIV/voice-agent/"                  2>/dev/null
   cp -f claude-code-prompt-voice-agent.md "$PRIV/voice-agent/"                  2>/dev/null
   cp -f REDESIGN_PLAN.md                  "$PRIV/planning/"                     2>/dev/null
   cp -f ai_copilot_architecture_dataflow.html "$PRIV/planning/"                 2>/dev/null

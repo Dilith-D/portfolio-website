@@ -1,87 +1,53 @@
 /**
- * One-time script to get your Spotify refresh_token.
- * Run once, paste the token into Netlify env vars — never run again.
+ * Re-authorise the Spotify Now Playing widget. Only needed if the token was revoked
+ * (for example, access removed at spotify.com/account/apps). Normal rotation is automatic:
+ * see netlify/lib/spotify.mjs.
  *
- * Usage:
- *   node scripts/get-spotify-token.mjs
+ * Usage:  node scripts/get-spotify-token.mjs
  *
- * Prerequisites:
- *   1. Go to https://developer.spotify.com/dashboard
- *   2. Create an app (any name)
- *   3. In app settings → Redirect URIs → add: http://localhost:3042/callback
- *   4. Copy Client ID and Client Secret
- *   5. Paste them below (or set as env vars SPOTIFY_CLIENT_ID / SPOTIFY_CLIENT_SECRET)
+ * Reads SPOTIFY_CLIENT_ID and SPOTIFY_AUTH_STATE from .env, then opens Spotify's authorise
+ * page. After you approve, Spotify redirects to https://dilithdinesh.com/callback, which
+ * stores the new refresh token in Netlify Blobs. Nothing to copy or paste.
+ *
+ * Prerequisite: https://dilithdinesh.com/callback is a Redirect URI in the Spotify app
+ * (it is), and SPOTIFY_AUTH_STATE has the same value locally and in Netlify env.
  */
 
-import http from 'http';
+import { readFileSync } from 'fs';
 import { exec } from 'child_process';
 
-const CLIENT_ID     = process.env.SPOTIFY_CLIENT_ID     || 'PASTE_CLIENT_ID_HERE';
-const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET || 'PASTE_CLIENT_SECRET_HERE';
-const REDIRECT_URI  = 'http://localhost:3042/callback';
-const PORT          = 3042;
+function readEnv() {
+  const env = {};
+  try {
+    for (const line of readFileSync(new URL('../.env', import.meta.url), 'utf8').split(/\r?\n/)) {
+      const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*?)\s*$/);
+      if (m) env[m[1]] = m[2].replace(/^["']|["']$/g, '');
+    }
+  } catch { /* no .env, fall back to process.env */ }
+  return { ...env, ...process.env };
+}
 
-const SCOPES = [
-  'user-read-currently-playing',
-  'user-read-recently-played',
-].join(' ');
+const env = readEnv();
+const CLIENT_ID = env.SPOTIFY_CLIENT_ID;
+const STATE     = env.SPOTIFY_AUTH_STATE;
+if (!CLIENT_ID || !STATE) {
+  console.error('Set SPOTIFY_CLIENT_ID and SPOTIFY_AUTH_STATE in .env first.');
+  process.exit(1);
+}
 
-const authUrl =
-  `https://accounts.spotify.com/authorize` +
-  `?client_id=${CLIENT_ID}` +
-  `&response_type=code` +
-  `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
-  `&scope=${encodeURIComponent(SCOPES)}`;
-
-const server = http.createServer(async (req, res) => {
-  const url = new URL(req.url, `http://localhost:${PORT}`);
-  if (url.pathname !== '/callback') return;
-
-  const code = url.searchParams.get('code');
-  if (!code) {
-    res.end('Missing code param');
-    return;
-  }
-
-  const basic = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
-
-  const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
-    method: 'POST',
-    headers: {
-      Authorization: `Basic ${basic}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({
-      grant_type:   'authorization_code',
-      code,
-      redirect_uri: REDIRECT_URI,
-    }),
-  });
-
-  const data = await tokenRes.json();
-
-  if (data.refresh_token) {
-    console.log('\n✅ Got your refresh token:\n');
-    console.log(`SPOTIFY_REFRESH_TOKEN=${data.refresh_token}\n`);
-    console.log('Add these three env vars to Netlify → Site settings → Environment variables:\n');
-    console.log(`  SPOTIFY_CLIENT_ID     = ${CLIENT_ID}`);
-    console.log(`  SPOTIFY_CLIENT_SECRET = ${CLIENT_SECRET}`);
-    console.log(`  SPOTIFY_REFRESH_TOKEN = ${data.refresh_token}`);
-    res.end('<h2>Done — check your terminal for the token. You can close this tab.</h2>');
-  } else {
-    console.error('Error:', data);
-    res.end(`<pre>${JSON.stringify(data, null, 2)}</pre>`);
-  }
-
-  server.close();
+const authUrl = 'https://accounts.spotify.com/authorize?' + new URLSearchParams({
+  client_id: CLIENT_ID,
+  response_type: 'code',
+  redirect_uri: 'https://dilithdinesh.com/callback',
+  scope: 'user-read-currently-playing user-read-recently-played',
+  state: STATE,
+  show_dialog: 'true',
 });
 
-server.listen(PORT, () => {
-  console.log(`\nOpening Spotify login...\n${authUrl}\n`);
-  // Try to open the browser automatically
-  const open =
-    process.platform === 'win32'  ? `start "${authUrl}"` :
-    process.platform === 'darwin' ? `open "${authUrl}"` :
-    `xdg-open "${authUrl}"`;
-  exec(open);
-});
+console.log('\nOpening Spotify. Approve access, then wait for "Spotify connected".\n');
+console.log('If the browser does not open, paste this URL:\n' + authUrl + '\n');
+
+const cmd = process.platform === 'win32' ? `start "" "${authUrl}"`
+          : process.platform === 'darwin' ? `open "${authUrl}"`
+          : `xdg-open "${authUrl}"`;
+exec(cmd);

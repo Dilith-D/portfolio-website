@@ -278,6 +278,71 @@ Tailwind utility classes use `var(--color-*)` through the design token system, s
 
 ---
 
+## VoiceStack reframe (22 Nov 2026)
+
+Dilith was ~3.5 months into VoiceStack and the site still read as a newcomer ("I know
+the shape of the problem and very little else yet", "Starting August 2026", "First 90
+days", "I just started"). He asked for it to read as a settled employee in voice AI and
+health tech. What changed and why:
+
+- **Tone is working fluency, not humility.** He knows how calls, front desks and PMS
+  workflows run. Clinical depth is still explicitly not claimed ("The clinical side is
+  not my claim" on /about). Do not reintroduce newcomer framing.
+- **His work is described as responsibilities, generically.** Two products: an AI voice
+  agent for dental practices (evals, call flows, prompts and tool calls, research, build
+  vs buy, owns unit economics) and an internal platform used by six teams. The real
+  product names are internal and must never appear anywhere public. No metrics,
+  customers, roadmap or outcomes.
+- **Now page:** Iris mobile removed (his call, it was not going anywhere), Reeve and
+  Winledger featured instead, "Closed out: Zuper" block dropped as four months stale.
+- **"Health tech"** added next to voice AI in meta, JSON-LD knowsAbout and llms.txt.
+- The voice agent prompt and KB (VAPI/, gitignored) carried the same newcomer framing
+  and were reworked in the same pass. Keep site, KB and prompt in step.
+
+## Voice agent navigates the site (22 Nov 2026)
+
+The agent can open pages for the visitor through a client-side Vapi tool,
+`navigate_to_page(path)`. The tool has no server URL, so Vapi delivers the tool call to
+the browser, and `VoiceAssistant.tsx` checks the path against `NAV_ALLOWED` before
+navigating. The agent gets the current page through `variableValues` at call start, and
+a silent system message after each page change.
+
+- **Why soft swaps only during a call:** a normal page load kills the WebRTC call. Moving
+  the whole site to Astro's ClientRouter would mean rewriting about 20 page scripts that
+  assume full loads. So Base.astro loads ClientRouter but cancels every navigation in
+  `astro:before-preparation` unless `window.__voiceCallActive` is true. Astro then falls
+  back to a normal full load by itself.
+- **Accepted trade-off:** during a call, a page revisited by soft swap does not re-run
+  scripts that already ran (for example the hero canvas or the hero voice button). Theme,
+  reveal and nav active state are restored in `astro:after-swap`. The next click after
+  the call is a full load, which restores everything.
+- **Three lists must match:** the Vapi tool enum, the page list in `VAPI/vapi prompt.txt`,
+  and `NAV_ALLOWED`. `/secret` is deliberately excluded.
+- Also removed the backdrop blur and hover fade from the voice pill, which are banned
+  patterns. The nav pill still uses backdrop blur: an open item.
+
+## Spotify widget trap (22 Nov 2026)
+
+The Now page widget showed nothing because Spotify had revoked `SPOTIFY_REFRESH_TOKEN`
+(`invalid_grant: Refresh token revoked`). The old function never checked the token
+response, so it called Spotify with `Bearer undefined`, returned an empty result, and the
+widget silently hid.
+
+Fix, so this does not recur:
+- The live refresh token now lives in **Netlify Blobs** (store `spotify`, key
+  `refresh_token`). Any rotated token Spotify returns is saved on every refresh
+  (`netlify/lib/spotify.mjs`). The env var is only a first-run fallback.
+- `spotify-keepalive` is a scheduled function (`@weekly`) that refreshes even when nobody
+  visits /now.
+- Re-authorising is one command: `node scripts/get-spotify-token.mjs` opens Spotify, which
+  returns to `https://dilithdinesh.com/callback` (already a registered redirect URI). The
+  `spotify-callback` function stores the token directly, so nothing gets copied or pasted.
+- `/callback` only accepts a `state` equal to `SPOTIFY_AUTH_STATE`. Without that check,
+  anyone could connect their own Spotify and take over the widget. The value must match
+  in `.env` and the Netlify env.
+- Failures now return a 500 with the Spotify error and log to the Netlify function logs,
+  instead of an empty 200.
+
 ## Easter Egg System
 
 20+ easter eggs tracked in `localStorage` under key `'dd-found-eggs'` (array of IDs). Discoverable at `/secret`.

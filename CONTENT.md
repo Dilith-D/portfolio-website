@@ -114,12 +114,13 @@ CURRENT STATE
   Voice assistant on this site                → /projects/voice-agent
 
 ● IN PROGRESS                dot: --color-status-amber (#C9862F)
-  First 90 days at VoiceStack                 (no link)
+  Evals and call flows for a dental voice agent  (no link)
+  An internal platform for six teams          (no link)
   Ask Dilith, site chatbot                    (no link)
 
 ● EXPLORING                  dot: --color-secondary
   Why voice is the right interface for front-office work
-  What field service taught me that transfers to healthcare
+  The unit economics of an AI phone call
 ```
 
 **Status board content is partly unconfirmed.** It shipped as specified in the
@@ -1172,50 +1173,49 @@ Page title:     Now
 Subtitle:       What I'm working on, reading, and
                 thinking about — updated regularly.
 
-Last updated:   May 2026
+Last updated:   Nov 2026
 
 Currently Building:
 
-At Zuper: Scaling the roofing vertical architecture across trade
-          types, and mapping which parts of the onboarding process
-          can be handed off to AI.
+At VoiceStack: Associate Product Manager, working across two products.
+          On an AI voice agent for dental practices, I write the evals,
+          define the call flows, write the prompts and tool calls,
+          research what practices and their front desks expect, and own
+          the product's unit economics. On an internal platform that six
+          teams will use, I'm modelling the requirements, prototyping it,
+          and deciding what ships first.
 
-Side:     Iris — the web app is fully built. Now extending it
-          to mobile. The mobile MVP exists; the real build is underway.
+Side:     Reeve (links /projects/reeve): a native Android budgeting app
+          that reads bank texts on the phone and tells you what is safe
+          to spend. The messages never leave the device.
 
-Side:     Voice agent live on the homepage — built as a proof-of-thinking
+Side:     Winledger (links /projects/winledger): my old weekend work log,
+          audited like a product and rebuilt as a private brag sheet,
+          with no AI in it on purpose.
+
+Side:     Voice agent live on the homepage, built as a proof-of-thinking
           for AI product work. Iterating on retrieval precision
           and fallback routing.
 
+(Iris mobile was removed from the Now page on 22 Nov 2026 on Dilith's call.
+Do not add it back.)
+
 Currently Reading:
 
-Love and Other Words — Christina Lauren.
-A deliberate break from frameworks and field notes.
-Turns out reading for pure enjoyment is its own kind of reset.
+A Gentleman in Moscow, by Amor Towles.
 
 Currently Thinking About:
 
-→ What does AI-native product management actually look like
-  when the users are offline and physical?
+Four arrow-prefixed questions: how long you have to live in a vertical,
+when a voice agent should hand off to a person, AI receptionists winning
+on unglamorous things ("So far, that holds."), and AI that steps back.
+The live copy in src/pages/now.astro is the source of truth.
 
-→ Where does vertical SaaS end and
-  industry-specific AI begin?
+Open To:
 
-→ How do you design AI that steps back while still doing its job —
-  reducing cognitive load for people in physically demanding
-  environments instead of adding to it?
-
-Looking For:
-
-APM or product roles at Series A/B
-product-led companies.
-
-Particularly interested in: vertical SaaS,
-AI-first products, B2B tools built for
-people doing physical work.
-
-Open to conversations even if the timing
-isn't right yet.
+I'm happy at VoiceStack and I'm not out looking. But a genuinely good
+opportunity is worth a conversation. AI product and SaaS product roles.
+B2B is the experience, consumer is the curiosity.
 
 → dilithdinesh007@gmail.com
 ```
@@ -1386,11 +1386,11 @@ Divider: ————
 
 Section: I'm currently open to
 
-APM and product roles at Series A/B
-product-led companies
+AI product and SaaS product work. B2B is where
+my experience is, and I'm excited about consumer too
 
-Conversations about vertical SaaS,
-AI-first product, and field operations
+Anyone who has built voice agents into a real
+workflow and learned something the hard way
 
 Feedback on my writing — especially
 if you disagree with something
@@ -1465,7 +1465,7 @@ Before Session 6 (Projects):
   ✓ Voice Agent build log written
 
 Before Session 7 (Now + About):
-  ✓ Now page "Last updated" date filled in (May 2026)
+  ✓ Now page "Last updated" date filled in (Nov 2026)
   ✓ Currently Building section filled in (all three items)
   ✓ Currently Reading section filled in
   ✓ Third "Currently Thinking About" question filled in

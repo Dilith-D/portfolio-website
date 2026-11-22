@@ -1,10 +1,44 @@
 import { useEffect, useState, useRef } from 'react';
 import Vapi from '@vapi-ai/web';
+import { navigate } from 'astro:transitions/client';
 
 type CallState = 'idle' | 'connecting' | 'listening' | 'speaking';
 
 const VAPI_KEY = 'ec84568a-9bfa-4c93-91cc-a3b7447abc96';
 const ASSISTANT_ID = 'a48874e8-dd51-48ad-a536-741c0bfabcc6';
+
+// Pages the agent may open with its navigate_to_page tool. Must mirror the enum on the
+// tool in the Vapi dashboard and the page list in VAPI/vapi prompt.txt. Never trust the
+// model's path: anything not in this set is ignored. /secret is excluded on purpose.
+const NAV_ALLOWED = new Set([
+  '/', '/work', '/work/golden-account-model', '/work/booking-stopgap', '/work/ai-shopping-buddy',
+  '/writing', '/writing/rapido-teardown', '/writing/spotify-wrapped',
+  '/projects', '/projects/reeve', '/projects/delphi', '/projects/superpilot',
+  '/projects/voice-agent', '/projects/iris', '/projects/winledger',
+  '/about', '/now', '/contact',
+]);
+
+const normalizePath = (p: string) => (p.length > 1 ? p.replace(/\/+$/, '') : p);
+
+// Base.astro's router gate reads this: page changes are soft swaps (call survives)
+// only while it is true, and normal full page loads otherwise.
+const setCallActive = (on: boolean) => {
+  (window as unknown as { __voiceCallActive?: boolean }).__voiceCallActive = on;
+};
+
+type ToolCall = { id?: string; function?: { name?: string; arguments?: unknown } };
+type VapiMessage = {
+  type?: string;
+  toolCallList?: ToolCall[];
+  functionCall?: { name?: string; parameters?: unknown };
+};
+
+const readPath = (args: unknown): string | null => {
+  let a = args;
+  if (typeof a === 'string') { try { a = JSON.parse(a); } catch { return null; } }
+  const p = (a as { path?: unknown } | null)?.path;
+  return typeof p === 'string' ? normalizePath(p) : null;
+};
 
 function formatTime(s: number): string {
   const m = Math.floor(s / 60);
@@ -65,10 +99,33 @@ export default function VoiceAssistant() {
   const pillVisible = isVisible || notice !== null;
   const isActive = state === 'listening' || state === 'speaking';
 
-  // Vapi init — use pre-initialized instance from Base.astro script if available
+  // Vapi init. The component is persisted across soft page swaps (transition:persist in
+  // Base.astro), so this runs once per full page load and the call survives navigation.
   useEffect(() => {
-    const w = window as unknown as Record<string, unknown>;
-    vapiRef.current = (w.__vapi as Vapi) ?? new Vapi(VAPI_KEY);
+    vapiRef.current = new Vapi(VAPI_KEY);
+
+    // The agent's navigate_to_page tool has no server URL, so Vapi delivers the call here.
+    vapiRef.current.on('message', (msg: VapiMessage) => {
+      const calls: { name?: string; args: unknown }[] = [];
+      if (msg?.type === 'tool-calls') {
+        (msg.toolCallList ?? []).forEach(c => calls.push({ name: c.function?.name, args: c.function?.arguments }));
+      } else if (msg?.type === 'function-call') {
+        calls.push({ name: msg.functionCall?.name, args: msg.functionCall?.parameters });
+      }
+      for (const c of calls) {
+        if (c.name !== 'navigate_to_page') continue;
+        const path = readPath(c.args);
+        if (!path || !NAV_ALLOWED.has(path)) {
+          console.warn('[voice] navigate_to_page ignored, path not allowed:', c.args);
+          continue;
+        }
+        if (normalizePath(location.pathname) === path) continue;
+        const w = window as Record<string, unknown>;
+        (w.posthog as { capture?: (...a: unknown[]) => void })?.capture?.('voice_agent_navigated', { path });
+        (w.gtag as ((...a: unknown[]) => void) | undefined)?.('event', 'voice_agent_navigated', { path });
+        navigate(path);
+      }
+    });
 
     vapiRef.current.on('call-start', () => {
       mark('call-start (connected)');
@@ -84,6 +141,7 @@ export default function VoiceAssistant() {
       const w = window as Record<string, unknown>;
       (w.posthog as { capture?: (...a: unknown[]) => void })?.capture?.('voice_agent_ended', { trigger: triggerRef.current, duration_seconds });
       (w.gtag as ((...a: unknown[]) => void) | undefined)?.('event', 'voice_agent_ended', { trigger: triggerRef.current, duration_seconds });
+      setCallActive(false);
       setState('idle');
       setSeconds(0);
     });
@@ -101,10 +159,33 @@ export default function VoiceAssistant() {
       (w.posthog as { capture?: (...a: unknown[]) => void })?.capture?.('voice_agent_error', { trigger: triggerRef.current, error: errorMsg });
       (w.gtag as ((...a: unknown[]) => void) | undefined)?.('event', 'voice_agent_error', { trigger: triggerRef.current, error: errorMsg });
       if (stateRef.current !== 'idle') showNotice("Couldn't connect. Please try again");
+      setCallActive(false);
       setState('idle');
       setSeconds(0);
     });
-    return () => { vapiRef.current?.stop(); };
+    return () => { setCallActive(false); vapiRef.current?.stop(); };
+  }, []);
+
+  // Tell the agent where the visitor is after every soft page swap during a call, whether
+  // the agent opened the page or the visitor clicked a link. No reply is triggered.
+  useEffect(() => {
+    const onPageLoad = () => {
+      if (stateRef.current === 'idle') return;
+      try {
+        vapiRef.current?.send({
+          type: 'add-message',
+          message: {
+            role: 'system',
+            content: `The visitor is now on ${location.pathname} (${document.title}).`,
+          },
+          triggerResponseEnabled: false,
+        } as Parameters<Vapi['send']>[0]);
+      } catch (err) {
+        console.warn('[voice] could not send page update', err);
+      }
+    };
+    document.addEventListener('astro:page-load', onPageLoad);
+    return () => document.removeEventListener('astro:page-load', onPageLoad);
   }, []);
 
   // voice:toggle custom event — dispatched by nav mic + hero link
@@ -122,16 +203,22 @@ export default function VoiceAssistant() {
         markedRef.current.clear();
         t0Ref.current = performance.now();
         setState('connecting');
+        setCallActive(true);
         // start() rejects on a blocked mic or a failed API call, and emits no 'error'
         // event for that, so without this the pill sat on "Connecting" forever.
-        Promise.resolve(vapiRef.current?.start(ASSISTANT_ID)).catch((err: unknown) => {
+        // currentPage / pageTitle fill {{currentPage}} / {{pageTitle}} in the Vapi prompt.
+        Promise.resolve(vapiRef.current?.start(ASSISTANT_ID, {
+          variableValues: { currentPage: location.pathname, pageTitle: document.title },
+        })).catch((err: unknown) => {
           console.error('[VoiceAssistant]', err);
+          setCallActive(false);
           setState('idle');
           setSeconds(0);
           showNotice("Couldn't start the call. Check microphone access");
         });
       } else {
         vapiRef.current?.stop();
+        setCallActive(false);
       }
     };
     document.addEventListener('voice:toggle', handleToggle);
@@ -195,6 +282,7 @@ export default function VoiceAssistant() {
 
   const handleEnd = () => {
     vapiRef.current?.stop();
+    setCallActive(false);
     setState('idle');
     setSeconds(0);
   };
@@ -218,10 +306,10 @@ export default function VoiceAssistant() {
           50%       { height: 14px; }
         }
         .di-pill {
-          background: rgba(13, 11, 10, 0.75);
+          background: rgb(22, 20, 18);
         }
         html:not(.dark) .di-pill {
-          background: rgba(244, 240, 232, 0.85);
+          background: rgb(244, 240, 232);
         }
         @media (hover: hover) and (pointer: fine) {
           .di-pill:active {
@@ -239,15 +327,10 @@ export default function VoiceAssistant() {
           font-weight: 500;
           cursor: pointer;
           flex-shrink: 0;
-          transition:
-            opacity 150ms var(--ease-ui),
-            transform 120ms var(--ease-ui);
+          transition: transform 120ms var(--ease-ui);
         }
         .di-end:active {
           transform: scale(0.93);
-        }
-        @media (hover: hover) and (pointer: fine) {
-          .di-end:hover { opacity: 0.9; }
         }
         .di-end:focus-visible {
           outline: 2px solid var(--color-blue);
@@ -271,8 +354,6 @@ export default function VoiceAssistant() {
           gap: '0.625rem',
           padding: '0.45rem 0.5rem 0.45rem 1.1rem',
           borderRadius: '9999px',
-          backdropFilter: 'blur(28px)',
-          WebkitBackdropFilter: 'blur(28px)',
           border: '1px solid var(--color-border)',
           whiteSpace: 'nowrap',
           pointerEvents: pillVisible ? 'all' : 'none',

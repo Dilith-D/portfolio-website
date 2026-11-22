@@ -793,8 +793,15 @@ target. Keep the word "boundary" in the hero (the hover easter egg is attached t
 **Copy rules specific to this transition:**
 - Zuper work stays on the site and stays in **past tense**. It is the *proof*, not the
   claim. Never delete the roofing case studies.
-- Never claim healthcare/dental expertise. He is new. The honest line is "I know the
-  shape of the problem and very little else yet." Understating here is the whole point.
+- Domain tone is **working fluency** (changed 22 Nov 2026). He knows how calls, front
+  desks and PMS workflows run. He does not claim clinical depth. Never frame him as new,
+  just joined, early, or still learning.
+- His VoiceStack work is described generically, as responsibilities only: an AI voice
+  agent product for dental practices (evals, call flows, prompts and tool calls, customer
+  and market research, build vs buy, owns unit economics and P&L) and an internal
+  platform used by six teams (aligning teams, modelling requirements, prototyping,
+  prioritising). The internal product names never appear on the site, in the KB or in
+  the prompt. No metrics, customers, roadmap, outcomes or decisions.
 - Never publish internal VoiceStack information — roadmap, customers, metrics, decisions.
   Public sources only, and say when something is outside-in analysis.
 - He is **not actively job hunting, but open to a strong opportunity** (changed Oct 2026).
@@ -805,10 +812,20 @@ target. Keep the word "boundary" in the hero (the hover easter egg is attached t
 - Industry stats mostly come from vendor marketing blogs with an interest in big numbers.
   Cite sources; prefer the Peerlogic call study over vendor claims.
 
-**Voice agent knowledge base:** canonical file is `agent-knowledge-base.txt` at repo root
-(gitignored, backed up to private-portfolio). The old `agent-knowledge-base.md` is now a
-pointer stub — do not recreate a second copy. Editing the file does NOT update the live
-agent; it must be re-uploaded in the Vapi dashboard.
+**Voice agent files:** canonical location is `VAPI/` (gitignored, backed up to
+private-portfolio by the pre-push hook): `VAPI/watson KB.txt` (facts only) and
+`VAPI/vapi prompt.txt` (all behaviour rules). `agent-knowledge-base.md` is a pointer stub;
+do not recreate a second copy. Editing these files does NOT update the live agent: paste
+the prompt and re-upload the KB in the Vapi dashboard. The `navigate_to_page` tool's
+allowed paths must match in three places: the Vapi tool enum, the prompt's page list, and
+`NAV_ALLOWED` in `src/components/VoiceAssistant.tsx`. Add a new page to all three.
+
+**Voice-call navigation (Nov 2026):** Base.astro loads Astro's `ClientRouter`, but an
+inline gate cancels every navigation unless `window.__voiceCallActive` is true, so soft
+page swaps happen ONLY during a live call (a full load would kill the WebRTC call).
+VoiceAssistant and Nav are `transition:persist`. Do not remove the gate: the site's page
+scripts assume full loads, and a page revisited by soft swap does not re-run scripts that
+already ran (theme, reveal and nav active state are restored in `astro:after-swap`).
 
 ## Features Beyond Original Spec (Implemented)
 
@@ -829,7 +846,7 @@ These features were added during the build and are live in the codebase:
 - **WebGL animated background** — on the homepage hero. Pure canvas, no JS framework.
 - **Third case study** — `src/pages/work/ai-shopping-buddy.mdx` — The AI Shopping Buddy. Third work page alongside The Roofing Vertical and The Stopgap.
 - **SuperPilot project page** — `src/pages/projects/superpilot.mdx`. Third project alongside Iris and Pulseboard.
-- **Spotify Now Playing widget** — `src/components/SpotifyNowPlaying.astro` on the Now page. Polls `/.netlify/functions/now-playing` every 30s. Shows currently playing track with animated equalizer bars; falls back to last played when nothing is on. Requires 3 Netlify env vars: `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_REFRESH_TOKEN`. One-time token setup via `scripts/get-spotify-token.mjs`.
+- **Spotify Now Playing widget** — `src/components/SpotifyNowPlaying.astro` on the Now page. Polls `/.netlify/functions/now-playing` every 30s. Shows currently playing track with animated equalizer bars; falls back to last played when nothing is on. Netlify env vars: `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, `SPOTIFY_AUTH_STATE` (`SPOTIFY_REFRESH_TOKEN` is only a first-run fallback). The live refresh token lives in Netlify Blobs and rotates itself (`netlify/lib/spotify.mjs`, weekly `spotify-keepalive`). Re-authorise only if revoked: `node scripts/get-spotify-token.mjs`, which returns via https://dilithdinesh.com/callback (`spotify-callback` function, guarded by `SPOTIFY_AUTH_STATE`).
 
 ---
 

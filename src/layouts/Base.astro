@@ -5,6 +5,7 @@ import VoiceAssistant from '../components/VoiceAssistant';
 import '../styles/global.css';
 import PostHog from '../components/posthog.astro';
 import BouquetEgg from '../components/BouquetEgg.astro';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -29,9 +30,44 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site);
 ---
 
-<html lang="en">
+<html lang="en" transition:animate="none">
   <head>
     <PostHog />
+    <!-- Voice-call router. ClientRouter is loaded on every page, but the gate below lets it
+         soft-swap pages ONLY while a voice call is live (window.__voiceCallActive, set by
+         VoiceAssistant). Every other navigation is cancelled, and Astro then does a normal
+         full page load. Why: a full load kills the WebRTC call, and the site's ~20 page
+         scripts were written for full loads, so soft swaps are kept to the one case that
+         needs them. Do not remove the gate thinking it is redundant. -->
+    <ClientRouter fallback="none" />
+    <script is:inline>
+      (function () {
+        document.addEventListener('astro:before-preparation', function (e) {
+          if (!window.__voiceCallActive) e.preventDefault();
+        });
+        // A soft swap replaces <html> attributes and does not re-run scripts that already
+        // ran, so restore what those scripts would have set up on a full load.
+        document.addEventListener('astro:after-swap', function () {
+          var root = document.documentElement;
+          try { if (localStorage.getItem('theme') === 'dark') root.classList.add('dark'); } catch (_) {}
+          if (window.__voiceCallActive) root.classList.add('voice-active');
+          document.querySelectorAll('.reveal, .reveal-clip, .reveal-scale').forEach(function (el) {
+            el.classList.add('is-visible');
+          });
+          // Nav is persisted across swaps, so its server-rendered active state is stale.
+          var path = location.pathname.replace(/\/+$/, '') || '/';
+          document.querySelectorAll('#nav-links a.nav-link').forEach(function (a) {
+            var href = a.getAttribute('href') || '';
+            a.classList.toggle('is-active', href !== '/' && path.indexOf(href) === 0);
+          });
+          var cta = document.querySelector('#nav-pill .nav-cta');
+          if (cta) {
+            if (path.indexOf('/contact') === 0) cta.setAttribute('aria-current', 'page');
+            else cta.removeAttribute('aria-current');
+          }
+        });
+      })();
+    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
@@ -120,14 +156,16 @@ const ogImageURL = new URL(ogImage, Astro.site);
     </script>
   </head>
   <body class="bg-background text-primary font-body">
-    <Nav />
+    <Nav transition:persist="nav" />
     <main>
       <slot />
     </main>
     <Footer />
     <!-- Mounted on every page: the nav mic (and the mobile menu mic) exist site-wide,
          so the listener for 'voice:toggle' has to as well. Mount it once, here only. -->
-    <VoiceAssistant client:only="react" />
+    <!-- transition:persist keeps the same React island (and its live Vapi call) across the
+         soft swaps the voice agent triggers. -->
+    <VoiceAssistant client:only="react" transition:persist="voice" />
     <!-- Shown only while a tap is queued and VoiceAssistant has not hydrated yet. -->
     <div id="voice-pending-pill" role="status" aria-live="polite">
       <span class="vpp-dot" aria-hidden="true"></span>Connecting
@@ -285,10 +323,8 @@ const ogImageURL = new URL(ogImage, Astro.site);
     gap: 0.625rem;
     padding: 0.45rem 1.1rem;
     border-radius: 9999px;
-    backdrop-filter: blur(28px);
-    -webkit-backdrop-filter: blur(28px);
     border: 1px solid var(--color-border);
-    background: rgba(13, 11, 10, 0.75);
+    background: rgb(22, 20, 18);
     font-family: 'Inter', sans-serif;
     font-size: 0.8125rem;
     font-weight: 500;
@@ -300,7 +336,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
     transform: translateX(-50%) scale(0.88) translateY(-10px);
     transition: opacity 120ms ease, transform 160ms ease;
   }
-  html:not(.dark) #voice-pending-pill { background: rgba(244, 240, 232, 0.85); }
+  html:not(.dark) #voice-pending-pill { background: rgb(244, 240, 232); }
   html.voice-pending #voice-pending-pill {
     opacity: 1;
     transform: translateX(-50%) scale(1) translateY(0);

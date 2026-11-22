@@ -40,7 +40,7 @@ I didn't build the speech-to-text engine, the voice synthesis model, or the real
 
 What I built is the intelligence layer.
 
-**The knowledge architecture.** A voice agent is only as good as what it has to say. The default approach is a single system prompt with everything the agent might need, background, instructions, examples, edge cases, all in one block. The cost is real: every cold start loads that full context before the agent speaks its first word. I split the knowledge into two layers. A lean system prompt (~280 tokens) handles identity, tone, and behavior rules. The actual knowledge about my work (projects, decisions, career arc) lives in a separate knowledge base the agent retrieves from on demand. Basic RAG applied to a voice context. It cut cold-start latency significantly.
+**The knowledge architecture.** A voice agent is only as good as what it has to say. The default approach is a single system prompt with everything the agent might need, background, instructions, examples, edge cases, all in one block. The cost is real: every cold start loads that full context before the agent speaks its first word. I split the knowledge into two layers. A lean system prompt handles identity, tone, and behavior rules. The actual knowledge about my work (projects, decisions, career arc) lives in a separate knowledge base the agent retrieves from on demand. Basic RAG applied to a voice context. It cut cold-start latency significantly.
 
 **The first message.** VAPI generates the opening line via an LLM call by default. That's 3–5 seconds before the user hears anything. I hardcoded a static first message instead. It fires instantly, costs nothing, and the conversation starts before the user has time to wonder if it's working.
 

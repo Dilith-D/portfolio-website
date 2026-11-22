@@ -27,7 +27,8 @@ pnpm-debug.log*
 .netlify
 
 # Local-only working files — backed up in github.com/Dilith-D/private-portfolio
-agent-knowledge-base.txt
+VAPI/
+watson KB.txt
 claude-code-prompt-voice-agent.md
 REDESIGN_PLAN.md
 ai_copilot_architecture_dataflow.html

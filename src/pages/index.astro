@@ -21,6 +21,9 @@ const personSchema = {
     "Voice AI",
     "Conversational AI",
     "Healthcare Technology",
+    "Health Tech",
+    "LLM Evaluation",
+    "Voice AI Call Flow Design",
     "Field Service Management",
     "B2B SaaS",
     "AI-native product development",
@@ -64,7 +67,7 @@ const faqSchema = {
       "name": "Where does Dilith Dinesh work now?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Dilith Dinesh joined VoiceStack as an Associate Product Manager in August 2026. VoiceStack builds an AI-powered phone platform for dental practices and DSOs, combining enterprise VoIP, conversational AI, call scoring, opportunity detection, and marketing attribution, with integrations into practice management systems including Dentrix, Eaglesoft, Open Dental, and CareStack."
+        "text": "Dilith Dinesh has been an Associate Product Manager at VoiceStack since August 2026. He works across an AI voice agent product for dental practices, where he writes evals, defines call flows, writes prompts and tool calls, runs customer and market research, and owns the product's unit economics, and an internal platform used by six teams across the company. VoiceStack builds an AI-powered phone platform for dental practices and DSOs, combining enterprise VoIP, conversational AI, call scoring, opportunity detection, and marketing attribution, with integrations into practice management systems including Dentrix, Eaglesoft, Open Dental, and CareStack."
       }
     },
     {
@@ -88,7 +91,7 @@ const faqSchema = {
       "name": "What is Winledger (formerly Pulseboard)?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Winledger is a private brag sheet for people with office jobs, built by Dilith Dinesh. You log work wins as they happen, import the spreadsheet you already keep, and pull a plain-text summary of any period for a performance review or job hunt. It started in 2025 as Pulseboard, a weekend build on Lovable. In November 2026 Dilith audited it like a product he had to launch, removed the AI summary, and rebuilt it with Claude Code on React, Supabase and Vercel. Live at winledger.vercel.app."
+        "text": "Winledger is a private brag sheet for people with office jobs, built by Dilith Dinesh. You log work wins as they happen, import the spreadsheet you already keep, and pull a plain-text summary of any period for a performance review or job hunt. It started in 2025 as Pulseboard, a weekend build on Lovable. In November 2026 Dilith audited it like a product he had to launch, removed the AI summary, and rebuilt it with Claude Code on React, Supabase and Vercel, then added a native Android companion with reminders built from the user's own record and a countdown to their next review. Live at winledger.vercel.app."
       }
     },
     {
@@ -113,7 +116,7 @@ const faqSchema = {
 
 <Base
   title="Dilith Dinesh · AI Product Manager"
-  description="AI product manager. Associate Product Manager at VoiceStack, building voice AI. Previously built the roofing vertical at Zuper. Case studies in B2B SaaS and AI product work, teardowns, and build logs."
+  description="AI product manager. Associate Product Manager at VoiceStack, building voice AI in health tech. Previously built the roofing vertical at Zuper. Case studies in B2B SaaS and AI product work, teardowns, and build logs."
   schema={[personSchema, faqSchema]}
 >
 
@@ -179,7 +182,7 @@ const faqSchema = {
 
           <!-- 11. Proof strip -->
           <p class="hero-proof">
-VoiceStack&nbsp;&nbsp;·&nbsp;&nbsp;Voice AI&nbsp;&nbsp;·&nbsp;&nbsp;Previously Zuper, B2B SaaS&nbsp;&nbsp;·&nbsp;&nbsp;Built the roofing vertical from 0 to 1&nbsp;&nbsp;·&nbsp;&nbsp;From Kerala, India. Open to anywhere
+VoiceStack&nbsp;&nbsp;·&nbsp;&nbsp;Voice AI in health tech&nbsp;&nbsp;·&nbsp;&nbsp;Previously Zuper, B2B SaaS&nbsp;&nbsp;·&nbsp;&nbsp;Built the roofing vertical from 0 to 1&nbsp;&nbsp;·&nbsp;&nbsp;From Kerala, India. Open to anywhere
           </p>
         </div>
 
@@ -211,7 +214,8 @@ VoiceStack&nbsp;&nbsp;·&nbsp;&nbsp;Voice AI&nbsp;&nbsp;·&nbsp;&nbsp;Previously
             <div class="hero-board-group" data-state="progress">
               <p class="hero-board-label">In progress</p>
               <ul>
-                <li><span>First 90 days at VoiceStack</span></li>
+                <li><span>Evals and call flows for a dental voice agent</span></li>
+                <li><span>An internal platform for six teams</span></li>
                 <li><span>Ask Dilith, site chatbot</span></li>
               </ul>
             </div>
@@ -220,7 +224,7 @@ VoiceStack&nbsp;&nbsp;·&nbsp;&nbsp;Voice AI&nbsp;&nbsp;·&nbsp;&nbsp;Previously
               <p class="hero-board-label">Exploring</p>
               <ul>
                 <li><span>Why voice is the right interface for front-office work</span></li>
-                <li><span>What field service taught me that transfers to healthcare</span></li>
+                <li><span>The unit economics of an AI phone call</span></li>
               </ul>
             </div>
           </div>
@@ -252,7 +256,7 @@ VoiceStack&nbsp;&nbsp;·&nbsp;&nbsp;Voice AI&nbsp;&nbsp;·&nbsp;&nbsp;Previously
           That is also where AI earns its place or fails. In field
           service, the moment is dispatch. In dental, it's a phone
           ringing at a front desk that's already short-staffed.
-          I'm at VoiceStack now, working on it with AI at the
+          At VoiceStack I work on that moment with AI at the
           center, where the caller is often in pain, the compliance
           surface is real, and an AI that loops instead of helping
           is worse than no AI at all.
@@ -265,9 +269,10 @@ VoiceStack&nbsp;&nbsp;·&nbsp;&nbsp;Voice AI&nbsp;&nbsp;·&nbsp;&nbsp;Previously
           Buddy spec started there.
         </p>
         <p class="font-prose text-lg leading-reading text-primary mt-6">
-          It took two years to learn the first vertical. I expect
-          the second to take just as long, and I'd rather say that
-          than pretend otherwise.
+          It took two years to learn the first vertical. The second
+          is moving faster, because I know which questions to ask
+          first: where the call goes, what the front desk does next,
+          and what has to land in the practice management system.
         </p>
       </div>
     </section>
@@ -369,7 +374,7 @@ VoiceStack&nbsp;&nbsp;·&nbsp;&nbsp;Voice AI&nbsp;&nbsp;·&nbsp;&nbsp;Previously
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <ProjectCard
           title="The Voice Agent"
-          problem="Live on this site. You can talk to it. Latency you feel rather than measure, speech recognition that mangles proper nouns, knowing when the agent should stop talking and get a human. I built it before I had a professional reason to. It's why I had opinions about voice AI before I had experience in it."
+          problem="Live on this site. You can talk to it. Latency you feel rather than measure, speech recognition that mangles proper nouns, knowing when the agent should stop talking and get a human. I built it before I had a professional reason to. Now I work on voice agents for a living, and this one is still where I try ideas first."
           stack={["VAPI", "Deepgram", "ElevenLabs", "GPT-4o Mini"]}
           year="2026"
           slug="voice-agent"

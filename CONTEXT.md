@@ -517,3 +517,14 @@ black roofs). It is original gothic, deliberately not a copy of any real or film
   static, above the log.
 - Removed every emoji from the page, along with the hover scale on the theme toggle and
   the eased hover transitions. All are banned patterns.
+
+**Stage rail (23 Nov 2026).** The empty right side now has a sticky rail, on screens
+1440px and wider. It follows the same reading line as the castle and shows:
+- a blueprint of that stage's castle piece: outline-only, with dimension lines
+- the stage's dates, entry count and commit-type mix
+- running totals so far
+
+At the bottom of the page it shows the next, unbuilt piece as "under construction". It
+reuses the castle's piece plan and drawing functions, so the two can never disagree. The
+"ft" dimensions are the drawing's own units, decorative only. No grid behind the
+blueprint, because grid backgrounds are a banned pattern.

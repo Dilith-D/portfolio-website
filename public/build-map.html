@@ -105,6 +105,72 @@
   }
   #castle-name { font-size: 13px; color: var(--text); line-height: 1.35; }
 
+  /* ── STAGE RAIL (right) ───────────────────────────────── */
+  /* Shows the stage under the reading line: a blueprint of its castle piece, its dates,
+     its commit mix and running totals. Driven by the CASTLE script. Wide screens only. */
+  .stage-rail {
+    position: fixed;
+    top: 84px;
+    right: 28px;
+    width: 300px;
+    display: none;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 30;
+  }
+  @media (min-width: 1440px) {
+    .stage-rail { display: flex; }
+    .hero, .timeline { margin-right: 340px; }
+  }
+  .rail-kicker {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--yellow);
+  }
+  .rail-title { font-size: 17px; font-weight: 600; color: var(--text); line-height: 1.3; margin-top: -8px; }
+  .rail-bp {
+    border: 1px dashed var(--muted);
+    border-radius: 6px;
+    background: var(--surface);
+    padding: 10px 12px 10px;
+  }
+  .rail-bp-head {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  #blueprint { display: block; width: 100%; height: 230px; margin-top: 6px; }
+  #blueprint path { vector-effect: non-scaling-stroke; }
+  #blueprint .p, #blueprint .dl, #blueprint .dm, #blueprint .hl { display: none; }
+  #blueprint .o  { fill: none; stroke: var(--text); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+  #blueprint .o2 { fill: none; stroke: var(--text); stroke-width: 0.7; }
+  #blueprint .k  { fill: none; stroke: var(--text); stroke-width: 0.8; }
+  #blueprint .dim { fill: none; stroke: var(--yellow); stroke-width: 0.8; }
+  #blueprint .dimt { fill: var(--yellow); font-family: var(--mono); }
+  .rail-bp-cap { font-size: 11px; color: var(--muted); margin-top: 6px; line-height: 1.45; }
+  .rail-facts { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 12px; }
+  .rail-facts dt {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 3px;
+  }
+  .rail-facts dd { color: var(--text); }
+  .rail-mix { display: flex; flex-direction: column; gap: 5px; }
+  .mix-row { display: grid; grid-template-columns: 64px 1fr 22px; align-items: center; gap: 8px; }
+  .mix-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; color: var(--muted); }
+  .mix-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .mix-bar span { display: block; height: 100%; background: var(--text); }
+  .mix-n { font-family: var(--mono); font-size: 10px; color: var(--text); text-align: right; }
+
   /* ── MAIN LAYOUT ──────────────────────────────────────── */
   .main-content { margin-left: var(--panel-w); }
 
@@ -555,6 +621,22 @@
   </div>
 </aside>
 
+<aside class="stage-rail" aria-label="Details of the stage you are reading" aria-live="polite">
+  <div class="rail-kicker" id="rail-kicker"></div>
+  <div class="rail-title" id="rail-title"></div>
+  <figure class="rail-bp">
+    <div class="rail-bp-head"><span>Blueprint</span><span id="rail-bp-sheet"></span></div>
+    <svg id="blueprint" role="img" aria-labelledby="rail-bp-cap" preserveAspectRatio="xMidYMid meet"></svg>
+    <figcaption class="rail-bp-cap" id="rail-bp-cap"></figcaption>
+  </figure>
+  <dl class="rail-facts">
+    <dt>Dates</dt><dd id="rail-dates"></dd>
+    <dt>Entries</dt><dd id="rail-entries"></dd>
+    <dt>So far</dt><dd id="rail-total"></dd>
+  </dl>
+  <div class="rail-mix" id="rail-mix"></div>
+</aside>
+
 <!-- ── MAIN ────────────────────────────────────────── -->
 <div class="main-content">
 
@@ -563,7 +645,7 @@
 
     <div class="stats-row">
       <div class="stat">
-        <div class="stat-num" id="count-commits">122</div>
+        <div class="stat-num" id="count-commits">123</div>
         <div class="stat-label">Diary Entries</div>
       </div>
       <div class="stat-divider"></div>
@@ -594,7 +676,7 @@
   <div class="hero">
     <div class="hero-eyebrow">Construction Log &nbsp;·&nbsp; Mar 8 – Nov 23, 2026</div>
     <h2>From empty lot<br>to live portfolio.</h2>
-    <p>122 commits. 19 build stages. 261 days on-site.<br>Every decision logged, from breaking ground to ongoing works.</p>
+    <p>123 commits. 19 build stages. 261 days on-site.<br>Every decision logged, from breaking ground to ongoing works.</p>
   </div>
 
   <div class="tape-stripe"></div>
@@ -603,7 +685,7 @@
 
   <footer class="timeline-footer">
     <div class="footer-left">
-      <span class="footer-diary"># site diary · 122 entries, 261 days on-site</span>
+      <span class="footer-diary"># site diary · 123 entries, 261 days on-site</span>
       <span class="footer-warning">Site still under active construction.</span>
     </div>
     <a href="https://dilithdinesh.com" target="_blank">dilithdinesh.com →</a>
@@ -894,6 +976,7 @@ const PHASES = [
       { hash: '5aef76d', msg: 'Reframe VoiceStack as settled role, voice agent site navigation, Spotify token auto-renew', type: 'content' },
       { hash: 'b97527a', msg: 'Voice Agent page: document version two (site awareness, navigation, KB rebuild)', type: 'content' },
       { hash: '0450ced', msg: 'Build map: regenerate post-June phases from git, fix stale header and counters', type: 'config' },
+      { hash: '0ab3e3f', msg: 'Build map: a castle that builds itself as you scroll', type: 'config' },
     ]
   },
   // AUTO-PHASES:END
@@ -1280,6 +1363,89 @@ ${plan.map(p => `  <clipPath id="cb${p.i}"><rect x="${f(p.x - 30)}" width="${f(p
       ? `All ${N} stages built · stage ${String(N + 1).padStart(2, '0')} under way`
       : `Stage ${String(cur + 1).padStart(2, '0')} of ${N} · ${(STAGE_LABELS[cur] || PHASES[cur].stage || 'Ongoing Works')}`;
     document.getElementById('castle-name').textContent = done ? 'Still building, on top' : PHASES[cur].name;
+    updateRail(cur, done);
+  }
+
+  /* ── stage rail: blueprint + facts for the stage under the reading line ── */
+  const PIECE_NAMES = {
+    gate: 'Gatehouse', wall: 'Curtain wall', hall: 'Great hall', keep: 'Keep',
+    tower: 'Tower', spire: 'Spire', bridge: 'Covered bridge',
+  };
+  const SITE_START = new Date('Mar 8, 2026');
+  // Phase dates come as "Mar 8, 2026", "May 24–25, 2026" or "May 25 – Jun 24, 2026".
+  function parseRange(str) {
+    const year = (String(str).match(/\d{4}/g) || ['2026']).pop();
+    const parts = String(str).split(/\s*[–-]\s*/);
+    const one = (txt, mon) => {
+      const m = txt.match(/([A-Z][a-z]{2})?\s*(\d{1,2})/);
+      return { mon: (m && m[1]) || mon, d: m ? +m[2] : 1 };
+    };
+    const a = one(parts[0]);
+    const b = parts[1] ? one(parts[1], a.mon) : a;
+    return [new Date(`${a.mon} ${a.d}, ${year}`), new Date(`${b.mon} ${b.d}, ${year}`)];
+  }
+  const DAY = 86400000;
+  const daysLabel = n => `${n} day${n === 1 ? '' : 's'}`;
+  const bpSvg = document.getElementById('blueprint');
+  const railOn = () => bpSvg && getComputedStyle(bpSvg.closest('.stage-rail')).display !== 'none';
+  const bpCache = {};
+  function blueprint(p) {
+    if (bpCache[p.i]) return bpCache[p.i];
+    const pad = 16;
+    const x0 = p.x - pad - 4, y0 = p.base - p.full - pad;
+    const w = p.w + pad * 2 + 18, h = p.full + pad * 2 + 8;
+    const fs = f(Math.max(w, h) / 17);
+    const dy = p.base + 9, dx = p.x + p.w + 12;
+    const dims =
+      P(`M${f(p.x)} ${f(dy)}H${f(p.x + p.w)}M${f(p.x)} ${f(dy - 2.5)}V${f(dy + 2.5)}M${f(p.x + p.w)} ${f(dy - 2.5)}V${f(dy + 2.5)}`, 'dim') +
+      P(`M${f(dx)} ${f(p.base)}V${f(p.base - p.full)}M${f(dx - 2.5)} ${f(p.base)}H${f(dx + 2.5)}M${f(dx - 2.5)} ${f(p.base - p.full)}H${f(dx + 2.5)}`, 'dim') +
+      `<text class="dimt" font-size="${fs}" x="${f(p.x + p.w / 2)}" y="${f(dy + fs * 1.3)}" text-anchor="middle">${Math.round(p.w)} ft</text>` +
+      `<text class="dimt" font-size="${fs}" x="${f(dx + 3)}" y="${f(p.base - p.full / 2)}" transform="rotate(-90 ${f(dx + 3)} ${f(p.base - p.full / 2)})" text-anchor="middle" dy="-${f(fs * 0.4)}">${Math.round(p.full)} ft</text>`;
+    const ground = P(`M${f(p.x - 10)} ${f(p.base)}H${f(p.x + p.w + 6)}`, 'o2');
+    bpCache[p.i] = { vb: `${f(x0)} ${f(y0)} ${f(w)} ${f(h)}`, html: ground + DRAW[p.type](p) + dims };
+    return bpCache[p.i];
+  }
+  let railIndex = -2;
+  function updateRail(cur, done) {
+    if (!railOn()) return;
+    const idx = done ? N : cur;
+    if (idx === railIndex) return;
+    railIndex = idx;
+    const p = plan[idx];
+    const bp = blueprint(p);
+    bpSvg.setAttribute('viewBox', bp.vb);
+    bpSvg.innerHTML = bp.html;
+    const terrace = `terrace ${p.t + 1}, bay ${(p.i % TIER) + 1}`;
+    const $ = id => document.getElementById(id);
+    $('rail-bp-sheet').textContent = `Sheet ${String(idx + 1).padStart(2, '0')}`;
+    const entriesSoFar = PHASES.slice(0, done ? N : cur + 1).reduce((n, ph) => n + ph.commits.length, 0);
+    if (done) {
+      $('rail-kicker').textContent = `Stage ${String(N + 1).padStart(2, '0')} · under construction`;
+      $('rail-title').textContent = `Next: the ${PIECE_NAMES[p.type].toLowerCase()}`;
+      $('rail-bp-cap').textContent = `${PIECE_NAMES[p.type]}, ${terrace}. The scaffolding is up. The next stage of work builds it.`;
+      $('rail-dates').textContent = 'Not started yet';
+      $('rail-entries').textContent = 'None yet';
+      const last = parseRange(PHASES[N - 1].date)[1];
+      $('rail-total').textContent = `${entriesSoFar} entries · ${daysLabel(Math.round((last - SITE_START) / DAY) + 1)} on site · all ${N} stages`;
+      $('rail-mix').innerHTML = '';
+      return;
+    }
+    const ph = PHASES[cur];
+    const [a, b] = parseRange(ph.date);
+    const span = Math.round((b - a) / DAY) + 1;
+    $('rail-kicker').textContent = `Stage ${String(cur + 1).padStart(2, '0')} · ${STAGE_LABELS[cur] || ph.stage || 'Ongoing Works'}`;
+    $('rail-title').textContent = ph.name;
+    $('rail-bp-cap').textContent = `${PIECE_NAMES[p.type]}, ${terrace}. Built by this stage.`;
+    $('rail-dates').textContent = `${ph.date} · ${span} day${span === 1 ? '' : 's'}`;
+    $('rail-entries').textContent = `${ph.commits.length} in this stage`;
+    $('rail-total').textContent = `${entriesSoFar} entries · ${daysLabel(Math.round((b - SITE_START) / DAY) + 1)} on site · ${cur + 1} of ${N} stages`;
+    const counts = {};
+    ph.commits.forEach(c => { counts[c.type] = (counts[c.type] || 0) + 1; });
+    const max = Math.max(...Object.values(counts));
+    $('rail-mix').innerHTML = Object.entries(counts).sort((x, y) => y[1] - x[1]).map(([type, n]) =>
+      `<div class="mix-row"><span class="mix-label">${TYPE_LABELS[type] || type}</span>` +
+      `<span class="mix-bar"><span style="width:${Math.round((n / max) * 100)}%"></span></span>` +
+      `<span class="mix-n">${n}</span></div>`).join('');
   }
 
   // Progress = how many stages the reading line has passed, with the fraction of the

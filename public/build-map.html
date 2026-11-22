@@ -611,17 +611,17 @@
 
     <div class="stats-row">
       <div class="stat">
-        <div class="stat-num" id="count-commits">150</div>
+        <div class="stat-num" id="count-commits">121</div>
         <div class="stat-label">Diary Entries</div>
       </div>
       <div class="stat-divider"></div>
       <div class="stat">
-        <div class="stat-num" id="count-phases">15</div>
+        <div class="stat-num" id="count-phases">19</div>
         <div class="stat-label">Build Stages</div>
       </div>
       <div class="stat-divider"></div>
       <div class="stat">
-        <div class="stat-num">108</div>
+        <div class="stat-num" id="count-days">261</div>
         <div class="stat-label">Days On-Site</div>
       </div>
       <div class="stat-divider"></div>
@@ -640,9 +640,9 @@
   </header>
 
   <div class="hero">
-    <div class="hero-eyebrow">Construction Log &nbsp;·&nbsp; Mar 8 – Jun 24, 2026</div>
+    <div class="hero-eyebrow">Construction Log &nbsp;·&nbsp; Mar 8 – Nov 23, 2026</div>
     <h2>From empty lot<br>to live portfolio.</h2>
-    <p>86 commits. 15 build stages. 108 days on-site.<br>Every decision logged, from breaking ground to ongoing works.</p>
+    <p>121 commits. 19 build stages. 261 days on-site.<br>Every decision logged, from breaking ground to ongoing works.</p>
   </div>
 
   <div class="tape-stripe"></div>
@@ -651,7 +651,7 @@
 
   <footer class="timeline-footer">
     <div class="footer-left">
-      <span class="footer-diary"># site diary · 86 entries, 108 days on-site</span>
+      <span class="footer-diary"># site diary · 121 entries, 261 days on-site</span>
       <span class="footer-warning">⚠ Site still under active construction.</span>
     </div>
     <a href="https://dilithdinesh.com" target="_blank">dilithdinesh.com →</a>
@@ -866,78 +866,84 @@ const PHASES = [
       { hash: '8902067', msg: 'Now: update currently reading to A Gentleman in Moscow', type: 'content' },
     ]
   },
+  // AUTO-PHASES:START. Generated from git by scripts/update-build-map.mjs on every push. Do not edit by hand.
   {
-    icon: '📝',
-    name: 'Recent Updates',
-    date: 'Jun 24, 2026',
+    icon: '',
+    name: 'Clean Redesign and SEO',
+    stage: 'Ongoing Works',
+    date: 'Jun 24 – Jun 25, 2026',
     commits: [
-      { hash: '0c95294', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: 'b97527a', msg: 'Voice Agent page: document version two (site awareness, navigation, KB rebuild)', type: 'content' },
-      { hash: 'ba05a4c', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '5aef76d', msg: 'Reframe VoiceStack as settled role, voice agent site navigation, Spotify token auto-renew', type: 'content' },
-      { hash: '818fac4', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '24a74cf', msg: 'Move the Winledger page to /projects/winledger', type: 'content' },
-      { hash: '73f83d4', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '586cd60', msg: 'CONTEXT: record v2.2 and the staging build trap', type: 'content' },
-      { hash: '0af78e4', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '1a2907f', msg: 'Rewrite the Pulseboard project page as Winledger', type: 'content' },
-      { hash: '570b005', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '7fb58fe', msg: 'Point Reeve links at the current web client URL', type: 'content' },
-      { hash: '61b10b7', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '74d84be', msg: 'List projects newest first; refresh llms.txt', type: 'content' },
-      { hash: '8d26d75', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '062a296', msg: 'Show "Connecting" instantly; queue taps made before the agent hydrates', type: 'content' },
-      { hash: 'b317d84', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '0b34f31', msg: 'Fix voice agent on subpages and mobile; animate hero voice button', type: 'fix' },
-      { hash: '6675059', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: 'ce4b0e4', msg: 'Promote "Talk to my AI" to a secondary hero button', type: 'content' },
-      { hash: '4eeb411', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: 'e27abd2', msg: 'Reposition site as AI PM first; open to a strong opportunity', type: 'content' },
-      { hash: '4092deb', msg: 'Back the AI PM headline: reorder work, update About, fix location', type: 'content' },
-      { hash: 'da075c4', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '5a88852', msg: 'Add Reeve project page with SMS pipeline diagram and live web link', type: 'feat' },
-      { hash: 'b779e47', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '794ebe1', msg: 'Link the status board voice assistant item to its project page', type: 'content' },
-      { hash: '4bd108a', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: 'b4e353a', msg: 'Rebuild homepage hero: hierarchy and density fix', type: 'content' },
-      { hash: '81e4839', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '79e31f2', msg: 'Reposition site: Zuper to VoiceStack, field service to healthcare voice AI', type: 'content' },
-      { hash: '273d334', msg: 'Remove em dashes from all user-visible copy', type: 'content' },
-      { hash: 'a262445', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '9703b50', msg: 'Accent unification: electric blue only, red removed', type: 'content' },
-      { hash: '36867e2', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: 'ad411e8', msg: 'Tool orbit: nebula orb, traveling spoke particles, hover category swap', type: 'content' },
-      { hash: '5519cc9', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '24b373c', msg: 'Pre-push hook: auto-sync private backup repo on every push', type: 'content' },
-      { hash: 'c135df4', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '3f47cb1', msg: 'Repo hardening: tracked pre-push hook, real README, local-file ignores', type: 'content' },
-      { hash: '8e4f16f', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '0a037cc', msg: 'Portfolio audit fixes: trust, content, and performance pass', type: 'content' },
-      { hash: '1e3c710', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: '381cd61', msg: 'Fix: restore dynamic llms.txt, add Delphi SUMMARIES entry', type: 'fix' },
-      { hash: '1f521e1', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: 'a97ac3a', msg: 'Fix: add llms.txt, homepage card, and CONTENT.md for Delphi project', type: 'fix' },
-      { hash: '75adbd8', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: 'b5378a9', msg: 'Add Delphi project page — tax filing intelligence for foreign founders', type: 'feat' },
-      { hash: '68af9fe', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: 'd1419eb', msg: 'Perf: lazy-load PostHog via requestIdleCallback to reduce TBT', type: 'analytics' },
-      { hash: 'd85723a', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: 'eea8ab9', msg: 'Perf: move VAPI+VoiceAssistant to homepage only, async-load Google Fonts', type: 'content' },
-      { hash: '6362875', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: 'ae0ba88', msg: 'SEO: update projects index meta description to include SuperPilot and Voice Agent', type: 'content' },
-      { hash: '1325eef', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: 'e2837eb', msg: 'SEO: add LLMs-txt pointer to robots.txt', type: 'feat' },
-      { hash: '0366ecf', msg: 'Build map: auto-update commit log', type: 'config' },
-      { hash: 'eac0cc8', msg: 'SEO: fix sitemap URL, add www redirects, auto-generate llms.txt, remove case study scroll animations', type: 'fix' },
-      { hash: '2f001e1', msg: 'Build map: add light/dark theme toggle, light default matching portfolio', type: 'config' },
-      { hash: '740dfba', msg: 'Redesign: clean layout, electric/red accents, build log in footer', type: 'design' },
-      { hash: '2dfd42f', msg: 'Merge pull request #1 from Dilith-D/design/clean-revert', type: 'design' },
-      { hash: 'cb22aaf', msg: 'Home: style Talk to my AI button same as primary CTA', type: 'design' },
       { hash: '886e9c3', msg: 'Build map: add Real Sun + Now Playing phases, auto-update script + pre-push hook', type: 'config' },
       { hash: '8b0ef11', msg: 'Build map: move to public/, add footer link, update script path', type: 'config' },
-      { hash: 'cc74cae', msg: 'Build map: redesign as construction site timeline', type: 'design', sub: 'Building sidebar, floor observer, stage labels, construction tape dividers, yellow hash pills' },
+      { hash: 'cc74cae', msg: 'Build map: redesign as construction site timeline', type: 'design' },
+      { hash: '2f001e1', msg: 'Build map: add light/dark theme toggle, light default matching portfolio', type: 'config' },
+      { hash: '740dfba', msg: 'Redesign: clean layout, electric/red accents, build log in footer', type: 'design' },
+      { hash: 'cb22aaf', msg: 'Home: style Talk to my AI button same as primary CTA', type: 'design' },
+      { hash: 'eac0cc8', msg: 'SEO: fix sitemap URL, add www redirects, auto-generate llms.txt, remove case study scroll animations', type: 'fix' },
+      { hash: 'e2837eb', msg: 'SEO: add LLMs-txt pointer to robots.txt', type: 'feat' },
+      { hash: 'ae0ba88', msg: 'SEO: update projects index meta description to include SuperPilot and Voice Agent', type: 'content' },
+      { hash: 'eea8ab9', msg: 'Perf: move VAPI+VoiceAssistant to homepage only, async-load Google Fonts', type: 'content' },
+      { hash: 'd1419eb', msg: 'Perf: lazy-load PostHog via requestIdleCallback to reduce TBT', type: 'analytics' },
     ]
   },
+  {
+    icon: '',
+    name: 'Delphi, Hardening and the VoiceStack Move',
+    stage: 'Ongoing Works',
+    date: 'Jul 9 – Jul 29, 2026',
+    commits: [
+      { hash: 'b5378a9', msg: 'Add Delphi project page — tax filing intelligence for foreign founders', type: 'feat' },
+      { hash: 'a97ac3a', msg: 'Fix: add llms.txt, homepage card, and CONTENT.md for Delphi project', type: 'fix' },
+      { hash: '381cd61', msg: 'Fix: restore dynamic llms.txt, add Delphi SUMMARIES entry', type: 'fix' },
+      { hash: '0a037cc', msg: 'Portfolio audit fixes: trust, content, and performance pass', type: 'content' },
+      { hash: '3f47cb1', msg: 'Repo hardening: tracked pre-push hook, real README, local-file ignores', type: 'config' },
+      { hash: '24b373c', msg: 'Pre-push hook: auto-sync private backup repo on every push', type: 'config' },
+      { hash: 'ad411e8', msg: 'Tool orbit: nebula orb, traveling spoke particles, hover category swap', type: 'content' },
+      { hash: '9703b50', msg: 'Accent unification: electric blue only, red removed', type: 'content' },
+      { hash: '79e31f2', msg: 'Reposition site: Zuper to VoiceStack, field service to healthcare voice AI', type: 'content' },
+      { hash: '273d334', msg: 'Remove em dashes from all user-visible copy', type: 'content' },
+    ]
+  },
+  {
+    icon: '',
+    name: 'Hero Rebuild',
+    stage: 'Ongoing Works',
+    date: 'Aug 2, 2026',
+    commits: [
+      { hash: 'b4e353a', msg: 'Rebuild homepage hero: hierarchy and density fix', type: 'design' },
+      { hash: '794ebe1', msg: 'Link the status board voice assistant item to its project page', type: 'content' },
+    ]
+  },
+  {
+    icon: '',
+    name: 'AI PM Reframe and Reeve',
+    stage: 'Ongoing Works',
+    date: 'Oct 19, 2026',
+    commits: [
+      { hash: '5a88852', msg: 'Add Reeve project page with SMS pipeline diagram and live web link', type: 'feat' },
+      { hash: 'e27abd2', msg: 'Reposition site as AI PM first; open to a strong opportunity', type: 'content' },
+      { hash: '4092deb', msg: 'Back the AI PM headline: reorder work, update About, fix location', type: 'content' },
+      { hash: 'ce4b0e4', msg: 'Promote "Talk to my AI" to a secondary hero button', type: 'design' },
+      { hash: '0b34f31', msg: 'Fix voice agent on subpages and mobile; animate hero voice button', type: 'fix' },
+      { hash: '062a296', msg: 'Show "Connecting" instantly; queue taps made before the agent hydrates', type: 'content' },
+      { hash: '74d84be', msg: 'List projects newest first; refresh llms.txt', type: 'content' },
+      { hash: '7fb58fe', msg: 'Point Reeve links at the current web client URL', type: 'content' },
+    ]
+  },
+  {
+    icon: '',
+    name: 'Winledger and a Site the Agent Can Drive',
+    stage: 'Ongoing Works',
+    date: 'Nov 15 – Nov 23, 2026',
+    commits: [
+      { hash: '1a2907f', msg: 'Rewrite the Pulseboard project page as Winledger', type: 'content' },
+      { hash: '586cd60', msg: 'CONTEXT: record v2.2 and the staging build trap', type: 'config' },
+      { hash: '24a74cf', msg: 'Move the Winledger page to /projects/winledger', type: 'content' },
+      { hash: '5aef76d', msg: 'Reframe VoiceStack as settled role, voice agent site navigation, Spotify token auto-renew', type: 'content' },
+      { hash: 'b97527a', msg: 'Voice Agent page: document version two (site awareness, navigation, KB rebuild)', type: 'content' },
+    ]
+  },
+  // AUTO-PHASES:END
 ];
 
 const STAGE_LABELS = [
@@ -959,7 +965,7 @@ const STAGE_LABELS = [
 ];
 
 const FLOOR_GROUPS = [
-  { label: 'PENTHOUSE', emoji: '📝',     phaseIndices: [14] },
+  { label: 'PENTHOUSE', emoji: '',       phaseIndices: PHASES.map((_, i) => i).filter(i => i >= 14) },
   { label: 'FLOOR 5',   emoji: '☀️ 🎵',  phaseIndices: [12, 13] },
   { label: 'FLOOR 4',   emoji: '🤖 📚',  phaseIndices: [10, 11] },
   { label: 'FLOOR 3',   emoji: '🛍️ 🎤', phaseIndices: [8, 9] },
@@ -1033,7 +1039,7 @@ function renderTimeline() {
       <div class="phase-stage">
         <span class="phase-stage-num">STAGE ${String(idx + 1).padStart(2,'0')}</span>
         <span style="opacity:0.4">·</span>
-        <span>${(STAGE_LABELS[idx] || '').toUpperCase()}</span>
+        <span>${(STAGE_LABELS[idx] || phase.stage || 'Ongoing Works').toUpperCase()}</span>
       </div>
       <div class="phase-header">
         <div>
@@ -1149,8 +1155,9 @@ renderTimeline();
 window.addEventListener('load', () => {
   const ce = document.getElementById('count-commits');
   const pe = document.getElementById('count-phases');
-  if (ce) animateStat(ce, 86);
-  if (pe) animateStat(pe, 15);
+  // Animate to the numbers the updater wrote into the markup, never to hardcoded ones.
+  if (ce) animateStat(ce, parseInt(ce.textContent, 10) || 0);
+  if (pe) animateStat(pe, parseInt(pe.textContent, 10) || 0);
 });
 </script>
 </body>

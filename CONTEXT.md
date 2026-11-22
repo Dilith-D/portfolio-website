@@ -474,3 +474,26 @@ git push origin v1.0:master --force
 ---
 
 *Last updated: May 2026. Reflects the state after: full v2 dark redesign, WebGL animated background (all pages), voice assistant with working end-call button, light mode audit and fixes (white cards, single background gradient, indigo canvas palette).*
+
+## Build map trap (23 Nov 2026)
+
+`/build-map` showed nothing after Jun 24 for five months, even though the commits were in
+the file. Three bugs stacked up:
+- The updater put every new commit into one "Recent Updates" phase. It never updated that
+  phase's date or the header's "Mar 8 – Jun 24" range.
+- On load, the page animated the header counters to the hardcoded numbers 86 and 15.
+- The pre-push hook commits the build map after git has already chosen what to push, so
+  the live page always trailed by one push.
+
+Fixes:
+- The first 14 phases are hand-curated and fixed. Everything after the `AUTO-PHASES`
+  markers is regenerated from git on every run: one phase per month, real dates.
+  "Build map: auto-update" commits are excluded as noise.
+- Name a month in `MONTH_NAMES` in `scripts/update-build-map.mjs`. Unnamed months show as
+  "Ongoing Works".
+- Counters animate to whatever number is in the markup.
+- `npm run build` runs the updater as `prebuild`, so Netlify regenerates the page from the
+  full history and the deploy is never a push behind. It skips itself on a shallow clone,
+  so it can never drop history.
+- Do not hand-edit between the markers. The next run overwrites it.
+- The root `build-map.html` is a stale Jun 2026 copy. The served file is `public/build-map.html`.

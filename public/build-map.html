@@ -53,120 +53,60 @@
   }
   body { min-height: 100vh; }
 
-  /* ── BUILDING SIDEBAR ─────────────────────────────────── */
-  .building-sidebar {
+  /* ── CASTLE PANEL ─────────────────────────────────────── */
+  /* One castle piece per build stage, drawn by the CASTLE script below. Two inks only:
+     --text for line, solid masses and halftone dots, --sidebar-bg as paper. The yellow
+     accent is reserved for scaffolding on the piece being built. */
+  :root { --panel-w: 340px; }
+  .castle-panel {
     position: fixed;
     left: 0; top: 0; bottom: 0;
-    width: 168px;
+    width: var(--panel-w);
     background: var(--sidebar-bg);
     border-right: 1px solid var(--border);
     z-index: 40;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 80px 12px 24px;
-    overflow: hidden;
-    transition: background 250ms ease, border-color 250ms ease;
+    padding: 76px 18px 22px;
   }
-
   .sidebar-label {
     font-size: 8px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--muted);
     font-family: var(--mono);
-    margin-bottom: 16px;
-    text-align: center;
+    margin-bottom: 10px;
   }
-
-  .building-wrap {
-    width: 100%;
+  #castle { flex: 1; min-height: 0; width: 100%; display: block; }
+  #castle .p   { fill: var(--sidebar-bg); stroke: none; }
+  #castle .o   { fill: none; stroke: var(--text); stroke-width: 1.15; stroke-linecap: round; stroke-linejoin: round; }
+  #castle .o2  { fill: none; stroke: var(--text); stroke-width: 0.7; stroke-linecap: round; }
+  #castle .k   { fill: var(--text); stroke: none; }
+  #castle .hl  { fill: none; stroke: var(--sidebar-bg); stroke-width: 0.8; stroke-linecap: round; }
+  #castle .dl  { fill: url(#ht-l); stroke: none; }
+  #castle .dm  { fill: url(#ht-m); stroke: none; }
+  #castle .dot { fill: var(--text); }
+  #castle .sc  { fill: none; stroke: var(--yellow); stroke-width: 0.8; stroke-linecap: round; }
+  #castle .scd { fill: none; stroke: var(--yellow); stroke-width: 0.7; stroke-dasharray: 2 2.2; }
+  #castle [data-i] { cursor: pointer; }
+  .castle-caption {
+    margin-top: 12px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    flex: 1;
+    gap: 4px;
+    min-height: 34px;
   }
-
-  .building-roof {
-    width: 80%;
-    height: 0;
-    border-left: 14px solid transparent;
-    border-right: 14px solid transparent;
-    border-bottom: 16px solid var(--border);
-    transition: border-bottom-color 200ms;
-    margin-bottom: -1px;
-  }
-  .building-roof.active { border-bottom-color: var(--yellow); }
-
-  .building {
-    width: 100%;
-    border: 1px solid var(--border);
-    border-top: none;
-    border-bottom: none;
-    display: flex;
-    flex-direction: column-reverse;
-  }
-
-  .floor {
-    border-top: 1px solid var(--border);
-    padding: 7px 10px 6px;
-    cursor: pointer;
-    transition: background 150ms ease, border-left-color 150ms ease;
-    position: relative;
-    min-height: 44px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 3px;
-    border-left: 2px solid transparent;
-  }
-
-  .floor:hover { background: var(--surface); }
-
-  .floor.active {
-    background: var(--yellow-dim);
-    border-left-color: var(--yellow);
-  }
-
-  .floor-label {
-    font-size: 8px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
+  #castle-stage {
     font-family: var(--mono);
-    transition: color 150ms;
-  }
-  .floor.active .floor-label { color: var(--yellow); }
-
-  .floor-icons { font-size: 11px; line-height: 1; }
-
-  .floor-foundation { border-bottom: 3px solid var(--border); }
-  .floor-foundation.active { border-bottom-color: var(--yellow-mid); }
-
-  .ground-slab {
-    width: 100%;
-    height: 6px;
-    background: repeating-linear-gradient(
-      90deg,
-      var(--yellow) 0px, var(--yellow) 5px,
-      transparent   5px, transparent  10px
-    );
-    opacity: 0.45;
-    margin-top: 1px;
-  }
-
-  .ground-label {
-    font-size: 7px;
-    letter-spacing: 0.2em;
+    font-size: 9px;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--muted);
-    font-family: var(--mono);
-    margin-top: 6px;
-    opacity: 0.45;
+    color: var(--yellow);
   }
+  #castle-name { font-size: 13px; color: var(--text); line-height: 1.35; }
 
   /* ── MAIN LAYOUT ──────────────────────────────────────── */
-  .main-content { margin-left: 168px; }
+  .main-content { margin-left: var(--panel-w); }
 
   /* ── STICKY HEADER ────────────────────────────────────── */
   .site-header {
@@ -208,7 +148,8 @@
 
   /* ── THEME TOGGLE ─────────────────────────────────────── */
   .theme-toggle {
-    width: 34px;
+    width: auto;
+    padding: 0 10px;
     height: 34px;
     border-radius: 6px;
     border: 1px solid var(--border);
@@ -218,15 +159,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
-    transition: background 150ms ease, border-color 150ms ease, transform 100ms ease;
+    font-size: 11px;
+    font-family: var(--mono);
+    letter-spacing: 0.06em;
     flex-shrink: 0;
   }
-  .theme-toggle:hover {
-    background: var(--border);
-    transform: scale(1.05);
-  }
-  .theme-toggle:active { transform: scale(0.96); }
+  .theme-toggle:hover { background: var(--border); }
 
   .header-badge {
     display: inline-flex;
@@ -470,7 +408,6 @@
     padding: 8px 10px;
     border-radius: 5px;
     border: 1px solid transparent;
-    transition: background 150ms ease, border-color 150ms ease;
     cursor: default;
   }
 
@@ -560,7 +497,6 @@
     font-size: 13px;
     color: var(--muted);
     text-decoration: none;
-    transition: color 150ms;
   }
   .timeline-footer a:hover { color: var(--text); }
 
@@ -576,8 +512,18 @@
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
   /* ── RESPONSIVE ───────────────────────────────────────── */
+  @media (max-width: 1200px) { :root { --panel-w: 280px; } }
+
+  /* Narrow screens: the castle sits above the log, fully built (see CASTLE script). */
   @media (max-width: 900px) {
-    .building-sidebar { display: none; }
+    .castle-panel {
+      position: relative;
+      width: auto;
+      height: 340px;
+      padding: 18px 20px 16px;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
     .main-content { margin-left: 0; }
     .site-header { padding: 12px 20px; gap: 10px; }
     .stats-row { gap: 14px; }
@@ -598,20 +544,26 @@
 <body>
 
 <!-- ── BUILDING SIDEBAR ─────────────────────────────── -->
-<aside class="building-sidebar">
-  <div class="sidebar-label">Cross-section</div>
-  <div class="building-wrap" id="building-wrap"></div>
+<aside class="castle-panel" aria-label="Castle build progress">
+  <div class="sidebar-label">Site elevation</div>
+  <svg id="castle" role="img" aria-labelledby="castle-title" preserveAspectRatio="xMidYMax meet">
+    <title id="castle-title">A castle on a crag that gains one part for every build stage of this site</title>
+  </svg>
+  <div class="castle-caption" aria-live="polite">
+    <span id="castle-stage"></span>
+    <span id="castle-name"></span>
+  </div>
 </aside>
 
 <!-- ── MAIN ────────────────────────────────────────── -->
 <div class="main-content">
 
   <header class="site-header">
-    <div class="header-title">🏗️&nbsp;<span>dilithdinesh.com</span>&nbsp;/ Construction Log</div>
+    <div class="header-title"><span>dilithdinesh.com</span>&nbsp;/ Construction Log</div>
 
     <div class="stats-row">
       <div class="stat">
-        <div class="stat-num" id="count-commits">121</div>
+        <div class="stat-num" id="count-commits">122</div>
         <div class="stat-label">Diary Entries</div>
       </div>
       <div class="stat-divider"></div>
@@ -633,7 +585,7 @@
 
     <div class="header-right">
       <button class="theme-toggle" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
-        <span id="theme-icon">🌙</span>
+        <span id="theme-icon">Dark</span>
       </button>
       <div class="header-badge">Site Active</div>
     </div>
@@ -642,7 +594,7 @@
   <div class="hero">
     <div class="hero-eyebrow">Construction Log &nbsp;·&nbsp; Mar 8 – Nov 23, 2026</div>
     <h2>From empty lot<br>to live portfolio.</h2>
-    <p>121 commits. 19 build stages. 261 days on-site.<br>Every decision logged, from breaking ground to ongoing works.</p>
+    <p>122 commits. 19 build stages. 261 days on-site.<br>Every decision logged, from breaking ground to ongoing works.</p>
   </div>
 
   <div class="tape-stripe"></div>
@@ -651,8 +603,8 @@
 
   <footer class="timeline-footer">
     <div class="footer-left">
-      <span class="footer-diary"># site diary · 121 entries, 261 days on-site</span>
-      <span class="footer-warning">⚠ Site still under active construction.</span>
+      <span class="footer-diary"># site diary · 122 entries, 261 days on-site</span>
+      <span class="footer-warning">Site still under active construction.</span>
     </div>
     <a href="https://dilithdinesh.com" target="_blank">dilithdinesh.com →</a>
   </footer>
@@ -665,7 +617,7 @@ const THEME_KEY = 'build-map-theme';
 
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
-  document.getElementById('theme-icon').textContent = theme === 'dark' ? '☀️' : '🌙';
+  document.getElementById('theme-icon').textContent = theme === 'dark' ? 'Light' : 'Dark';
 }
 
 function savedTheme() {
@@ -684,7 +636,7 @@ applyTheme(savedTheme());
 /* ── DATA ───────────────────────────────────────────────── */
 const PHASES = [
   {
-    icon: '🏗️',
+    icon: '',
     name: 'Genesis',
     date: 'Mar 8, 2026',
     commits: [
@@ -694,7 +646,7 @@ const PHASES = [
     ]
   },
   {
-    icon: '🚀',
+    icon: '',
     name: 'Launch Day',
     date: 'Mar 9, 2026',
     commits: [
@@ -705,7 +657,7 @@ const PHASES = [
     ]
   },
   {
-    icon: '🥚',
+    icon: '',
     name: 'Egg Season',
     date: 'Mar 9, 2026',
     commits: [
@@ -720,7 +672,7 @@ const PHASES = [
     ]
   },
   {
-    icon: '📊',
+    icon: '',
     name: 'Analytics',
     date: 'Mar 9–10, 2026',
     commits: [
@@ -734,7 +686,7 @@ const PHASES = [
     ]
   },
   {
-    icon: '📐',
+    icon: '',
     name: 'Diagrams',
     date: 'Mar 10–11, 2026',
     commits: [
@@ -751,7 +703,7 @@ const PHASES = [
     ]
   },
   {
-    icon: '🔍',
+    icon: '',
     name: 'SEO & GEO',
     date: 'Mar 12–16, 2026',
     commits: [
@@ -768,7 +720,7 @@ const PHASES = [
     ]
   },
   {
-    icon: '🌸',
+    icon: '',
     name: 'The Bouquet',
     date: 'Mar 31 – Apr 1, 2026',
     commits: [
@@ -778,7 +730,7 @@ const PHASES = [
     ]
   },
   {
-    icon: '✨',
+    icon: '',
     name: 'Micro-interactions',
     date: 'Apr 17–20, 2026',
     commits: [
@@ -790,7 +742,7 @@ const PHASES = [
     ]
   },
   {
-    icon: '🛍️',
+    icon: '',
     name: 'Third Case Study',
     date: 'May 3, 2026',
     commits: [
@@ -800,7 +752,7 @@ const PHASES = [
     ]
   },
   {
-    icon: '🎤',
+    icon: '',
     name: 'Voice Agent',
     date: 'May 15–22, 2026',
     commits: [
@@ -822,7 +774,7 @@ const PHASES = [
     ]
   },
   {
-    icon: '🤖',
+    icon: '',
     name: 'AI PM Reframe',
     date: 'May 23–24, 2026',
     commits: [
@@ -837,7 +789,7 @@ const PHASES = [
     ]
   },
   {
-    icon: '📚',
+    icon: '',
     name: 'Knowledge Base',
     date: 'May 24–25, 2026',
     commits: [
@@ -848,7 +800,7 @@ const PHASES = [
     ]
   },
   {
-    icon: '☀️',
+    icon: '',
     name: 'Real Sun',
     date: 'May 25, 2026',
     commits: [
@@ -857,7 +809,7 @@ const PHASES = [
     ]
   },
   {
-    icon: '🎵',
+    icon: '',
     name: 'Now Playing',
     date: 'May 25 – Jun 24, 2026',
     commits: [
@@ -941,6 +893,7 @@ const PHASES = [
       { hash: '24a74cf', msg: 'Move the Winledger page to /projects/winledger', type: 'content' },
       { hash: '5aef76d', msg: 'Reframe VoiceStack as settled role, voice agent site navigation, Spotify token auto-renew', type: 'content' },
       { hash: 'b97527a', msg: 'Voice Agent page: document version two (site awareness, navigation, KB rebuild)', type: 'content' },
+      { hash: '0450ced', msg: 'Build map: regenerate post-June phases from git, fix stale header and counters', type: 'config' },
     ]
   },
   // AUTO-PHASES:END
@@ -964,58 +917,10 @@ const STAGE_LABELS = [
   'Ongoing Works',
 ];
 
-const FLOOR_GROUPS = [
-  { label: 'PENTHOUSE', emoji: '',       phaseIndices: PHASES.map((_, i) => i).filter(i => i >= 14) },
-  { label: 'FLOOR 5',   emoji: '☀️ 🎵',  phaseIndices: [12, 13] },
-  { label: 'FLOOR 4',   emoji: '🤖 📚',  phaseIndices: [10, 11] },
-  { label: 'FLOOR 3',   emoji: '🛍️ 🎤', phaseIndices: [8, 9] },
-  { label: 'FLOOR 2',   emoji: '🌸 ✨',  phaseIndices: [6, 7] },
-  { label: 'FLOOR 1',   emoji: '📐 🔍',  phaseIndices: [4, 5] },
-  { label: 'GND FLOOR', emoji: '🥚 📊',  phaseIndices: [2, 3] },
-  { label: 'FOUNDATION',emoji: '🏗️ 🚀', phaseIndices: [0, 1] },
-];
-
 const TYPE_LABELS = {
   feat: 'feat', fix: 'fix', design: 'design', content: 'content',
   config: 'config', egg: 'egg', analytics: 'analytics',
 };
-
-/* ── SIDEBAR ────────────────────────────────────────────── */
-function buildSidebar() {
-  const wrap = document.getElementById('building-wrap');
-
-  const roof = document.createElement('div');
-  roof.className = 'building-roof';
-  roof.id = 'roof-cap';
-  wrap.appendChild(roof);
-
-  const building = document.createElement('div');
-  building.className = 'building';
-
-  FLOOR_GROUPS.forEach((group, i) => {
-    const floor = document.createElement('div');
-    floor.className = 'floor' +
-      (i === 0                        ? ' floor-penthouse'  : '') +
-      (i === FLOOR_GROUPS.length - 1  ? ' floor-foundation' : '');
-    floor.id = `floor-${i}`;
-    floor.dataset.floorIndex = i;
-    floor.innerHTML = `<div class="floor-label">${group.label}</div><div class="floor-icons">${group.emoji}</div>`;
-    floor.addEventListener('click', () => {
-      document.querySelector(`[data-phase-index="${group.phaseIndices[0]}"]`)
-        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-    building.appendChild(floor);
-  });
-
-  wrap.appendChild(building);
-  const slab = document.createElement('div');
-  slab.className = 'ground-slab';
-  wrap.appendChild(slab);
-  const lbl = document.createElement('div');
-  lbl.className = 'ground-label';
-  lbl.textContent = 'GROUND';
-  wrap.appendChild(lbl);
-}
 
 /* ── TIMELINE ───────────────────────────────────────────── */
 function renderTimeline() {
@@ -1044,7 +949,6 @@ function renderTimeline() {
       <div class="phase-header">
         <div>
           <div class="phase-name-row">
-            <span class="phase-icon">${phase.icon}</span>
             <span class="phase-name">${phase.name}</span>
           </div>
           <div class="phase-date">${phase.date}</div>
@@ -1075,44 +979,6 @@ function renderTimeline() {
   });
 }
 
-/* ── FLOOR OBSERVER ─────────────────────────────────────── */
-function initFloorObserver() {
-  const map = {};
-  FLOOR_GROUPS.forEach((g, fi) => g.phaseIndices.forEach(pi => { map[pi] = fi; }));
-  let active = -1;
-
-  function activate(fi) {
-    if (fi === active) return;
-    active = fi;
-    document.querySelectorAll('.floor').forEach(el => el.classList.remove('active'));
-    document.getElementById('roof-cap')?.classList.remove('active');
-    document.getElementById(`floor-${fi}`)?.classList.add('active');
-    if (fi === 0) document.getElementById('roof-cap')?.classList.add('active');
-  }
-
-  new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const fi = map[parseInt(e.target.dataset.phaseIndex, 10)];
-        if (fi !== undefined) activate(fi);
-      }
-    });
-  }, { rootMargin: '-15% 0px -65% 0px', threshold: 0 })
-    .observe
-    ? (() => {
-        const obs = new IntersectionObserver(entries => {
-          entries.forEach(e => {
-            if (e.isIntersecting) {
-              const fi = map[parseInt(e.target.dataset.phaseIndex, 10)];
-              if (fi !== undefined) activate(fi);
-            }
-          });
-        }, { rootMargin: '-15% 0px -65% 0px', threshold: 0 });
-        document.querySelectorAll('.phase').forEach(el => obs.observe(el));
-      })()
-    : null;
-}
-
 /* ── STAT ANIMATION ─────────────────────────────────────── */
 function animateStat(el, target) {
   const start = performance.now();
@@ -1125,31 +991,334 @@ function animateStat(el, target) {
 }
 
 /* ── INIT ───────────────────────────────────────────────── */
-buildSidebar();
 renderTimeline();
 
-/* Floor observer — inline to avoid double-declaration bug */
-(function() {
-  const map = {};
-  FLOOR_GROUPS.forEach((g, fi) => g.phaseIndices.forEach(pi => { map[pi] = fi; }));
-  let active = -1;
-  function activate(fi) {
-    if (fi === active) return;
-    active = fi;
-    document.querySelectorAll('.floor').forEach(el => el.classList.remove('active'));
-    document.getElementById('roof-cap')?.classList.remove('active');
-    document.getElementById(`floor-${fi}`)?.classList.add('active');
-    if (fi === 0) document.getElementById('roof-cap')?.classList.add('active');
+/* ── CASTLE ─────────────────────────────────────────────── */
+/* One piece of an original gothic castle per build stage. Pieces sit on terraces of a
+   crag that climbs up and to the right, four to a terrace, so new stages always land on
+   top. Scroll position decides how far each piece is built, in both directions. The slot
+   after the last stage always carries scaffolding and a crane: the site is never
+   finished, so the castle never gets a cap. Everything is derived from PHASES, so new
+   stages from scripts/update-build-map.mjs extend the castle with no edits here. */
+(function () {
+  const svg = document.getElementById('castle');
+  if (!svg) return;
+  const N = PHASES.length;
+
+  const TIER = 4;          // pieces per terrace
+  const RISE = 100;        // terrace height step
+  const BASE_W = 252;      // width of the lowest terrace
+  const TEMPLATES = [
+    ['gate',  'wall',  'hall',   'tower'],
+    ['tower', 'keep',  'wall',   'spire'],
+    ['wall',  'hall',  'bridge', 'tower'],
+    ['spire', 'wall',  'keep',   'tower'],
+  ];
+  const HEIGHT = { gate: 56, wall: 36, hall: 64, keep: 92, tower: 112, spire: 138, bridge: 46 };
+  const NARROW = { tower: 0.6, spire: 0.44, keep: 0.8, gate: 0.96, wall: 0.98, hall: 0.94, bridge: 1 };
+
+  let seed = 20260308;
+  const rand = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
+  const f = n => Math.round(n * 10) / 10;
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+  // Each terrace steps right by a varied amount, so the crag climbs unevenly up and right.
+  const shifts = [0];
+  const tierX = t => {
+    while (shifts.length <= t) shifts.push(shifts[shifts.length - 1] + 12 + ((shifts.length * 7919) % 23));
+    return shifts[t];
+  };
+  const tierW = t => BASE_W - Math.min(t, 6) * 8;
+  const tierY = t => -t * RISE;
+
+  const roofH = (type, w) => ({
+    tower: w * 1.5 + 6, spire: w * 2.7 + 6, gate: 16, hall: 15, keep: 16, wall: 5, bridge: 11,
+  })[type];
+
+  /* ── plan: N built pieces plus the scaffolded next slot ── */
+  const plan = [];
+  for (let i = 0; i <= N; i++) {
+    const t = Math.floor(i / TIER), s = i % TIER;
+    const type = TEMPLATES[t % TEMPLATES.length][s];
+    const slotW = tierW(t) / TIER;
+    const w = slotW * NARROW[type];
+    const x = tierX(t) + s * slotW + (slotW - w) / 2;
+    const h = HEIGHT[type] * (0.88 + rand() * 0.24);
+    const base = tierY(t);
+    plan.push({ i, t, type, x, w, h, base, full: h + roofH(type, w) });
   }
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const fi = map[parseInt(e.target.dataset.phaseIndex, 10)];
-        if (fi !== undefined) activate(fi);
+  const tiers = Math.floor(N / TIER) + 1;
+
+  /* ── drawing helpers (strings of SVG) ── */
+  const R = (x, y, w, h) => `M${f(x)} ${f(y)}H${f(x + w)}V${f(y + h)}H${f(x)}Z`;
+  const P = (d, c) => `<path class="${c}" d="${d}"/>`;
+  // Open outline: two sides and a top with one gap, bottom left open where it meets stone.
+  const openBox = (x, y, w, h) => {
+    const g = x + w * (0.35 + rand() * 0.3);
+    return P(`M${f(x)} ${f(y + h)}V${f(y + 1.5)}M${f(x + 1.5)} ${f(y)}H${f(g)}M${f(g + 3.5)} ${f(y)}H${f(x + w)}V${f(y + h - 2)}`, 'o');
+  };
+  // Stone body: paper, light dots, a mid-dot shadow side, open outline.
+  const body = (x, y, w, h, shade = 0.34) =>
+    P(R(x, y, w, h), 'p') + P(R(x, y, w, h), 'dl') +
+    P(R(x + w * (1 - shade), y, w * shade, h), 'dm') + openBox(x, y, w, h);
+  const arch = (x, y, w, h) =>
+    `M${f(x)} ${f(y + h)}V${f(y + w * 0.6)}Q${f(x)} ${f(y)} ${f(x + w / 2)} ${f(y)}Q${f(x + w)} ${f(y)} ${f(x + w)} ${f(y + w * 0.6)}V${f(y + h)}Z`;
+  const cone = (x, y, w, h) =>
+    P(`M${f(x)} ${f(y)}L${f(x + w / 2)} ${f(y - h)}L${f(x + w)} ${f(y)}Z`, 'k') +
+    P(`M${f(x + w * 0.3)} ${f(y - h * 0.08)}L${f(x + w / 2 - 0.4)} ${f(y - h * 0.8)}`, 'hl') +
+    P(`M${f(x + w / 2)} ${f(y - h)}V${f(y - h - 5)}`, 'o2');
+  const merlons = (x, y, w) => {
+    const n = Math.max(2, Math.round(w / 7));
+    const mw = w / (2 * n - 1);
+    let out = '';
+    for (let k = 0; k < n; k++) {
+      const mx = x + k * 2 * mw;
+      out += P(R(mx, y - 4, mw, 4), 'p') + P(`M${f(mx)} ${f(y)}V${f(y - 4)}H${f(mx + mw)}V${f(y)}`, 'o');
+    }
+    return out;
+  };
+  const windowsCol = (cx, top, bottom, step = 20, ww = 3.6, wh = 8.5) => {
+    let out = '';
+    for (let yy = top; yy + wh < bottom - 6; yy += step) out += P(arch(cx - ww / 2, yy, ww, wh), 'k');
+    return out;
+  };
+
+  const DRAW = {
+    tower({ x, w, h, base }) {
+      const top = base - h;
+      return body(x, top, w, h, 0.36) +
+        P(R(x - 2, top - 5, w + 4, 5), 'p') + openBox(x - 2, top - 5, w + 4, 5) +
+        windowsCol(x + w / 2, top + 9, base) +
+        cone(x - 3, top - 5, w + 6, w * 1.5);
+    },
+    spire({ x, w, h, base }) {
+      const top = base - h;
+      return body(x, top, w, h, 0.4) +
+        P(R(x - 2, top + h * 0.42, w + 4, 3.5), 'p') + openBox(x - 2, top + h * 0.42, w + 4, 3.5) +
+        windowsCol(x + w / 2, top + 7, base, 16, 3, 7) +
+        P(R(x - 1.5, top - 4, w + 3, 4), 'p') + openBox(x - 1.5, top - 4, w + 3, 4) +
+        cone(x - 2.5, top - 4, w + 5, w * 2.7);
+    },
+    wall({ x, w, h, base }) {
+      const top = base - h;
+      let slits = '';
+      for (let sx = x + 6; sx < x + w - 4; sx += 11) slits += P(R(sx, top + h * 0.35, 1.6, 6), 'k');
+      return body(x, top, w, h, 0.22) + merlons(x, top, w) + slits;
+    },
+    gate({ x, w, h, base }) {
+      const top = base - h, tw = w * 0.2;
+      const gw = w * 0.32, gx = x + (w - gw) / 2, gh = h * 0.62;
+      let bars = '';
+      for (let bx = gx + 2.5; bx < gx + gw - 1; bx += 3) bars += P(`M${f(bx)} ${f(base - gh + 4)}V${f(base)}`, 'hl');
+      return body(x, top, w, h, 0.26) + merlons(x + tw, top, w - 2 * tw) +
+        P(arch(gx, base - gh, gw, gh), 'k') + bars +
+        body(x - 2, top - 10, tw, h + 10, 0.4) + cone(x - 3.5, top - 10, tw + 3, 15) +
+        body(x + w - tw + 2, top - 10, tw, h + 10, 0.4) + cone(x + w - tw + 0.5, top - 10, tw + 3, 15);
+    },
+    hall({ x, w, h, base }) {
+      const top = base - h;
+      let wins = '';
+      const n = Math.max(2, Math.round(w / 13));
+      for (let k = 0; k < n; k++) {
+        const cx = x + (k + 0.5) * (w / n);
+        wins += P(arch(cx - 2.2, top + h * 0.22, 4.4, h * 0.42), 'k');
+        if (k > 0) wins += P(`M${f(x + k * (w / n))} ${f(top + 3)}V${f(base)}`, 'o2');
       }
-    });
-  }, { rootMargin: '-15% 0px -65% 0px', threshold: 0 });
-  document.querySelectorAll('.phase').forEach(el => obs.observe(el));
+      return body(x, top, w, h, 0.3) + wins +
+        P(`M${f(x - 2)} ${f(top)}L${f(x + 7)} ${f(top - 15)}H${f(x + w - 7)}L${f(x + w + 2)} ${f(top)}Z`, 'k') +
+        P(`M${f(x + 9)} ${f(top - 11)}H${f(x + w * 0.55)}`, 'hl');
+    },
+    keep({ x, w, h, base }) {
+      const top = base - h, tw = 8;
+      let wins = '';
+      for (const cx of [x + w * 0.32, x + w * 0.68]) wins += windowsCol(cx, top + 10, base, 18);
+      return body(x, top, w, h, 0.34) + merlons(x, top, w) + wins +
+        body(x - 3, top - 6, tw, 10, 0.3) + cone(x - 4, top - 6, tw + 2, 14) +
+        body(x + w - tw + 3, top - 6, tw, 10, 0.3) + cone(x + w - tw + 2, top - 6, tw + 2, 14);
+    },
+    bridge({ x, w, h, base }) {
+      const deck = base - h;
+      const pier = 6;
+      let piers = '';
+      for (const px of [x, x + w / 2 - pier / 2, x + w - pier]) piers += body(px, deck + 6, pier, h - 6, 0.4);
+      let wins = '';
+      for (let wx = x + 5; wx < x + w - 5; wx += 7) wins += P(R(wx, deck - 5, 2.6, 4), 'k');
+      return piers +
+        P(R(x - 1, deck - 9, w + 2, 15), 'p') + P(R(x - 1, deck - 9, w + 2, 15), 'dl') + openBox(x - 1, deck - 9, w + 2, 15) + wins +
+        P(`M${f(x - 3)} ${f(deck - 9)}L${f(x + 4)} ${f(deck - 20)}H${f(x + w - 4)}L${f(x + w + 3)} ${f(deck - 9)}Z`, 'k');
+    },
+  };
+
+  // The crag under terrace t: a jagged outcrop of paper, light dots and a darker
+  // underside, with open edges and a few cracks.
+  function rock(t) {
+    const L = tierX(t) - 10, Rr = tierX(t) + tierW(t) + 10, top = tierY(t);
+    const bottom = t === 0 ? 34 : top + RISE + 12;
+    const j = k => (rand() - 0.5) * k;
+    const H = bottom - top;
+    // Right face juts out and back; left face falls away; both ragged.
+    const right = [
+      [Rr + 3, top + H * 0.12 + j(4)], [Rr + 11 + j(6), top + H * 0.3], [Rr + 6 + j(5), top + H * 0.5],
+      [Rr + 17 + j(6), top + H * 0.72], [Rr + 13 + j(5), top + H * 0.88], [Rr + 22, bottom],
+    ];
+    const left = [
+      [L - 20, bottom], [L - 14 + j(5), top + H * 0.82], [L - 17 + j(6), top + H * 0.6],
+      [L - 8 + j(5), top + H * 0.38], [L - 9 + j(4), top + H * 0.18], [L - 2, top + 3],
+    ];
+    // Ledge top with a small rise and dip so terraces do not read as slabs.
+    const lip = [[L + (Rr - L) * 0.3, top - 2 + j(2)], [L + (Rr - L) * 0.62, top + 1.5], [Rr - 6, top - 1]];
+    const pts = [[L, top], ...lip, [Rr, top], ...right, ...left];
+    const d = 'M' + pts.map(([x, y]) => `${f(x)} ${f(y)}`).join('L') + 'Z';
+    const shadow = 'M' + [[Rr - 34, bottom], [Rr - 6, top + H * 0.2], ...right.slice(0, -1), [Rr + 22, bottom]]
+      .map(([x, y]) => `${f(x)} ${f(y)}`).join('L') + 'Z';
+    const rightEdge = 'M' + [[Rr, top], ...right].map(([x, y]) => `${f(x)} ${f(y)}`).join('L');
+    const leftEdge = 'M' + [...left].reverse().slice(0, -1).map(([x, y]) => `${f(x)} ${f(y)}`).join('L');
+    let cracks = '';
+    for (let k = 0; k < 4; k++) {
+      const cx = L + 10 + rand() * (Rr - L - 20), cy = top + 12 + rand() * (H - 24);
+      cracks += P(`M${f(cx)} ${f(cy)}l${f(4 + rand() * 6)} ${f(4 + rand() * 5)}l${f(-3 + rand() * 6)} ${f(5 + rand() * 6)}`, 'o2');
+    }
+    return P(d, 'p') + P(d, 'dl') + P(shadow, 'dm') +
+      P(`M${f(L - 2)} ${f(top + 3)}L${f(L)} ${f(top)}L${f(lip[0][0])} ${f(lip[0][1])}M${f(lip[1][0])} ${f(lip[1][1])}L${f(lip[2][0])} ${f(lip[2][1])}L${f(Rr)} ${f(top)}`, 'o') +
+      P(rightEdge, 'o') + P(leftEdge, 'o') + cracks;
+  }
+
+  // Scaffolding around a piece: poles, ledgers and braces, in the accent colour.
+  function scaffold({ x, w, full, base }) {
+    const l = x - 4, r = x + w + 4;
+    let s = P(`M${f(l)} ${f(base)}V${f(base - full - 4)}M${f(r)} ${f(base)}V${f(base - full - 4)}`, 'sc');
+    for (let y = base - 10; y > base - full; y -= 12) {
+      s += P(`M${f(l - 2)} ${f(y)}H${f(r + 2)}`, 'sc');
+      s += P(`M${f(l)} ${f(y + 12)}L${f(r)} ${f(y)}`, 'scd');
+    }
+    return s;
+  }
+
+  // Crane beside the unbuilt slot: lattice mast, jib over the slot, hook.
+  function crane({ x, w, full, base }) {
+    const mx = x + w + 12, top = base - full - 30;
+    let lattice = '';
+    for (let y = base; y > top + 6; y -= 8) lattice += `M${f(mx - 2)} ${f(y)}L${f(mx + 2)} ${f(y - 8)}`;
+    return P(`M${f(mx - 2)} ${f(base)}V${f(top)}M${f(mx + 2)} ${f(base)}V${f(top)}${lattice}`, 'o2') +
+      P(`M${f(mx)} ${f(top - 9)}V${f(top)}M${f(mx + 18)} ${f(top)}H${f(x - 10)}M${f(mx)} ${f(top - 9)}L${f(x - 10)} ${f(top)}M${f(mx)} ${f(top - 9)}L${f(mx + 18)} ${f(top)}`, 'o') +
+      P(R(mx + 11, top, 7, 5), 'k') +
+      P(`M${f(x + w * 0.45)} ${f(top)}V${f(base - full * 0.55)}`, 'o2') +
+      P(`M${f(x + w * 0.45)} ${f(base - full * 0.55)}q0 3 2.5 3`, 'o');
+  }
+
+  /* ── build the SVG ── */
+  const NS = 'http://www.w3.org/2000/svg';
+  const minX = -32;
+  const maxX = Math.max(...plan.map(p => p.x + p.w)) + 40;
+  const minY = Math.min(...plan.map(p => p.base - p.full)) - 46;
+  const maxY = 40;
+  const vbW = maxX - minX, vbH = maxY - minY;
+  svg.setAttribute('viewBox', `${f(minX)} ${f(minY)} ${f(vbW)} ${f(vbH)}`);
+
+  let html = `<title id="castle-title">A castle on a crag that gains one part for every build stage of this site</title>
+<defs>
+  <pattern id="ht-l" patternUnits="userSpaceOnUse" width="2.6" height="2.6" patternTransform="rotate(45)"><circle class="dot" cx="1.3" cy="1.3" r="0.5"/></pattern>
+  <pattern id="ht-m" patternUnits="userSpaceOnUse" width="2.6" height="2.6" patternTransform="rotate(45)"><circle class="dot" cx="1.3" cy="1.3" r="0.82"/></pattern>
+${plan.map(p => `  <clipPath id="cb${p.i}"><rect x="${f(p.x - 30)}" width="${f(p.w + 60)}" y="${f(p.base)}" height="0"/></clipPath>
+  <clipPath id="cs${p.i}"><rect x="${f(p.x - 30)}" width="${f(p.w + 60)}" y="${f(p.base)}" height="0"/></clipPath>`).join('\n')}
+</defs>`;
+
+  // Ground line under the lowest terrace
+  html += P(`M${f(minX + 4)} 34H${f(tierW(0) + 40)}`, 'o');
+
+  // Draw from the top terrace down, so lower (nearer) terraces sit in front.
+  for (let t = tiers - 1; t >= 0; t--) {
+    html += `<g>${rock(t)}</g>`;
+    for (const p of plan.filter(q => q.t === t)) {
+      const next = p.i === N;
+      html += `<g data-i="${p.i}" ${next ? 'data-next="1"' : ''}>` +
+        `<g clip-path="url(#cb${p.i})">${DRAW[p.type](p)}</g>` +
+        `<g clip-path="url(#cs${p.i})" class="scaf">${scaffold(p)}</g>` +
+        (next ? crane(p) : '') + `</g>`;
+    }
+  }
+  svg.innerHTML = html;
+
+  const pieces = plan.map(p => ({
+    p,
+    el: svg.querySelector(`[data-i="${p.i}"]`),
+    build: svg.querySelector(`#cb${p.i} rect`),
+    scaf: svg.querySelector(`#cs${p.i} rect`),
+  }));
+
+  // Keep halftone dots at a constant on-screen size however far the castle has grown.
+  function sizeDots() {
+    const box = svg.getBoundingClientRect();
+    if (!box.width || !box.height) return;
+    const upp = Math.max(vbW / box.width, vbH / box.height); // viewBox units per CSS px
+    const pitch = 2.6 * upp;
+    for (const [id, r] of [['ht-l', 0.5], ['ht-m', 0.82]]) {
+      const pat = svg.querySelector('#' + id);
+      pat.setAttribute('width', f2(pitch)); pat.setAttribute('height', f2(pitch));
+      const c = pat.querySelector('circle');
+      c.setAttribute('cx', f2(pitch / 2)); c.setAttribute('cy', f2(pitch / 2)); c.setAttribute('r', f2(r * upp));
+    }
+  }
+  const f2 = n => Math.round(n * 1000) / 1000;
+
+  const NEXT_BUILT = 0.32; // how far the never-finished next stage is along
+
+  function render(progress) {
+    for (const { p, build, scaf } of pieces) {
+      const b = p.i === N ? NEXT_BUILT : clamp(progress - p.i, 0, 1);
+      const built = b * (p.full + 6);
+      build.setAttribute('y', f(p.base - built));
+      build.setAttribute('height', f(built + 40));
+      const showScaf = b > 0 && b < 1;
+      const sh = showScaf ? Math.min(p.full + 6, built + 16) : 0;
+      scaf.setAttribute('y', f(p.base - sh));
+      scaf.setAttribute('height', f(sh));
+    }
+    const cur = clamp(Math.floor(progress), 0, N - 1);
+    const done = progress >= N - 0.001;
+    document.getElementById('castle-stage').textContent = done
+      ? `All ${N} stages built · stage ${String(N + 1).padStart(2, '0')} under way`
+      : `Stage ${String(cur + 1).padStart(2, '0')} of ${N} · ${(STAGE_LABELS[cur] || PHASES[cur].stage || 'Ongoing Works')}`;
+    document.getElementById('castle-name').textContent = done ? 'Still building, on top' : PHASES[cur].name;
+  }
+
+  // Progress = how many stages the reading line has passed, with the fraction of the
+  // current one. Pure function of scroll position, so scrolling back un-builds.
+  const phaseEls = [...document.querySelectorAll('.phase')];
+  function progressFromScroll() {
+    const doc = document.documentElement;
+    if (window.scrollY + window.innerHeight >= doc.scrollHeight - 4) return N;
+    const line = window.innerHeight * 0.55;
+    let prog = 0;
+    for (const el of phaseEls) {
+      const r = el.getBoundingClientRect();
+      prog += clamp((line - r.top) / Math.max(r.height, 1), 0, 1);
+    }
+    return prog;
+  }
+
+  const staticMode = () =>
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+    window.matchMedia('(max-width: 900px)').matches;
+
+  let queued = false;
+  function update() {
+    queued = false;
+    render(staticMode() ? N : progressFromScroll());
+  }
+  const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', () => { sizeDots(); schedule(); });
+  svg.addEventListener('click', e => {
+    const g = e.target.closest('[data-i]');
+    if (!g) return;
+    const i = Math.min(parseInt(g.dataset.i, 10), N - 1);
+    document.querySelector(`[data-phase-index="${i}"]`)?.scrollIntoView({ block: 'start' });
+  });
+
+  sizeDots();
+  update();
 })();
 
 window.addEventListener('load', () => {

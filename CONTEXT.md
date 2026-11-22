@@ -497,3 +497,23 @@ Fixes:
   so it can never drop history.
 - Do not hand-edit between the markers. The next run overwrites it.
 - The root `build-map.html` is a stale Jun 2026 copy. The served file is `public/build-map.html`.
+
+## Build map castle (23 Nov 2026)
+
+The old sidebar was a fixed stack of floors capped by a "penthouse". Dilith pointed out
+that the site is never finished, so a cap is the wrong metaphor. It is now a castle on a
+crag, drawn in an ink-and-halftone style (one ink on paper, greys made of dots, solid
+black roofs). It is original gothic, deliberately not a copy of any real or film castle.
+
+- **One piece per build stage**, four to a terrace. Each terrace sits higher and further
+  right, so new stages always land on top and to the top right. The pieces are a gate,
+  wall, hall, keep, tower, spire and bridge, cycling through templates. Everything comes
+  from `PHASES`, so stages added by the updater extend the castle with no code changes.
+- **Scroll drives it.** Each piece builds as its stage passes the reading line, and
+  scrolling back takes it down. The slot after the last stage always shows scaffolding
+  and a crane, because the site is never done. There is no cap; do not add one.
+- **Halftone dots** are resized to keep the same on-screen size as the castle grows.
+- **Fallbacks:** reduced motion and screens 900px or narrower show the finished castle,
+  static, above the log.
+- Removed every emoji from the page, along with the hover scale on the theme toggle and
+  the eased hover transitions. All are banned patterns.

@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Prose.astro
 title: "The Voice Agent"
-description: "How Dilith Dinesh built a live voice agent for his portfolio using VAPI, Deepgram, ElevenLabs, and GPT-4o Mini, and the specific decisions behind latency, audience routing, and pronunciation."
+description: "How Dilith Dinesh built a live voice agent for his portfolio using VAPI, Deepgram, ElevenLabs, and GPT-4o Mini, and the decisions behind latency, audience routing, pronunciation, and letting the agent open pages without dropping the call."
 summary: "A contact form would tell you I'm interested in AI product work. A voice agent shows you how I think about it."
 tags: ["VAPI", "Deepgram", "ElevenLabs", "GPT-4o Mini"]
 date: "2026"
@@ -11,7 +11,7 @@ schema:
   "@type": "SoftwareApplication"
   name: "The Voice Agent"
   applicationCategory: "Utilities"
-  description: "A live voice agent built by Dilith Dinesh using VAPI, Deepgram, ElevenLabs, and GPT-4o Mini. Demonstrates AI system design decisions: RAG-based knowledge architecture, static first-message optimization, audience detection routing, TTS pronunciation tuning, and STT keyterm priming."
+  description: "A live voice agent built by Dilith Dinesh using VAPI, Deepgram, ElevenLabs, and GPT-4o Mini. Demonstrates AI system design decisions: RAG-based knowledge architecture, static first-message optimization, audience detection routing, TTS pronunciation tuning, STT keyterm priming, and a client-side tool that lets the agent navigate the site while the call stays connected."
   author:
     "@type": "Person"
     name: "Dilith Dinesh"
@@ -62,6 +62,20 @@ What I built is the intelligence layer.
 
 ---
 
+## Version Two: It Knows Where It Lives
+
+The first version could talk about the site but not use it. Ask where the roofing case study was and the best it could do was describe a URL out loud, which nobody can follow by ear. It was a voice agent sitting on a website with no idea it was on one.
+
+**It knows which page you're on.** When a call starts, the site passes the current page into the prompt. Every time the page changes during the call, the site sends the agent a silent note with the new location. So "what am I looking at?" has a real answer, and the agent doesn't offer to open the page you're already reading.
+
+**It can open pages for you.** The agent has one tool, `navigate_to_page`. Ask about his case studies and it offers to open the Work page, then opens it when you say yes. The tool has no server behind it. Vapi hands the call to the browser, and the site does the navigation itself. The model only picks from a fixed list of pages, and the site checks the path against its own copy of that list before acting on it. A model that can steer someone's browser should not be trusted to type the destination.
+
+**The call survives the page change.** This was the hard part. A normal page load tears down the audio connection, so the first naive version would have hung up on you mid-sentence. The fix was to have the site swap page content in place instead of reloading, but only while a call is live. Every other click on the site is still a plain page load, because the rest of the site was written for that and I didn't want a voice feature quietly changing how every page behaves. Switching to in-place navigation everywhere would have been the tidier architecture and the riskier change. Scoping it to the one moment that needs it was the product decision.
+
+**The knowledge base was rebuilt for retrieval, not reading.** The original was long sections written like an essay, with behaviour instructions mixed into the facts. Retrieval doesn't respect section boundaries. It returns a chunk, and a chunk can lose its heading or land mid-argument. Now every section is short, starts with the name of the thing and its page, and holds facts only. Every rule about how the agent behaves moved into the system prompt, where it applies on every turn rather than only when the right chunk happens to be retrieved.
+
+---
+
 ## What This Is Evidence Of
 
 Building a voice agent isn't hard. The components are accessible, the APIs are well-documented, and VAPI abstracts enough of the complexity that something basic runs in an afternoon.
@@ -74,12 +88,12 @@ That's the job. Not building models. Deciding how to connect them, what logic to
 
 ## What I'd Do Differently
 
-The knowledge base structure was designed for breadth (cover anything someone might ask) rather than precision. The agent handles most questions well, but when someone asks about a specific decision inside a specific project, retrieval sometimes surfaces adjacent content rather than the exact thing. The fix is more granular chunking: organizing the knowledge base by decision rather than by project.
+Two items from my first list here are now done. The knowledge base was designed for breadth rather than precision, and retrieval would surface adjacent content instead of the exact decision someone asked about. Version two chunks it by entity, with the page name on every chunk. The fallback used to deflect politely but evasively. Now the agent says plainly that it doesn't have that detail and offers to open the Contact page.
 
-The fallback behavior also needs work. When the agent doesn't know something, it deflects politely but evasively. A cleaner design would have it acknowledge the gap directly and route to email. I'd rebuild that path.
+What's still open: in-place navigation has an edge. If the agent takes you back to a page you already visited during the same call, that page's interactive extras, like the animated background on the homepage, don't restart until your next normal click. The content is all there, so I've accepted that for now. The real fix is to make each page's scripts safe to run more than once.
 
 Audience detection works, but the routing question is blunt. It gets most people into the right mode, but edge cases feel awkward. A simpler detection approach, or one that just asks directly, would handle them better.
 
 ---
 
-*The agent is live on the homepage. Talk to it.*
+*The agent is live on every page, behind the mic in the nav. Talk to it, and ask it to show you something.*
